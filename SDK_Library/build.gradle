@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+task makeJar(type: Jar) {
+    // 最终jar包的名称
+    archiveName = "wondersgroup-android-healthcity-sdk-${releaseTime()}.jar"
+//    // 将assets目录打入jar包
+//    from fileTree(dir: 'src/main', includes: ['assets/**'])
+//    // 将jniLibs目录打入jar包
+//    // from fileTree(dir: 'src/main', includes: ['jniLibs/**'])
+    // 将module默认生成的jar打入jar包
+//    from(project.zipTree('build/intermediates/intermediate-jars/release/classes.jar'))
+//    // 将Gson解析打入jar包
+//    from(project.zipTree('build/intermediates/bundles/release/libs/gson-2.3.1.jar'))
+//    // jniLibs下的.so文件
+//    from(project.zipTree('build/intermediates/bundles/release/libs/anloq-ke-so.jar'))
+    // jar包输出路径
+    destinationDir = file('build/libs')
+}
+// 打jar包
+// Copy类型
+makeJar.dependsOn(build) //必须写的配置
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+/*
+ * 打开Terminal输入命令:
+ * gradlew makeJar
+ */

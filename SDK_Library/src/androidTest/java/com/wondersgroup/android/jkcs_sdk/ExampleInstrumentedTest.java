@@ -1,4 +1,4 @@
-package com.wondersgroup.android.healthcity_sdk_library;
+package com.wondersgroup.android.jkcs_sdk;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.wondersgroup.android.healthcity_sdk_library.test", appContext.getPackageName());
+        assertEquals("com.wondersgroup.android.jkcs_sdk.test", appContext.getPackageName());
     }
 }

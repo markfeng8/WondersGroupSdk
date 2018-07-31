@@ -1,4 +1,4 @@
-package com.wondersgroup.android.healthcity_sdk_library;
+package com.wondersgroup.android.jkcs_sdk;
 
 import org.junit.Test;
 
