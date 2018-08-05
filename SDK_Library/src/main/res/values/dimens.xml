@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- textSize -->
+    <dimen name="wonders_text_size_8sp">8sp</dimen>
+    <dimen name="wonders_text_size_10sp">10sp</dimen>
+    <dimen name="wonders_text_size_12sp">12sp</dimen>
+    <dimen name="wonders_text_size_14sp">14sp</dimen>
+    <dimen name="wonders_text_size_16sp">16sp</dimen>
+    <dimen name="wonders_text_size_18sp">18sp</dimen>
+    <dimen name="wonders_text_size_20sp">20sp</dimen>
+    <dimen name="wonders_text_size_22sp">22sp</dimen>
+    <dimen name="wonders_text_size_24sp">24sp</dimen>
+    <dimen name="wonders_text_size_26sp">26sp</dimen>
+    <dimen name="wonders_text_size_28sp">28sp</dimen>
+    <dimen name="wonders_text_size_30sp">30sp</dimen>
+    <dimen name="wonders_text_size_32sp">32sp</dimen>
+    <dimen name="wonders_text_size_34sp">34sp</dimen>
+    <dimen name="wonders_text_size_36sp">36sp</dimen>
+
+    <!-- padding -->
+    <dimen name="wonders_padding_4dp">4dp</dimen>
+    <dimen name="wonders_padding_6dp">6dp</dimen>
+    <dimen name="wonders_padding_8dp">8dp</dimen>
+    <dimen name="wonders_padding_10dp">10dp</dimen>
+    <dimen name="wonders_padding_12dp">12dp</dimen>
+    <dimen name="wonders_padding_14dp">14dp</dimen>
+    <dimen name="wonders_padding_16dp">16dp</dimen>
+    <dimen name="wonders_padding_18dp">18dp</dimen>
+    <dimen name="wonders_padding_20dp">20dp</dimen>
+    <dimen name="wonders_padding_22dp">22dp</dimen>
+    <dimen name="wonders_padding_24dp">24dp</dimen>
+
+    <!-- margin -->
+    <dimen name="wonders_margin_4dp">4dp</dimen>
+    <dimen name="wonders_margin_6dp">6dp</dimen>
+    <dimen name="wonders_margin_8dp">8dp</dimen>
+    <dimen name="wonders_margin_10dp">10dp</dimen>
+    <dimen name="wonders_margin_12dp">12dp</dimen>
+    <dimen name="wonders_margin_14dp">14dp</dimen>
+    <dimen name="wonders_margin_16dp">16dp</dimen>
+    <dimen name="wonders_margin_18dp">18dp</dimen>
+    <dimen name="wonders_margin_20dp">20dp</dimen>
+    <dimen name="wonders_margin_22dp">22dp</dimen>
+    <dimen name="wonders_margin_24dp">24dp</dimen>
+
+    <!-- size -->
+    <dimen name="wonders_titlebar_height">60dp</dimen>
+
+</resources>

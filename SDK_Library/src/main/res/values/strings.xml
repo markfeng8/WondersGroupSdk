@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SDK-Library</string>
+    <string name="wonders_text_open_after_paying">开通医后付服务</string>
+    <string name="wonders_text_input_phone_number">请输入手机号码</string>
+    <string name="wonders_get_sms_code">获取验证码</string>
+    <string name="wonders_text_phone_number_nullable">手机号不能为空！</string>
 </resources>
