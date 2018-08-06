@@ -3,6 +3,7 @@
     package="com.wondersgroup.android.jkcs_sdk">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application>
     </application>
 

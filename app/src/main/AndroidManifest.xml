@@ -3,6 +3,11 @@
     package="com.wondersgroup.android.healthcity_sdk">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -28,6 +33,22 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.view.SmsCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.ScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>

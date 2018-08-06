@@ -8,6 +8,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            //, 'x86', 'armeabi-v7a', 'x86_64'
+        }
     }
 
     buildTypes {
@@ -20,7 +25,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
@@ -31,6 +36,10 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.mylhyl:zxingscanner:1.5.0'
+    implementation 'com.orhanobut:logger:2.1.1'
+    implementation 'com.lzy.net:okgo:3.0.4'
 }
 
 task makeJar(type: Jar) {
