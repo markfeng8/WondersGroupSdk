@@ -12,6 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.view.SmsCodeActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cashier.SetWorkKeyActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnSendSms;
     @BindView(R.id.btnEpSoft)
     Button btnEpSoft;
+    @BindView(R.id.btnWdPay)
+    Button btnWdPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btnSendSms, R.id.btnEpSoft})
+    @OnClick({R.id.btnSendSms, R.id.btnEpSoft, R.id.btnWdPay})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnEpSoft:
                 intent = new Intent(MainActivity.this, EpSoftMainActivity.class);
+                break;
+            case R.id.btnWdPay:
+                intent = new Intent(MainActivity.this, SetWorkKeyActivity.class);
                 break;
         }
         if (intent != null) {

@@ -26,4 +26,14 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
+    <Button
+        android:id="@+id/btnWdPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:text="统一支付平台"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
 </LinearLayout>

@@ -314,3 +314,149 @@
      -dontwarn com.alipay.**
 
      ########################## end ###################################
+
+
+################# wonders pay ###################
+
+-dontwarn android.net.**
+-keep class android.net.SSLCertificateSocketFactory{*;}
+
+-keep class com.shrb.wallet.**
+-keep class com.shrb.walletsdk.**
+-dontwarn com.shrb.wallet.**
+-dontwarn com.shrb.walletsdk.**
+
+-keep class cn.keyou.**{ *;}
+-dontwarn cn.keyou.**
+
+-keep class com.alibaba.fastjson.**{ *;}
+-dontwarn com.alibaba.fastjson.**
+
+-keep class okhttp3.**{ *;}
+-dontwarn okhttp3.**
+
+-keep class com.bumptech.glide.**{ *;}
+-dontwarn com.bumptech.glide.**
+
+-keep class com.union.keyboard.**{ *;}
+-dontwarn com.union.keyboard.**
+
+-keep class com.bqs.risk.df.android.**{ *;}
+-keep class com.bqs.risk.df.android.contact.**{ *;}
+-dontwarn com.bqs.risk.df.android.**
+-dontwarn com.bqs.risk.df.android.contact.**
+
+-keep class org.apache.http.**{ *;}
+-dontwarn org.apache.http.**
+
+-dontwarn okio.**
+
+
+
+
+-keepclassmembers class * {
+public <methods>;
+}
+-keepattributes InnerClasses,Signature
+
+
+
+-dontwarn com.android.volley.**
+
+-keep class com.android.volley.** {*;}
+-dontwarn com.alipay.**
+
+-keep class com.alipay.** {*;}
+
+
+# ########## ???????   ###########
+-dontwarn cn.wd.checkout.**
+-keep class cn.wd.checkout.** {*;}
+
+# ########## gson ##########
+-keep class com.google.**{*;}
+
+# ########## ??? ##########
+-dontwarn cn.wanda.lianpay.**
+-keep class cn.wanda.lianpay.** {*;}
+-keep class cn.wanda.processor.** {*;}
+-keep class cn.wanda.support.** {*;}
+-dontwarn cn.wanda.processor.**
+
+# ########## ??? ##########
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+# ########## ?? ##########
+-dontwarn org.simalliance.openmobileapi.**
+-dontwarn org.simalliance.openmobileapi.service.**
+
+-keep class org.simalliance.openmobileapi.** {*;}
+-keep class org.simalliance.openmobileapi.service.** {*;}
+
+-keep class com.unionpay.** {*;}
+
+-keep  public class com.unionpay.uppay.net.HttpConnection {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.net.HttpParameters {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.model.BankCardInfo {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.model.PAAInfo {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.model.ResponseInfo {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.model.PurchaseInfo {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.util.DeviceInfo {
+	public <methods>;
+}
+-keep  public class java.util.HashMap {
+	public <methods>;
+}
+-keep  public class java.lang.String {
+	public <methods>;
+}
+-keep  public class java.util.List {
+	public <methods>;
+}
+-keep  public class com.unionpay.uppay.util.PayEngine {
+	public <methods>;
+	native <methods>;
+}
+
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
