@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/wonders_rgb_color_3a5fcd">
+    android:background="@color/wonders_rgb_color_1e90ff">
 
     <ImageView
         android:id="@+id/ivBackBtn"

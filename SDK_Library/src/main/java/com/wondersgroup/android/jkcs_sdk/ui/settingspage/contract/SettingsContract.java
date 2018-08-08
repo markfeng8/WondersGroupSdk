@@ -1,10 +1,10 @@
-package com.wondersgroup.android.jkcs_sdk.ui.afterpaying.contract;
+package com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract;
 
 /**
  * Created by x-sir on 2018/8/1 :)
  * Function:
  */
-public interface AfterPayContract {
+public interface SettingsContract {
     interface IModel {
         void getSignStatus();
     }

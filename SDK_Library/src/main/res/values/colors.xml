@@ -47,6 +47,10 @@
     <color name="wonders_rgb_color_666666">#666666</color>
     <color name="wonders_rgb_color_b8b8b8">#B8B8B8</color>
     <color name="wonders_rgb_color_979797">#979797</color>
+    <color name="wonders_rgb_color_c4c5c6">#C4C5C6</color>
+    <color name="wonders_rgb_color_2f3132">#2F3132</color>
+    <color name="wonders_rgb_color_4395ff">#4395FF</color>
+    <color name="wonders_rgb_color_58c78f">#58C78F</color>
 
     <!-- ARGB color -->
     <color name="wonders_argb_color_33000000">#33000000</color>

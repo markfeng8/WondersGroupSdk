@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application>
+        <activity android:name=".ui.payrecord.PayRecordActivity"></activity>
     </application>
 
 </manifest>

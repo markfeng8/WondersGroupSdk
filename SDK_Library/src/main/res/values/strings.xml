@@ -2,6 +2,7 @@
     <string name="app_name">SDK-Library</string>
     <string name="wonders_text_open_after_paying">开通医后付服务</string>
     <string name="wonders_text_input_phone_number">请输入手机号码</string>
+    <string name="wonders_text_input_verify_code">请输入验证码</string>
     <string name="wonders_get_sms_code">获取验证码</string>
     <string name="wonders_text_phone_number_nullable">手机号不能为空！</string>
     <string name="invoke_js_method">调用js方法</string>
@@ -41,4 +42,10 @@
     <string name="wonders_text_pay_detail">支付详情</string>
     <string name="wonders_is_yibao_pay">是否允许医保支付</string>
     <string name="wonders_is_allow_yibao">医保支付关闭后，全部金额将由个人账户支付</string>
+    <string name="wonders_text_open">开通</string>
+    <string name="wonders_rule_instruction">我已认真阅读并同意《“医后付”服务协议书》了解“先诊疗后付费”的违约对个人信用有影响。</string>
+    <string name="wonders_open_afterpay_success">恭喜您已成功开通“医后付”服务</string>
+    <string name="wonder_open_afterpay_success_copyrighter">您可在湖州市中心医院、湖州市第一人民医院、湖州市第三人民医院、湖州市妇幼保健院、湖州市中医院这5家医院享受“医后付”服务，无需再签约。</string>
+    <string name="wonders_wenxin_toast">尊敬的用户，当天看完病后记得一次性把所有费用付清。</string>
+    <string name="wonders_back_to_afterpay_home">返回医后付首页</string>
 </resources>

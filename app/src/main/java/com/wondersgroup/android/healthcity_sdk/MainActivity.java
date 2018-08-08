@@ -10,7 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.view.SmsCodeActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.btnSendSms:
-                intent = new Intent(MainActivity.this, SmsCodeActivity.class);
+                intent = new Intent(MainActivity.this, OpenAfterPayActivity.class);
                 break;
             case R.id.btnEpSoft:
                 intent = new Intent(MainActivity.this, EpSoftMainActivity.class);

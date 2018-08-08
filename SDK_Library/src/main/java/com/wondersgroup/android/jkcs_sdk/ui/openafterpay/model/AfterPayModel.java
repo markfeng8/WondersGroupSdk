@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.model;
+package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model;
 
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
@@ -6,8 +6,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
-import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.contract.SmsAuthContract;
-import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.listener.OnSmsSendListener;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
@@ -25,11 +25,11 @@ import retrofit2.Response;
  * Created by x-sir on 2018/8/1 :)
  * Function:
  */
-public class SmsAuthModel implements SmsAuthContract.IModel {
+public class AfterPayModel implements AfterPayContract.IModel {
 
-    private static final String TAG = SmsAuthModel.class.getSimpleName();
+    private static final String TAG = AfterPayModel.class.getSimpleName();
 
-    public SmsAuthModel() {
+    public AfterPayModel() {
     }
 
     @Override

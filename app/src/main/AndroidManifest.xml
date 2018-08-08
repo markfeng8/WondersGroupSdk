@@ -53,11 +53,11 @@
         </activity>
 
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpaying.view.AfterPayActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.view.SmsCodeActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

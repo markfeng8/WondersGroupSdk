@@ -1,25 +1,25 @@
-package com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.presenter;
+package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter;
 
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.contract.SmsAuthContract;
-import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.listener.OnSmsSendListener;
-import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.model.SmsAuthModel;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnSmsSendListener;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model.AfterPayModel;
 import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 
 /**
  * Created by x-sir on 2018/8/1 :)
  * Function:
  */
-public class SmsAuthPresenter<T extends SmsAuthContract.IView>
-        extends MvpBasePresenter<T> implements SmsAuthContract.IPresenter {
+public class AfterPayPresenter<T extends AfterPayContract.IView>
+        extends MvpBasePresenter<T> implements AfterPayContract.IPresenter {
 
-    private SmsAuthContract.IModel mModel = new SmsAuthModel();
+    private AfterPayContract.IModel mModel = new AfterPayModel();
 
-    public SmsAuthPresenter() {
+    public AfterPayPresenter() {
     }
 
     @Override
