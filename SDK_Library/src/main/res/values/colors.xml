@@ -37,6 +37,16 @@
     <color name="wonders_rgb_color_1e90ff">#1E90FF</color>
     <color name="wonders_rgb_color_b0b0b0">#B0B0B0</color>
     <color name="wonders_rgb_color_3a5fcd">#3A5FCD</color>
+    <color name="wonders_rgb_color_00b76a">#00B76A</color>
+    <color name="wonders_rgb_color_969696">#969696</color>
+    <color name="wonders_rgb_color_333333">#333333</color>
+    <color name="wonders_rgb_color_386fb9">#386FB9</color>
+    <color name="wonders_rgb_color_b4b4b4">#B4B4B4</color>
+    <color name="wonders_rgb_color_c9c9c9">#C9C9C9</color>
+    <color name="wonders_rgb_color_747474">#747474</color>
+    <color name="wonders_rgb_color_666666">#666666</color>
+    <color name="wonders_rgb_color_b8b8b8">#B8B8B8</color>
+    <color name="wonders_rgb_color_979797">#979797</color>
 
     <!-- ARGB color -->
     <color name="wonders_argb_color_33000000">#33000000</color>

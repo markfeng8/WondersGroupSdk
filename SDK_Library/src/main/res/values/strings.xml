@@ -9,4 +9,36 @@
     <string name="title_activity_vertify">VertifyActivity</string>
     <string name="wonders_pay_name">支付名称</string>
     <string name="wonders_detail_introduce">详细介绍</string>
+    <string name="yibao_tongchou_complete">医保统筹支付460.44元已完成！</string>
+    <string name="wonders_text_alipay"><Data><![CDATA[<font size="40" color="#333333">支付宝</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
+    <string name="wonders_text_wechat_pay"><Data><![CDATA[<font size="40" color="#333333">微信</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
+    <string name="wonders_text_union_pay"><Data><![CDATA[<font size="40" color="#333333">银行卡</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
+    <string name="wonders_confirm_pay">确认付款</string>
+    <string name="wonders_personal_pay">个人账户支付</string>
+    <string name="wonders_open_after_pay">已开通医后付</string>
+    <string name="wonders_open_mobile_pay">去开通移动支付</string>
+    <string name="wonders_to_pay_money">您有一笔医后付欠款234元未付，建议前去缴纳！</string>
+    <string name="wonders_settings">设置</string>
+    <string name="wonders_pay_records">查看所有医院已缴/未交费记录</string>
+    <string name="wonders_pass_update">手机号/解约/协议/密码修改</string>
+    <string name="wonders_mark_text"><![CDATA[<font size="40" color="#333333">您已成功支付湖州第三人民医院未缴纳费用126元，另89元支付失败，请继续支付。详情>>></font>]]></string>
+    <string name="wonders_not_pay_records">未缴费记录</string>
+    <string name="wonders_huzhou_renmin_hospital">湖州人民医院</string>
+    <string name="wonders_select_hospital">请选择医院</string>
+    <string name="wonders_pay_money">付款</string>
+    <string name="wonders_text_yuan">元</string>
+    <string name="wonders_text_not_pay">未支付：</string>
+    <string name="wonders_text_dai_pay">待支付：</string>
+    <string name="wonders_money_number">￥254.21</string>
+    <string name="wonders_text_liangxiaoning">梁晓宁</string>
+    <string name="wonders_social_number">A3268990</string>
+    <string name="wonders_pay_serial_number">订单编号:201802809535123456</string>
+    <string name="wonders_medicine_fee">药品费</string>
+    <string name="wonders_look_detail">查看详情</string>
+    <string name="wonders_pay_detail">缴费详情</string>
+    <string name="wonders_order_time">订单时间：2018-02-28 09:55:35</string>
+    <string name="wonders_total_fee">共4件 合计：196.21元</string>
+    <string name="wonders_text_pay_detail">支付详情</string>
+    <string name="wonders_is_yibao_pay">是否允许医保支付</string>
+    <string name="wonders_is_allow_yibao">医保支付关闭后，全部金额将由个人账户支付</string>
 </resources>

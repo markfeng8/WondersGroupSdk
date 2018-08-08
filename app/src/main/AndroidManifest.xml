@@ -76,6 +76,14 @@
             android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.ScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.AfterPayHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity android:name="cashier.SetWorkKeyActivity"></activity>
 
@@ -148,7 +156,7 @@
 
         <activity
             android:name="cashier.Vertify.VertifyActivity"
-            android:label="@string/title_activity_vertify"/>
+            android:label="@string/title_activity_vertify" />
         <activity
             android:name="cn.wd.checkout.api.WDVertifyActivity"
             android:label="@string/title_activity_vertify"

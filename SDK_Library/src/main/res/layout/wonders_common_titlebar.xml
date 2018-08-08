@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/wonders_rgb_color_0000ff">
+    android:background="@color/wonders_rgb_color_3a5fcd">
 
     <ImageView
         android:id="@+id/ivBackBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/wonders_margin_10dp"
+        android:src="@drawable/wonders_back_button" />
 
     <TextView
         android:id="@+id/tvTitleName"

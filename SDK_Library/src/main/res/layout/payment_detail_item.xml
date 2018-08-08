@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/wonders_padding_10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/wonders_pill"
+                android:text="@string/wonders_medicine_fee"
+                android:textColor="@color/wonders_rgb_color_333333"
+                android:textSize="@dimen/wonders_text_size_16sp" />
+
+            <TextView
+                android:id="@+id/tvMedicineFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wonders_total_fee"
+                android:textColor="@color/wonders_rgb_color_969696"
+                android:textSize="@dimen/wonders_text_size_14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wonders_order_time"
+            android:textColor="@color/wonders_rgb_color_b8b8b8"
+            android:textSize="@dimen/wonders_text_size_12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/wonders_up_arrow"
+            android:drawablePadding="@dimen/wonders_padding_4dp"
+            android:gravity="end"
+            android:text="@string/wonders_look_detail"
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/wonders_rgb_color_eeeeee" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="头孢丙烯片"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="67.20*2盒"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复方甘草口服液"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6.40*2盒"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+    </LinearLayout>
+
+</LinearLayout>

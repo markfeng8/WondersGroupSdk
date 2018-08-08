@@ -1,9 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/wonders_rgb_color_ffffff"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".ui.personalpay.PersonalPayActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/wonders_common_titlebar" />
+
+    <TextView
+        android:id="@+id/tvTongChouPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/wonders_success"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/yibao_tongchou_complete"
+        android:textColor="@color/wonders_rgb_color_00b76a"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="就诊人: "
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTreatName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="梁晓宁"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="社保卡号: "
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvSocialNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A3268990"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="就诊医院: "
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湖州人民医院"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账单日期: "
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvBillDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-02-27"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总计合计"
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTotalPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/wonders_margin_10dp"
+            android:text="560.44元"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人账户支付"
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPersonalPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/wonders_margin_10dp"
+            android:text="100元"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        android:paddingLeft="@dimen/wonders_margin_10dp"
+        android:text="选择现金支付方式" />
+
+    <include layout="@layout/wonders_radiogroup_layout" />
+
+    <Button
+        android:id="@+id/btnConfirmPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/wonders_margin_10dp"
+        android:background="@drawable/wonders_blue_shape"
+        android:text="@string/wonders_confirm_pay"
+        android:textColor="@color/wonders_rgb_color_ffffff"
+        android:textSize="16sp" />
+
+</LinearLayout>

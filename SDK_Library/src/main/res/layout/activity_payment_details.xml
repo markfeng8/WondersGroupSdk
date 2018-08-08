@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wonders_rgb_color_ffffff"
+    android:orientation="vertical"
+    tools:context=".ui.paymentdetails.PaymentDetailsActivity">
+
+    <include layout="@layout/wonders_common_titlebar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_10dp"
+            android:text="@string/wonders_text_dai_pay"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+
+        <TextView
+            android:id="@+id/tvMoneyNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wonders_money_number"
+            android:textColor="@color/wonders_rgb_color_00b76a" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wonders_text_yuan" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvPayMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_10dp"
+            android:background="@drawable/wonders_short"
+            android:gravity="center"
+            android:text="@string/wonders_pay_money"
+            android:textColor="@color/wonders_rgb_color_ffffff" />
+    </LinearLayout>
+
+</LinearLayout>

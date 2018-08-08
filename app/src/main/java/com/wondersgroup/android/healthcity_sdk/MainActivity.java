@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.smsauthcode.view.SmsCodeActivity;
 
 import butterknife.BindView;
@@ -22,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
     Button btnEpSoft;
     @BindView(R.id.btnWdPay)
     Button btnWdPay;
+    @BindView(R.id.btnPersonalPay)
+    Button btnPersonalPay;
+    @BindView(R.id.btnAfterHome)
+    Button btnAfterHome;
+    @BindView(R.id.btnPaymentDetail)
+    Button btnPaymentDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btnSendSms, R.id.btnEpSoft, R.id.btnWdPay})
+    @OnClick({R.id.btnSendSms, R.id.btnEpSoft, R.id.btnWdPay, R.id.btnPersonalPay, R.id.btnAfterHome,
+            R.id.btnPaymentDetail})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -42,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnWdPay:
                 intent = new Intent(MainActivity.this, SetWorkKeyActivity.class);
+                break;
+            case R.id.btnPersonalPay:
+                intent = new Intent(MainActivity.this, PersonalPayActivity.class);
+                break;
+            case R.id.btnAfterHome:
+                intent = new Intent(MainActivity.this, AfterPayHomeActivity.class);
+                break;
+            case R.id.btnPaymentDetail:
+                intent = new Intent(MainActivity.this, PaymentDetailsActivity.class);
                 break;
         }
         if (intent != null) {

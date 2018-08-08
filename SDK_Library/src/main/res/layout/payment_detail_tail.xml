@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wonders_is_yibao_pay"
+                android:textColor="@color/wonders_rgb_color_333333"
+                android:textSize="@dimen/wonders_text_size_14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wonders_is_allow_yibao"
+                android:textColor="@color/wonders_rgb_color_b4b4b4"
+                android:textSize="@dimen/wonders_text_size_12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:id="@+id/toggleSounds"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/toggle_switch_selector"
+            android:textOff=""
+            android:textOn="" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/wonders_margin_10dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:background="@color/wonders_rgb_color_eeeeee" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/wonders_padding_6dp"
+        android:drawableStart="@drawable/wonders_pay"
+        android:text="@string/wonders_text_pay_detail"
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="@dimen/wonders_padding_20dp"
+        android:text="总计金额：￥560.44"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_10sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="@dimen/wonders_padding_20dp"
+        android:text="总计金额：￥560.44"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_10sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="@dimen/wonders_padding_20dp"
+        android:text="总计金额：￥560.44"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_10sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="@dimen/wonders_padding_20dp"
+        android:text="总计金额：￥560.44"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_10sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:background="@color/wonders_rgb_color_f8f8f8"
+        android:padding="@dimen/wonders_padding_10dp"
+        android:text="温馨提示：总额将由医保账户扣除部分后，再由个人账户支付"
+        android:textColor="@color/wonders_rgb_color_979797"
+        android:textSize="@dimen/wonders_text_size_12sp" />
+
+</LinearLayout>

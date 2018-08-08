@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rgPayType"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/wonders_margin_10dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <RadioButton
+        android:id="@+id/rbAlipay"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:button="@null"
+        android:drawableLeft="@drawable/wonders_alipay"
+        android:drawablePadding="8dp"
+        android:drawableRight="@drawable/wonders_checked_selector"
+        android:lineSpacingExtra="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/wonders_text_alipay" />
+
+    <RadioButton
+        android:id="@+id/rbWeChatPay"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:button="@null"
+        android:drawableLeft="@drawable/wonders_wechat"
+        android:drawablePadding="8dp"
+        android:drawableRight="@drawable/wonders_checked_selector"
+        android:lineSpacingExtra="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/wonders_text_wechat_pay" />
+
+    <RadioButton
+        android:id="@+id/rbUnionPay"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:button="@null"
+        android:drawableLeft="@drawable/wonders_union_pay"
+        android:drawablePadding="8dp"
+        android:drawableRight="@drawable/wonders_checked_selector"
+        android:lineSpacingExtra="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/wonders_text_union_pay" />
+</RadioGroup>
