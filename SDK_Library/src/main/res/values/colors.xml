@@ -51,6 +51,7 @@
     <color name="wonders_rgb_color_2f3132">#2F3132</color>
     <color name="wonders_rgb_color_4395ff">#4395FF</color>
     <color name="wonders_rgb_color_58c78f">#58C78F</color>
+    <color name="wonders_rgb_color_0aae65">#0AAE65</color>
 
     <!-- ARGB color -->
     <color name="wonders_argb_color_33000000">#33000000</color>

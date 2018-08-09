@@ -18,6 +18,10 @@
     <string name="wonders_personal_pay">个人账户支付</string>
     <string name="wonders_open_after_pay">已开通医后付</string>
     <string name="wonders_open_mobile_pay">去开通移动支付</string>
+    <string name="wonders_yibao_mobile_pay">医保移动支付</string>
+    <string name="wonders_look_afterpay_rules">查看医后付协议</string>
+    <string name="wonders_termination_after_pay">解约医后付</string>
+    <string name="wonders_update_pay_pwd">修改医保支付密码</string>
     <string name="wonders_to_pay_money">您有一笔医后付欠款234元未付，建议前去缴纳！</string>
     <string name="wonders_settings">设置</string>
     <string name="wonders_pay_records">查看所有医院已缴/未交费记录</string>
@@ -33,6 +37,7 @@
     <string name="wonders_money_number">￥254.21</string>
     <string name="wonders_text_liangxiaoning">梁晓宁</string>
     <string name="wonders_social_number">A3268990</string>
+    <string name="wonders_social_card_number">社保卡号</string>
     <string name="wonders_pay_serial_number">订单编号:201802809535123456</string>
     <string name="wonders_medicine_fee">药品费</string>
     <string name="wonders_look_detail">查看详情</string>
@@ -43,9 +48,15 @@
     <string name="wonders_is_yibao_pay">是否允许医保支付</string>
     <string name="wonders_is_allow_yibao">医保支付关闭后，全部金额将由个人账户支付</string>
     <string name="wonders_text_open">开通</string>
+    <string name="wonders_already_open">已开通</string>
     <string name="wonders_rule_instruction">我已认真阅读并同意《“医后付”服务协议书》了解“先诊疗后付费”的违约对个人信用有影响。</string>
     <string name="wonders_open_afterpay_success">恭喜您已成功开通“医后付”服务</string>
     <string name="wonder_open_afterpay_success_copyrighter">您可在湖州市中心医院、湖州市第一人民医院、湖州市第三人民医院、湖州市妇幼保健院、湖州市中医院这5家医院享受“医后付”服务，无需再签约。</string>
     <string name="wonders_wenxin_toast">尊敬的用户，当天看完病后记得一次性把所有费用付清。</string>
     <string name="wonders_back_to_afterpay_home">返回医后付首页</string>
+    <string name="wonders_arrearage">欠费</string>
+    <string name="wonders_notification_phone">通知手机号</string>
+    <string name="wonders_sign_date">签约日期</string>
+    <string name="wonders_ic_number">身份证号</string>
+    <string name="wonders_name">姓名</string>
 </resources>

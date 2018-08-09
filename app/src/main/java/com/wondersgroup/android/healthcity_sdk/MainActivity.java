@@ -8,9 +8,11 @@ import android.widget.Button;
 
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnAfterHome;
     @BindView(R.id.btnPaymentDetail)
     Button btnPaymentDetail;
+    @BindView(R.id.btnPayRecord)
+    Button btnPayRecord;
+    @BindView(R.id.btnSettings)
+    Button btnSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.btnSendSms, R.id.btnEpSoft, R.id.btnWdPay, R.id.btnPersonalPay, R.id.btnAfterHome,
-            R.id.btnPaymentDetail})
+            R.id.btnPaymentDetail, R.id.btnPayRecord, R.id.btnSettings})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -61,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnPaymentDetail:
                 intent = new Intent(MainActivity.this, PaymentDetailsActivity.class);
+                break;
+            case R.id.btnPayRecord:
+                intent = new Intent(MainActivity.this, PayRecordActivity.class);
+                break;
+            case R.id.btnSettings:
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
                 break;
         }
         if (intent != null) {
