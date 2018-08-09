@@ -42,6 +42,13 @@
     <dimen name="wonders_margin_20dp">20dp</dimen>
     <dimen name="wonders_margin_22dp">22dp</dimen>
     <dimen name="wonders_margin_24dp">24dp</dimen>
+    <dimen name="wonders_margin_26dp">26dp</dimen>
+    <dimen name="wonders_margin_28dp">28dp</dimen>
+    <dimen name="wonders_margin_30dp">30dp</dimen>
+    <dimen name="wonders_margin_60dp">60dp</dimen>
+    <dimen name="wonders_margin_100dp">100dp</dimen>
+    <dimen name="wonders_margin_140dp">140dp</dimen>
+    <dimen name="wonders_margin_160dp">160dp</dimen>
 
     <!-- size -->
     <dimen name="wonders_titlebar_height">60dp</dimen>

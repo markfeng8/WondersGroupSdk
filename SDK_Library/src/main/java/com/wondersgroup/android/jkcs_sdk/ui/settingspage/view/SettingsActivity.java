@@ -1,14 +1,20 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.view;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 
 // 设置页面
 public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
@@ -28,6 +34,9 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private ImageView ivBackBtn;
     private ImageView ivEditPhone;
 
+    private PopupWindow popupWindow;
+    private View popupView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +55,13 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             @Override
             public void onClick(View v) {
                 SettingsActivity.this.finish();
+            }
+        });
+        ivEditPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUpdatePhoneDialog();
+                BrightnessManager.lightoff(SettingsActivity.this);
             }
         });
     }
@@ -79,5 +95,58 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     @Override
     public void show() {
 
+    }
+
+    private void showUpdatePhoneDialog() {
+        if (popupWindow == null) {
+            popupView = View.inflate(SettingsActivity.this, R.layout.popupwindow_update_phone, null);
+            popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.MATCH_PARENT);
+            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    BrightnessManager.lighton(SettingsActivity.this);
+                }
+            });
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            popupWindow.setFocusable(true);
+            popupWindow.setOutsideTouchable(true);
+
+            EditText Phone = (EditText) popupView.findViewById(R.id.etPhone);
+            EditText etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
+            TextView tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
+
+            // 获取验证码
+            popupView.findViewById(R.id.tvGetSmsCode).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            // 关闭
+            popupView.findViewById(R.id.ivClose).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                    BrightnessManager.lighton(SettingsActivity.this);
+                }
+            });
+
+            // 开通
+            popupView.findViewById(R.id.tvOpen).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+            BrightnessManager.lighton(SettingsActivity.this);
+        }
+        popupWindow.showAtLocation(SettingsActivity.this.findViewById(R.id.activity_settings),
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 }
