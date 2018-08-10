@@ -58,6 +58,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
+        ivBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AfterPayHomeActivity.this.finish();
+            }
+        });
         tvSelectHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +86,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initData() {
+        tvTitleName.setText(getString(R.string.wonders_after_pay_home));
         tvPayToast.setText(Html.fromHtml(getString(R.string.wonders_mark_text)));
         getIntentAndFindAfterPayState();
     }
@@ -140,6 +147,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    /**
+     * 设置医后付状态
+     */
     private void setAfterPayState(boolean enable) {
         if (enable) {
             tvAfterPayState.setText("去开通医后付");
@@ -151,5 +161,18 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    /**
+     * 设置医保移动付状态
+     */
+    private void setMobilePayState(boolean enable) {
+        if (enable) {
+            tvAfterPayState.setText("去开通移动支付");
+            tvAfterPayState.setEnabled(true);
+            tvAfterPayState.setCompoundDrawables(null, null, null, null);
+        } else {
+            tvAfterPayState.setText("已开通移动支付");
+            tvAfterPayState.setEnabled(false);
+        }
+    }
 
 }

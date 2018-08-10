@@ -65,6 +65,7 @@
     <string name="wonders_sign_date">签约日期</string>
     <string name="wonders_ic_number">身份证号</string>
     <string name="wonders_finished_order">已完成订单页面</string>
+    <string name="wonders_after_pay_home">医后付首页</string>
     <string name="wonders_notification_phone">通知手机号</string>
     <string name="wonders_unfinished_order">未完成订单页面</string>
 </resources>

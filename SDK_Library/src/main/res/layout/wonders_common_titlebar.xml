@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/wonders_text_open_after_paying"
-        android:textColor="@color/wonders_rgb_color_ffffff" />
+        android:textColor="@color/wonders_rgb_color_ffffff"
+        android:textSize="@dimen/wonders_text_size_16sp" />
 
 </RelativeLayout>
