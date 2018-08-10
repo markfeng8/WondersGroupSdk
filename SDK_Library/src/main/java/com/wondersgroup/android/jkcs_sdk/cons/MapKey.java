@@ -8,11 +8,17 @@ public class MapKey {
 
     public static final String SID = "sid";
     public static final String SIGN = "sign";
+    public static final String NAME = "name";
     public static final String PHONE = "phone";
+    public static final String ID_TYPE = "id_type"; // 证件类型 01:身份证
+    public static final String ID_NO = "id_no"; // 证件号码
+    public static final String CARD_NO = "card_no";
+    public static final String CARD_TYPE = "card_type";
     public static final String TRAN_CHL = "tran_chl";
     public static final String TRAN_ORG = "tran_org";
     public static final String TRAN_CODE = "tran_code";
     public static final String TIMESTAMP = "timestamp";
-    public static final String REG_ORG_CODE = "reg_org_code";
     public static final String IDEN_CLASS = "iden_class";
+    public static final String REG_ORG_CODE = "reg_org_code";
+    public static final String HOME_ADDRESS = "home_address";
 }

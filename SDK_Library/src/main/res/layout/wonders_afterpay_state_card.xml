@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/wonders_margin_10dp"
             android:text="@string/wonders_social_number"
-            android:textColor="@color/wonders_rgb_color_333333"
+            android:textColor="@color/wonders_rgb_color_666666"
             android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
 
@@ -42,31 +42,39 @@
 
         <TextView
             android:id="@+id/tvAfterPayState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/already_open_shape"
+            android:layout_width="120dp"
+            android:layout_height="32dp"
+            android:background="@drawable/wonders_open_state_selector"
             android:drawableStart="@drawable/wonders_already_open"
-            android:padding="@dimen/wonders_padding_6dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingEnd="@dimen/wonders_padding_8dp"
+            android:paddingStart="@dimen/wonders_padding_8dp"
             android:text="@string/wonders_open_after_pay"
-            android:textColor="@color/wonders_rgb_color_386fb9"
+            android:textColor="@drawable/wonders_text_selector"
             android:textSize="@dimen/wonders_text_size_12sp" />
 
         <TextView
             android:id="@+id/tvOpenMobilePay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="32dp"
             android:layout_marginStart="@dimen/wonders_margin_10dp"
-            android:background="@drawable/wonders_on"
+            android:background="@drawable/wonders_open_state_selector"
+            android:drawableStart="@drawable/wonders_already_open"
+            android:enabled="false"
             android:gravity="center"
+            android:paddingEnd="@dimen/wonders_padding_8dp"
+            android:paddingStart="@dimen/wonders_padding_8dp"
             android:text="@string/wonders_open_mobile_pay"
-            android:textColor="@color/wonders_rgb_color_ffffff" />
+            android:textColor="@drawable/wonders_text_selector"
+            android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvToPay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/wonders_margin_10dp"
         android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:text="@string/wonders_to_pay_money"
         android:textColor="@color/wonders_rgb_color_333333" />

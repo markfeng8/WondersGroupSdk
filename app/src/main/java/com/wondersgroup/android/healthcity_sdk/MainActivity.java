@@ -6,13 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.AfterPayHomeActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnAfterHome;
     @BindView(R.id.btnPaymentDetail)
     Button btnPaymentDetail;
-    @BindView(R.id.btnPayRecord)
-    Button btnPayRecord;
-    @BindView(R.id.btnSettings)
-    Button btnSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.btnSendSms, R.id.btnEpSoft, R.id.btnWdPay, R.id.btnPersonalPay, R.id.btnAfterHome,
-            R.id.btnPaymentDetail, R.id.btnPayRecord, R.id.btnSettings})
+            R.id.btnPaymentDetail})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -63,21 +60,29 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, PersonalPayActivity.class);
                 break;
             case R.id.btnAfterHome:
-                intent = new Intent(MainActivity.this, AfterPayHomeActivity.class);
+                startAfterPayHomePage();
                 break;
             case R.id.btnPaymentDetail:
                 intent = new Intent(MainActivity.this, PaymentDetailsActivity.class);
-                break;
-            case R.id.btnPayRecord:
-                intent = new Intent(MainActivity.this, PayRecordActivity.class);
-                break;
-            case R.id.btnSettings:
-                intent = new Intent(MainActivity.this, SettingsActivity.class);
                 break;
         }
         if (intent != null) {
             startActivity(intent);
         }
+    }
+
+    /**
+     * 将所有需要传递的参数（所有参数必须传）放入 HashMap 中，
+     * 不要修改 Key，只修改 value 即可。
+     */
+    private void startAfterPayHomePage() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.NAME, "胡汉三"); // 姓名
+        map.put(MapKey.PHONE, "17724801294"); // 手机号
+        map.put(MapKey.CARD_NO, "A02543853"); // 社保卡号
+        map.put(MapKey.ID_NO, "330501198408250211"); // 身份证号码
+        map.put(MapKey.HOME_ADDRESS, "ShangHai"); // 家庭地址
+        ActivityUtil.startAfterPayHome(MainActivity.this, map);
     }
 
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:drawableStart="@drawable/wonders_pay_record_complete"
+            android:gravity="center"
+            android:text="@string/wonders_find_date"
+            android:textColor="@color/wonders_rgb_color_000000"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/wonders_down_arrow"
+            android:gravity="center"
+            android:text="2018年5月9日"
+            android:textColor="@color/wonders_rgb_color_646464"
+            android:textSize="@dimen/wonders_text_size_12sp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/wonders_margin_6dp"
+            android:layout_marginRight="@dimen/wonders_margin_6dp"
+            android:background="@color/wonders_rgb_color_333333" />
+
+        <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/wonders_down_arrow"
+            android:gravity="center"
+            android:text="2018年6月9日"
+            android:textColor="@color/wonders_rgb_color_646464"
+            android:textSize="@dimen/wonders_text_size_12sp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

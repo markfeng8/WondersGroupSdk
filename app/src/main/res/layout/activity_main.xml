@@ -66,24 +66,4 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/btnPayRecord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="缴费记录页面"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/btnSettings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="设置页面"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
 </LinearLayout>

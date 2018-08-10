@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.view;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,9 +13,14 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
+
+import java.util.HashMap;
 
 // 设置页面
 public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
@@ -48,6 +54,28 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
     private void initData() {
         tvTitleName.setText(getString(R.string.wonders_settings));
+        getIntentData();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                SerializableHashMap sMap = (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
+                if (sMap != null) {
+                    HashMap<String, String> map = sMap.getMap();
+                    String name = map.get(MapKey.NAME);
+                    String idNo = map.get(MapKey.ID_NO);
+                    String cardNo = map.get(MapKey.CARD_NO);
+                    String phone = map.get(MapKey.PHONE);
+                    tvName.setText(name);
+                    tvIcNum.setText(idNo);
+                    tvSocialNum.setText(cardNo);
+                    tvPhone.setText(phone);
+                }
+            }
+        }
     }
 
     private void initListener() {

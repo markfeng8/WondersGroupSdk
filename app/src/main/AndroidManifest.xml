@@ -77,7 +77,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.AfterPayHomeActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -86,6 +86,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.selecthospital.SelectHospitalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 

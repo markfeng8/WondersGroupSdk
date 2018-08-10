@@ -1,1 +1,1 @@
-include ':app', ':SDK_Library'
+include ':app', ':SDK_Library','com.datescroller.lib'

@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/wonders_rgb_color_ffffff"
+    android:orientation="vertical"
     tools:context=".ui.payrecord.PayRecordActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/wonders_common_titlebar" />
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/slidingTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        tl:tl_divider_color="#33000000"
+        tl:tl_indicator_anim_enable="false"
+        tl:tl_indicator_color="@color/wonders_rgb_color_4193ff"
+        tl:tl_indicator_gravity="BOTTOM"
+        tl:tl_indicator_height="2dp"
+        tl:tl_indicator_width_equal_title="true"
+        tl:tl_tab_space_equal="true"
+        tl:tl_textSelectColor="@color/wonders_rgb_color_4193ff"
+        tl:tl_textUnselectColor="@color/wonders_rgb_color_666666"
+        tl:tl_textsize="@dimen/wonders_text_size_14sp"
+        tl:tl_underline_color="#E0E0E0" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
