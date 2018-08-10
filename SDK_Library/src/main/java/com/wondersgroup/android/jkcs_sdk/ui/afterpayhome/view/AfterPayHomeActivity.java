@@ -1,13 +1,18 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.SelectHospitalActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 
 // 医后付首页
 public class AfterPayHomeActivity extends AppCompatActivity {
@@ -34,6 +39,28 @@ public class AfterPayHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_after_pay_home);
         findViews();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        tvSelectHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AfterPayHomeActivity.this, SelectHospitalActivity.class));
+            }
+        });
+        tvUpdateInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AfterPayHomeActivity.this, SettingsActivity.class));
+            }
+        });
+        tvPayRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AfterPayHomeActivity.this, PayRecordActivity.class));
+            }
+        });
     }
 
     private void initData() {
