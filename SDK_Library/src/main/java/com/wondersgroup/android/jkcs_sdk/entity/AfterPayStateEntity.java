@@ -1,10 +1,12 @@
 package com.wondersgroup.android.jkcs_sdk.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:
+ * Function:医后付状态的返回
  */
-public class AfterPayStateEntity extends BaseEntity {
+public class AfterPayStateEntity extends BaseEntity implements Serializable {
 
     /**
      * signing_status : 01

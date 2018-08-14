@@ -18,7 +18,10 @@ public class MapKey {
     public static final String TRAN_ORG = "tran_org";
     public static final String TRAN_CODE = "tran_code";
     public static final String TIMESTAMP = "timestamp";
-    public static final String IDEN_CLASS = "iden_class";
+    public static final String IDEN_CODE = "iden_code"; // 验证码
+    public static final String IDEN_CLASS = "iden_class"; // 通知类别
     public static final String REG_ORG_CODE = "reg_org_code";
+    public static final String REG_ORG_NAME = "reg_org_name";
     public static final String HOME_ADDRESS = "home_address";
+    public static final String HEALTH_CARE_STATUS = "health_care_status"; // 医保卡状态
 }

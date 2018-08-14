@@ -22,8 +22,11 @@
     <string name="wonders_look_afterpay_rules">查看医后付协议</string>
     <string name="wonders_termination_after_pay">解约医后付</string>
     <string name="wonders_update_pay_pwd">修改医保支付密码</string>
-    <string name="wonders_to_pay_money">您有一笔医后付欠款234元未付，建议前去缴纳！</string>
+    <string name="wonders_to_pay_money">您有一笔医后付欠款234元未付，建议前去</string>
+    <string name="wonders_to_pay_fee1">您有一笔医后付欠款</string>
+    <string name="wonders_to_pay_fee2">元未付，建议前去</string>
     <string name="wonders_settings">设置</string>
+    <string name="wonders_pay_fee">缴纳！</string>
     <string name="wonders_pay_records">查看所有医院已缴/未交费记录</string>
     <string name="wonders_pass_update">手机号/解约/协议/密码修改</string>
     <string name="wonders_mark_text"><![CDATA[<font size="40" color="#333333">您已成功支付湖州第三人民医院未缴纳费用126元，另89元支付失败，请继续支付。详情>>></font>]]></string>
@@ -68,4 +71,6 @@
     <string name="wonders_after_pay_home">医后付首页</string>
     <string name="wonders_notification_phone">通知手机号</string>
     <string name="wonders_unfinished_order">未完成订单页面</string>
+    <string name="wonders_original_phone">原手机号码为</string>
+    <string name="wonders_update_notification_phone">修改通知手机号</string>
 </resources>

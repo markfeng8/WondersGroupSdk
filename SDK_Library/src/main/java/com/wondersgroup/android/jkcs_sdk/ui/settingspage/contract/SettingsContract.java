@@ -1,19 +1,28 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract;
 
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnVerifySendListener;
+
+import java.util.HashMap;
+
 /**
  * Created by x-sir on 2018/8/1 :)
  * Function:
  */
 public interface SettingsContract {
     interface IModel {
-        void getSignStatus();
+        void sendOpenRequest(HashMap<String, String> map, OnOpenResultListener listener);
+
+        void sendVerifyCode(String phone, OnVerifySendListener listener);
     }
 
     interface IView {
-        void show();
+        void dismissPopupWindow();
     }
 
     interface IPresenter {
-        void getSignStatus();
+        void sendOpenRequest(HashMap<String, String> map);
+
+        void sendVerifyCode(String phone);
     }
 }

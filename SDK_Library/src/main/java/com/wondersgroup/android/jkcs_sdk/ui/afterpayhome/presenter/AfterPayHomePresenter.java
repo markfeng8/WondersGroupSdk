@@ -3,8 +3,10 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnAfterPayStateListener;
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 
 import java.util.HashMap;
@@ -28,7 +30,28 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 @Override
                 public void onSuccess(AfterPayStateEntity entity) {
                     if (isNonNull()) {
-                        mViewRef.get().returnResult(entity);
+                        mViewRef.get().afterPayResult(entity);
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+        }
+    }
+
+    @Override
+    public void getMobilePayState(HashMap<String, String> map) {
+        if (map != null && !map.isEmpty()) {
+            mModel.getMobilePayState(map, new OnMobilePayStateListener() {
+                @Override
+                public void onSuccess(MobilePayEntity entity) {
+                    if (isNonNull()) {
+                        mViewRef.get().mobilePayResult(entity);
                     }
                 }
 

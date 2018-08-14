@@ -4,19 +4,19 @@ import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
+import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
-import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
+import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnOpenAfterPayListener;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 
-import java.io.IOException;
 import java.util.HashMap;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,44 +33,99 @@ public class AfterPayModel implements AfterPayContract.IModel {
     }
 
     @Override
-    public void sendSmsCode(String phone, OnSmsSendListener listener) {
+    public void sendSmsCode(String phone, final OnSmsSendListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
-        map.put(MapKey.TRAN_CHL, "01");
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.PHONE, phone);
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
-        map.put(MapKey.IDEN_CLASS, "1");
+        map.put(MapKey.IDEN_CLASS, OrgConfig.IDEN_CLASS1);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
                 .getInstance()
-                .createService(ApiService.class)
-                .postMapBody(RequestUrl.XY0006, map)
-                .enqueue(new Callback<ResponseBody>() {
+                .createService(SendSmsService.class)
+                .sendSmsCode(RequestUrl.XY0006, map)
+                .enqueue(new Callback<SmsEntity>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        //BaseEntity<SmsEntity> body = response.body();
-                        ResponseBody body = response.body();
+                    public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
+                        SmsEntity body = response.body();
                         if (body != null) {
-                            try {
-                                LogUtil.i(TAG, body.string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                String idenCode = body.getIden_code();
+                                if (listener != null) {
+                                    listener.onSuccess();
+                                }
+                            } else {
+                                if (listener != null) {
+                                    listener.onFailed();
+                                }
                             }
-                            //String return_code = body.getReturn_code();
-//                            if ("SUCCESS".equals(return_code)) {
-//                                String iden_code = body.getIden_code();
-//                            }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        t.getMessage();
-                        t.printStackTrace();
+                    public void onFailure(Call<SmsEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        LogUtil.e(TAG, error);
+                        if (listener != null) {
+                            listener.onFailed();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void openAfterPay(HashMap<String, String> map, final OnOpenAfterPayListener listener) {
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0002);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
+        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
+        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        map.put(MapKey.REG_ORG_NAME, "签约机构名称");
+        map.put(MapKey.HOME_ADDRESS, "ShangHai");
+        map.put(MapKey.HEALTH_CARE_STATUS, "1");
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(SendSmsService.class)
+                .sendSmsCode(RequestUrl.XY0006, map)
+                .enqueue(new Callback<SmsEntity>() {
+                    @Override
+                    public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
+                        SmsEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                String idenCode = body.getIden_code();
+                                if (listener != null) {
+                                    listener.onSuccess();
+                                }
+                            } else {
+                                if (listener != null) {
+                                    listener.onFailed();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SmsEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        LogUtil.e(TAG, error);
+                        if (listener != null) {
+                            listener.onFailed();
+                        }
                     }
                 });
     }

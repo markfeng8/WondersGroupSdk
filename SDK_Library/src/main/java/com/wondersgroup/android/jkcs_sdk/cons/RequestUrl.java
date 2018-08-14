@@ -16,13 +16,13 @@ public class RequestUrl {
     public static final String XY0005 = "/huzh_credit/ct/xy0005";
     public static final String XY0006 = "/huzh_credit/ct/xy0006"; // 获取验证码
 
-    public static final String YD0001 = "/huzh_credit/ct/yd0001";
-    public static final String YD0002 = "/huzh_credit/ct/yd0002";
-    public static final String YD0003 = "/huzh_credit/ct/yd0003";
-    public static final String YD0004 = "/huzh_credit/ct/yd0004";
-    public static final String YD0005 = "/huzh_credit/ct/yd0005";
-    public static final String YD0006 = "/huzh_credit/ct/yd0006";
-    public static final String YD0007 = "/huzh_credit/ct/yd0007";
-    public static final String YD0008 = "/huzh_credit/ct/yd0008";
-    public static final String YD0009 = "/huzh_credit/ct/yd0009";
+    public static final String YD0001 = "/huzh_credit/sdk/yd0001"; // 移动支付开通状态
+    public static final String YD0002 = "/huzh_credit/sdk/yd0002";
+    public static final String YD0003 = "/huzh_credit/sdk/yd0003";
+    public static final String YD0004 = "/huzh_credit/sdk/yd0004";
+    public static final String YD0005 = "/huzh_credit/sdk/yd0005";
+    public static final String YD0006 = "/huzh_credit/sdk/yd0006";
+    public static final String YD0007 = "/huzh_credit/sdk/yd0007";
+    public static final String YD0008 = "/huzh_credit/sdk/yd0008";
+    public static final String YD0009 = "/huzh_credit/sdk/yd0009";
 }
