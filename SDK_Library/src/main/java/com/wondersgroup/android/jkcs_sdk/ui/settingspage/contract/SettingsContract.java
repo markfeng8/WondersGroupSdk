@@ -1,6 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract;
 
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnTerminationListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnVerifySendListener;
 
 import java.util.HashMap;
@@ -14,6 +15,8 @@ public interface SettingsContract {
         void sendOpenRequest(HashMap<String, String> map, OnOpenResultListener listener);
 
         void sendVerifyCode(String phone, OnVerifySendListener listener);
+
+        void termination(HashMap<String, String> map, OnTerminationListener listener);
     }
 
     interface IView {
@@ -24,5 +27,7 @@ public interface SettingsContract {
         void sendOpenRequest(HashMap<String, String> map);
 
         void sendVerifyCode(String phone);
+
+        void termination(HashMap<String, String> map);
     }
 }

@@ -147,6 +147,21 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                 BrightnessManager.lightoff(SettingsActivity.this);
             }
         });
+        // 修改医保支付密码
+        tvUpdatePayPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        // 解约医后付
+        tvTermination.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, String> map = new HashMap<>();
+                mPresenter.termination(map);
+            }
+        });
     }
 
     private void findViews() {

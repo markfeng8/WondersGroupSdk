@@ -73,4 +73,15 @@
     <color name="wonders_argb_color_6bb5eb45">#6BB5EB45</color>
     <color name="wonders_argb_color_00000000">#00000000</color>
     <color name="wonders_argb_color_66f2f2f2">#66F2F2F2</color>
+
+    <!-- date scroller -->
+    <color name="timetimepicker_default_text_color">#999999</color>
+    <color name="toolbar_bg">#FBFBFB</color>
+    <color name="toolbar_text_cancel">#323232</color>
+    <color name="toolbar_text_ok">#323232</color>
+    <color name="toolbar_line">#E7E7E7</color>
+    <color name="item_selector_line">#C2C2C2</color>
+    <color name="item_selector_rect">#FFFFFF</color>
+    <color name="timepicker_dialog_bg">#80000000</color>
+    <color name="timepicker_line">#e8e8e8</color>
 </resources>

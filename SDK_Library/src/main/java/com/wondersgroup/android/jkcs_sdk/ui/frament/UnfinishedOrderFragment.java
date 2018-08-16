@@ -7,9 +7,9 @@ import android.widget.TextView;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.BaseFragment;
 
-import org.wangchenlong.datescroller.widget.DateScrollerDialog;
-import org.wangchenlong.datescroller.widget.data.Type;
-import org.wangchenlong.datescroller.widget.listener.OnDateSetListener;
+import widget.DateScrollerDialog;
+import widget.data.Type;
+import widget.listener.OnDateSetListener;
 
 /**
  * Created by x-sir on 2018/8/9 :)

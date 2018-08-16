@@ -11,6 +11,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.net.service.UpdatePhoneService;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnTerminationListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
@@ -126,5 +127,10 @@ public class SettingsModel implements SettingsContract.IModel {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void termination(HashMap<String, String> map, OnTerminationListener listener) {
+
     }
 }

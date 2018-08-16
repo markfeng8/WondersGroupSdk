@@ -50,7 +50,6 @@ dependencies {
     api files('libs/UPPayAssistEx.jar')
     api files('libs/UPPayPluginExPro.jar')
     api files('libs/alipaySdk-20160120.jar')
-    implementation project(':com.datescroller.lib')
 }
 
 task makeJar(type: Jar) {

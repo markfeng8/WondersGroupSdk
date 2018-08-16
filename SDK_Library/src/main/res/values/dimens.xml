@@ -53,4 +53,12 @@
     <!-- size -->
     <dimen name="wonders_titlebar_height">60dp</dimen>
 
+    <!-- date scroller -->
+    <dimen name="picker_default_text_size">12sp</dimen>
+    <dimen name="picker_toolbar_height">48dp</dimen>
+    <dimen name="picker_dialog_height">180dp</dimen>
+    <dimen name="textview_default_padding">5dp</dimen>
+    <dimen name="picker_line_width">1dp</dimen>
+    <dimen name="picker_line_mar">15dp</dimen>
+    <dimen name="picker_height">230dp</dimen>
 </resources>

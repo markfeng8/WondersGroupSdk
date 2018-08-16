@@ -8,6 +8,7 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnTerminationListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.model.SettingsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
@@ -69,6 +70,25 @@ public class SettingsPresenter<T extends SettingsContract.IView>
         } else {
             WonderToastUtil.show(WondersApplication.getsContext()
                     .getString(R.string.wonders_text_phone_number_nullable));
+        }
+    }
+
+    @Override
+    public void termination(HashMap<String, String> map) {
+        if (map != null && !map.isEmpty()) {
+            mModel.termination(map, new OnTerminationListener() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailed() {
+
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
         }
     }
 }

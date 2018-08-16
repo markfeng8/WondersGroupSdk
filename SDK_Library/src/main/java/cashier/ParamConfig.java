@@ -3,9 +3,7 @@ package cashier;
 
 public class ParamConfig {
 
-    public static String Batch_Number = "000000"; // 当前批次
-    public static String Consume_Number = "0"; // 订单流水
+    public static String Batch_Number = "000000"; // 褰撳墠鎵规
+    public static String Consume_Number = "0"; // 璁㈠崟娴佹按
     public static int Networke_way = 1;
 }
-
-
