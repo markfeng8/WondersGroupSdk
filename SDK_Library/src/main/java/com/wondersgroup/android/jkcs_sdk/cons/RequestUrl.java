@@ -15,6 +15,7 @@ public class RequestUrl {
     public static final String XY0004 = "/huzh_credit/ct/xy0004";
     public static final String XY0005 = "/huzh_credit/ct/xy0005";
     public static final String XY0006 = "/huzh_credit/ct/xy0006"; // 获取验证码
+    public static final String XY0008 = "/huzh_credit/ct/xy0008"; // 获取医院列表
 
     public static final String YD0001 = "/huzh_credit/sdk/yd0001"; // 移动支付开通状态
     public static final String YD0002 = "/huzh_credit/sdk/yd0002";

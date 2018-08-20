@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/wonders_rgb_color_ffffff"
     android:orientation="vertical"
-    tools:context=".ui.selecthospital.SelectHospitalActivity">
+    tools:context=".ui.selecthospital.view.SelectHospitalActivity">
 
     <include layout="@layout/wonders_common_titlebar" />
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
 
 </LinearLayout>

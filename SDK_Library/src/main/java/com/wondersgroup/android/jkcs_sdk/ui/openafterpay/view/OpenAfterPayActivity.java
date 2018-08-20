@@ -2,7 +2,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,24 +60,9 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenAfterPayActivity.this.finish();
-            }
-        });
-        btnGetSmsCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.sendSmsCode();
-            }
-        });
-        btnOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendOpenRequest();
-            }
-        });
+        ivBackBtn.setOnClickListener(v -> OpenAfterPayActivity.this.finish());
+        btnGetSmsCode.setOnClickListener(v -> mPresenter.sendSmsCode());
+        btnOpen.setOnClickListener(v -> sendOpenRequest());
     }
 
     private void sendOpenRequest() {

@@ -78,7 +78,7 @@ public class WheelView extends View {
     private LinearLayout itemsLayout;
     // The number of first item in layout
     private int firstItem;
-    // View adapter
+    // IView adapter
     private WheelViewAdapter viewAdapter;
 
     // Recycle

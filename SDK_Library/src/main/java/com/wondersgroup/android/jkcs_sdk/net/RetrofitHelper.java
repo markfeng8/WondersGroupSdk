@@ -1,6 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.net;
 
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.net.interceptor.LoggerInterceptor;
 import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
 
 import java.util.concurrent.TimeUnit;
@@ -41,7 +42,7 @@ public class RetrofitHelper {
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 //.hostnameVerifier(HttpsUtils.getHostnameVerifier())
                 //.addInterceptor(new HeaderInterceptor()) // 添加请求头
-                //.addInterceptor(new LoggerInterceptor("===", true)) // 添加日志打印拦截器
+                .addInterceptor(new LoggerInterceptor(true)) // 添加日志打印拦截器
                 .build();
 
         retrofit = new Retrofit.Builder()

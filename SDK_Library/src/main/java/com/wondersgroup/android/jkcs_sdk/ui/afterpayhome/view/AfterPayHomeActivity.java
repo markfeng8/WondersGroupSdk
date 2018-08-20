@@ -20,7 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.SelectHospitalActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
 
 import java.util.HashMap;

@@ -89,7 +89,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.selecthospital.SelectHospitalActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 

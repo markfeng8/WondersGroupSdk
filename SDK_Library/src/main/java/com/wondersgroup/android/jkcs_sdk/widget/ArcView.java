@@ -16,7 +16,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:自定义弧形 View
+ * Function:自定义弧形 IView
  */
 public class ArcView extends View {
 

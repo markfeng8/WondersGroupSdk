@@ -57,7 +57,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private String mIdNo;
     private String mCardNo;
     private String mPhone;
-    private String mIdenCode;
     private int mFlag = -1; // 标志是哪个弹窗， 1 为修改通知手机号，2 为解约医后付
 
     @Override
@@ -142,35 +141,19 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingsActivity.this.finish();
-            }
-        });
-        ivEditPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFlag = 1;
-                showPopupWindow();
-                BrightnessManager.lightoff(SettingsActivity.this);
-            }
+        ivBackBtn.setOnClickListener(v -> SettingsActivity.this.finish());
+        ivEditPhone.setOnClickListener(v -> {
+            mFlag = 1;
+            showPopupWindow();
+            BrightnessManager.lightoff(SettingsActivity.this);
         });
         // 修改医保支付密码
-        tvUpdatePayPwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WonderToastUtil.show("暂无页面跳转！");
-            }
-        });
+        tvUpdatePayPwd.setOnClickListener(v -> WonderToastUtil.show("暂无页面跳转！"));
         // 解约医后付
-        tvTermination.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFlag = 2;
-                showPopupWindow();
-                BrightnessManager.lightoff(SettingsActivity.this);
-            }
+        tvTermination.setOnClickListener(v -> {
+            mFlag = 2;
+            showPopupWindow();
+            BrightnessManager.lightoff(SettingsActivity.this);
         });
     }
 
@@ -196,12 +179,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             popupView = View.inflate(SettingsActivity.this, R.layout.popupwindow_update_phone, null);
             popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.MATCH_PARENT);
-            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    BrightnessManager.lighton(SettingsActivity.this);
-                }
-            });
+            popupWindow.setOnDismissListener(() -> BrightnessManager.lighton(SettingsActivity.this));
             popupWindow.setBackgroundDrawable(new BitmapDrawable());
             popupWindow.setFocusable(true);
             popupWindow.setOutsideTouchable(true);
@@ -212,53 +190,44 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
 
             // 获取验证码
-            popupView.findViewById(R.id.tvGetSmsCode).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phone = etPhone.getText().toString();
-                    if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
-                        if (mFlag == 1) {
-                            mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS2);
-                        } else if (mFlag == 2) {
-                            mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS3);
-                        }
-                    } else {
-                        WonderToastUtil.show("手机号为空或不正确！");
+            popupView.findViewById(R.id.tvGetSmsCode).setOnClickListener(v -> {
+                String phone = etPhone.getText().toString();
+                if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+                    if (mFlag == 1) {
+                        mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS2);
+                    } else if (mFlag == 2) {
+                        mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS3);
                     }
+                } else {
+                    WonderToastUtil.show("手机号为空或不正确！");
                 }
             });
 
             // 关闭
-            popupView.findViewById(R.id.ivClose).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popupWindow.dismiss();
-                    BrightnessManager.lighton(SettingsActivity.this);
-                }
+            popupView.findViewById(R.id.ivClose).setOnClickListener(v -> {
+                popupWindow.dismiss();
+                BrightnessManager.lighton(SettingsActivity.this);
             });
 
             // 开通
-            popupView.findViewById(R.id.tvOpen).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phone = etPhone.getText().toString();
-                    String verifyCode = etVerifyCode.getText().toString();
+            popupView.findViewById(R.id.tvOpen).setOnClickListener(v -> {
+                String phone = etPhone.getText().toString();
+                String verifyCode = etVerifyCode.getText().toString();
 
-                    if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(verifyCode)) {
-                        HashMap<String, String> param = new HashMap<>();
-                        param.put(MapKey.PHONE, phone);
-                        param.put(MapKey.IDEN_CODE, verifyCode);
-                        param.put(MapKey.ID_NO, mIdNo);
-                        param.put(MapKey.CARD_NO, mCardNo);
-                        if (mFlag == 1) {
-                            param.put(MapKey.NAME, mName);
-                            mPresenter.sendOpenRequest(param);
-                        } else if (mFlag == 2) {
-                            mPresenter.termination(param);
-                        }
-                    } else {
-                        WonderToastUtil.show("手机号或验证码不能为空！");
+                if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(verifyCode)) {
+                    HashMap<String, String> param = new HashMap<>();
+                    param.put(MapKey.PHONE, phone);
+                    param.put(MapKey.IDEN_CODE, verifyCode);
+                    param.put(MapKey.ID_NO, mIdNo);
+                    param.put(MapKey.CARD_NO, mCardNo);
+                    if (mFlag == 1) {
+                        param.put(MapKey.NAME, mName);
+                        mPresenter.sendOpenRequest(param);
+                    } else if (mFlag == 2) {
+                        mPresenter.termination(param);
                     }
+                } else {
+                    WonderToastUtil.show("手机号或验证码不能为空！");
                 }
             });
         }

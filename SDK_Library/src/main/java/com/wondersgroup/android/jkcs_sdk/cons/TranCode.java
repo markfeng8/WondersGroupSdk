@@ -12,6 +12,7 @@ public class TranCode {
     public static final String TRAN_XY0004 = "xy0004";
     public static final String TRAN_XY0005 = "xy0005";
     public static final String TRAN_XY0006 = "xy0006";
+    public static final String TRAN_XY0008 = "xy0008";
 
     public static final String TRAN_YD0001 = "yd0001";
     public static final String TRAN_YD0002 = "yd0002";
