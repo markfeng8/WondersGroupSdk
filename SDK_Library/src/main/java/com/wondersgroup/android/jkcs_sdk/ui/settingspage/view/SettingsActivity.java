@@ -16,12 +16,14 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import java.util.HashMap;
 public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         SettingsPresenter<SettingsContract.IView>> implements SettingsContract.IView {
 
+    private static final String TAG = SettingsActivity.class.getSimpleName();
     private TextView tvName;
     private TextView tvIcNum;
     private TextView tvSocialNum;
@@ -43,6 +46,10 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvTitleName;
     private ImageView ivBackBtn;
     private ImageView ivEditPhone;
+    private EditText etPhone;
+    private EditText etVerifyCode;
+    private TextView tvOriginalPhone;
+    private TextView tvUpdateTitle;
 
     private PopupWindow popupWindow;
     private View popupView;
@@ -51,6 +58,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private String mCardNo;
     private String mPhone;
     private String mIdenCode;
+    private int mFlag = -1; // 标志是哪个弹窗， 1 为修改通知手机号，2 为解约医后付
 
     @Override
     protected SettingsPresenter<SettingsContract.IView> createPresenter() {
@@ -143,7 +151,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         ivEditPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showUpdatePhoneDialog();
+                mFlag = 1;
+                showPopupWindow();
                 BrightnessManager.lightoff(SettingsActivity.this);
             }
         });
@@ -151,15 +160,16 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvUpdatePayPwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                WonderToastUtil.show("暂无页面跳转！");
             }
         });
         // 解约医后付
         tvTermination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> map = new HashMap<>();
-                mPresenter.termination(map);
+                mFlag = 2;
+                showPopupWindow();
+                BrightnessManager.lightoff(SettingsActivity.this);
             }
         });
     }
@@ -180,7 +190,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvTermination = findViewById(R.id.tvTermination);
     }
 
-    private void showUpdatePhoneDialog() {
+    private void showPopupWindow() {
+        LogUtil.i(TAG, "popupWindow == null ? " + (popupWindow == null));
         if (popupWindow == null) {
             popupView = View.inflate(SettingsActivity.this, R.layout.popupwindow_update_phone, null);
             popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT,
@@ -195,18 +206,25 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             popupWindow.setFocusable(true);
             popupWindow.setOutsideTouchable(true);
 
-            final EditText etPhone = (EditText) popupView.findViewById(R.id.etPhone);
-            final EditText etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
-            TextView tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
-            String phoneText = getString(R.string.wonders_original_phone) + mPhone;
-            tvOriginalPhone.setText(phoneText);
+            etPhone = (EditText) popupView.findViewById(R.id.etPhone);
+            etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
+            tvUpdateTitle = (TextView) popupView.findViewById(R.id.tvUpdateTitle);
+            tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
 
             // 获取验证码
             popupView.findViewById(R.id.tvGetSmsCode).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String phone = etPhone.getText().toString();
-                    mPresenter.sendVerifyCode(phone);
+                    if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+                        if (mFlag == 1) {
+                            mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS2);
+                        } else if (mFlag == 2) {
+                            mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS3);
+                        }
+                    } else {
+                        WonderToastUtil.show("手机号为空或不正确！");
+                    }
                 }
             });
 
@@ -225,19 +243,34 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                 public void onClick(View v) {
                     String phone = etPhone.getText().toString();
                     String verifyCode = etVerifyCode.getText().toString();
+
                     if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(verifyCode)) {
                         HashMap<String, String> param = new HashMap<>();
-                        param.put(MapKey.NAME, mName);
                         param.put(MapKey.PHONE, phone);
+                        param.put(MapKey.IDEN_CODE, verifyCode);
                         param.put(MapKey.ID_NO, mIdNo);
                         param.put(MapKey.CARD_NO, mCardNo);
-                        param.put(MapKey.IDEN_CODE, verifyCode);
-                        mPresenter.sendOpenRequest(param);
+                        if (mFlag == 1) {
+                            param.put(MapKey.NAME, mName);
+                            mPresenter.sendOpenRequest(param);
+                        } else if (mFlag == 2) {
+                            mPresenter.termination(param);
+                        }
                     } else {
                         WonderToastUtil.show("手机号或验证码不能为空！");
                     }
                 }
             });
+        }
+
+        if (mFlag == 1) {
+            tvUpdateTitle.setText(getString(R.string.wonders_update_notification_phone));
+            String phoneText = getString(R.string.wonders_original_phone) + mPhone;
+            tvOriginalPhone.setVisibility(View.VISIBLE);
+            tvOriginalPhone.setText(phoneText);
+        } else if (mFlag == 2) {
+            tvUpdateTitle.setText(getString(R.string.wonders_termination_after_pay));
+            tvOriginalPhone.setVisibility(View.INVISIBLE);
         }
 
         if (popupWindow.isShowing()) {
@@ -246,5 +279,14 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         }
         popupWindow.showAtLocation(SettingsActivity.this.findViewById(R.id.activity_settings),
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (popupView != null) {
+            popupView.destroyDrawingCache();
+            popupView = null;
+        }
     }
 }

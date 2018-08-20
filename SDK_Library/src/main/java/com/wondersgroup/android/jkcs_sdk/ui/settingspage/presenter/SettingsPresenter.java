@@ -54,9 +54,9 @@ public class SettingsPresenter<T extends SettingsContract.IView>
     }
 
     @Override
-    public void sendVerifyCode(String phone) {
+    public void sendVerifyCode(String phone, String idenClass) {
         if (!TextUtils.isEmpty(phone)) {
-            mModel.sendVerifyCode(phone, new OnVerifySendListener() {
+            mModel.sendVerifyCode(phone, idenClass, new OnVerifySendListener() {
                 @Override
                 public void onSuccess() {
                     WonderToastUtil.show("发送成功！");

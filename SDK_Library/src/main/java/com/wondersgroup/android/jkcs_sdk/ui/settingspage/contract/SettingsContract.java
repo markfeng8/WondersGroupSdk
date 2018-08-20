@@ -14,7 +14,7 @@ public interface SettingsContract {
     interface IModel {
         void sendOpenRequest(HashMap<String, String> map, OnOpenResultListener listener);
 
-        void sendVerifyCode(String phone, OnVerifySendListener listener);
+        void sendVerifyCode(String phone, String idenClass, OnVerifySendListener listener);
 
         void termination(HashMap<String, String> map, OnTerminationListener listener);
     }
@@ -26,7 +26,7 @@ public interface SettingsContract {
     interface IPresenter {
         void sendOpenRequest(HashMap<String, String> map);
 
-        void sendVerifyCode(String phone);
+        void sendVerifyCode(String phone, String idenClass);
 
         void termination(HashMap<String, String> map);
     }

@@ -82,7 +82,7 @@ public class SettingsModel implements SettingsContract.IModel {
     }
 
     @Override
-    public void sendVerifyCode(String phone, final OnVerifySendListener listener) {
+    public void sendVerifyCode(String phone, String idenClass, final OnVerifySendListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
@@ -91,7 +91,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.PHONE, phone);
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
-        map.put(MapKey.IDEN_CLASS, OrgConfig.IDEN_CLASS2);
+        map.put(MapKey.IDEN_CLASS, idenClass);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
@@ -130,7 +130,47 @@ public class SettingsModel implements SettingsContract.IModel {
     }
 
     @Override
-    public void termination(HashMap<String, String> map, OnTerminationListener listener) {
+    public void termination(HashMap<String, String> map, final OnTerminationListener listener) {
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0004);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
+        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
 
+        RetrofitHelper
+                .getInstance()
+                .createService(UpdatePhoneService.class)
+                .update(RequestUrl.XY0004, map)
+                .enqueue(new Callback<BaseEntity>() {
+                    @Override
+                    public void onResponse(Call<BaseEntity> call, Response<BaseEntity> response) {
+                        BaseEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                if (listener != null) {
+                                    listener.onSuccess();
+                                }
+                            } else {
+                                if (listener != null) {
+                                    listener.onFailed();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BaseEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        LogUtil.e(TAG, error);
+                        if (listener != null) {
+                            listener.onFailed();
+                        }
+                    }
+                });
     }
 }

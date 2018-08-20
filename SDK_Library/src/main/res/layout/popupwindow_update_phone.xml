@@ -31,7 +31,7 @@
             android:padding="@dimen/wonders_padding_20dp">
 
             <TextView
-                android:id="@+id/tvUpdatePhone"
+                android:id="@+id/tvUpdateTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/wonders_margin_140dp"
