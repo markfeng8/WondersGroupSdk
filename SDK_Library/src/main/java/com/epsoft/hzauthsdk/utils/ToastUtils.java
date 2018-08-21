@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.utils;
+package com.epsoft.hzauthsdk.utils;
 
 import android.content.Context;
 import android.widget.Toast;

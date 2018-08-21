@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.epsoft;
+package com.epsoft.hzauthsdk.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

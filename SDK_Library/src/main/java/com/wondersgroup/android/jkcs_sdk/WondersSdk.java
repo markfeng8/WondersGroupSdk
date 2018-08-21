@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
@@ -32,7 +31,6 @@ public class WondersSdk {
     }
 
     private void initEpSoft(Context context) {
-        CrashReport.initCrashReport(context, "060d9fa097", false);
         AuthCall.initApplication((Application) context);
     }
 

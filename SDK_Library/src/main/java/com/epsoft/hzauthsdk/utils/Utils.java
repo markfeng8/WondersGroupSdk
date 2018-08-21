@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.utils;
+package com.epsoft.hzauthsdk.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

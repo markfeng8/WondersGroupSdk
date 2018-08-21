@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.utils;
+package com.epsoft.hzauthsdk.utils;
 
 import com.epsoft.hzauthsdk.pub.BusinessArgs;
 import com.epsoft.hzauthsdk.pub.ChangePWArgs;

@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.epsoft;
+package com.epsoft.hzauthsdk.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,7 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.utils.JavaScriptUtilsApp;
+import com.epsoft.hzauthsdk.utils.JavaScriptUtilsApp;
 
 /**
  * 标题     :

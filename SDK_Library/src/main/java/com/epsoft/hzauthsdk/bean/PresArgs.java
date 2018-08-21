@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.entity.enpu;
+package com.epsoft.hzauthsdk.bean;
 
 /**
  * 标题     : 处方支付参数类

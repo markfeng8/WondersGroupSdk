@@ -4,16 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.epsoft.hzauthsdk.all.AuthCall;
+import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
@@ -22,6 +27,9 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomeP
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 
 import java.util.HashMap;
 
@@ -29,6 +37,7 @@ import java.util.HashMap;
 public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.IView,
         AfterPayHomePresenter<AfterPayHomeContract.IView>> implements AfterPayHomeContract.IView {
 
+    private static final String TAG = AfterPayHomeActivity.class.getSimpleName();
     private TextView tvSettings;
     private TextView tvPayRecord;
     private TextView tvPayToast;
@@ -42,7 +51,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private TextView tvTreatName;
     private TextView tvSocialNum;
     private TextView tvAfterPayState;
-    private TextView tvOpenMobilePay;
+    private TextView tvMobilePayState;
     private TextView tvToPay;
     private TextView tvToPayFee;
     private LinearLayout llToPayFee;
@@ -64,30 +73,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AfterPayHomeActivity.this.finish();
-            }
-        });
-        tvSelectHospital.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AfterPayHomeActivity.this, SelectHospitalActivity.class));
-            }
-        });
-        tvSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityUtil.startSettingsPage(AfterPayHomeActivity.this, mPassParamMap, mAfterPayEntity, mMobilePayEntity);
-            }
-        });
-        tvPayRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AfterPayHomeActivity.this, PayRecordActivity.class));
-            }
-        });
+        ivBackBtn.setOnClickListener(v -> AfterPayHomeActivity.this.finish());
+        // 选择医院
+        tvSelectHospital.setOnClickListener(v -> startActivity(new Intent(AfterPayHomeActivity.this, SelectHospitalActivity.class)));
+        // 设置
+        tvSettings.setOnClickListener(v -> ActivityUtil.startSettingsPage(AfterPayHomeActivity.this, mPassParamMap, mAfterPayEntity, mMobilePayEntity));
+        // 缴费记录
+        tvPayRecord.setOnClickListener(v -> startActivity(new Intent(AfterPayHomeActivity.this, PayRecordActivity.class)));
         // 去缴费
         tvToPayFee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,25 +87,34 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
             }
         });
-        // 去开通移动支付
-        tvOpenMobilePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         // 去开通医后付
-        tvAfterPayState.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityUtil.startOpenAfterPay(AfterPayHomeActivity.this, mPassParamMap);
-            }
+        tvAfterPayState.setOnClickListener(v -> ActivityUtil.startOpenAfterPay(AfterPayHomeActivity.this, mPassParamMap));
+        // 去开通医保移动支付
+        tvMobilePayState.setOnClickListener(v -> {
+            openMobilePay();
         });
+    }
+
+    private void openMobilePay() {
+        AuthCall.initSDK(AfterPayHomeActivity.this, "6151490102",
+                result -> LogUtil.e(TAG, "result===" + result));
+
+        String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
+        if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+            AuthCall.businessProcess(AfterPayHomeActivity.this,
+                    MakeArgsFactory.getBussArgs(phone), WonderToastUtil::show);
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_PHONE_INVALID);
+        }
     }
 
     private void initData() {
         tvTitleName.setText(getString(R.string.wonders_after_pay_home));
         tvPayToast.setText(Html.fromHtml(getString(R.string.wonders_mark_text)));
+
+        //@Test
+        setMobilePayState(true);
+
         getIntentAndFindAfterPayState();
     }
 
@@ -157,7 +158,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         tvTreatName = (TextView) findViewById(R.id.tvTreatName);
         tvSocialNum = (TextView) findViewById(R.id.tvSocialNum);
         tvAfterPayState = (TextView) findViewById(R.id.tvAfterPayState);
-        tvOpenMobilePay = (TextView) findViewById(R.id.tvOpenMobilePay);
+        tvMobilePayState = (TextView) findViewById(R.id.tvMobilePayState);
         tvToPay = (TextView) findViewById(R.id.tvToPay);
         tvToPayFee = (TextView) findViewById(R.id.tvToPayFee);
         llToPayFee = (LinearLayout) findViewById(R.id.llToPayFee);
@@ -200,7 +201,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             } else if ("01".equals(mobPayStatus)) { // 01已签约
                 setMobilePayState(false);
             } else if ("02".equals(mobPayStatus)) { // 02 其他
-                setMobilePayState(false);
+                setMobilePayState(true);
             }
         }
     }
@@ -210,11 +211,11 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private void setAfterPayState(boolean enable) {
         if (enable) {
-            tvAfterPayState.setText("去开通医后付");
+            tvAfterPayState.setText(getString(R.string.wonders_to_open_after_pay));
             tvAfterPayState.setEnabled(true);
             tvAfterPayState.setCompoundDrawables(null, null, null, null);
         } else {
-            tvAfterPayState.setText("已开通医后付");
+            tvAfterPayState.setText(getString(R.string.wonders_open_after_pay));
             tvAfterPayState.setEnabled(false);
         }
     }
@@ -224,12 +225,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private void setMobilePayState(boolean enable) {
         if (enable) {
-            tvAfterPayState.setText("去开通移动支付");
-            tvAfterPayState.setEnabled(true);
-            tvAfterPayState.setCompoundDrawables(null, null, null, null);
+            tvMobilePayState.setText(getString(R.string.wonders_to_open_mobile_pay));
+            tvMobilePayState.setEnabled(true);
+            tvMobilePayState.setCompoundDrawables(null, null, null, null);
         } else {
-            tvAfterPayState.setText("已开通移动支付");
-            tvAfterPayState.setEnabled(false);
+            tvMobilePayState.setText(getString(R.string.wonders_open_mobile_pay));
+            tvMobilePayState.setEnabled(false);
         }
     }
 

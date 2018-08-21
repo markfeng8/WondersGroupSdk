@@ -148,13 +148,15 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             BrightnessManager.lightoff(SettingsActivity.this);
         });
         // 修改医保支付密码
-        tvUpdatePayPwd.setOnClickListener(v -> WonderToastUtil.show("暂无页面跳转！"));
+        tvUpdatePayPwd.setOnClickListener(v -> WonderToastUtil.show("暂未开通！"));
         // 解约医后付
         tvTermination.setOnClickListener(v -> {
             mFlag = 2;
             showPopupWindow();
             BrightnessManager.lightoff(SettingsActivity.this);
         });
+        // 查看协议
+        tvLookRule.setOnClickListener(v -> WonderToastUtil.show("暂未开通！"));
     }
 
     private void findViews() {

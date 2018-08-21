@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.epsoft;
+package com.epsoft.hzauthsdk.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +12,10 @@ import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
 import com.epsoft.hzauthsdk.pub.TokenArgs;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.utils.CheckPermissionUtils;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
-import com.wondersgroup.android.jkcs_sdk.utils.TestArgs;
-import com.wondersgroup.android.jkcs_sdk.utils.ToastUtils;
+import com.epsoft.hzauthsdk.utils.CheckPermissionUtils;
+import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
+import com.epsoft.hzauthsdk.utils.TestArgs;
+import com.epsoft.hzauthsdk.utils.ToastUtils;
 
 public class EpSoftMainActivity extends AppCompatActivity {
 

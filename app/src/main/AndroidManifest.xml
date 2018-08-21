@@ -65,15 +65,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.WebViewActivity"
+            android:name="com.epsoft.hzauthsdk.activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.epsoft.ScannerActivity"
+            android:name="com.epsoft.hzauthsdk.activity.ScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -92,29 +88,33 @@
             android:name="com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.openmobilepay.view.OpenMobilePayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity android:name="cashier.SetWorkKeyActivity"></activity>
 
         <activity
             android:name="cashier.WdPayMainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="cashier.PayFunctionActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="cashier.appnative.PayDemoActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="cashier.web.PayWebActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="cashier.web.JSPayActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- WXPay sdk begin -->
         <activity
@@ -127,7 +127,6 @@
             android:exported="true"
             android:targetActivity="cn.wd.checkout.api.WDWechatPaymentActivity" />
         <!-- WXPay sdk end -->
-
 
         <!-- alipay sdk begin -->
         <activity

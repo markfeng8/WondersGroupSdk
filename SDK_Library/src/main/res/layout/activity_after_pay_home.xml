@@ -147,6 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/wonders_margin_10dp"
                     android:drawableEnd="@drawable/wonders_right_arrow"
+                    android:drawablePadding="@dimen/wonders_padding_10dp"
                     android:text="@string/wonders_select_hospital"
                     android:textColor="@color/wonders_rgb_color_c9c9c9" />
             </LinearLayout>

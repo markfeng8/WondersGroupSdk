@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.entity.enpu;
+package com.epsoft.hzauthsdk.bean;
 
 import java.util.List;
 

@@ -49,7 +49,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     api files('libs/WDPay-3.6.0.jar')
     api files('libs/UPPayAssistEx.jar')

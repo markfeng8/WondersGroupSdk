@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.utils;
+package com.epsoft.hzauthsdk.utils;
 
 import android.Manifest;
 import android.app.Activity;

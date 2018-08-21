@@ -1,8 +1,8 @@
-package com.wondersgroup.android.jkcs_sdk.utils;
+package com.epsoft.hzauthsdk.utils;
 
 import android.webkit.WebView;
 
-import com.wondersgroup.android.jkcs_sdk.ui.epsoft.WebViewActivity;
+import com.epsoft.hzauthsdk.activity.WebViewActivity;
 
 /**
  * 标题     :

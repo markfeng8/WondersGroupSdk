@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/wonders_margin_10dp"
+            android:layout_marginStart="@dimen/wonders_margin_10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -37,7 +37,7 @@
                 android:id="@+id/tvSocialNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/wonders_margin_10dp"
+                android:layout_marginStart="@dimen/wonders_margin_10dp"
                 android:text="@string/wonders_social_number"
                 android:textColor="@color/wonders_rgb_color_666666"
                 android:textSize="@dimen/wonders_text_size_12sp" />
@@ -46,7 +46,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/wonders_margin_10dp"
+            android:layout_marginStart="@dimen/wonders_margin_10dp"
             android:layout_marginTop="@dimen/wonders_margin_10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -66,7 +66,7 @@
                 android:textSize="@dimen/wonders_text_size_12sp" />
 
             <TextView
-                android:id="@+id/tvOpenMobilePay"
+                android:id="@+id/tvMobilePayState"
                 android:layout_width="120dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="@dimen/wonders_margin_10dp"

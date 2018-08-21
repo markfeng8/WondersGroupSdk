@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.utils;
+package com.epsoft.hzauthsdk.utils;
 
 /**
  * 标题     :

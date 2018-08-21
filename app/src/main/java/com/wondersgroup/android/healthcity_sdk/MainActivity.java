@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.ui.epsoft.EpSoftMainActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 import java.util.HashMap;
 
@@ -24,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.btnSendSms)
     Button btnSendSms;
-    @BindView(R.id.btnEpSoft)
-    Button btnEpSoft;
     @BindView(R.id.btnWdPay)
     Button btnWdPay;
     @BindView(R.id.btnPersonalPay)
@@ -42,16 +41,13 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btnSendSms, R.id.btnEpSoft, R.id.btnWdPay, R.id.btnPersonalPay, R.id.btnAfterHome,
+    @OnClick({R.id.btnSendSms, R.id.btnWdPay, R.id.btnPersonalPay, R.id.btnAfterHome,
             R.id.btnPaymentDetail})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.btnSendSms:
                 intent = new Intent(MainActivity.this, OpenAfterPayActivity.class);
-                break;
-            case R.id.btnEpSoft:
-                intent = new Intent(MainActivity.this, EpSoftMainActivity.class);
                 break;
             case R.id.btnWdPay:
                 intent = new Intent(MainActivity.this, SetWorkKeyActivity.class);
@@ -77,12 +73,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startAfterPayHomePage() {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.NAME, "胡汉三"); // 姓名
+        map.put(MapKey.NAME, "钱旭东"); // 姓名
         map.put(MapKey.PHONE, "17724801294"); // 手机号
-        map.put(MapKey.CARD_NO, "A02543853"); // 社保卡号
-        map.put(MapKey.ID_NO, "330501198408250211"); // 身份证号码
+        map.put(MapKey.CARD_NO, "W26887384"); // 社保卡号
+        map.put(MapKey.ID_NO, "330521198805203617"); // 身份证号码
         map.put(MapKey.HOME_ADDRESS, "ShangHai"); // 家庭地址
         ActivityUtil.startAfterPayHome(MainActivity.this, map);
+
+        SpUtil.getInstance().save(SpKey.PHONE, "17724801294");
     }
 
 }
