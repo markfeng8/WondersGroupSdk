@@ -3,9 +3,12 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
@@ -27,7 +30,7 @@ public class ActivityUtil {
      * @param context
      * @param param
      */
-    public static void startAfterPayHome(Context context, HashMap<String, String> param) {
+    public static void startAfterPayHome(@NonNull Context context, @NonNull HashMap<String, String> param) {
         startActivityWithParam(context, param, AfterPayHomeActivity.class);
     }
 
@@ -37,7 +40,7 @@ public class ActivityUtil {
      * @param context
      * @param param
      */
-    public static void startOpenAfterPay(Context context, HashMap<String, String> param) {
+    public static void startOpenAfterPay(@NonNull Context context, @NonNull HashMap<String, String> param) {
         startActivityWithParam(context, param, OpenAfterPayActivity.class);
     }
 
@@ -82,6 +85,7 @@ public class ActivityUtil {
     private static void startActivityWithParam(Context context, HashMap<String, String> param, Class<?> clazz) {
         if (context != null) {
             if (param != null && !param.isEmpty()) {
+                savePassValues(param);
                 // 传递数据
                 SerializableHashMap sMap = new SerializableHashMap();
                 sMap.setMap(param); // 将map数据添加到封装的sMap中
@@ -97,5 +101,24 @@ public class ActivityUtil {
         } else {
             throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
         }
+    }
+
+    /**
+     * save passing values.
+     *
+     * @param param HashMap collection.
+     */
+    private static void savePassValues(@NonNull HashMap<String, String> param) {
+        String name = param.get(MapKey.NAME);
+        String phone = param.get(MapKey.PHONE);
+        String icNum = param.get(MapKey.ID_NO);
+        String socialNum = param.get(MapKey.CARD_NO);
+        String homeAddress = param.get(MapKey.HOME_ADDRESS);
+
+        SpUtil.getInstance().save(SpKey.NAME, name);
+        SpUtil.getInstance().save(SpKey.PHONE, phone);
+        SpUtil.getInstance().save(SpKey.IC_NUM, icNum);
+        SpUtil.getInstance().save(SpKey.SOCIAL_NUM, socialNum);
+        SpUtil.getInstance().save(SpKey.HOME_ADDRESS, homeAddress);
     }
 }

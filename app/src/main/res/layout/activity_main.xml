@@ -4,55 +4,144 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="24dp"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnSendSms"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="短信验证页面"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="姓名："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:padding="6dp"
+            android:text="胡汉三"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="手机号："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:inputType="phone"
+            android:padding="6dp"
+            android:text="17600733534"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="身份证号："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etIcNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:digits="0123456789xX"
+            android:inputType="number"
+            android:padding="6dp"
+            android:text="330521198805203617"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="社保卡号："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etSocialNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:padding="6dp"
+            android:text="W26887384"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="家庭地址："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etHomeAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:padding="6dp"
+            android:text="湖州市"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/btnWdPay"
+        android:id="@+id/btnAfterPayHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="统一支付平台"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/btnPersonalPay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="个人账户支付"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/btnAfterHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="医后付主页"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/btnPaymentDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="缴费详情页"
+        android:text="进入医后付首页"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
