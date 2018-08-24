@@ -15,5 +15,8 @@ public class OrgConfig {
     public static final String IDEN_CLASS2 = "2"; // 2: 修改手机号
     public static final String IDEN_CLASS3 = "3"; // 3: 解约
     public static final String IDEN_CLASS9 = "9"; // 9: 其他
+    public static final String FEE_STATE00 = "00"; // 全部未结算
+    public static final String FEE_STATE01 = "01"; // 医保已结算、自费未结（作保留查询）
+    public static final String FEE_STATE02 = "02"; // 02 全部已结算（仅当天查询，作保留）
 
 }

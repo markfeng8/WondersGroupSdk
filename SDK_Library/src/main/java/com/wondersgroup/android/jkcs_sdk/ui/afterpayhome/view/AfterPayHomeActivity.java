@@ -1,63 +1,53 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
-import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
+import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
+import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
+import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 // 医后付首页
 public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.IView,
         AfterPayHomePresenter<AfterPayHomeContract.IView>> implements AfterPayHomeContract.IView {
 
     private static final String TAG = AfterPayHomeActivity.class.getSimpleName();
-    private TextView tvSettings;
-    private TextView tvPayRecord;
-    private TextView tvPayToast;
-    private TextView tvHospitalName;
-    private TextView tvSelectHospital;
-    private ListView listView;
-    private TextView tvMoneyNum;
-    private TextView tvPayMoney;
     private ImageView ivBackBtn;
     private TextView tvTitleName;
-    private TextView tvTreatName;
-    private TextView tvSocialNum;
-    private TextView tvAfterPayState;
-    private TextView tvMobilePayState;
-    private TextView tvToPay;
-    private TextView tvToPayFee;
-    private LinearLayout llToPayFee;
-    private HashMap<String, String> mPassParamMap;
-    private AfterPayStateEntity mAfterPayEntity;
-    private MobilePayEntity mMobilePayEntity;
+    private RecyclerView recyclerView;
+    private TextView tvMoneyNum;
+    private TextView tvPayMoney;
+    private View activityView;
+    private LinearLayout llNeedPay;
+
+    private LoadingView mLoading;
+    private AfterHeaderBean mHeaderBean;
+    private List<Object> mItemList = new ArrayList<>();
+    private AfterPayAdapter mAdapter;
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -74,48 +64,56 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void initListener() {
         ivBackBtn.setOnClickListener(v -> AfterPayHomeActivity.this.finish());
-        // 选择医院
-        tvSelectHospital.setOnClickListener(v -> startActivity(new Intent(AfterPayHomeActivity.this, SelectHospitalActivity.class)));
-        // 设置
-        tvSettings.setOnClickListener(v -> ActivityUtil.startSettingsPage(AfterPayHomeActivity.this, mPassParamMap, mAfterPayEntity, mMobilePayEntity));
-        // 缴费记录
-        tvPayRecord.setOnClickListener(v -> startActivity(new Intent(AfterPayHomeActivity.this, PayRecordActivity.class)));
-        // 去缴费
-        tvToPayFee.setOnClickListener(new View.OnClickListener() {
+        tvPayMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        // 去开通医后付
-        tvAfterPayState.setOnClickListener(v -> ActivityUtil.startOpenAfterPay(AfterPayHomeActivity.this, mPassParamMap));
-        // 去开通医保移动支付
-        tvMobilePayState.setOnClickListener(v -> {
-            openMobilePay();
-        });
-    }
-
-    private void openMobilePay() {
-        AuthCall.initSDK(AfterPayHomeActivity.this, "6151490102",
-                result -> LogUtil.e(TAG, "result===" + result));
-
-        String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
-        if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
-            AuthCall.businessProcess(AfterPayHomeActivity.this,
-                    MakeArgsFactory.getBussArgs(phone), WonderToastUtil::show);
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_PHONE_INVALID);
-        }
     }
 
     private void initData() {
         tvTitleName.setText(getString(R.string.wonders_after_pay_home));
-        tvPayToast.setText(Html.fromHtml(getString(R.string.wonders_mark_text)));
+        mLoading = new LoadingView.Builder(this)
+                .setDropView(activityView)
+                .build();
+
+        initHeaderData();
 
         //@Test
-        setMobilePayState(true);
+        //setMobilePayState(true);
 
         getIntentAndFindAfterPayState();
+    }
+
+    private void initHeaderData() {
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        mHeaderBean = new AfterHeaderBean();
+        mHeaderBean.setName(name);
+        mHeaderBean.setSocialNum(socialNum);
+
+        mItemList.add(mHeaderBean); // 第一次添加数据
+
+        setAdapter();
+    }
+
+    private void setAdapter() {
+        if (mItemList != null && mItemList.size() > 0) {
+            mAdapter = new AfterPayAdapter(this, mItemList);
+            recyclerView.setAdapter(mAdapter);
+            // 设置布局管理器
+            LinearLayoutManager linearLayoutManager =
+                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        }
+    }
+
+    public void refreshAdapter() {
+        if (mAdapter != null) {
+            mAdapter.setmItemList(mItemList);
+        }
     }
 
     private void getIntentAndFindAfterPayState() {
@@ -125,8 +123,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             if (bundle != null) {
                 SerializableHashMap sMap = (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
                 if (sMap != null) {
-                    mPassParamMap = sMap.getMap();
-                    showPersonalBaseInfo();
+                    HashMap<String, String> mPassParamMap = sMap.getMap();
                     // 查询当前医后付签约状态
                     mPresenter.getAfterPayState(mPassParamMap);
                     // 查询当前移动支付状态
@@ -136,102 +133,99 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private void showPersonalBaseInfo() {
-        String name = mPassParamMap.get(MapKey.NAME);
-        String cardNo = mPassParamMap.get(MapKey.CARD_NO);
-        tvTreatName.setText(name);
-        tvSocialNum.setText(getString(R.string.wonders_text_social_number) + cardNo);
-    }
-
     private void findViews() {
-        tvSettings = (TextView) findViewById(R.id.tvUpdateInfo);
-        tvPayRecord = (TextView) findViewById(R.id.tvPayRecord);
-        tvPayToast = (TextView) findViewById(R.id.tvPayToast);
-        tvHospitalName = (TextView) findViewById(R.id.tvHospitalName);
-        tvSelectHospital = (TextView) findViewById(R.id.tvSelectHospital);
-        listView = (ListView) findViewById(R.id.listView);
-        tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
-        tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
         ivBackBtn = (ImageView) findViewById(R.id.ivBackBtn);
         tvTitleName = (TextView) findViewById(R.id.tvTitleName);
-        tvTreatName = (TextView) findViewById(R.id.tvTreatName);
-        tvSocialNum = (TextView) findViewById(R.id.tvSocialNum);
-        tvAfterPayState = (TextView) findViewById(R.id.tvAfterPayState);
-        tvMobilePayState = (TextView) findViewById(R.id.tvMobilePayState);
-        tvToPay = (TextView) findViewById(R.id.tvToPay);
-        tvToPayFee = (TextView) findViewById(R.id.tvToPayFee);
-        llToPayFee = (LinearLayout) findViewById(R.id.llToPayFee);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
+        tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
+        llNeedPay = findViewById(R.id.llNeedPay);
+        activityView = findViewById(R.id.activity_after_pay_home);
     }
 
     @Override
     public void afterPayResult(AfterPayStateEntity entity) {
-        mAfterPayEntity = entity;
         if (entity != null) {
             String signingStatus = entity.getSigning_status();
-            if ("00".equals(signingStatus)) { // 00未签约（医后付状态给NULL）
-                setAfterPayState(true);
-            } else if ("01".equals(signingStatus)) { // 01已签约
-                setAfterPayState(false);
-                /*
-                 * 1：正常（缴清或未使用医后付服务）2：欠费(医后付后有欠费的概要信
-                 */
-                String paymentStatus = entity.getOne_payment_status();
-                if ("1".equals(paymentStatus)) {
-                    llToPayFee.setVisibility(View.INVISIBLE);
-                } else if ("2".equals(paymentStatus)) {
-                    llToPayFee.setVisibility(View.VISIBLE);
-                    String feeTotal = entity.getFee_total();
-                    String content = getString(R.string.wonders_to_pay_fee1) + feeTotal + getString(R.string.wonders_to_pay_fee2);
-                    tvToPay.setText(content);
-                }
-            } else if ("02".equals(signingStatus)) { // 02 其他
-                setAfterPayState(false);
+            String paymentStatus = entity.getOne_payment_status();
+            String noticePhone = entity.getPhone();
+            String signDate = entity.getCt_date();
+            String feeTotal = entity.getFee_total();
+            if (!TextUtils.isEmpty(feeTotal)) {
+                tvMoneyNum.setText(feeTotal);
             }
+
+            SpUtil.getInstance().save(SpKey.SIGNING_STATUS, signingStatus);
+            SpUtil.getInstance().save(SpKey.PAYMENT_STATUS, paymentStatus);
+            SpUtil.getInstance().save(SpKey.NOTICE_PHONE, noticePhone);
+            SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
+            SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
+
+            mHeaderBean.setSigningStatus(signingStatus);
+            mHeaderBean.setPaymentStatus(paymentStatus);
+            mHeaderBean.setFeeTotal(feeTotal);
+
+            mItemList.set(0, mHeaderBean); // 第二次添加数据(放到下标为0处)
+            refreshAdapter();
         }
     }
 
     @Override
     public void mobilePayResult(MobilePayEntity entity) {
-        mMobilePayEntity = entity;
         if (entity != null) {
             String mobPayStatus = entity.getMobile_pay_status();
-            if ("00".equals(mobPayStatus)) { // 00 未签约
-                setMobilePayState(true);
-            } else if ("01".equals(mobPayStatus)) { // 01已签约
-                setMobilePayState(false);
-            } else if ("02".equals(mobPayStatus)) { // 02 其他
-                setMobilePayState(true);
+            SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
+            mHeaderBean.setMobPayStatus(mobPayStatus);
+
+            mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
+            refreshAdapter();
+        }
+    }
+
+    @Override
+    public void feeBillResult(FeeBillEntity entity) {
+        if (entity != null) {
+            List<FeeBillEntity.DetailsBean> details = entity.getDetails();
+            if (mItemList.size() > 1) {
+                // 先移除旧的
+                for (int i = 1; i < mItemList.size(); i++) {
+                    mItemList.remove(i);
+                }
             }
+            mItemList.addAll(details); // 添加医院欠费信息数据(放到下标为0处)
+            refreshAdapter();
         }
     }
 
-    /**
-     * 设置医后付状态
-     */
-    private void setAfterPayState(boolean enable) {
-        if (enable) {
-            tvAfterPayState.setText(getString(R.string.wonders_to_open_after_pay));
-            tvAfterPayState.setEnabled(true);
-            tvAfterPayState.setCompoundDrawables(null, null, null, null);
-        } else {
-            tvAfterPayState.setText(getString(R.string.wonders_open_after_pay));
-            tvAfterPayState.setEnabled(false);
+    @Override
+    public void showLoading() {
+        if (mLoading != null) {
+            mLoading.show();
         }
     }
 
-    /**
-     * 设置医保移动付状态
-     */
-    private void setMobilePayState(boolean enable) {
-        if (enable) {
-            tvMobilePayState.setText(getString(R.string.wonders_to_open_mobile_pay));
-            tvMobilePayState.setEnabled(true);
-            tvMobilePayState.setCompoundDrawables(null, null, null, null);
-        } else {
-            tvMobilePayState.setText(getString(R.string.wonders_open_mobile_pay));
-            tvMobilePayState.setEnabled(false);
+    @Override
+    public void dismissLoading() {
+        if (mLoading != null) {
+            mLoading.dismiss();
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentExtra.REQUEST_CODE && resultCode == IntentExtra.RESULT_CODE) {
+            String orgName = data.getStringExtra(IntentExtra.ORG_NAME);
+            String orgCode = data.getStringExtra(IntentExtra.ORG_CODE);
+            mHeaderBean.setHospitalName(orgName);
+            mItemList.set(0, mHeaderBean); // 选择医院后添加数据(放到下标为0处)
+            refreshAdapter();
+
+            HashMap<String, String> map = new HashMap<>();
+            map.put(MapKey.ORG_CODE, orgCode);
+            map.put(MapKey.PAGE_NUMBER, "1");
+            map.put(MapKey.PAGE_SIZE, "10");
+            mPresenter.getUnclearedBill(map);
+        }
+    }
 }

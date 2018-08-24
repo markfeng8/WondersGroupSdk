@@ -1,8 +1,8 @@
 package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,11 +10,12 @@ import android.widget.ToggleButton;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.AfterPayPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 
 import java.util.HashMap;
 
@@ -29,7 +30,6 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     private Button btnOpen;
     private TextView btnGetSmsCode;
     private ToggleButton toggleButton;
-    private SerializableHashMap sMap;
 
     @Override
     protected AfterPayPresenter<AfterPayContract.IView> createPresenter() {
@@ -46,7 +46,6 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
 
     private void initData() {
         tvTitleName.setText(getString(R.string.wonders_text_open_after_paying));
-        getIntentData();
     }
 
     private void initViews() {
@@ -63,16 +62,22 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
         ivBackBtn.setOnClickListener(v -> OpenAfterPayActivity.this.finish());
         btnGetSmsCode.setOnClickListener(v -> mPresenter.sendSmsCode());
         btnOpen.setOnClickListener(v -> sendOpenRequest());
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO: 2018/8/24 set button enable
+            }
+        });
     }
 
     private void sendOpenRequest() {
-        if (sMap != null) {
-            HashMap<String, String> map = sMap.getMap();
-            String name = map.get(MapKey.NAME);
-            String idNo = map.get(MapKey.ID_NO);
-            String cardNo = map.get(MapKey.CARD_NO);
-            String phone = etPhone.getText().toString();
-            String smsCode = etSmsCode.getText().toString();
+        String phone = etPhone.getText().toString().trim();
+        String smsCode = etSmsCode.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(smsCode)) {
+            String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+            String idNo = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
+            String cardNo = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
 
             HashMap<String, String> param = new HashMap<>();
             param.put(MapKey.NAME, name);
@@ -81,21 +86,13 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
             param.put(MapKey.PHONE, phone);
             param.put(MapKey.IDEN_CODE, smsCode);
             mPresenter.openAfterPay(param);
+        } else {
+            WonderToastUtil.show("手机号或验证为不能为空！");
         }
     }
 
     @Override
     public String getPhoneNumber() {
         return etPhone.getText().toString();
-    }
-
-    private void getIntentData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                sMap = (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
-            }
-        }
     }
 }

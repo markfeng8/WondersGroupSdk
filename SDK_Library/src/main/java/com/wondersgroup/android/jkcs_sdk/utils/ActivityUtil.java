@@ -13,7 +13,6 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 
 import java.util.HashMap;
@@ -32,16 +31,6 @@ public class ActivityUtil {
      */
     public static void startAfterPayHome(@NonNull Context context, @NonNull HashMap<String, String> param) {
         startActivityWithParam(context, param, AfterPayHomeActivity.class);
-    }
-
-    /**
-     * jump to open after pay page.
-     *
-     * @param context
-     * @param param
-     */
-    public static void startOpenAfterPay(@NonNull Context context, @NonNull HashMap<String, String> param) {
-        startActivityWithParam(context, param, OpenAfterPayActivity.class);
     }
 
     /**

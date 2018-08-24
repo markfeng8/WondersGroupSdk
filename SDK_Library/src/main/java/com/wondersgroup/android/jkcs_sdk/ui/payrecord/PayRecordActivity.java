@@ -3,7 +3,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.payrecord;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,12 +37,7 @@ public class PayRecordActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PayRecordActivity.this.finish();
-            }
-        });
+        ivBackBtn.setOnClickListener(v -> PayRecordActivity.this.finish());
     }
 
     private void findViews() {
