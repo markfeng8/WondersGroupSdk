@@ -79,10 +79,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 .build();
 
         initHeaderData();
-
-        //@Test
-        //setMobilePayState(true);
-
         getIntentAndFindAfterPayState();
     }
 
@@ -186,12 +182,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     public void feeBillResult(FeeBillEntity entity) {
         if (entity != null) {
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            if (mItemList.size() > 1) {
-                // 先移除旧的
-                for (int i = 1; i < mItemList.size(); i++) {
-                    mItemList.remove(i);
-                }
-            }
             mItemList.addAll(details); // 添加医院欠费信息数据(放到下标为0处)
             refreshAdapter();
         }
@@ -218,7 +208,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             String orgName = data.getStringExtra(IntentExtra.ORG_NAME);
             String orgCode = data.getStringExtra(IntentExtra.ORG_CODE);
             mHeaderBean.setHospitalName(orgName);
-            mItemList.set(0, mHeaderBean); // 选择医院后添加数据(放到下标为0处)
+
+            // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+            if (mItemList.size() > 0) {
+                mItemList.clear();
+            }
+            mItemList.add(mHeaderBean); // 选择医院后添加数据
             refreshAdapter();
 
             HashMap<String, String> map = new HashMap<>();

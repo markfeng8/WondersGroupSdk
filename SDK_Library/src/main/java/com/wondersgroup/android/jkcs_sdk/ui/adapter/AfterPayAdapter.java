@@ -185,7 +185,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 String hospitalName = afterHeaderBean.getHospitalName();
 
                 tvTreatName.setText(name);
-                tvHospitalName.setText(hospitalName);
+                if (!TextUtils.isEmpty(hospitalName)) {
+                    tvHospitalName.setText(hospitalName);
+                }
                 tvSocialNum.setText(mContext.getString(R.string.wonders_text_social_number) + cardNo);
 
                 if ("00".equals(signingStatus)) { // 00未签约（医后付状态给NULL）

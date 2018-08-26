@@ -29,8 +29,8 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
     @Override
     public void getAfterPayState(HashMap<String, String> map) {
-        showLoading();
         if (map != null && !map.isEmpty()) {
+            showLoading();
             mModel.getAfterPayState(map, new OnAfterPayStateListener() {
                 @Override
                 public void onSuccess(AfterPayStateEntity entity) {
@@ -52,8 +52,8 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
     @Override
     public void getMobilePayState(HashMap<String, String> map) {
-        showLoading();
         if (map != null && !map.isEmpty()) {
+            showLoading();
             mModel.getMobilePayState(map, new OnMobilePayStateListener() {
                 @Override
                 public void onSuccess(MobilePayEntity entity) {
@@ -76,6 +76,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     @Override
     public void getUnclearedBill(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
+            showLoading();
             mModel.getUnclearedBill(map, new OnUnclearedBillListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
@@ -83,11 +84,13 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                     if (isNonNull()) {
                         mViewRef.get().feeBillResult(entity);
                     }
+                    dismissLoading();
                 }
 
                 @Override
                 public void onFailed() {
                     LogUtil.e(TAG, "getUnclearedBill() -> onFailed()");
+                    dismissLoading();
                 }
             });
         } else {
