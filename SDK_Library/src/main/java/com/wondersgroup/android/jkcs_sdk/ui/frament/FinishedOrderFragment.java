@@ -13,7 +13,7 @@ public class FinishedOrderFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        return View.inflate(mContext, R.layout.fragment_finished_order, null);
+        return View.inflate(mContext, R.layout.wonders_group_fragment_finished_order, null);
     }
 
 }

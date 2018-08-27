@@ -31,7 +31,7 @@ public class PersonalPayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_pay);
+        setContentView(R.layout.wonders_group_activity_personal_pay);
         findViews();
         initData();
         initListener();

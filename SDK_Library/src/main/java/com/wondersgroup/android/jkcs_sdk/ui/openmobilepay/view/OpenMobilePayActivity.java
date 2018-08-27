@@ -16,7 +16,7 @@ public class OpenMobilePayActivity extends MvpBaseActivity<MobilePayContract.IVi
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_open_mobile_pay);
+        setContentView(R.layout.wonders_group_activity_open_mobile_pay);
         mPresenter.openMobilePay();
     }
 }

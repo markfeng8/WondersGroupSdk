@@ -25,7 +25,7 @@ public class UnfinishedOrderFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        View view = View.inflate(mContext, R.layout.fragment_unfinished_order, null);
+        View view = View.inflate(mContext, R.layout.wonders_group_fragment_unfinished_order, null);
         recyclerView = view.findViewById(R.id.recyclerView);
         tvStartDate = view.findViewById(R.id.tvStartDate);
         tvEndDate = view.findViewById(R.id.tvEndDate);

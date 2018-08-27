@@ -87,7 +87,7 @@ public class DateScrollerDialog extends DialogFragment implements View.OnClickLi
     private View initView() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final ViewGroup nullParent = null;
-        View view = inflater.inflate(R.layout.timepicker_layout, nullParent);
+        View view = inflater.inflate(R.layout.wonders_group_timepicker_layout, nullParent);
 
         TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
         cancel.setOnClickListener(this); // 设置取消按钮

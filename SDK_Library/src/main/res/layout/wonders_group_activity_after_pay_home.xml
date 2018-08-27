@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.afterpayhome.view.AfterPayHomeActivity">
 
-    <include layout="@layout/wonders_common_titlebar" />
+    <include layout="@layout/wonders_group_common_titlebar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -16,6 +16,6 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <include layout="@layout/activity_after_pay_bottom" />
+    <include layout="@layout/wonders_group_activity_after_pay_bottom" />
 
 </LinearLayout>

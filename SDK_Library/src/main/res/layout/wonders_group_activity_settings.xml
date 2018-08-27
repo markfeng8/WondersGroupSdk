@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.settingspage.view.SettingsActivity">
 
-    <include layout="@layout/wonders_common_titlebar" />
+    <include layout="@layout/wonders_group_common_titlebar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -179,7 +179,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/wonders_margin_10dp"
-                    android:src="@drawable/wonders_edit" />
+                    android:src="@drawable/wonders_group_edit" />
             </LinearLayout>
 
             <View
@@ -255,7 +255,7 @@
                 android:id="@+id/tvLookRule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/wonders_right_arrow"
+                android:drawableEnd="@drawable/wonders_group_right_arrow"
                 android:padding="@dimen/wonders_padding_18dp"
                 android:text="@string/wonders_look_afterpay_rules"
                 android:textColor="@color/wonders_rgb_color_666666"
@@ -282,7 +282,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/wonders_margin_8dp"
             android:layout_weight="1"
-            android:background="@drawable/wonders_button_stroke_shape"
+            android:background="@drawable/wonders_group_button_stroke_shape"
             android:gravity="center"
             android:padding="@dimen/wonders_padding_12dp"
             android:text="@string/wonders_update_pay_pwd"
@@ -295,7 +295,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_8dp"
             android:layout_weight="1"
-            android:background="@drawable/wonders_blue_shape"
+            android:background="@drawable/wonders_group_blue_shape"
             android:gravity="center"
             android:padding="@dimen/wonders_padding_12dp"
             android:text="@string/wonders_termination_after_pay"

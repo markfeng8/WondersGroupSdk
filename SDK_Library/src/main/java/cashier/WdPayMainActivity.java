@@ -24,7 +24,7 @@ public class WdPayMainActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wdpay_main);
+        setContentView(R.layout.wonders_group_activity_wdpay_main);
         initView();
     }
 

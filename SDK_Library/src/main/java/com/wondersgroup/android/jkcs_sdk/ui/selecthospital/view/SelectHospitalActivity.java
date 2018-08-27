@@ -32,7 +32,7 @@ public class SelectHospitalActivity extends MvpBaseActivity<SelHosContract.IView
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_select_hospital);
+        setContentView(R.layout.wonders_group_activity_select_hospital);
         findViews();
         initData();
         initListener();

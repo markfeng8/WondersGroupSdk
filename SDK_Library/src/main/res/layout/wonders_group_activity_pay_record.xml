@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.payrecord.PayRecordActivity">
 
-    <include layout="@layout/wonders_common_titlebar" />
+    <include layout="@layout/wonders_group_common_titlebar" />
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/slidingTabLayout"

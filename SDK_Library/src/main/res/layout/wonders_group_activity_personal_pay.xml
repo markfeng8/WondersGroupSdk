@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.personalpay.PersonalPayActivity">
 
-    <include layout="@layout/wonders_common_titlebar" />
+    <include layout="@layout/wonders_group_common_titlebar" />
 
     <TextView
         android:id="@+id/tvTongChouPay"
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="17dp"
         android:layout_marginTop="15dp"
-        android:drawableLeft="@drawable/wonders_success"
+        android:drawableLeft="@drawable/wonders_group_success"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:text="@string/yibao_tongchou_complete"
@@ -183,14 +183,14 @@
         android:paddingLeft="@dimen/wonders_margin_10dp"
         android:text="选择现金支付方式" />
 
-    <include layout="@layout/wonders_radiogroup_layout" />
+    <include layout="@layout/wonders_group_radiogroup_layout" />
 
     <Button
         android:id="@+id/btnConfirmPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/wonders_margin_10dp"
-        android:background="@drawable/wonders_blue_shape"
+        android:background="@drawable/wonders_group_blue_shape"
         android:text="@string/wonders_confirm_pay"
         android:textColor="@color/wonders_rgb_color_ffffff"
         android:textSize="16sp" />

@@ -35,7 +35,7 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview_test);
+        setContentView(R.layout.wonders_group_activity_webview_test);
         url = getIntent().getStringExtra("url");
         initWeb();
     }

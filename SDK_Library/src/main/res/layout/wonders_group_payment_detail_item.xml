@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/wonders_pill"
+                android:drawableStart="@drawable/wonders_group_pill"
                 android:text="@string/wonders_medicine_fee"
                 android:textColor="@color/wonders_rgb_color_333333"
                 android:textSize="@dimen/wonders_text_size_16sp" />
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/wonders_up_arrow"
+            android:drawableEnd="@drawable/wonders_group_up_arrow"
             android:drawablePadding="@dimen/wonders_padding_4dp"
             android:gravity="end"
             android:text="@string/wonders_look_detail"

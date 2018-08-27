@@ -42,7 +42,7 @@ public class VertifyActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertify);
+        setContentView(R.layout.wonders_group_activity_vertify);
 
         CheckOut.setIsPrint(true);
 

@@ -26,7 +26,7 @@ public class PayWebActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_pay);
+        setContentView(R.layout.wonders_group_activity_web_pay);
         pw_WV = (WebView) findViewById(R.id.wp_wb);
         init(pw_WV);
     }

@@ -84,7 +84,7 @@ public class LoadingView {
      */
     private void initView() {
         if (mPopupView == null) {
-            mPopupView = View.inflate(mContext, R.layout.popupwindow_loading, null);
+            mPopupView = View.inflate(mContext, R.layout.wonders_group_popupwindow_loading, null);
         }
         if (mPopupWindow == null) {
             mPopupWindow = new PopupWindow(mPopupView, WindowManager.LayoutParams.MATCH_PARENT,

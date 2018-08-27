@@ -124,7 +124,7 @@ public class PayDemoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_native_pay);
+        setContentView(R.layout.wonders_group_activity_native_pay);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mContext = this;

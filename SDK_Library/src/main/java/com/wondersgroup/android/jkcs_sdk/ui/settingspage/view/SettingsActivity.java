@@ -63,7 +63,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.wonders_group_activity_settings);
         findViews();
         initData();
         initListener();
@@ -158,7 +158,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private void showPopupWindow() {
         LogUtil.i(TAG, "popupWindow == null ? " + (popupWindow == null));
         if (popupWindow == null) {
-            popupView = View.inflate(SettingsActivity.this, R.layout.popupwindow_update_phone, null);
+            popupView = View.inflate(SettingsActivity.this, R.layout.wonders_group_popupwindow_update_phone, null);
             popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.MATCH_PARENT);
             popupWindow.setOnDismissListener(() -> BrightnessManager.lighton(SettingsActivity.this));

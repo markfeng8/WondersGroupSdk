@@ -28,7 +28,7 @@ public class ScannerActivity extends AppCompatActivity implements OnScannerCompl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scanner);
+        setContentView(R.layout.wonders_group_activity_scanner);
         initZXing();
     }
 

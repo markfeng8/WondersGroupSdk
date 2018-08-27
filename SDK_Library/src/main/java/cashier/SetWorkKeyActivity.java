@@ -30,7 +30,7 @@ public class SetWorkKeyActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_work_key);
+        setContentView(R.layout.wonders_group_activity_set_work_key);
         initVeiw();
         initListener();
     }

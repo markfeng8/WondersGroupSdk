@@ -68,10 +68,10 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {
             case TYPE_HEADER:
-                viewHolder = new HeaderViewHolder(mLayoutInflater.inflate(R.layout.item_after_pay_header, parent, false));
+                viewHolder = new HeaderViewHolder(mLayoutInflater.inflate(R.layout.wonders_group_item_after_pay_header, parent, false));
                 break;
             case TYPE_LIST:
-                viewHolder = new ListViewHolder(mLayoutInflater.inflate(R.layout.item_after_pay_list, parent, false));
+                viewHolder = new ListViewHolder(mLayoutInflater.inflate(R.layout.wonders_group_item_after_pay_list, parent, false));
                 break;
             default:
                 break;

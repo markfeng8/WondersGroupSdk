@@ -20,7 +20,7 @@ public class PayFunctionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pay_function);
+        setContentView(R.layout.wonders_group_activity_pay_function);
         initListener();
     }
 

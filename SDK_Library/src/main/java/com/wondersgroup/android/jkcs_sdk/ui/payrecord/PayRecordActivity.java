@@ -29,7 +29,7 @@ public class PayRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pay_record);
+        setContentView(R.layout.wonders_group_activity_pay_record);
         findViews();
         initData();
         initFragment();

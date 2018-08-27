@@ -44,7 +44,7 @@ public class HospitalAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.item_hospital, null);
+            convertView = View.inflate(mContext, R.layout.wonders_group_item_hospital, null);
             holder = new ViewHolder();
             holder.tvHospitalName = convertView.findViewById(R.id.tvHospitalName);
             convertView.setTag(holder);

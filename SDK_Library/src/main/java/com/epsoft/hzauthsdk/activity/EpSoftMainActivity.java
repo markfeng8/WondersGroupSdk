@@ -28,7 +28,7 @@ public class EpSoftMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_epsoft_main);
+        setContentView(R.layout.wonders_group_activity_epsoft_main);
         findViews();
         initListener();
         initSDK();

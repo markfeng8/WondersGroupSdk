@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/wonders_margin_14dp"
-            android:src="@drawable/wonders_pop_window1" />
+            android:src="@drawable/wonders_group_pop_window1" />
 
         <ImageView
             android:id="@+id/ivClose"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/wonders_margin_14dp"
-            android:src="@drawable/wonders_close" />
+            android:src="@drawable/wonders_group_close" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                     android:id="@+id/tvGetSmsCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/wonders_gray_6dp_shape"
+                    android:background="@drawable/wonders_group_gray_6dp_shape"
                     android:padding="@dimen/wonders_padding_8dp"
                     android:text="@string/wonders_get_sms_code"
                     android:textColor="@color/wonders_rgb_color_0060ff"
@@ -110,7 +110,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/wonders_margin_8dp"
                 android:layout_marginTop="@dimen/wonders_margin_16dp"
-                android:background="@drawable/wonders_blue_20dp_shape"
+                android:background="@drawable/wonders_group_blue_20dp_shape"
                 android:gravity="center"
                 android:padding="@dimen/wonders_padding_8dp"
                 android:text="开通"

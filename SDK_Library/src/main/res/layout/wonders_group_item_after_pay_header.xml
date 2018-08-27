@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/wonders_afterpay_state_card" />
+    <include layout="@layout/wonders_group_afterpay_state_card" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_8dp"
             android:drawablePadding="@dimen/wonders_padding_4dp"
-            android:drawableStart="@drawable/wonders_setting"
+            android:drawableStart="@drawable/wonders_group_setting"
             android:gravity="center"
             android:text="@string/wonders_settings"
             android:textColor="@color/wonders_rgb_color_333333"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/wonders_margin_10dp"
-            android:drawableEnd="@drawable/wonders_right_arrow"
+            android:drawableEnd="@drawable/wonders_group_right_arrow"
             android:drawablePadding="@dimen/wonders_padding_10dp"
             android:text="@string/wonders_pass_update"
             android:textColor="@color/wonders_rgb_color_b4b4b4"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_8dp"
             android:drawablePadding="@dimen/wonders_padding_4dp"
-            android:drawableStart="@drawable/wonders_record"
+            android:drawableStart="@drawable/wonders_group_record"
             android:gravity="center"
             android:text="@string/wonders_pay_money_record"
             android:textColor="@color/wonders_rgb_color_333333"
@@ -77,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/wonders_margin_10dp"
-            android:drawableEnd="@drawable/wonders_right_arrow"
+            android:drawableEnd="@drawable/wonders_group_right_arrow"
             android:drawablePadding="@dimen/wonders_padding_10dp"
             android:text="@string/wonders_pay_records"
             android:textColor="@color/wonders_rgb_color_b4b4b4"
@@ -91,7 +91,7 @@
         android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:drawablePadding="@dimen/wonders_padding_6dp"
-        android:drawableStart="@drawable/wonders_mark"
+        android:drawableStart="@drawable/wonders_group_mark"
         android:text="@string/wonders_mark_text" />
 
     <TextView
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/wonders_padding_10dp"
-            android:drawableStart="@drawable/wonders_hospital"
+            android:drawableStart="@drawable/wonders_group_hospital"
             android:gravity="center"
             android:text="@string/wonders_select_hospital"
             android:textColor="@color/wonders_rgb_color_333333" />
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/wonders_margin_10dp"
-            android:drawableEnd="@drawable/wonders_right_arrow"
+            android:drawableEnd="@drawable/wonders_group_right_arrow"
             android:drawablePadding="@dimen/wonders_padding_10dp"
             android:text="@string/wonders_select_hospital"
             android:textColor="@color/wonders_rgb_color_c9c9c9" />

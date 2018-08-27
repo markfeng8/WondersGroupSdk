@@ -56,7 +56,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_after_pay_home);
+        setContentView(R.layout.wonders_group_activity_after_pay_home);
         findViews();
         initData();
         initListener();

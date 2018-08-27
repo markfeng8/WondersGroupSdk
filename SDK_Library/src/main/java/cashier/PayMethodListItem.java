@@ -90,7 +90,7 @@ public class PayMethodListItem extends BaseAdapter {
         final ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.pay_list_item, null);
+            convertView = mInflater.inflate(R.layout.wonders_group_pay_list_item, null);
 
             viewHolder = new ViewHolder();
 

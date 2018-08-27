@@ -38,7 +38,7 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_open_afterpay);
+        setContentView(R.layout.wonders_group_activity_open_afterpay);
         initViews();
         initData();
         initListener();

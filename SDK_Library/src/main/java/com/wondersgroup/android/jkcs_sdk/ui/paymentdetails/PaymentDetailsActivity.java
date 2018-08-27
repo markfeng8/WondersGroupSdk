@@ -21,7 +21,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment_details);
+        setContentView(R.layout.wonders_group_activity_payment_details);
         findViews();
         initData();
         initListener();

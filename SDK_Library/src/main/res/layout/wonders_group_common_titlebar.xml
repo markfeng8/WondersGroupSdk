@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/wonders_margin_10dp"
-        android:src="@drawable/wonders_back_button" />
+        android:src="@drawable/wonders_group_back_button" />
 
     <TextView
         android:id="@+id/tvTitleName"
