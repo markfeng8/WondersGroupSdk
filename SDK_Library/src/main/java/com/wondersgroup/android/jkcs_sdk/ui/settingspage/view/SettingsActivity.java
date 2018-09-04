@@ -39,8 +39,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvLookRule;
     private TextView tvUpdatePayPwd;
     private TextView tvTermination;
-    private TextView tvTitleName;
-    private ImageView ivBackBtn;
     private ImageView ivEditPhone;
     private EditText etPhone;
     private EditText etVerifyCode;
@@ -77,7 +75,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     }
 
     private void initData() {
-        tvTitleName.setText(getString(R.string.wonders_settings));
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
         mIdNo = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
         mCardNo = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
@@ -121,7 +118,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(v -> SettingsActivity.this.finish());
         ivEditPhone.setOnClickListener(v -> {
             mFlag = 1;
             showPopupWindow();
@@ -149,8 +145,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvAfterPayState = (TextView) findViewById(R.id.tvAfterPayState);
         tvMobilePayState = (TextView) findViewById(R.id.tvMobilePayState);
         tvLookRule = (TextView) findViewById(R.id.tvLookRule);
-        tvTitleName = findViewById(R.id.tvTitleName);
-        ivBackBtn = findViewById(R.id.ivBackBtn);
         tvUpdatePayPwd = findViewById(R.id.tvUpdatePayPwd);
         tvTermination = findViewById(R.id.tvTermination);
     }

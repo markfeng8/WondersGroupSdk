@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,13 @@
     android:orientation="vertical"
     tools:context=".ui.paymentdetails.PaymentDetailsActivity">
 
-    <include layout="@layout/wonders_group_common_titlebar" />
+    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/wonders_pay_detail"
+        app:textColor="@color/wonders_rgb_color_ffffff"
+        app:textSize="@dimen/wonders_text_size_16sp"
+        app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

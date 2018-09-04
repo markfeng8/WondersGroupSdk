@@ -11,10 +11,33 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            storeFile file("wondersgroup_sdk.jks")
+            storePassword 'wondersgroup_android'
+            keyAlias 'wondersgroup_android'
+            keyPassword 'wondersgroup_android'
+        }
         release {
+            storeFile file("wondersgroup_sdk.jks")
+            storePassword 'wondersgroup_android'
+            keyAlias 'wondersgroup_android'
+            keyPassword 'wondersgroup_android'
+        }
+    }
+
+    buildTypes {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 

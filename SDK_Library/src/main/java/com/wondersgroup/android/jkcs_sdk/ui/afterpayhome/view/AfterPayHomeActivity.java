@@ -6,9 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -36,8 +36,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         AfterPayHomePresenter<AfterPayHomeContract.IView>> implements AfterPayHomeContract.IView {
 
     private static final String TAG = AfterPayHomeActivity.class.getSimpleName();
-    private ImageView ivBackBtn;
-    private TextView tvTitleName;
     private RecyclerView recyclerView;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
@@ -63,17 +61,15 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(v -> AfterPayHomeActivity.this.finish());
         tvPayMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(AfterPayHomeActivity.this, "暂未开通", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initData() {
-        tvTitleName.setText(getString(R.string.wonders_after_pay_home));
         mLoading = new LoadingView.Builder(this)
                 .setDropView(activityView)
                 .build();
@@ -130,8 +126,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void findViews() {
-        ivBackBtn = (ImageView) findViewById(R.id.ivBackBtn);
-        tvTitleName = (TextView) findViewById(R.id.tvTitleName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);

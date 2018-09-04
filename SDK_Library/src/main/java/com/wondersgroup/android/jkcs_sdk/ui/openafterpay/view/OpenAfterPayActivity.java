@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -23,8 +22,6 @@ import java.util.HashMap;
 public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView,
         AfterPayPresenter<AfterPayContract.IView>> implements AfterPayContract.IView {
 
-    private ImageView ivBackBtn;
-    private TextView tvTitleName;
     private EditText etPhone;
     private EditText etSmsCode;
     private Button btnOpen;
@@ -45,12 +42,10 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     }
 
     private void initData() {
-        tvTitleName.setText(getString(R.string.wonders_text_open_after_paying));
+
     }
 
     private void initViews() {
-        ivBackBtn = findViewById(R.id.ivBackBtn);
-        tvTitleName = findViewById(R.id.tvTitleName);
         etPhone = findViewById(R.id.etPhone);
         etSmsCode = findViewById(R.id.etSmsCode);
         btnGetSmsCode = findViewById(R.id.btnGetSmsCode);
@@ -59,7 +54,6 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(v -> OpenAfterPayActivity.this.finish());
         btnGetSmsCode.setOnClickListener(v -> mPresenter.sendSmsCode());
         btnOpen.setOnClickListener(v -> sendOpenRequest());
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
