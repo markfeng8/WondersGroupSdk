@@ -28,7 +28,7 @@
     <string name="wonders_to_pay_fee1">您有一笔医后付欠款</string>
     <string name="wonders_to_pay_fee2">元未付，建议前去</string>
     <string name="wonders_settings">设置</string>
-    <string name="wonders_pay_fee">缴纳！</string>
+    <string name="wonders_pay_fee"><u>缴纳</u>！</string>
     <string name="wonders_pay_records">查看所有医院已缴/未交费记录</string>
     <string name="wonders_pass_update">手机号/解约/协议/密码修改</string>
     <string name="wonders_mark_text"><![CDATA[<font size="40" color="#333333">您已成功支付湖州第三人民医院未缴纳费用126元，另89元支付失败，请继续支付。详情>>></font>]]></string>

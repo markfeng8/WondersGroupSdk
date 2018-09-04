@@ -23,7 +23,7 @@ android {
         }
     }
 
-    resourcePrefix 'wonders_group_' // 所有资源名称添加前缀 wonders_group_ (图片需手动添加前缀)
+    //resourcePrefix 'wonders_group_' // 所有资源名称添加前缀 wonders_group_ (图片需手动添加前缀)
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

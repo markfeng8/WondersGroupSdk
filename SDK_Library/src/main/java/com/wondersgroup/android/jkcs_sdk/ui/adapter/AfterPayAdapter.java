@@ -23,6 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
@@ -159,12 +160,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvPayRecord.setOnClickListener(v -> mContext.startActivity(
                     new Intent(mContext, PayRecordActivity.class)));
             // 去缴费
-            tvToPayFee.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            tvToPayFee.setOnClickListener(v -> mContext.startActivity(
+                    new Intent(mContext, PaymentDetailsActivity.class)));
             // 去开通医后付
             tvAfterPayState.setOnClickListener(v -> mContext.startActivity(
                     new Intent(mContext, OpenAfterPayActivity.class)));

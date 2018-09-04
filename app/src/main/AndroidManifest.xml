@@ -93,7 +93,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name="cashier.SetWorkKeyActivity"></activity>
+        <activity android:name="cashier.SetWorkKeyActivity" />
 
         <activity
             android:name="cashier.WdPayMainActivity"
