@@ -13,6 +13,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        /**
+         * @param context Application context
+         * @param isDebug 是否需要打印日志信息
+         */
         WondersSdk.getInstance().init(this, true);
     }
 }

@@ -17,8 +17,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            zipAlignEnabled true
+            minifyEnabled false
+            //zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,7 +31,7 @@ android {
     }
 
     lintOptions {
-        checkReleaseBuilds false
+        //checkReleaseBuilds false
         abortOnError false
     }
 }
@@ -39,11 +39,12 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // 以下为需要添加的依赖库
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.orhanobut:logger:2.1.1'
     implementation 'com.mylhyl:zxingscanner:1.5.0'
@@ -51,39 +52,45 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    // jar 包会自动打进 aar 包中
     api files('libs/WDPay-3.6.0.jar')
     api files('libs/UPPayAssistEx.jar')
     api files('libs/UPPayPluginExPro.jar')
     api files('libs/alipaySdk-20160120.jar')
 }
 
-task makeJar(type: Jar) {
-    // 最终jar包的名称
-    archiveName = "wondersgroup-android-healthcity-sdk-${releaseTime()}.jar"
+//task makeJar(type: Jar) {
+//    // 最终jar包的名称
+//    archiveName = "wondersgroup-android-healthcity-sdk-${releaseTime()}.jar"
 //    // 将assets目录打入jar包
 //    from fileTree(dir: 'src/main', includes: ['assets/**'])
 //    // 将jniLibs目录打入jar包
 //    // from fileTree(dir: 'src/main', includes: ['jniLibs/**'])
-    // 将module默认生成的jar打入jar包
+// 将module默认生成的jar打入jar包
 //    from(project.zipTree('build/intermediates/intermediate-jars/release/classes.jar'))
 //    // 将Gson解析打入jar包
 //    from(project.zipTree('build/intermediates/bundles/release/libs/gson-2.3.1.jar'))
 //    // jniLibs下的.so文件
 //    from(project.zipTree('build/intermediates/bundles/release/libs/anloq-ke-so.jar'))
-    // jar包输出路径
-    destinationDir = file('build/libs')
-}
+// jar包输出路径
+//    destinationDir = file('build/libs')
+//}
 // 打jar包
 // Copy类型
-makeJar.dependsOn(build) //必须写的配置
-
-static def releaseTime() {
-    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
-}
+//makeJar.dependsOn(build) //必须写的配置
+//
+//static def releaseTime() {
+//    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+//}
 
 /*
  * 打开Terminal输入命令:
  * gradlew makeJar
+ * gradlew assembleRelease
+ * 查看 app 依赖库关系：
+ * gradlew dependencies app:dependencies
  */

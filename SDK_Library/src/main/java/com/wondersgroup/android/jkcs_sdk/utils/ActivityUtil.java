@@ -26,11 +26,31 @@ public class ActivityUtil {
     /**
      * jump to after pay home page.
      *
-     * @param context
-     * @param param
+     * @param context     上下文
+     * @param name        姓名
+     * @param phone       手机号
+     * @param icNum       身份证号
+     * @param socialNum   社保卡号
+     * @param homeAddress 家庭地址
      */
-    public static void startAfterPayHome(@NonNull Context context, @NonNull HashMap<String, String> param) {
-        startActivityWithParam(context, param, AfterPayHomeActivity.class);
+    public static void startAfterPayHome(@NonNull Context context,
+                                         @NonNull String name,
+                                         @NonNull String phone,
+                                         @NonNull String icNum,
+                                         @NonNull String socialNum,
+                                         @NonNull String homeAddress) {
+        HashMap<String, String> map = new HashMap<>();
+        // 姓名
+        map.put(MapKey.NAME, name);
+        // 手机号
+        map.put(MapKey.PHONE, phone);
+        // 身份证号码
+        map.put(MapKey.ID_NO, icNum);
+        // 社保卡号
+        map.put(MapKey.CARD_NO, socialNum);
+        // 家庭地址
+        map.put(MapKey.HOME_ADDRESS, homeAddress);
+        startActivityWithParam(context, map, AfterPayHomeActivity.class);
     }
 
     /**

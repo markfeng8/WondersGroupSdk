@@ -8,10 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
-
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,17 +74,19 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-         * 将所有需要传递的参数（所有参数必须传）放入 HashMap 中，
-         * 不要修改 Key，只修改 value 即可。
+        /**
+         * 《 跳转到医后付模块首页 》
+         * 按顺序依次将所有需要传递的参数传入方法中(所有参数为必须！！！)
+         *
+         * @param context     上下文
+         * @param name        姓名
+         * @param phone       手机号
+         * @param icNum       身份证号
+         * @param socialNum   社保卡号
+         * @param homeAddress 家庭地址
          */
-        HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.NAME, name); // 姓名
-        map.put(MapKey.PHONE, phone); // 手机号
-        map.put(MapKey.ID_NO, icNum); // 身份证号码
-        map.put(MapKey.CARD_NO, socialNum); // 社保卡号
-        map.put(MapKey.HOME_ADDRESS, homeAddress); // 家庭地址
-        ActivityUtil.startAfterPayHome(MainActivity.this, map);
+        ActivityUtil.startAfterPayHome(MainActivity.this,
+                name, phone, icNum, socialNum, homeAddress);
     }
 
 }
