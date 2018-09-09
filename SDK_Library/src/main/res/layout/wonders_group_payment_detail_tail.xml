@@ -32,7 +32,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <ToggleButton
@@ -96,15 +96,5 @@
         android:text="总计金额：￥560.44"
         android:textColor="@color/wonders_rgb_color_969696"
         android:textSize="@dimen/wonders_text_size_10sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
-        android:background="@color/wonders_rgb_color_f8f8f8"
-        android:padding="@dimen/wonders_padding_10dp"
-        android:text="温馨提示：总额将由医保账户扣除部分后，再由个人账户支付"
-        android:textColor="@color/wonders_rgb_color_979797"
-        android:textSize="@dimen/wonders_text_size_12sp" />
 
 </LinearLayout>

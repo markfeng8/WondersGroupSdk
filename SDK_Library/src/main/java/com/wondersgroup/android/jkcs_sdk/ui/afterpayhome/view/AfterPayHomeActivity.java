@@ -58,6 +58,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         findViews();
         initData();
         initListener();
+
+        // TODO: 2018/9/10 处理Loading
     }
 
     private void initListener() {

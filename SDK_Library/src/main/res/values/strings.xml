@@ -90,4 +90,5 @@
 
     <string name="birthday">出生日期</string>
     <string name="birthday_hint">请选择出生日期</string>
+    <string name="wonders_group_text_pay_notice">温馨提示：总额将由医保账户扣除部分后，再由个人账户支付</string>
 </resources>

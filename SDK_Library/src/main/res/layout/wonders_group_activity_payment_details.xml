@@ -22,6 +22,16 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:background="@color/wonders_rgb_color_f8f8f8"
+        android:padding="@dimen/wonders_padding_10dp"
+        android:text="@string/wonders_group_text_pay_notice"
+        android:textColor="@color/wonders_rgb_color_979797"
+        android:textSize="@dimen/wonders_text_size_12sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
