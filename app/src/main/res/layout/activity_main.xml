@@ -28,7 +28,7 @@
             android:layout_weight="3"
             android:background="@drawable/edittext_shape"
             android:padding="6dp"
-            android:text="胡汉三"
+            android:text="吴振强"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:background="@drawable/edittext_shape"
             android:inputType="phone"
             android:padding="6dp"
-            android:text="17600733534"
+            android:text="13588259873"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -81,7 +81,7 @@
             android:digits="0123456789xX"
             android:inputType="number"
             android:padding="6dp"
-            android:text="330521198805203617"
+            android:text="330501199008213715"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -106,7 +106,7 @@
             android:layout_weight="3"
             android:background="@drawable/edittext_shape"
             android:padding="6dp"
-            android:text="W26887384"
+            android:text="A05111650"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -131,7 +131,7 @@
             android:layout_weight="3"
             android:background="@drawable/edittext_shape"
             android:padding="6dp"
-            android:text="湖州市"
+            android:text="ShangHai"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -139,10 +139,52 @@
         android:id="@+id/btnAfterPayHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@color/colorPrimary"
         android:text="进入医后付首页"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/tvMrWu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/person_wu"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvMrLu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/person_lu"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvMrZhu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/person_zhu"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="demo 版本：V1.0"
+        android:textSize="12sp" />
 
 </LinearLayout>

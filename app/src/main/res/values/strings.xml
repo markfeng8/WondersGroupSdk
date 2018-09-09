@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">HZ-SDK-example</string>
+    <string name="person_wu"><u>吴振强</u></string>
+    <string name="person_lu"><u>陆晓明</u></string>
+    <string name="person_zhu"><u>朱凯</u></string>
 </resources>
