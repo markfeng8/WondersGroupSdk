@@ -119,7 +119,7 @@
             android:drawablePadding="@dimen/wonders_padding_10dp"
             android:drawableStart="@drawable/wonders_group_hospital"
             android:gravity="center"
-            android:text="@string/wonders_select_hospital"
+            android:text="@string/wonders_huzhou_city"
             android:textColor="@color/wonders_rgb_color_333333" />
 
         <View

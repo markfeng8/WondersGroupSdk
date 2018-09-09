@@ -5,7 +5,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnMobilePayStateListener;
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnUnclearedBillListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 
 import java.util.HashMap;
 

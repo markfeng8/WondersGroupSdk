@@ -22,8 +22,104 @@ public class SignUtil {
 
     private static final String TAG = SignUtil.class.getSimpleName();
 
+    /**
+     * 获取一般 Json 数据的签名
+     *
+     * @param map
+     * @return
+     */
     public static String getSign(HashMap<String, String> map) {
         return createSign(map, OrgConfig.KEY);
+    }
+
+    /**
+     * 获取带数组对象 Json 数据的签名
+     *
+     * @param param
+     * @return
+     */
+    public static String getSignWithObject(HashMap<String, Object> param) {
+        List<Map.Entry<String, Object>> infoIds = new ArrayList<>(param.entrySet());
+        // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
+        Collections.sort(infoIds, new Comparator<Map.Entry<String, Object>>() {
+            @Override
+            public int compare(Map.Entry<String, Object> o1, Map.Entry<String, Object> o2) {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        });
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Object> item : infoIds) {
+            String k = item.getKey();
+            Object v = item.getValue();
+
+            if (v instanceof java.util.List) { // 处理 Value 是 List 的情况
+                List list = (List) v;
+                String listSortValue = "";
+                StringBuilder strBuilder = new StringBuilder();
+
+                for (int i = 0; i < list.size(); i++) {
+                    Object object = list.get(i);
+                    if (object instanceof Map) {
+                        Map map = (Map) object;
+                        String suffixKey = k + "[" + i + "].";
+                        strBuilder.append(getMapObjectSort(suffixKey, map));
+                    }
+                }
+
+                listSortValue = strBuilder.toString();
+
+                // 空值不传递，不参与签名组串
+                if (!TextUtils.isEmpty(listSortValue)) {
+                    sb.append(listSortValue);
+                }
+
+            } else { // 处理 Value 是其他类型的情况
+                // 空值不传递，不参与签名组串
+                if (!TextUtils.isEmpty(k) && !TextUtils.isEmpty((String) v)) {
+                    sb.append(k).append("=").append(v).append("&");
+                }
+            }
+        }
+
+        sb = sb.append("key=").append(OrgConfig.KEY);
+        LogUtil.i(TAG, "字符串:" + sb.toString());
+        // HMAC-SHA256 加密,结果转换为大写字符?
+        String sign = sha256_HMAC(sb.toString(), OrgConfig.KEY);
+        LogUtil.i(TAG, "HMAC-SHA256 加密值:" + sign);
+        return sign;
+    }
+
+    /**
+     * 获取 json 数组中对象是 Map 的排序字符串
+     *
+     * @param suffixKey
+     * @param param
+     * @return
+     */
+    private static String getMapObjectSort(String suffixKey, Map param) {
+        List<Map.Entry> infoIds = new ArrayList<>(param.entrySet());
+        // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
+        Collections.sort(infoIds, new Comparator<Map.Entry>() {
+            @Override
+            public int compare(Map.Entry o1, Map.Entry o2) {
+                return ((String) o1.getKey()).compareTo((String) o2.getKey());
+            }
+        });
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Map.Entry item : infoIds) {
+            Object k = item.getKey();
+            Object v = item.getValue();
+
+            // 空值不传递，不参与签名组串
+            if (!TextUtils.isEmpty((String) k) && !TextUtils.isEmpty((String) v)) {
+                sb.append(suffixKey).append(k).append("=").append(v).append("&");
+            }
+        }
+
+        return sb.toString();
     }
 
     /**

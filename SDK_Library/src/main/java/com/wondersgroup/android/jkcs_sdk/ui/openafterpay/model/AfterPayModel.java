@@ -90,9 +90,9 @@ public class AfterPayModel implements AfterPayContract.IModel {
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
         map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
-        map.put(MapKey.REG_ORG_NAME, "签约机构名称");
-        map.put(MapKey.HOME_ADDRESS, "ShangHai");
-        map.put(MapKey.HEALTH_CARE_STATUS, "1");
+        map.put(MapKey.REG_ORG_NAME, OrgConfig.SIGN_ORG_NAME);
+        map.put(MapKey.HOME_ADDRESS, OrgConfig.HOME_ADDRESS);
+        map.put(MapKey.HEALTH_CARE_STATUS, OrgConfig.HEALTH_CARE_STATUS);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper

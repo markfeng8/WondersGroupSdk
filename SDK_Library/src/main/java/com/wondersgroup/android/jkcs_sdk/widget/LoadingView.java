@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.wondersgroup.android.jkcs_sdk.R;
 
 import java.lang.ref.WeakReference;
@@ -138,9 +139,9 @@ public class LoadingView {
         llParams.height = dp2px(mGifHeight);
         ivLoading.setLayoutParams(llParams);
         /*加载 GIF 图片*/
-        Glide.with(mContext).load(mDrawableId)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(ivLoading);
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+        Glide.with(mContext).load(mDrawableId).apply(options).into(ivLoading);
     }
 
     /**

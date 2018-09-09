@@ -68,7 +68,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.PaymentDetailsActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

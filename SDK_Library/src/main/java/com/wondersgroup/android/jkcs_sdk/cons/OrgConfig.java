@@ -18,5 +18,8 @@ public class OrgConfig {
     public static final String FEE_STATE00 = "00"; // 全部未结算
     public static final String FEE_STATE01 = "01"; // 医保已结算、自费未结（作保留查询）
     public static final String FEE_STATE02 = "02"; // 02 全部已结算（仅当天查询，作保留）
-
+    public static final String ORDER_START_DATE = "2018-01-01";
+    public static final String SIGN_ORG_NAME = "签约机构名称";
+    public static final String HOME_ADDRESS = "ShangHai";
+    public static final String HEALTH_CARE_STATUS = "1";
 }

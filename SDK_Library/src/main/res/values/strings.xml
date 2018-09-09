@@ -36,6 +36,7 @@
     <string name="wonders_not_pay_records">未缴费记录</string>
     <string name="wonders_pay_fee_record">支付记录</string>
     <string name="wonders_huzhou_renmin_hospital">湖州人民医院</string>
+    <string name="wonders_huzhou_city">湖州市</string>
     <string name="wonders_select_hospital">请选择医院</string>
     <string name="wonders_select_date_please">请选择日期</string>
     <string name="wonders_select_hospital_please">请选择医院</string>
@@ -43,7 +44,7 @@
     <string name="wonders_text_yuan">元</string>
     <string name="wonders_text_not_pay">未支付：</string>
     <string name="wonders_text_dai_pay">待支付：</string>
-    <string name="wonders_money_number">￥254.21</string>
+    <string name="wonders_money_number">254.21</string>
     <string name="wonders_text_liangxiaoning">梁晓宁</string>
     <string name="wonders_text_social_number">社保卡号：</string>
     <string name="wonders_social_number">A3268990</string>

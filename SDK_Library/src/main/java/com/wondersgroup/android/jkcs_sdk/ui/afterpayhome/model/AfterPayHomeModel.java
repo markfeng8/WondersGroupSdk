@@ -15,7 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.MobilePayService;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnMobilePayStateListener;
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnUnclearedBillListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
@@ -43,11 +43,6 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
         mIcNum = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
         mSocialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
-
-        // 中心医院
-        mName = "沈桂珠";
-        mIcNum = "330502196702211421";
-        mSocialNum = "A04811583";
     }
 
     @Override
@@ -161,8 +156,8 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
         map.put(MapKey.CARD_NO, mSocialNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
-        map.put(MapKey.START_DATE, "2018-08-01");
-        map.put(MapKey.END_DATE, "2018-08-23");
+        map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
+        map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper

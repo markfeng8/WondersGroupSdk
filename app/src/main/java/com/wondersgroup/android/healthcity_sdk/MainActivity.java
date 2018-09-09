@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         mPersonZhu.setIcNum("330501199005222018");
         mPersonZhu.setSocialNum("A0486807X");
         mPersonZhu.setAddress("ShangHai");
+
+        // 中心医院 "沈桂珠" "330502196702211421" "A04811583"
     }
 
     @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu})

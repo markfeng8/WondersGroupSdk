@@ -20,6 +20,9 @@ public class TimeUtil {
     @SuppressLint("SimpleDateFormat")
     private static SimpleDateFormat sdf3 =
             new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    @SuppressLint("SimpleDateFormat")
+    private static SimpleDateFormat sdf4 =
+            new SimpleDateFormat("yyyy-MM-dd");
     private static final String TAG = TimeUtil.class.getSimpleName();
 
 
@@ -32,6 +35,18 @@ public class TimeUtil {
         Date date = new Date(System.currentTimeMillis());
         String format = sdf1.format(date);
         LogUtil.i(TAG, "format time===" + format);
+        return format;
+    }
+
+    /**
+     * 返回如下格式的当天时间
+     *
+     * @return 2018-08-03
+     */
+    public static String getCurrentDate() {
+        Date date = new Date(System.currentTimeMillis());
+        String format = sdf4.format(date);
+        LogUtil.i(TAG, "getCurrentDate()===" + format);
         return format;
     }
 

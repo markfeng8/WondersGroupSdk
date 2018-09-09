@@ -24,6 +24,12 @@ public class MapKey {
     public static final String PAGE_NUMBER = "pagenumber";
     public static final String PAGE_SIZE = "pagesize";
     public static final String FEE_STATE = "fee_state"; // 00全部未结算 01医保已结算、自费未结（作保留查询）02 全部已结算（仅当天查询，作保留）
+    public static final String FEE_TOTAL = "fee_total";
+    public static final String TOTAL_COUNT = "total_count";
+    public static final String DETAILS = "details";
+    public static final String HIS_ORDER_NO = "his_order_no";
+    public static final String FEE_ORDER = "fee_order";
+    public static final String ORDER_NAME = "order_name";
     public static final String IDEN_CODE = "iden_code"; // 验证码
     public static final String IDEN_CLASS = "iden_class"; // 通知类别
     public static final String REG_ORG_CODE = "reg_org_code";

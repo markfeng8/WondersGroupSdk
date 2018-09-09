@@ -89,7 +89,7 @@
             android:layout_marginStart="@dimen/wonders_margin_10dp"
             android:layout_marginTop="@dimen/wonders_margin_10dp"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/tvToPay"
