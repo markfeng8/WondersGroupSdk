@@ -1,7 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.selecthospital.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 
 /**
  * Created by x-sir on 2018/8/20 :)

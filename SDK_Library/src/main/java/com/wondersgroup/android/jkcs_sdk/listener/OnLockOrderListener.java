@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.listener;
+package com.wondersgroup.android.jkcs_sdk.listener;
 
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 

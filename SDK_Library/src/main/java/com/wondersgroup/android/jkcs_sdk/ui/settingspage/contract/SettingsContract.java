@@ -1,8 +1,8 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract;
 
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnOpenResultListener;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnTerminationListener;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnVerifySendListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 
 import java.util.HashMap;
 

@@ -1,7 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract;
 
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnOpenAfterPayListener;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnSmsSendListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 
 import java.util.HashMap;
 

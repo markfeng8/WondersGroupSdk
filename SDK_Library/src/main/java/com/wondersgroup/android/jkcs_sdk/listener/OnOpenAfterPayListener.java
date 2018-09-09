@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener;
+package com.wondersgroup.android.jkcs_sdk.listener;
 
 /**
  * Created by x-sir on 2018/8/14 :)

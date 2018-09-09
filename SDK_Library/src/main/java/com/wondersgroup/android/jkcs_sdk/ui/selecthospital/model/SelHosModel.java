@@ -8,7 +8,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.HospitalService;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.contract.SelHosContract;
-import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;

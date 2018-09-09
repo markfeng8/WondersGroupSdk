@@ -7,8 +7,8 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnOpenAfterPayListener;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.listener.OnSmsSendListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model.AfterPayModel;
 import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 

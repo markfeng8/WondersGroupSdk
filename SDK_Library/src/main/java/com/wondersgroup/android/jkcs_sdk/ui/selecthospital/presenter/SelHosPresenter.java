@@ -3,7 +3,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.selecthospital.presenter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.contract.SelHosContract;
-import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.model.SelHosModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 

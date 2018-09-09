@@ -3,8 +3,8 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnAfterPayStateListener;
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener.OnMobilePayStateListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 
 import java.util.HashMap;

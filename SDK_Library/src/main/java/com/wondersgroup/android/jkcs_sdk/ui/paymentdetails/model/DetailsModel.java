@@ -13,7 +13,7 @@ import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.LockOrderService;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.listener.OnLockOrderListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;

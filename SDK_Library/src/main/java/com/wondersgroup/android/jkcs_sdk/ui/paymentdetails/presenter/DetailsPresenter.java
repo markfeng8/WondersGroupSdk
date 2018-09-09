@@ -6,7 +6,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.listener.OnLockOrderListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.DetailsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 

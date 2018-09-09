@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.listener;
+package com.wondersgroup.android.jkcs_sdk.listener;
 
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 

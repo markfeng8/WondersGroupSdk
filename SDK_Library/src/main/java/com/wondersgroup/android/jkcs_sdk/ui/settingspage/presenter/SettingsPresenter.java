@@ -7,9 +7,9 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnOpenResultListener;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnTerminationListener;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.listener.OnVerifySendListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.model.SettingsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 
