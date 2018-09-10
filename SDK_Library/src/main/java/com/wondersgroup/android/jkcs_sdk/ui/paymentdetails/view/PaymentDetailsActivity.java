@@ -1,16 +1,22 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
+import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +30,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
     private String mOrgCode;
+    private DetailHeadBean mHeadBean;
+    private List<Object> mItemList = new ArrayList<>();
+    private DetailsAdapter mAdapter;
+    private DetailPayBean mDetailPayBean;
 
     @Override
     protected DetailsPresenter<DetailsContract.IView> createPresenter() {
@@ -47,6 +57,25 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         map.put(MapKey.PAGE_NUMBER, "1");
         map.put(MapKey.PAGE_SIZE, "10");
         mPresenter.getUnclearedBill(map);
+
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        String hospitalName = "中心医院";
+        String orderNum = "92829389283";
+
+        mHeadBean = new DetailHeadBean();
+        mHeadBean.setName(name);
+        mHeadBean.setSocialNum(socialNum);
+        mHeadBean.setHospitalName(hospitalName);
+        mHeadBean.setOrderNum(orderNum);
+
+        mDetailPayBean = new DetailPayBean();
+        mDetailPayBean.setTotalPay("");
+        mDetailPayBean.setPersonalPay("");
+        mDetailPayBean.setYibaoPay("");
+
+        mItemList.add(mHeadBean);
+        setAdapter();
     }
 
     private void initListener() {
@@ -59,12 +88,31 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
     }
 
+    private void setAdapter() {
+        if (mItemList != null && mItemList.size() > 0) {
+            mAdapter = new DetailsAdapter(this, mItemList);
+            recyclerView.setAdapter(mAdapter);
+            // 设置布局管理器
+            LinearLayoutManager linearLayoutManager =
+                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        }
+    }
+
     @Override
     public void feeBillResult(FeeBillEntity entity) {
         if (entity != null) {
             String feeTotal = entity.getFee_total();
             List<HashMap<String, String>> detailsList = new ArrayList<>();
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
+
+            // 添加列表数据
+            mItemList.addAll(details);
+            // 添加支付数据
+            mItemList.add(mDetailPayBean);
+            refreshAdapter();
+
             HashMap<String, Object> map = new HashMap<>();
             map.put(MapKey.FEE_TOTAL, feeTotal);
             map.put(MapKey.ORG_CODE, mOrgCode);
@@ -92,6 +140,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         if (entity != null) {
             String lockStartTime = entity.getLock_start_time();
             String payPlatTradno = entity.getPayplat_tradno();
+        }
+    }
+
+    public void refreshAdapter() {
+        if (mAdapter != null) {
+            mAdapter.setmItemList(mItemList);
         }
     }
 }
