@@ -17,9 +17,7 @@ import android.widget.TextView;
 import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
@@ -27,15 +25,13 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsAc
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
 
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/8/24 :)
- * Function:
+ * Function:医后付首页数据的 Adapter
  */
 public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -208,11 +204,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     setAfterPayState(false);
                 }
 
-                if ("00".equals(mobPayStatus)) { // 00 未签约
-                    setMobilePayState(true);
-                } else if ("01".equals(mobPayStatus)) { // 01已签约
+                if ("01".equals(mobPayStatus)) { // 01已签约
                     setMobilePayState(false);
-                } else if ("02".equals(mobPayStatus)) { // 02 其他
+                } else { // 00 02 未签约 其他
                     setMobilePayState(true);
                 }
             }
@@ -247,16 +241,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         private void openMobilePay() {
-            AuthCall.initSDK(mContext, "6151490102",
-                    result -> LogUtil.e(TAG, "result===" + result));
-
-            String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
-            if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
-                AuthCall.businessProcess(mContext,
-                        MakeArgsFactory.getBussArgs(phone), WonderToastUtil::show);
-            } else {
-                throw new IllegalArgumentException(Exceptions.PARAM_PHONE_INVALID);
-            }
+            AuthCall.businessProcess(mContext,
+                    MakeArgsFactory.getBussArgs(), WonderToastUtil::show);
         }
     }
 

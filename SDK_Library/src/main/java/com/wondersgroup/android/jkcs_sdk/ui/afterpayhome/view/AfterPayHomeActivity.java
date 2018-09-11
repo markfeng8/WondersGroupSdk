@@ -10,6 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.epsoft.hzauthsdk.all.AuthCall;
+import com.epsoft.hzauthsdk.bean.OpenStatusBean;
+import com.epsoft.hzauthsdk.cons.YiBaoConfig;
+import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
@@ -23,6 +28,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
@@ -72,6 +78,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initData() {
+        AuthCall.initSDK(AfterPayHomeActivity.this, "6151490102",
+                result -> LogUtil.e(TAG, "result===" + result));
+
         mLoading = new LoadingView.Builder(this)
                 .setDropView(activityView)
                 .build();
@@ -121,7 +130,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                     // 查询当前医后付签约状态
                     mPresenter.getAfterPayState(mPassParamMap);
                     // 查询当前移动支付状态
-                    mPresenter.getMobilePayState(mPassParamMap);
+                    //mPresenter.getMobilePayState(mPassParamMap);
+                    getMobilePayState();
                 }
             }
         }
@@ -218,5 +228,40 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             map.put(MapKey.PAGE_SIZE, "10");
             mPresenter.getUnclearedBill(map);
         }
+    }
+
+    /**
+     * 查询医保移动支付状态
+     */
+    private void getMobilePayState() {
+        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        QueryOpenStatusArgs build = new QueryOpenStatusArgs.Builder()
+                .setAuthChannel(YiBaoConfig.CHANNEL)
+                .setCardNum(socialNum)
+                .build();
+        AuthCall.queryOpenStatus(AfterPayHomeActivity.this, build, new AuthCall.CallBackListener() {
+            @Override
+            public void callBack(String result) {
+                String mobPayStatus = "00";
+                if (!TextUtils.isEmpty(result)) {
+                    LogUtil.i(TAG, "result===" + result);
+                    // {"isHmd":0,"isYbPay":0,"authStatus":0,"code":"0","msg":""}
+                    OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
+                    int isYbPay = statusBean.getIsYbPay();
+                    if (isYbPay == 1) {
+                        mobPayStatus = "01";
+                        // TODO: 2018/9/11 如果已开通就上报账单平台
+                    } else {
+                        mobPayStatus = "00";
+                    }
+                }
+
+                SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
+                mHeaderBean.setMobPayStatus(mobPayStatus);
+
+                mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
+                refreshAdapter();
+            }
+        });
     }
 }

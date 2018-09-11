@@ -64,7 +64,7 @@ public class EpSoftMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String trim = etMobile.getText().toString().trim();
                 if (!TextUtils.isEmpty(trim) && trim.length() == 11) {
-                    AuthCall.businessProcess(EpSoftMainActivity.this, MakeArgsFactory.getBussArgs(trim), new AuthCall.CallBackListener() {
+                    AuthCall.businessProcess(EpSoftMainActivity.this, MakeArgsFactory.getBussArgs(), new AuthCall.CallBackListener() {
                         @Override
                         public void callBack(String result) {
                             ToastUtils.showToast(EpSoftMainActivity.this, result);
@@ -81,12 +81,12 @@ public class EpSoftMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String trim = etMobile.getText().toString().trim();
                 if (!TextUtils.isEmpty(trim) && trim.length() == 11) {
-                    AuthCall.changePassword(EpSoftMainActivity.this, MakeArgsFactory.getChangeArgs(), new AuthCall.CallBackListener() {
-                        @Override
-                        public void callBack(String result) {
-                            ToastUtils.showToast(EpSoftMainActivity.this, result);
-                        }
-                    });
+//                    AuthCall.changePassword(EpSoftMainActivity.this, MakeArgsFactory.getChangeArgs(), new AuthCall.CallBackListener() {
+//                        @Override
+//                        public void callBack(String result) {
+//                            ToastUtils.showToast(EpSoftMainActivity.this, result);
+//                        }
+//                    });
                 } else {
                     Toast.makeText(EpSoftMainActivity.this, "请输入接受验证码的手机号码", Toast.LENGTH_SHORT).show();
                 }
