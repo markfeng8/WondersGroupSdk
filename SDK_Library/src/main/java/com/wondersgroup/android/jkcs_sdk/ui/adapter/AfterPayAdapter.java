@@ -25,7 +25,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsAc
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.List;
 
@@ -242,7 +242,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void openMobilePay() {
             AuthCall.businessProcess(mContext,
-                    MakeArgsFactory.getBussArgs(), WonderToastUtil::show);
+                    MakeArgsFactory.getBussArgs(), WToastUtil::show);
         }
     }
 

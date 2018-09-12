@@ -6,9 +6,9 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 
 /**
  * Created by x-sir on 2018/8/2 :)
- * Function:Toast utils.
+ * Function:Wonders Toast utils.
  */
-public class WonderToastUtil {
+public class WToastUtil {
 
     /**
      * toast short.

@@ -9,14 +9,9 @@ import android.widget.ToggleButton;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.AfterPayPresenter;
-import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
-
-import java.util.HashMap;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 // 开通医后付页面
 public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView,
@@ -67,21 +62,10 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     private void sendOpenRequest() {
         String phone = etPhone.getText().toString().trim();
         String smsCode = etSmsCode.getText().toString().trim();
-
         if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(smsCode)) {
-            String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-            String idNo = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
-            String cardNo = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
-
-            HashMap<String, String> param = new HashMap<>();
-            param.put(MapKey.NAME, name);
-            param.put(MapKey.ID_NO, idNo);
-            param.put(MapKey.CARD_NO, cardNo);
-            param.put(MapKey.PHONE, phone);
-            param.put(MapKey.IDEN_CODE, smsCode);
-            mPresenter.openAfterPay(param);
+            mPresenter.openAfterPay(phone, smsCode);
         } else {
-            WonderToastUtil.show("手机号或验证为不能为空！");
+            WToastUtil.show("手机号或验证为不能为空！");
         }
     }
 

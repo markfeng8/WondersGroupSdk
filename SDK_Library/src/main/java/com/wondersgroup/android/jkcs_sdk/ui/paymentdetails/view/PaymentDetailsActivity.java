@@ -15,6 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -26,6 +27,7 @@ import java.util.List;
 public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IView,
         DetailsPresenter<DetailsContract.IView>> implements DetailsContract.IView {
 
+    private static final String TAG = "PaymentDetailsActivity";
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
@@ -143,7 +145,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     public void lockOrderResult(LockOrderEntity entity) {
         if (entity != null) {
             String lockStartTime = entity.getLock_start_time();
-            String payPlatTradno = entity.getPayplat_tradno();
+            String payPlatTradeNo = entity.getPayplat_tradno();
+            LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
         }
     }
 

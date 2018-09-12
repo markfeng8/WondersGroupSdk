@@ -3,6 +3,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
@@ -13,6 +14,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 
 import java.util.HashMap;
@@ -28,8 +30,18 @@ import retrofit2.Response;
 public class AfterPayModel implements AfterPayContract.IModel {
 
     private static final String TAG = AfterPayModel.class.getSimpleName();
+    private String mName;
+    private String mIcNum;
+    private String mSocialNum;
+    private String mPhone;
+    private String mHomeAddress;
 
     public AfterPayModel() {
+        mName = SpUtil.getInstance().getString(SpKey.NAME, "");
+        mIcNum = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
+        mSocialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        mPhone = SpUtil.getInstance().getString(SpKey.PHONE, "");
+        mHomeAddress = SpUtil.getInstance().getString(SpKey.HOME_ADDRESS, "");
     }
 
     @Override
@@ -81,17 +93,23 @@ public class AfterPayModel implements AfterPayContract.IModel {
     }
 
     @Override
-    public void openAfterPay(HashMap<String, String> map, final OnOpenAfterPayListener listener) {
+    public void openAfterPay(String phone, String idenCode, final OnOpenAfterPayListener listener) {
+        HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0002);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
-        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
         map.put(MapKey.REG_ORG_NAME, OrgConfig.SIGN_ORG_NAME);
-        map.put(MapKey.HOME_ADDRESS, OrgConfig.HOME_ADDRESS);
+        map.put(MapKey.NAME, mName);
+        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
+        map.put(MapKey.ID_NO, mIcNum);
+        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        map.put(MapKey.CARD_NO, mSocialNum);
+        map.put(MapKey.PHONE, phone);
+        map.put(MapKey.HOME_ADDRESS, mHomeAddress);
+        map.put(MapKey.IDEN_CODE, idenCode);
         map.put(MapKey.HEALTH_CARE_STATUS, OrgConfig.HEALTH_CARE_STATUS);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 

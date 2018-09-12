@@ -20,7 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPrese
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
@@ -124,7 +124,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             BrightnessManager.lightoff(SettingsActivity.this);
         });
         // 修改医保支付密码
-        tvUpdatePayPwd.setOnClickListener(v -> WonderToastUtil.show("暂未开通！"));
+        tvUpdatePayPwd.setOnClickListener(v -> WToastUtil.show("暂未开通！"));
         // 解约医后付
         tvTermination.setOnClickListener(v -> {
             mFlag = 2;
@@ -132,7 +132,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             BrightnessManager.lightoff(SettingsActivity.this);
         });
         // 查看协议
-        tvLookRule.setOnClickListener(v -> WonderToastUtil.show("暂未开通！"));
+        tvLookRule.setOnClickListener(v -> WToastUtil.show("暂未开通！"));
     }
 
     private void findViews() {
@@ -175,7 +175,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                         mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS3);
                     }
                 } else {
-                    WonderToastUtil.show("手机号为空或不正确！");
+                    WToastUtil.show("手机号为空或不正确！");
                 }
             });
 
@@ -203,7 +203,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                         mPresenter.termination(param);
                     }
                 } else {
-                    WonderToastUtil.show("手机号或验证码不能为空！");
+                    WToastUtil.show("手机号或验证码不能为空！");
                 }
             });
         }

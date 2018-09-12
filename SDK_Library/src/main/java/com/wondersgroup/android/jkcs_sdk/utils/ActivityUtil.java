@@ -42,23 +42,23 @@ public class ActivityUtil {
                                          @NonNull String homeAddress) {
 
         if (TextUtils.isEmpty(name)) {
-            WonderToastUtil.show("请输入姓名！");
+            WToastUtil.show("请输入姓名！");
             return;
         }
         if (TextUtils.isEmpty(phone) || phone.length() != 11) {
-            WonderToastUtil.show("手机号为空或非法！");
+            WToastUtil.show("手机号为空或非法！");
             return;
         }
         if (TextUtils.isEmpty(icNum) || icNum.length() != 18) {
-            WonderToastUtil.show("身份证号为空或非法！");
+            WToastUtil.show("身份证号为空或非法！");
             return;
         }
         if (TextUtils.isEmpty(socialNum) || socialNum.length() != 9) {
-            WonderToastUtil.show("社保卡号为空或非法！");
+            WToastUtil.show("社保卡号为空或非法！");
             return;
         }
         if (TextUtils.isEmpty(homeAddress)) {
-            WonderToastUtil.show("请输入家庭地址！");
+            WToastUtil.show("请输入家庭地址！");
             return;
         }
 

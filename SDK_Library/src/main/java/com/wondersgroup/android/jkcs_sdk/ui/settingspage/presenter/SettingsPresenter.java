@@ -11,7 +11,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.model.SettingsModel;
-import com.wondersgroup.android.jkcs_sdk.utils.WonderToastUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
@@ -34,7 +34,7 @@ public class SettingsPresenter<T extends SettingsContract.IView>
             mModel.sendOpenRequest(map, new OnOpenResultListener() {
                 @Override
                 public void onSuccess() {
-                    WonderToastUtil.show("修改成功！");
+                    WToastUtil.show("修改成功！");
                     if (isNonNull()) {
                         mViewRef.get().dismissPopupWindow();
                     }
@@ -42,7 +42,7 @@ public class SettingsPresenter<T extends SettingsContract.IView>
 
                 @Override
                 public void onFailed() {
-                    WonderToastUtil.show("修改失败！");
+                    WToastUtil.show("修改失败！");
                     if (isNonNull()) {
                         mViewRef.get().dismissPopupWindow();
                     }
@@ -59,16 +59,16 @@ public class SettingsPresenter<T extends SettingsContract.IView>
             mModel.sendVerifyCode(phone, idenClass, new OnVerifySendListener() {
                 @Override
                 public void onSuccess() {
-                    WonderToastUtil.show("发送成功！");
+                    WToastUtil.show("发送成功！");
                 }
 
                 @Override
                 public void onFailed() {
-                    WonderToastUtil.show("发送失败！");
+                    WToastUtil.show("发送失败！");
                 }
             });
         } else {
-            WonderToastUtil.show(WondersApplication.getsContext()
+            WToastUtil.show(WondersApplication.getsContext()
                     .getString(R.string.wonders_text_phone_number_nullable));
         }
     }
