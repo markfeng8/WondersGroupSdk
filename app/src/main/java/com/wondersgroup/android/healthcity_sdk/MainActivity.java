@@ -2,13 +2,11 @@ package com.wondersgroup.android.healthcity_sdk;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
@@ -123,27 +121,6 @@ public class MainActivity extends AppCompatActivity {
         String icNum = etIcNum.getText().toString().trim();
         String socialNum = etSocialNum.getText().toString().trim();
         String homeAddress = etHomeAddress.getText().toString().trim();
-
-        if (TextUtils.isEmpty(name)) {
-            Toast.makeText(MainActivity.this, "请输入姓名！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(MainActivity.this, "请输入手机号！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(icNum)) {
-            Toast.makeText(MainActivity.this, "请输入身份证号！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(socialNum)) {
-            Toast.makeText(MainActivity.this, "请输入社保卡号！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(homeAddress)) {
-            Toast.makeText(MainActivity.this, "请输入家庭地址！", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         /*
          * 《 跳转到医后付模块首页 》

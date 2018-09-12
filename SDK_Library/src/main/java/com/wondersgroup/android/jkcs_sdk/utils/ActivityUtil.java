@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
@@ -39,6 +40,28 @@ public class ActivityUtil {
                                          @NonNull String icNum,
                                          @NonNull String socialNum,
                                          @NonNull String homeAddress) {
+
+        if (TextUtils.isEmpty(name)) {
+            WonderToastUtil.show("请输入姓名！");
+            return;
+        }
+        if (TextUtils.isEmpty(phone) || phone.length() != 11) {
+            WonderToastUtil.show("手机号为空或非法！");
+            return;
+        }
+        if (TextUtils.isEmpty(icNum) || icNum.length() != 18) {
+            WonderToastUtil.show("身份证号为空或非法！");
+            return;
+        }
+        if (TextUtils.isEmpty(socialNum) || socialNum.length() != 9) {
+            WonderToastUtil.show("社保卡号为空或非法！");
+            return;
+        }
+        if (TextUtils.isEmpty(homeAddress)) {
+            WonderToastUtil.show("请输入家庭地址！");
+            return;
+        }
+
         HashMap<String, String> map = new HashMap<>();
         // 姓名
         map.put(MapKey.NAME, name);
