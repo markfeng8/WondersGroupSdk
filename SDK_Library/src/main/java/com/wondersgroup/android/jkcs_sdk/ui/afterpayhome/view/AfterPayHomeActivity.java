@@ -23,7 +23,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
@@ -130,7 +129,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                     // 查询当前医后付签约状态
                     mPresenter.getAfterPayState(mPassParamMap);
                     // 查询当前移动支付状态
-                    //mPresenter.getMobilePayState(mPassParamMap);
                     getMobilePayState();
                 }
             }
@@ -168,18 +166,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             mHeaderBean.setFeeTotal(feeTotal);
 
             mItemList.set(0, mHeaderBean); // 第二次添加数据(放到下标为0处)
-            refreshAdapter();
-        }
-    }
-
-    @Override
-    public void mobilePayResult(MobilePayEntity entity) {
-        if (entity != null) {
-            String mobPayStatus = entity.getMobile_pay_status();
-            SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
-            mHeaderBean.setMobPayStatus(mobPayStatus);
-
-            mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
             refreshAdapter();
         }
     }
@@ -245,13 +231,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 String mobPayStatus = "00";
                 if (!TextUtils.isEmpty(result)) {
                     LogUtil.i(TAG, "result===" + result);
-                    // {"isHmd":0,"isYbPay":0,"authStatus":0,"code":"0","msg":""}
                     OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
                     int isYbPay = statusBean.getIsYbPay();
-                    if (isYbPay == 1) {
+                    if (isYbPay == 1) { // 已开通
                         mobPayStatus = "01";
-                        // TODO: 2018/9/11 如果已开通就上报账单平台
-                    } else {
+                        mPresenter.uploadMobilePayState(mobPayStatus);
+                    } else { // 未开通
                         mobPayStatus = "00";
                     }
                 }

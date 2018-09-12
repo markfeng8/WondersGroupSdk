@@ -7,8 +7,8 @@ package com.epsoft.hzauthsdk.bean;
 public class OpenStatusBean {
 
     /**
-     * isHmd : 0
-     * isYbPay : 0
+     * isHmd : 0 黑名单
+     * isYbPay : 0 是否开通医保支付
      * authStatus : 0
      * code : 0
      * msg :

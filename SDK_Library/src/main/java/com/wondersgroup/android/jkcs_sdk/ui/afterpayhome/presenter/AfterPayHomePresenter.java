@@ -1,14 +1,15 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter;
 
+import android.text.TextUtils;
+
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
@@ -51,25 +52,21 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     }
 
     @Override
-    public void getMobilePayState(HashMap<String, String> map) {
-        if (map != null && !map.isEmpty()) {
-            showLoading();
-            mModel.getMobilePayState(map, new OnMobilePayStateListener() {
+    public void uploadMobilePayState(String status) {
+        if (!TextUtils.isEmpty(status)) {
+            mModel.uploadMobilePayState(status, new OnMobilePayStateListener() {
                 @Override
-                public void onSuccess(MobilePayEntity entity) {
-                    if (isNonNull()) {
-                        mViewRef.get().mobilePayResult(entity);
-                    }
-                    dismissLoading();
+                public void onSuccess() {
+                    LogUtil.i(TAG, "移动医保状态上报成功~");
                 }
 
                 @Override
                 public void onFailed() {
-                    dismissLoading();
+                    LogUtil.e(TAG, "移动医保状态上报失败~");
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
         }
     }
 

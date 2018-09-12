@@ -91,28 +91,26 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void getMobilePayState(HashMap<String, String> map, final OnMobilePayStateListener listener) {
-        String name = map.get(MapKey.NAME);
-        String idNo = map.get(MapKey.ID_NO);
-        String cardNo = map.get(MapKey.CARD_NO);
-
+    public void uploadMobilePayState(String status, final OnMobilePayStateListener listener) {
         HashMap<String, String> param = new HashMap<>();
-        param.put(MapKey.NAME, name);
-        param.put(MapKey.ID_NO, idNo);
-        param.put(MapKey.CARD_NO, cardNo);
         param.put(MapKey.SID, ProduceUtil.getSid());
-        param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0001);
+        param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0002);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         param.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        param.put(MapKey.NAME, mName);
+        param.put(MapKey.ID_NO, mIcNum);
+        param.put(MapKey.CARD_NO, mSocialNum);
         param.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
         param.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        param.put(MapKey.MOBILE_PAY_TIME, TimeUtil.getCurrentDate());
+        param.put(MapKey.MOBILE_PAY_STATUS, status);
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
         RetrofitHelper
                 .getInstance()
                 .createService(MobilePayService.class)
-                .findMobilePayState(RequestUrl.YD0001, param)
+                .findMobilePayState(RequestUrl.YD0002, param)
                 .enqueue(new Callback<MobilePayEntity>() {
                     @Override
                     public void onResponse(Call<MobilePayEntity> call, Response<MobilePayEntity> response) {
@@ -122,7 +120,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                             String resultCode = body.getResult_code();
                             if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
                                 if (listener != null) {
-                                    listener.onSuccess(body);
+                                    listener.onSuccess();
                                 }
                             } else {
                                 if (listener != null) {

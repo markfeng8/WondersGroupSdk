@@ -35,5 +35,7 @@ public class MapKey {
     public static final String REG_ORG_CODE = "reg_org_code";
     public static final String REG_ORG_NAME = "reg_org_name";
     public static final String HOME_ADDRESS = "home_address";
+    public static final String MOBILE_PAY_TIME = "mobile_pay_time";
+    public static final String MOBILE_PAY_STATUS = "mobile_pay_status";
     public static final String HEALTH_CARE_STATUS = "health_care_status"; // 医保卡状态
 }
