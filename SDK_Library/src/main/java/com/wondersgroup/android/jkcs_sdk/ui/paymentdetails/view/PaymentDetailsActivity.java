@@ -51,6 +51,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private void initData() {
         // 目前使用中心医院朱凯 mOrgCode 暂时写死
         // 中心医院：47117170333050211A1001
+        // 第一医院：47117166633050211A1001
         mOrgCode = "47117170333050211A1001";
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
