@@ -49,16 +49,19 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     private void initData() {
-        // 目前使用中心医院朱凯 mOrgCode 暂时写死
-        // 中心医院：47117170333050211A1001
-        // 第一医院：47117166633050211A1001
-        mOrgCode = "47117170333050211A1001";
+        // mOrgCode 暂时写死
+        // 中心医院(朱凯)：47117170333050211A1001
+        // 第一医院(陆晓明)：47117166633050211A1001
+        mOrgCode = "47117166633050211A1001";
+
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
         map.put(MapKey.PAGE_NUMBER, "1");
         map.put(MapKey.PAGE_SIZE, "10");
+        // 获取未结清账单详情
         mPresenter.getUnclearedBill(map);
 
+        // ------------------下面是一些写死的数据-----------------
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
         String hospitalName = "中心医院";

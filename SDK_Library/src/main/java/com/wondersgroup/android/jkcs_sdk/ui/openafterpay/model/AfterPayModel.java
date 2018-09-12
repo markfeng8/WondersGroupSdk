@@ -98,7 +98,7 @@ public class AfterPayModel implements AfterPayContract.IModel {
         RetrofitHelper
                 .getInstance()
                 .createService(SendSmsService.class)
-                .sendSmsCode(RequestUrl.XY0006, map)
+                .sendSmsCode(RequestUrl.XY0002, map)
                 .enqueue(new Callback<SmsEntity>() {
                     @Override
                     public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
