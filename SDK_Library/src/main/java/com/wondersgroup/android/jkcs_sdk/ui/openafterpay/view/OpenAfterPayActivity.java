@@ -67,12 +67,7 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
                 // TODO: 2018/8/24 set button enable
             }
         });
-        btnBackToHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        btnBackToHome.setOnClickListener(v -> finish());
     }
 
     private void sendOpenRequest() {

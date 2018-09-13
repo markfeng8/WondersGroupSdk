@@ -51,6 +51,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private AfterHeaderBean mHeaderBean;
     private List<Object> mItemList = new ArrayList<>();
     private AfterPayAdapter mAdapter;
+    private HashMap<String, String> mPassParamMap;
+    private boolean mAfterPayOpenSuccess;
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -65,6 +67,22 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         initListener();
 
         // TODO: 2018/9/10 处理Loading
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mAfterPayOpenSuccess = SpUtil.getInstance().getBoolean(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
+        if (mAfterPayOpenSuccess) {
+            refreshAfterPayState();
+        }
+    }
+
+    /**
+     * 刷新当前医后付签约状态
+     */
+    private void refreshAfterPayState() {
+        mPresenter.getAfterPayState(mPassParamMap);
     }
 
     private void initListener() {
@@ -125,7 +143,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             if (bundle != null) {
                 SerializableHashMap sMap = (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
                 if (sMap != null) {
-                    HashMap<String, String> mPassParamMap = sMap.getMap();
+                    mPassParamMap = sMap.getMap();
                     // 查询当前医后付签约状态
                     mPresenter.getAfterPayState(mPassParamMap);
                     // 查询当前移动支付状态
@@ -167,6 +185,11 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
             mItemList.set(0, mHeaderBean); // 第二次添加数据(放到下标为0处)
             refreshAdapter();
+
+            // 重置医后付开通标志
+            if (mAfterPayOpenSuccess) {
+                SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
+            }
         }
     }
 
