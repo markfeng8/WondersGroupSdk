@@ -87,9 +87,10 @@
             android:id="@+id/llToPayFee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_10dp"
-            android:layout_marginTop="@dimen/wonders_margin_10dp"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:layout_marginTop="@dimen/wonders_margin_8dp"
             android:orientation="horizontal"
+            android:padding="@dimen/wonders_padding_2dp"
             android:visibility="invisible">
 
             <TextView
@@ -102,7 +103,6 @@
                 android:textSize="@dimen/wonders_text_size_12sp" />
 
             <TextView
-                android:id="@+id/tvToPayFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/wonders_pay_fee"

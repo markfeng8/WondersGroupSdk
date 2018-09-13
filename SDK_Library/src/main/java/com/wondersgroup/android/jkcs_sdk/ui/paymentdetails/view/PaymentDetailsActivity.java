@@ -9,10 +9,12 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
@@ -40,6 +42,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private DetailsAdapter mAdapter;
     private DetailPayBean mDetailPayBean;
     private LoadingView mLoading;
+    private int mClickItemPos = -1; // 记录点击的 Item 的位置
+    private List<CombineDetailsBean> mCombineList = new ArrayList<>(); // 组合 Item 数据的集合
 
     @Override
     protected DetailsPresenter<DetailsContract.IView> createPresenter() {
@@ -75,13 +79,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         String hospitalName = "中心医院";
-        String orderNum = "92829389283";
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
+        mHeadBean.setOrderNum("92829389283");
         mHeadBean.setSocialNum(cardNum);
         mHeadBean.setHospitalName(hospitalName);
-        mHeadBean.setOrderNum(orderNum);
 
         mDetailPayBean = new DetailPayBean();
         mDetailPayBean.setTotalPay("");
@@ -121,9 +124,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             String feeTotal = entity.getFee_total();
             List<HashMap<String, String>> detailsList = new ArrayList<>();
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-
+            // 转换为组合数据
+            getCombineListData(details);
             // 添加列表数据
-            mItemList.addAll(details);
+            mItemList.addAll(mCombineList);
             // 添加支付数据
             mItemList.add(mDetailPayBean);
             refreshAdapter();
@@ -150,12 +154,52 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
     }
 
+    /**
+     * 获取 List 的组合数据
+     *
+     * @param details
+     */
+    private void getCombineListData(List<FeeBillEntity.DetailsBean> details) {
+        for (int i = 0; i < details.size(); i++) {
+            CombineDetailsBean bean = new CombineDetailsBean();
+            bean.setDefaultDetails(details.get(i));
+            mCombineList.add(bean);
+        }
+    }
+
     @Override
     public void lockOrderResult(LockOrderEntity entity) {
         if (entity != null) {
             String lockStartTime = entity.getLock_start_time();
             String payPlatTradeNo = entity.getPayplat_tradno();
             LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
+            SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockStartTime);
+            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
+        }
+    }
+
+    /**
+     * 订单明细列表结果回调
+     *
+     * @param entity
+     */
+    @Override
+    public void onOrderDetailsResult(OrderDetailsEntity entity) {
+        if (entity != null) {
+            List<OrderDetailsEntity.DetailsBean> details = entity.getDetails();
+            if (details.size() > 0) {
+                // List 数据从 1 开始，需要减去头部的位置 1
+                mCombineList.get(mClickItemPos - 1).setOpenDetails(details);
+
+                // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+                if (mItemList.size() > 0) {
+                    mItemList.clear();
+                }
+                mItemList.add(mHeadBean); // 先添加头部数据
+                mItemList.addAll(mCombineList);// 再添加 List 数据
+                mItemList.add(mDetailPayBean); // 添加支付数据
+                refreshAdapter();
+            }
         }
     }
 
@@ -177,5 +221,16 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         if (mAdapter != null) {
             mAdapter.setmItemList(mItemList);
         }
+    }
+
+    /**
+     * 获取账单明细
+     *
+     * @param hisOrderNo
+     * @param position
+     */
+    public void getOrderDetails(String hisOrderNo, int position) {
+        mClickItemPos = position;
+        mPresenter.getOrderDetails(hisOrderNo);
     }
 }

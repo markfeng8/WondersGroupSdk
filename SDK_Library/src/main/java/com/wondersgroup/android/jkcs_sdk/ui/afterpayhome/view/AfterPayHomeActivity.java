@@ -178,9 +178,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             SpUtil.getInstance().save(SpKey.PAYMENT_STATUS, paymentStatus);
             SpUtil.getInstance().save(SpKey.NOTICE_PHONE, noticePhone);
             SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
-            if (!TextUtils.isEmpty(feeTotal)) {
-                SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
-            }
+            SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
 
             mHeaderBean.setSigningStatus(signingStatus);
             mHeaderBean.setPaymentStatus(paymentStatus);

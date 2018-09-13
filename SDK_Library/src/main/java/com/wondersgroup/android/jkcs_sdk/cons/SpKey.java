@@ -15,7 +15,9 @@ public class SpKey {
     public static final String FEE_TOTAL = "feeTotal";
     public static final String CARD_TYPE = "cardType"; // 就诊卡类型 0：社保卡
     public static final String CARD_NUM = "cardNum";
+    public static final String LOCK_START_TIME = "lockStartTime"; // 锁单时间
     public static final String HOME_ADDRESS = "homeAddress";
+    public static final String PAY_PLAT_TRADE_NO = "payPlatTradeNo";
     public static final String SIGNING_STATUS = "signingStatus"; // 医后付签约状态
     public static final String PAYMENT_STATUS = "paymentStatus"; // 医后付付费状态
     public static final String MOB_PAY_STATUS = "mobPayStatus";  // 移动支付状态

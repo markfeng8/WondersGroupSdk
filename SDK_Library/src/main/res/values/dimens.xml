@@ -18,6 +18,7 @@
     <dimen name="wonders_text_size_36sp">36sp</dimen>
 
     <!-- padding -->
+    <dimen name="wonders_padding_2dp">2dp</dimen>
     <dimen name="wonders_padding_4dp">4dp</dimen>
     <dimen name="wonders_padding_6dp">6dp</dimen>
     <dimen name="wonders_padding_8dp">8dp</dimen>

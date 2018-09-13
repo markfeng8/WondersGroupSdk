@@ -124,7 +124,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView tvAfterPayState;
         private TextView tvMobilePayState;
         private TextView tvToPay;
-        private TextView tvToPayFee;
         private LinearLayout llToPayFee;
 
         public HeaderViewHolder(View itemView) {
@@ -139,7 +138,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvAfterPayState = (TextView) itemView.findViewById(R.id.tvAfterPayState);
             tvMobilePayState = (TextView) itemView.findViewById(R.id.tvMobilePayState);
             tvToPay = (TextView) itemView.findViewById(R.id.tvToPay);
-            tvToPayFee = (TextView) itemView.findViewById(R.id.tvToPayFee);
             llToPayFee = (LinearLayout) itemView.findViewById(R.id.llToPayFee);
             initData();
             initListener();
@@ -168,7 +166,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         new Intent(mContext, PayRecordActivity.class));
             });
             // 去缴费
-            tvToPayFee.setOnClickListener(v -> mContext.startActivity(
+            llToPayFee.setOnClickListener(v -> mContext.startActivity(
                     new Intent(mContext, PaymentDetailsActivity.class)));
             // 去开通医后付
             tvAfterPayState.setOnClickListener(v -> mContext.startActivity(

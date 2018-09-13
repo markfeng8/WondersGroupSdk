@@ -1,19 +1,26 @@
 package com.wondersgroup.android.jkcs_sdk.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 
 import java.util.List;
 
@@ -80,7 +87,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TYPE_LIST:
                 ListViewHolder listViewHolder = (ListViewHolder) holder;
-                listViewHolder.setData((FeeBillEntity.DetailsBean) mItemList.get(position));
+                listViewHolder.setData((CombineDetailsBean) mItemList.get(position), position);
                 break;
             case TYPE_PAY:
                 PayViewHolder payViewHolder = (PayViewHolder) holder;
@@ -102,7 +109,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Object object = mItemList.get(position);
             if (object instanceof DetailHeadBean) {
                 mCurrentType = TYPE_HEADER;
-            } else if (object instanceof FeeBillEntity.DetailsBean) {
+            } else if (object instanceof CombineDetailsBean) {
                 mCurrentType = TYPE_LIST;
             } else if (object instanceof DetailPayBean) {
                 mCurrentType = TYPE_PAY;
@@ -126,6 +133,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvOrderNum = (TextView) itemView.findViewById(R.id.tvOrderNum);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(DetailHeadBean headBean) {
             String name = headBean.getName();
             String socialNum = headBean.getSocialNum();
@@ -142,7 +150,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 tvHospitalName.setText(hospitalName);
             }
             if (!TextUtils.isEmpty(orderNum)) {
-                tvOrderNum.setText(orderNum);
+                tvOrderNum.setText("订单编号：" + orderNum);
             }
         }
     }
@@ -153,6 +161,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvMoney;
         private TextView tvOrderTime;
         private TextView tvDetail;
+        private LinearLayout llDetails;
 
         public ListViewHolder(View itemView) {
             super(itemView);
@@ -160,29 +169,75 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
             tvOrderTime = (TextView) itemView.findViewById(R.id.tvOrderTime);
             tvDetail = (TextView) itemView.findViewById(R.id.tvDetail);
+            llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
         }
 
-        public void setData(FeeBillEntity.DetailsBean detailsBean) {
-            if (detailsBean != null) {
-                String orderName = detailsBean.getOrdername();
-                String feeOrder = detailsBean.getFee_order();
-                String orderTime = detailsBean.getHis_order_time();
+        @SuppressLint("SetTextI18n")
+        public void setData(CombineDetailsBean combineDetails, int position) {
+            if (combineDetails != null) {
+                FeeBillEntity.DetailsBean defaultDetails = combineDetails.getDefaultDetails();
+                List<OrderDetailsEntity.DetailsBean> openDetails = combineDetails.getOpenDetails();
+                if (defaultDetails != null) {
+                    String orderName = defaultDetails.getOrdername();
+                    String feeOrder = defaultDetails.getFee_order();
+                    String orderTime = defaultDetails.getHis_order_time();
+                    final String hisOrderNo = defaultDetails.getHis_order_no();
 
-                if (!TextUtils.isEmpty(orderName)) {
-                    tvOrderName.setText(orderName);
-                }
-                if (!TextUtils.isEmpty(feeOrder)) {
-                    tvMoney.setText(feeOrder);
-                }
-                if (!TextUtils.isEmpty(orderTime)) {
-                    tvOrderTime.setText(orderTime);
-                }
-                tvDetail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(mContext, "暂无详情", Toast.LENGTH_SHORT).show();
+                    if (!TextUtils.isEmpty(orderName)) {
+                        tvOrderName.setText(orderName);
                     }
-                });
+                    if (!TextUtils.isEmpty(feeOrder)) {
+                        tvMoney.setText(feeOrder);
+                    }
+                    if (!TextUtils.isEmpty(orderTime)) {
+                        tvOrderTime.setText("订单时间：" + orderTime);
+                    }
+
+                    tvDetail.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            boolean visible = llDetails.getVisibility() == View.GONE;
+                            llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
+                            int childCount = llDetails.getChildCount();
+                            if (visible && childCount == 1) {
+                                ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
+                            }
+                        }
+                    });
+                }
+
+                if (openDetails != null) {
+                    if (openDetails.size() > 0) {
+                        for (int i = 0; i < openDetails.size(); i++) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            OrderDetailsEntity.DetailsBean detailsBean = openDetails.get(i);
+                            String itemName = detailsBean.getItemname();
+                            String price = detailsBean.getPrice();
+                            String amount = detailsBean.getAmount();
+                            String unit = detailsBean.getUnit();
+
+                            stringBuilder
+                                    .append(itemName)
+                                    .append("  ")
+                                    .append(price)
+                                    .append("*")
+                                    .append(amount)
+                                    .append(unit);
+
+                            LinearLayout.LayoutParams textLp = new LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                            // new a textView widget
+                            TextView bigText = new TextView(mContext);
+                            bigText.setText(stringBuilder.toString());
+                            bigText.setPadding(2, 2, 2, 2);
+                            bigText.setGravity(Gravity.CENTER);
+                            bigText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                            bigText.setTextColor(Color.parseColor("#333333"));
+                            llDetails.addView(bigText, textLp);
+                        }
+                    }
+                }
             }
         }
     }
