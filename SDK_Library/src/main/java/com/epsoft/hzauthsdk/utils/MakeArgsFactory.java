@@ -27,17 +27,17 @@ public class MakeArgsFactory {
     public static BusinessArgs getBussArgs() {
         String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String icNum = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
-        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
 
         return new BusinessArgs.Builder()
                 .setCbd(YiBaoConfig.CBD)
                 .setName(name)
-                .setCertNum(icNum)
+                .setCertNum(idNum)
                 .setPhoneNum(phone)
-                .setAccount(icNum)
+                .setAccount(idNum)
                 .setCbdName(YiBaoConfig.CB_NAME)
-                .setCardNum(socialNum)
+                .setCardNum(cardNum)
                 .setAuthChannel(YiBaoConfig.CHANNEL)
                 //.setExtendedField(extendedField)
                 .build();

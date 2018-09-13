@@ -3,19 +3,21 @@ package com.wondersgroup.android.jkcs_sdk.ui.settingspage.model;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.BaseEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.net.service.UpdatePhoneService;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 
 import java.util.HashMap;
@@ -31,8 +33,10 @@ import retrofit2.Response;
 public class SettingsModel implements SettingsContract.IModel {
 
     private static final String TAG = SettingsModel.class.getSimpleName();
+    private String mCardType;
 
     public SettingsModel() {
+        mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
     }
 
     @Override
@@ -44,7 +48,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         //param.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
@@ -137,7 +141,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper

@@ -16,6 +16,10 @@ public interface AfterPayContract {
 
     interface IView {
         String getPhoneNumber();
+
+        void onAfterPayOpenSuccess();
+
+        void onAfterPayOpenFailed();
     }
 
     interface IPresenter {

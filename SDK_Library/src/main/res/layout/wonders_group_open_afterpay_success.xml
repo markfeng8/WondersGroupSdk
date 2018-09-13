@@ -60,5 +60,4 @@
         android:textColor="@color/wonders_rgb_color_ffffff"
         android:textSize="16sp"
         android:textStyle="bold" />
-
 </LinearLayout>

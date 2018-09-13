@@ -31,15 +31,19 @@ public class AfterPayModel implements AfterPayContract.IModel {
 
     private static final String TAG = AfterPayModel.class.getSimpleName();
     private String mName;
-    private String mIcNum;
-    private String mSocialNum;
+    private String mIdType;
+    private String mIdNum;
+    private String mCardType;
+    private String mCardNum;
     private String mPhone;
     private String mHomeAddress;
 
     public AfterPayModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
-        mIcNum = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
-        mSocialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
+        mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        mCardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         mPhone = SpUtil.getInstance().getString(SpKey.PHONE, "");
         mHomeAddress = SpUtil.getInstance().getString(SpKey.HOME_ADDRESS, "");
     }
@@ -103,10 +107,10 @@ public class AfterPayModel implements AfterPayContract.IModel {
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.REG_ORG_NAME, OrgConfig.SIGN_ORG_NAME);
         map.put(MapKey.NAME, mName);
-        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        map.put(MapKey.ID_NO, mIcNum);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
-        map.put(MapKey.CARD_NO, mSocialNum);
+        map.put(MapKey.ID_TYPE, mIdType);
+        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.CARD_TYPE, mCardType);
+        map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.PHONE, phone);
         map.put(MapKey.HOME_ADDRESS, mHomeAddress);
         map.put(MapKey.IDEN_CODE, idenCode);

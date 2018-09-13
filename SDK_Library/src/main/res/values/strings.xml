@@ -72,6 +72,7 @@
     <string name="wonders_ic_number">身份证号</string>
     <string name="wonders_finished_order">已完成订单页面</string>
     <string name="wonders_after_pay_home">医后付首页</string>
+    <string name="wonders_after_pay_rules">医后付协议</string>
     <string name="wonders_notification_phone">通知手机号</string>
     <string name="wonders_unfinished_order">未完成订单页面</string>
     <string name="wonders_original_phone">原手机号码为</string>
@@ -91,4 +92,11 @@
     <string name="birthday">出生日期</string>
     <string name="birthday_hint">请选择出生日期</string>
     <string name="wonders_group_text_pay_notice">温馨提示：总额将由医保账户扣除部分后，再由个人账户支付</string>
+    <string name="wonders_after_pay_rules_title">湖州市市级医院“医后付”服务协议</string>
+    <string name="wonders_after_pay_rules_content">一、服务内容：为您提供“医后付”服务，让您原来多次付费改变为诊后合并付一次费。\n
+二、服务范围：开通“医后付”即可在五家市级医院享受“医后付”服务。即：湖州市中心医院、湖州市第一人民医院、湖州市第三人民医院、湖州市妇幼保健院、湖州市中医院。\n
+三、您的义务：在当天就诊结束后一次性付清费用。\n
+四、您的责任：当天未付清费用的，停止“医后付”服务。超过7个自然日未付清费用的，将您欠费信息上传市公共信用平台。付清后恢复“医后付”服务。\n
+五、本协议在您同意后生效，并为您启用“医后付”服务。
+</string>
 </resources>

@@ -65,13 +65,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
         // ------------------下面是一些写死的数据-----------------
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         String hospitalName = "中心医院";
         String orderNum = "92829389283";
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
-        mHeadBean.setSocialNum(socialNum);
+        mHeadBean.setSocialNum(cardNum);
         mHeadBean.setHospitalName(hospitalName);
         mHeadBean.setOrderNum(orderNum);
 

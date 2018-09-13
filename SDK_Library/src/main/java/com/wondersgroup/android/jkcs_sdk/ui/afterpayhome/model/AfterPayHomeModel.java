@@ -36,22 +36,24 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     private static final String TAG = AfterPayHomeModel.class.getSimpleName();
     private String mName;
-    private String mIcNum;
-    private String mSocialNum;
+    private String mIdType;
+    private String mIdNum;
+    private String mCardType;
+    private String mCardNum;
 
     public AfterPayHomeModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
-        mIcNum = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
-        mSocialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
+        mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        mCardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
     }
 
     @Override
     public void getAfterPayState(HashMap<String, String> map, final OnAfterPayStateListener listener) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0001);
-        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
@@ -99,10 +101,10 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         param.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         param.put(MapKey.NAME, mName);
-        param.put(MapKey.ID_NO, mIcNum);
-        param.put(MapKey.CARD_NO, mSocialNum);
-        param.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        param.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
+        param.put(MapKey.ID_NO, mIdNum);
+        param.put(MapKey.CARD_NO, mCardNum);
+        param.put(MapKey.ID_TYPE, mIdType);
+        param.put(MapKey.CARD_TYPE, mCardType);
         param.put(MapKey.MOBILE_PAY_TIME, TimeUtil.getCurrentDate());
         param.put(MapKey.MOBILE_PAY_STATUS, status);
         param.put(MapKey.SIGN, SignUtil.getSign(param));
@@ -149,10 +151,10 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.NAME, mName);
-        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        map.put(MapKey.ID_NO, mIcNum);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
-        map.put(MapKey.CARD_NO, mSocialNum);
+        map.put(MapKey.ID_TYPE, mIdType);
+        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.CARD_TYPE, mCardType);
+        map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
         map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
         map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());

@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.view;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayrules.AfterPayRuleActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
@@ -76,8 +78,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
     private void initData() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
-        mIdNo = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
-        mCardNo = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        mIdNo = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        mCardNo = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         // 显示签约手机号还是传过来的手机号？
         mPhone = SpUtil.getInstance().getString(SpKey.PHONE, "");
         mSignDate = SpUtil.getInstance().getString(SpKey.SIGN_DATE, "");
@@ -132,7 +134,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             BrightnessManager.lightoff(SettingsActivity.this);
         });
         // 查看协议
-        tvLookRule.setOnClickListener(v -> WToastUtil.show("暂未开通！"));
+        tvLookRule.setOnClickListener(v -> startActivity(
+                new Intent(SettingsActivity.this, AfterPayRuleActivity.class)));
     }
 
     private void findViews() {

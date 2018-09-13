@@ -90,7 +90,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void initHeaderData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         mHeaderBean = new AfterHeaderBean();
         mHeaderBean.setName(name);
         mHeaderBean.setSocialNum(socialNum);
@@ -220,7 +220,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 查询医保移动支付状态
      */
     private void getMobilePayState() {
-        String socialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         QueryOpenStatusArgs build = new QueryOpenStatusArgs.Builder()
                 .setAuthChannel(YiBaoConfig.CHANNEL)
                 .setCardNum(socialNum)

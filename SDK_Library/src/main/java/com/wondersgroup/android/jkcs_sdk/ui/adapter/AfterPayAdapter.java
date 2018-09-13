@@ -144,7 +144,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         private void initData() {
-            tvPayToast.setText(Html.fromHtml(mContext.getString(R.string.wonders_mark_text)));
+            if (tvPayToast.getVisibility() == View.VISIBLE) {
+                tvPayToast.setText(Html.fromHtml(mContext.getString(R.string.wonders_mark_text)));
+            }
         }
 
         private void initListener() {

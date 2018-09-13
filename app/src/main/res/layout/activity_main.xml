@@ -68,12 +68,39 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="身份证号："
+            android:text="证件类型："
             android:textColor="#000000"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etIcNum"
+            android:id="@+id/etIdType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:digits="0123456789xX"
+            android:inputType="number"
+            android:padding="6dp"
+            android:text="01"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="证件号码："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etIdNum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -95,12 +122,37 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="社保卡号："
+            android:text="就诊卡类型："
             android:textColor="#000000"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etSocialNum"
+            android:id="@+id/etCardType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/edittext_shape"
+            android:padding="6dp"
+            android:text="1"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="就诊卡号："
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etCardNum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"

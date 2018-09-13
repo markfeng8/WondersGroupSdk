@@ -10,11 +10,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 
 import java.util.HashMap;
 
@@ -22,7 +19,7 @@ import java.util.HashMap;
  * Created by x-sir on 2018/8/10 :)
  * Function:
  */
-public class ActivityUtil {
+public class WonderGroup {
 
     /**
      * jump to after pay home page.
@@ -30,15 +27,19 @@ public class ActivityUtil {
      * @param context     上下文
      * @param name        姓名
      * @param phone       手机号
-     * @param icNum       身份证号
-     * @param socialNum   社保卡号
+     * @param idType      证件类型(01：身份证)
+     * @param idNum       证件号码
+     * @param cardType    就诊卡类型(0：社保卡 2：自费卡)
+     * @param cardNum   就诊卡号
      * @param homeAddress 家庭地址
      */
     public static void startAfterPayHome(@NonNull Context context,
                                          @NonNull String name,
                                          @NonNull String phone,
-                                         @NonNull String icNum,
-                                         @NonNull String socialNum,
+                                         @NonNull String idType,
+                                         @NonNull String idNum,
+                                         @NonNull String cardType,
+                                         @NonNull String cardNum,
                                          @NonNull String homeAddress) {
 
         if (TextUtils.isEmpty(name)) {
@@ -49,16 +50,24 @@ public class ActivityUtil {
             WToastUtil.show("手机号为空或非法！");
             return;
         }
-        if (TextUtils.isEmpty(icNum) || icNum.length() != 18) {
-            WToastUtil.show("身份证号为空或非法！");
+        if (TextUtils.isEmpty(idType) || idType.length() != 2) {
+            WToastUtil.show("证件类型为空或非法！");
             return;
         }
-        if (TextUtils.isEmpty(socialNum) || socialNum.length() != 9) {
-            WToastUtil.show("社保卡号为空或非法！");
+        if (TextUtils.isEmpty(idNum) || idNum.length() != 18) {
+            WToastUtil.show("证件号码为空或非法！");
+            return;
+        }
+        if (TextUtils.isEmpty(cardType) || cardType.length() != 1) {
+            WToastUtil.show("就诊卡类型为空或非法！");
+            return;
+        }
+        if (TextUtils.isEmpty(cardNum) || cardNum.length() != 9) {
+            WToastUtil.show("就诊卡号为空或非法！");
             return;
         }
         if (TextUtils.isEmpty(homeAddress)) {
-            WToastUtil.show("请输入家庭地址！");
+            WToastUtil.show("家庭地址为空或非法！");
             return;
         }
 
@@ -67,44 +76,17 @@ public class ActivityUtil {
         map.put(MapKey.NAME, name);
         // 手机号
         map.put(MapKey.PHONE, phone);
+        // 证件类型
+        map.put(MapKey.ID_TYPE, idType);
         // 身份证号码
-        map.put(MapKey.ID_NO, icNum);
+        map.put(MapKey.ID_NO, idNum);
+        // 就诊卡类型
+        map.put(MapKey.CARD_TYPE, cardType);
         // 社保卡号
-        map.put(MapKey.CARD_NO, socialNum);
+        map.put(MapKey.CARD_NO, cardNum);
         // 家庭地址
         map.put(MapKey.HOME_ADDRESS, homeAddress);
         startActivityWithParam(context, map, AfterPayHomeActivity.class);
-    }
-
-    /**
-     * jump to settings page.
-     *
-     * @param context
-     * @param param
-     * @param mAfterPayEntity
-     * @param mMobilePayEntity
-     */
-    public static void startSettingsPage(Context context, HashMap<String, String> param
-            , AfterPayStateEntity mAfterPayEntity, MobilePayEntity mMobilePayEntity) {
-        if (context != null) {
-            if (param != null && !param.isEmpty()) {
-                // 传递数据
-                SerializableHashMap sMap = new SerializableHashMap();
-                sMap.setMap(param); // 将map数据添加到封装的sMap中
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(IntentExtra.SERIALIZABLE_MAP, sMap);
-                bundle.putSerializable(IntentExtra.SERIALIZABLE_AFTERPAY_ENTITY, mAfterPayEntity);
-                bundle.putSerializable(IntentExtra.SERIALIZABLE_MOBILEPAY_ENTITY, mMobilePayEntity);
-                Intent intent = new Intent(context, SettingsActivity.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            } else {
-                throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
-            }
-
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
-        }
     }
 
     /**
@@ -143,14 +125,18 @@ public class ActivityUtil {
     private static void savePassValues(@NonNull HashMap<String, String> param) {
         String name = param.get(MapKey.NAME);
         String phone = param.get(MapKey.PHONE);
-        String icNum = param.get(MapKey.ID_NO);
-        String socialNum = param.get(MapKey.CARD_NO);
+        String idType = param.get(MapKey.ID_TYPE);
+        String idNum = param.get(MapKey.ID_NO);
+        String cardType = param.get(MapKey.CARD_TYPE);
+        String cardNum = param.get(MapKey.CARD_NO);
         String homeAddress = param.get(MapKey.HOME_ADDRESS);
 
         SpUtil.getInstance().save(SpKey.NAME, name);
         SpUtil.getInstance().save(SpKey.PHONE, phone);
-        SpUtil.getInstance().save(SpKey.IC_NUM, icNum);
-        SpUtil.getInstance().save(SpKey.SOCIAL_NUM, socialNum);
+        SpUtil.getInstance().save(SpKey.ID_TYPE, idType);
+        SpUtil.getInstance().save(SpKey.ID_NUM, idNum);
+        SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);
+        SpUtil.getInstance().save(SpKey.CARD_NUM, cardNum);
         SpUtil.getInstance().save(SpKey.HOME_ADDRESS, homeAddress);
     }
 }

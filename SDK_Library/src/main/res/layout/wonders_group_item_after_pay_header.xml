@@ -92,7 +92,8 @@
         android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:drawablePadding="@dimen/wonders_padding_6dp"
         android:drawableStart="@drawable/wonders_group_mark"
-        android:text="@string/wonders_mark_text" />
+        android:text="@string/wonders_mark_text"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="match_parent"

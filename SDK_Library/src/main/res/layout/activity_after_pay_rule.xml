@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wonders_rgb_color_ffffff"
+    android:orientation="vertical"
+    tools:context=".ui.afterpayrules.AfterPayRuleActivity">
+
+    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/wonders_after_pay_rules"
+        app:textColor="@color/wonders_rgb_color_ffffff"
+        app:textSize="@dimen/wonders_text_size_16sp"
+        app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_20dp"
+        android:gravity="center"
+        android:text="@string/wonders_after_pay_rules_title"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="2dp"
+        android:padding="@dimen/wonders_padding_16dp"
+        android:text="@string/wonders_after_pay_rules_content"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp" />
+
+</LinearLayout>

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ActivityUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WonderGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,10 +22,14 @@ public class MainActivity extends AppCompatActivity {
     EditText etName;
     @BindView(R.id.etPhone)
     EditText etPhone;
-    @BindView(R.id.etIcNum)
-    EditText etIcNum;
-    @BindView(R.id.etSocialNum)
-    EditText etSocialNum;
+    @BindView(R.id.etIdType)
+    EditText etIdType;
+    @BindView(R.id.etIdNum)
+    EditText etIdNum;
+    @BindView(R.id.etCardType)
+    EditText etCardType;
+    @BindView(R.id.etCardNum)
+    EditText etCardNum;
     @BindView(R.id.etHomeAddress)
     EditText etHomeAddress;
     @BindView(R.id.btnAfterPayHome)
@@ -60,24 +64,30 @@ public class MainActivity extends AppCompatActivity {
         mPersonWu = new PersonBean();
         mPersonWu.setName("吴振强");
         mPersonWu.setPhone("13588259873");
-        mPersonWu.setIcNum("330501199008213715");
-        mPersonWu.setSocialNum("A05111650");
+        mPersonWu.setIdType("01");
+        mPersonWu.setIdNum("330501199008213715");
+        mPersonWu.setCardType("0");
+        mPersonWu.setCardNum("A05111650");
         mPersonWu.setAddress("ShangHai");
 
         /*第一医院陆晓明主要测试账单欠费这些*/
         mPersonLu = new PersonBean();
         mPersonLu.setName("陆晓明");
         mPersonLu.setPhone("13588259873");
-        mPersonLu.setIcNum("330502197207121415");
-        mPersonLu.setSocialNum("A0109403X");
+        mPersonLu.setIdType("01");
+        mPersonLu.setIdNum("330502197207121415");
+        mPersonLu.setCardType("0");
+        mPersonLu.setCardNum("A0109403X");
         mPersonLu.setAddress("ShangHai");
 
         /*中心医院朱凯主要测试账单等信息*/
         mPersonZhu = new PersonBean();
         mPersonZhu.setName("朱凯");
         mPersonZhu.setPhone("13588259873");
-        mPersonZhu.setIcNum("330501199005222018");
-        mPersonZhu.setSocialNum("A0486807X");
+        mPersonZhu.setIdType("01");
+        mPersonZhu.setIdNum("330501199005222018");
+        mPersonZhu.setCardType("0");
+        mPersonZhu.setCardNum("A0486807X");
         mPersonZhu.setAddress("ShangHai");
 
         // 中心医院 "沈桂珠" "330502196702211421" "A04811583"
@@ -104,22 +114,28 @@ public class MainActivity extends AppCompatActivity {
     private void setPersonInfo(PersonBean personBean) {
         String name = personBean.getName();
         String phone = personBean.getPhone();
-        String icNum = personBean.getIcNum();
-        String socialNum = personBean.getSocialNum();
+        String idType = personBean.getIdType();
+        String idNum = personBean.getIdNum();
+        String cardType = personBean.getCardType();
+        String cardNum = personBean.getCardNum();
         String address = personBean.getAddress();
 
         etName.setText(name);
         etPhone.setText(phone);
-        etIcNum.setText(icNum);
-        etSocialNum.setText(socialNum);
+        etIdType.setText(idType);
+        etIdNum.setText(idNum);
+        etCardType.setText(cardType);
+        etCardNum.setText(cardNum);
         etHomeAddress.setText(address);
     }
 
     private void startAfterPayHomePage() {
         String name = etName.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
-        String icNum = etIcNum.getText().toString().trim();
-        String socialNum = etSocialNum.getText().toString().trim();
+        String idType = etIdType.getText().toString().trim();
+        String idNum = etIdNum.getText().toString().trim();
+        String cardType = etCardType.getText().toString().trim();
+        String cardNum = etCardNum.getText().toString().trim();
         String homeAddress = etHomeAddress.getText().toString().trim();
 
         /*
@@ -129,12 +145,14 @@ public class MainActivity extends AppCompatActivity {
          * @param context     上下文
          * @param name        姓名
          * @param phone       手机号
-         * @param icNum       身份证号
-         * @param socialNum   社保卡号
+         * @param idType      证件类型(01：身份证)
+         * @param idNum       证件号码
+         * @param cardType    就诊卡类型(0：社保卡 2：自费卡)
+         * @param cardNum   就诊卡号
          * @param homeAddress 家庭地址
          */
-        ActivityUtil.startAfterPayHome(MainActivity.this,
-                name, phone, icNum, socialNum, homeAddress);
+        WonderGroup.startAfterPayHome(MainActivity.this,
+                name, phone, idType, idNum, cardType, cardNum, homeAddress);
     }
 
 }

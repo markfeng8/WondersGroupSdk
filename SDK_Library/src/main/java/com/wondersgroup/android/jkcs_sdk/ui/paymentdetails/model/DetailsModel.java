@@ -34,13 +34,17 @@ public class DetailsModel implements DetailsContract.IModel {
 
     private static final String TAG = "DetailsModel";
     private String mName;
-    private String mIcNum;
-    private String mSocialNum;
+    private String mIdType;
+    private String mIdNum;
+    private String mCardType;
+    private String mCardNum;
 
     public DetailsModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
-        mIcNum = SpUtil.getInstance().getString(SpKey.IC_NUM, "");
-        mSocialNum = SpUtil.getInstance().getString(SpKey.SOCIAL_NUM, "");
+        mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
+        mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        mCardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
     }
 
     @Override
@@ -51,10 +55,10 @@ public class DetailsModel implements DetailsContract.IModel {
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.NAME, mName);
-        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        map.put(MapKey.ID_NO, mIcNum);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
-        map.put(MapKey.CARD_NO, mSocialNum);
+        map.put(MapKey.ID_TYPE, mIdType);
+        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.CARD_TYPE, mCardType);
+        map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
         map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
         map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
@@ -102,10 +106,10 @@ public class DetailsModel implements DetailsContract.IModel {
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.NAME, mName);
-        map.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
-        map.put(MapKey.ID_NO, mIcNum);
-        map.put(MapKey.CARD_TYPE, OrgConfig.CARD_TYPE0);
-        map.put(MapKey.CARD_NO, mSocialNum);
+        map.put(MapKey.ID_TYPE, mIdType);
+        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.CARD_TYPE, mCardType);
+        map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.TOTAL_COUNT, String.valueOf(totalCount));
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 

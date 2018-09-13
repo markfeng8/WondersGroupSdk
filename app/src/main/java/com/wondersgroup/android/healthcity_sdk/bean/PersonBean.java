@@ -8,18 +8,23 @@ public class PersonBean {
 
     private String name;
     private String phone;
-    private String icNum;
-    private String socialNum;
+    private String idType;
+    private String idNum;
+    private String cardType;
+    private String cardNum;
     private String address;
 
     public PersonBean() {
     }
 
-    public PersonBean(String name, String phone, String icNum, String socialNum, String address) {
+    public PersonBean(String name, String phone, String idType, String idNum, String cardType,
+                      String cardNum, String address) {
         this.name = name;
         this.phone = phone;
-        this.icNum = icNum;
-        this.socialNum = socialNum;
+        this.idType = idType;
+        this.idNum = idNum;
+        this.cardType = cardType;
+        this.cardNum = cardNum;
         this.address = address;
     }
 
@@ -39,20 +44,36 @@ public class PersonBean {
         this.phone = phone;
     }
 
-    public String getIcNum() {
-        return icNum;
+    public String getIdType() {
+        return idType;
     }
 
-    public void setIcNum(String icNum) {
-        this.icNum = icNum;
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
-    public String getSocialNum() {
-        return socialNum;
+    public String getIdNum() {
+        return idNum;
     }
 
-    public void setSocialNum(String socialNum) {
-        this.socialNum = socialNum;
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public String getCardNum() {
+        return cardNum;
+    }
+
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
     }
 
     public String getAddress() {
@@ -68,8 +89,10 @@ public class PersonBean {
         return "PersonBean{" +
                 "name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
-                ", icNum='" + icNum + '\'' +
-                ", socialNum='" + socialNum + '\'' +
+                ", idType='" + idType + '\'' +
+                ", idNum='" + idNum + '\'' +
+                ", cardType='" + cardType + '\'' +
+                ", cardNum='" + cardNum + '\'' +
                 ", address='" + address + '\'' +
                 '}';
     }
