@@ -10,6 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model.AfterPayModel;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -19,6 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 public class AfterPayPresenter<T extends AfterPayContract.IView>
         extends MvpBasePresenter<T> implements AfterPayContract.IPresenter {
 
+    private static final String TAG = "AfterPayPresenter";
     private AfterPayContract.IModel mModel = new AfterPayModel();
 
     public AfterPayPresenter() {
@@ -35,11 +37,13 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
             mModel.sendSmsCode(phoneNumber, new OnSmsSendListener() {
                 @Override
                 public void onSuccess() {
+                    LogUtil.i(TAG, "发送成功~");
                     WToastUtil.show("发送成功！");
                 }
 
                 @Override
-                public void onFailed() {
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "发送失败===" + errCodeDes);
                     WToastUtil.show("发送失败！");
                 }
             });
@@ -47,7 +51,6 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
             WToastUtil.show(WondersApplication.getsContext()
                     .getString(R.string.wonders_text_phone_number_nullable));
         }
-
     }
 
     @Override
@@ -57,11 +60,17 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
                 @Override
                 public void onSuccess() {
                     WToastUtil.show("开通成功！");
+                    if (isNonNull()) {
+                        mViewRef.get().onAfterPayOpenSuccess();
+                    }
                 }
 
                 @Override
                 public void onFailed() {
                     WToastUtil.show("开通失败！");
+                    if (isNonNull()) {
+                        mViewRef.get().onAfterPayOpenFailed();
+                    }
                 }
             });
         } else {

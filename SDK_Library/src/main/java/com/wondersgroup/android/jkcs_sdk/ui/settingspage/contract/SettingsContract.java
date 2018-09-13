@@ -21,6 +21,8 @@ public interface SettingsContract {
 
     interface IView {
         void dismissPopupWindow();
+
+        void terminationSuccess();
     }
 
     interface IPresenter {

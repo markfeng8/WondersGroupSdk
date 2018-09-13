@@ -1,5 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.model;
 
+import android.text.TextUtils;
+
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
@@ -160,8 +162,11 @@ public class SettingsModel implements SettingsContract.IModel {
                                     listener.onSuccess();
                                 }
                             } else {
-                                if (listener != null) {
-                                    listener.onFailed();
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
                             }
                         }
@@ -172,7 +177,7 @@ public class SettingsModel implements SettingsContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });

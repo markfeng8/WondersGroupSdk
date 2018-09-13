@@ -8,6 +8,6 @@ public interface OnTerminationListener {
 
     void onSuccess();
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 
 }

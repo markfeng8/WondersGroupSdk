@@ -1,5 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model;
 
+import android.text.TextUtils;
+
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
@@ -56,6 +58,10 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        // 此处时为了判断是否已经请求过一次，是否将 sign 加入 map 中，第二次请求时需要剔除 sign，因为 sign 不参与签名！
+        if (map.containsKey(MapKey.SIGN)) {
+            map.remove(MapKey.SIGN);
+        }
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
@@ -74,8 +80,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                                     listener.onSuccess(body);
                                 }
                             } else {
-                                if (listener != null) {
-                                    listener.onFailed();
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
                             }
                         }
@@ -86,7 +95,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });

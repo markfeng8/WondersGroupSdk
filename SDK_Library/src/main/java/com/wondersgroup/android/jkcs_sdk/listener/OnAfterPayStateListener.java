@@ -10,5 +10,5 @@ public interface OnAfterPayStateListener {
 
     void onSuccess(AfterPayStateEntity entity);
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 }

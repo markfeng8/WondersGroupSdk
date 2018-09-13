@@ -8,6 +8,6 @@ public interface OnSmsSendListener {
 
     void onSuccess();
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 
 }

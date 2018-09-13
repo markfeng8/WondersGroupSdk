@@ -18,6 +18,7 @@ import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
@@ -25,6 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsAc
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.List;
@@ -151,12 +153,20 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void initListener() {
             // 选择医院
-            tvSelectHospital.setOnClickListener(v ->
+            tvSelectHospital.setOnClickListener(v -> {
+                String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
+                if (TextUtils.isEmpty(feeTotal)) {
                     ((Activity) mContext).startActivityForResult(new Intent(mContext,
-                            SelectHospitalActivity.class), IntentExtra.REQUEST_CODE));
+                            SelectHospitalActivity.class), IntentExtra.REQUEST_CODE);
+                } else {
+                    WToastUtil.show("您有欠费记录，需先缴清欠费！");
+                }
+            });
             // 缴费记录
-            tvPayRecord.setOnClickListener(v -> mContext.startActivity(
-                    new Intent(mContext, PayRecordActivity.class)));
+            tvPayRecord.setOnClickListener(v -> {
+                mContext.startActivity(
+                        new Intent(mContext, PayRecordActivity.class));
+            });
             // 去缴费
             tvToPayFee.setOnClickListener(v -> mContext.startActivity(
                     new Intent(mContext, PaymentDetailsActivity.class)));
@@ -166,8 +176,15 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             // 去开通医保移动支付
             tvMobilePayState.setOnClickListener(v -> openMobilePay());
             // 设置
-            tvSettings.setOnClickListener(v -> mContext.startActivity(
-                    new Intent(mContext, SettingsActivity.class)));
+            tvSettings.setOnClickListener(v -> {
+                String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
+                if ("01".equals(signingStatus)) {
+                    mContext.startActivity(
+                            new Intent(mContext, SettingsActivity.class));
+                } else {
+                    WToastUtil.show("您未开通医后付，请先开通医后付！");
+                }
+            });
         }
 
         @SuppressLint("SetTextI18n")

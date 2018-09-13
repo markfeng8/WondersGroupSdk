@@ -72,6 +72,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     @Override
     protected void onRestart() {
         super.onRestart();
+        LogUtil.i(TAG, "onRestart()");
         mAfterPayOpenSuccess = SpUtil.getInstance().getBoolean(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
         if (mAfterPayOpenSuccess) {
             refreshAfterPayState();
@@ -177,7 +178,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             SpUtil.getInstance().save(SpKey.PAYMENT_STATUS, paymentStatus);
             SpUtil.getInstance().save(SpKey.NOTICE_PHONE, noticePhone);
             SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
-            SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
+            if (!TextUtils.isEmpty(feeTotal)) {
+                SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
+            }
 
             mHeaderBean.setSigningStatus(signingStatus);
             mHeaderBean.setPaymentStatus(paymentStatus);

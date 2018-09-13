@@ -78,8 +78,9 @@ public class AfterPayModel implements AfterPayContract.IModel {
                                     listener.onSuccess();
                                 }
                             } else {
+                                String errCodeDes = body.getErr_code_des();
                                 if (listener != null) {
-                                    listener.onFailed();
+                                    listener.onFailed(errCodeDes);
                                 }
                             }
                         }
@@ -90,7 +91,7 @@ public class AfterPayModel implements AfterPayContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });

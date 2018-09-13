@@ -35,6 +35,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
             mModel.getAfterPayState(map, new OnAfterPayStateListener() {
                 @Override
                 public void onSuccess(AfterPayStateEntity entity) {
+                    LogUtil.i(TAG, "医后付状态查询成功~");
                     if (isNonNull()) {
                         mViewRef.get().afterPayResult(entity);
                     }
@@ -42,7 +43,8 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
 
                 @Override
-                public void onFailed() {
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "医后付状态查询失败===" + errCodeDes);
                     dismissLoading();
                 }
             });

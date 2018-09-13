@@ -47,6 +47,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvOriginalPhone;
     private TextView tvUpdateTitle;
     private TextView tvOpen;
+    private TextView tvPhoneNum;
 
     private PopupWindow popupWindow;
     private View popupView;
@@ -75,6 +76,15 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
+    }
+
+    /**
+     * 解约成功的回调
+     */
+    @Override
+    public void terminationSuccess() {
+        SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, true);
+        finish();
     }
 
     private void initData() {
@@ -168,19 +178,21 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
             tvUpdateTitle = (TextView) popupView.findViewById(R.id.tvUpdateTitle);
             tvOpen = (TextView) popupView.findViewById(R.id.tvOpen);
+            tvPhoneNum = (TextView) popupView.findViewById(R.id.tvPhoneNum);
             tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
 
             // 获取验证码
             popupView.findViewById(R.id.tvGetSmsCode).setOnClickListener(v -> {
-                String phone = etPhone.getText().toString();
-                if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
-                    if (mFlag == 1) {
+
+                if (mFlag == 1) {
+                    String phone = etPhone.getText().toString();
+                    if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
                         mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS2);
-                    } else if (mFlag == 2) {
-                        mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS3);
+                    } else {
+                        WToastUtil.show("手机号为空或不正确！");
                     }
-                } else {
-                    WToastUtil.show("手机号为空或不正确！");
+                } else if (mFlag == 2) {
+                    mPresenter.sendVerifyCode(mPhone, OrgConfig.IDEN_CLASS3);
                 }
             });
 
@@ -192,25 +204,35 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
             // 开通
             tvOpen.setOnClickListener(v -> {
-                String phone = etPhone.getText().toString();
                 String verifyCode = etVerifyCode.getText().toString();
 
-                if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(verifyCode)) {
+                if (!TextUtils.isEmpty(verifyCode)) {
                     HashMap<String, String> param = new HashMap<>();
-                    param.put(MapKey.PHONE, phone);
                     param.put(MapKey.IDEN_CODE, verifyCode);
                     param.put(MapKey.ID_NO, mIdNo);
                     param.put(MapKey.CARD_NO, mCardNo);
-                    if (mFlag == 1) {
-                        param.put(MapKey.NAME, mName);
-                        mPresenter.sendOpenRequest(param);
-                    } else if (mFlag == 2) {
+                    if (mFlag == 1) { // 开通
+                        String phone = etPhone.getText().toString();
+                        if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+                            param.put(MapKey.PHONE, phone);
+                            param.put(MapKey.NAME, mName);
+                            mPresenter.sendOpenRequest(param);
+                        } else {
+                            WToastUtil.show("手机号为空或非法！");
+                        }
+                    } else if (mFlag == 2) { // 解约医后付
+                        param.put(MapKey.PHONE, mPhone);
                         mPresenter.termination(param);
                     }
                 } else {
-                    WToastUtil.show("手机号或验证码不能为空！");
+                    WToastUtil.show("验证码不能为空！");
                 }
             });
+        }
+
+        String code = etVerifyCode.getText().toString();
+        if (!TextUtils.isEmpty(code)) {
+            etVerifyCode.setText("");
         }
 
         if (mFlag == 1) {
@@ -219,10 +241,15 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             tvOriginalPhone.setVisibility(View.VISIBLE);
             tvOriginalPhone.setText(phoneText);
             tvOpen.setText("开通");
+            tvPhoneNum.setVisibility(View.GONE);
+            etPhone.setVisibility(View.VISIBLE);
         } else if (mFlag == 2) {
             tvUpdateTitle.setText(getString(R.string.wonders_termination_after_pay));
             tvOriginalPhone.setVisibility(View.INVISIBLE);
             tvOpen.setText("解约");
+            tvPhoneNum.setVisibility(View.VISIBLE);
+            etPhone.setVisibility(View.GONE);
+            tvPhoneNum.setText("手机号：" + mPhone);
         }
 
         if (popupWindow.isShowing()) {

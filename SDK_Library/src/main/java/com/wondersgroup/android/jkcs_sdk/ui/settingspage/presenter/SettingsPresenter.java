@@ -11,6 +11,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.model.SettingsModel;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -35,21 +36,23 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 @Override
                 public void onSuccess() {
                     WToastUtil.show("修改成功！");
-                    if (isNonNull()) {
-                        mViewRef.get().dismissPopupWindow();
-                    }
+                    dismissPopupWindow();
                 }
 
                 @Override
                 public void onFailed() {
                     WToastUtil.show("修改失败！");
-                    if (isNonNull()) {
-                        mViewRef.get().dismissPopupWindow();
-                    }
+                    dismissPopupWindow();
                 }
             });
         } else {
             throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+        }
+    }
+
+    private void dismissPopupWindow() {
+        if (isNonNull()) {
+            mViewRef.get().dismissPopupWindow();
         }
     }
 
@@ -79,12 +82,19 @@ public class SettingsPresenter<T extends SettingsContract.IView>
             mModel.termination(map, new OnTerminationListener() {
                 @Override
                 public void onSuccess() {
-
+                    LogUtil.i(TAG, "医后付解约成功~");
+                    WToastUtil.show("医后付解约成功");
+                    dismissPopupWindow();
+                    if (isNonNull()) {
+                        mViewRef.get().terminationSuccess();
+                    }
                 }
 
                 @Override
-                public void onFailed() {
-
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "医后付解约失败！");
+                    WToastUtil.show(errCodeDes);
+                    dismissPopupWindow();
                 }
             });
         } else {
