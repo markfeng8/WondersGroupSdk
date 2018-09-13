@@ -25,6 +25,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void getUnclearedBill(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
+            showLoading();
             mModel.getUnclearedBill(map, new OnUnclearedBillListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
@@ -37,6 +38,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
                 @Override
                 public void onFailed() {
                     LogUtil.e(TAG, "getUnclearedBill() -> onFailed()");
+                    dismissLoading();
                 }
             });
         } else {
@@ -47,6 +49,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void lockOrder(HashMap<String, Object> map, int totalCount) {
         if (map != null && !map.isEmpty()) {
+            showLoading();
             mModel.lockOrder(map, totalCount, new OnLockOrderListener() {
                 @Override
                 public void onSuccess(LockOrderEntity entity) {
@@ -59,10 +62,23 @@ public class DetailsPresenter<T extends DetailsContract.IView>
                 @Override
                 public void onFailed() {
                     LogUtil.e(TAG, "lockOrder() -> onFailed()");
+                    dismissLoading();
                 }
             });
         } else {
             throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+        }
+    }
+
+    private void showLoading() {
+        if (isNonNull()) {
+            mViewRef.get().showLoading();
+        }
+    }
+
+    private void dismissLoading() {
+        if (isNonNull()) {
+            mViewRef.get().dismissLoading();
         }
     }
 }

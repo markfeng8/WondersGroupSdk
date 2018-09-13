@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -18,6 +19,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPres
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,11 +33,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
+    private View activityView;
     private String mOrgCode;
     private DetailHeadBean mHeadBean;
     private List<Object> mItemList = new ArrayList<>();
     private DetailsAdapter mAdapter;
     private DetailPayBean mDetailPayBean;
+    private LoadingView mLoading;
 
     @Override
     protected DetailsPresenter<DetailsContract.IView> createPresenter() {
@@ -51,6 +55,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     private void initData() {
+        mLoading = new LoadingView.Builder(this)
+                .setDropView(activityView)
+                .build();
+
         // mOrgCode 暂时写死
         // 中心医院(朱凯)：47117170333050211A1001
         // 第一医院(陆晓明)：47117166633050211A1001
@@ -92,6 +100,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
+        activityView = findViewById(R.id.activityView);
     }
 
     private void setAdapter() {
@@ -147,6 +156,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             String lockStartTime = entity.getLock_start_time();
             String payPlatTradeNo = entity.getPayplat_tradno();
             LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        if (mLoading != null) {
+            mLoading.show();
+        }
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (mLoading != null) {
+            mLoading.dismiss();
         }
     }
 

@@ -23,6 +23,10 @@ public interface DetailsContract {
         void feeBillResult(FeeBillEntity entity);
 
         void lockOrderResult(LockOrderEntity entity);
+
+        void showLoading();
+
+        void dismissLoading();
     }
 
     interface IPresenter {

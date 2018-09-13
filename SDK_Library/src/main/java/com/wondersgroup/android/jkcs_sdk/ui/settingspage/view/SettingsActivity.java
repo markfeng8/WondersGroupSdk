@@ -46,6 +46,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private EditText etVerifyCode;
     private TextView tvOriginalPhone;
     private TextView tvUpdateTitle;
+    private TextView tvOpen;
 
     private PopupWindow popupWindow;
     private View popupView;
@@ -166,6 +167,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             etPhone = (EditText) popupView.findViewById(R.id.etPhone);
             etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
             tvUpdateTitle = (TextView) popupView.findViewById(R.id.tvUpdateTitle);
+            tvOpen = (TextView) popupView.findViewById(R.id.tvOpen);
             tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
 
             // 获取验证码
@@ -189,7 +191,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             });
 
             // 开通
-            popupView.findViewById(R.id.tvOpen).setOnClickListener(v -> {
+            tvOpen.setOnClickListener(v -> {
                 String phone = etPhone.getText().toString();
                 String verifyCode = etVerifyCode.getText().toString();
 
@@ -216,9 +218,11 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             String phoneText = getString(R.string.wonders_original_phone) + mPhone;
             tvOriginalPhone.setVisibility(View.VISIBLE);
             tvOriginalPhone.setText(phoneText);
+            tvOpen.setText("开通");
         } else if (mFlag == 2) {
             tvUpdateTitle.setText(getString(R.string.wonders_termination_after_pay));
             tvOriginalPhone.setVisibility(View.INVISIBLE);
+            tvOpen.setText("解约");
         }
 
         if (popupWindow.isShowing()) {
