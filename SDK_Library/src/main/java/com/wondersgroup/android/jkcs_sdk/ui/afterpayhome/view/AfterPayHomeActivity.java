@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.bean.OpenStatusBean;
@@ -26,6 +25,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
@@ -52,6 +52,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private AfterPayAdapter mAdapter;
     private HashMap<String, String> mPassParamMap;
     private boolean mAfterPayOpenSuccess;
+    private String mOrgName;
+    private String mOrgCode;
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -89,7 +91,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         tvPayMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AfterPayHomeActivity.this, "暂未开通", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AfterPayHomeActivity.this, PaymentDetailsActivity.class);
+                intent.putExtra(IntentExtra.ORG_CODE, mOrgCode);
+                intent.putExtra(IntentExtra.ORG_NAME, mOrgName);
+                startActivity(intent);
             }
         });
     }
@@ -166,19 +171,24 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         if (entity != null) {
             String signingStatus = entity.getSigning_status();
             String paymentStatus = entity.getOne_payment_status();
-            String noticePhone = entity.getPhone();
+            String phone = entity.getPhone();
             String signDate = entity.getCt_date();
             String feeTotal = entity.getFee_total();
+            mOrgCode = entity.getOrg_code();
+            mOrgName = entity.getOrg_name();
+
             if (!TextUtils.isEmpty(feeTotal)) {
                 tvMoneyNum.setText(feeTotal);
             }
 
             SpUtil.getInstance().save(SpKey.SIGNING_STATUS, signingStatus);
             SpUtil.getInstance().save(SpKey.PAYMENT_STATUS, paymentStatus);
-            SpUtil.getInstance().save(SpKey.NOTICE_PHONE, noticePhone);
+            SpUtil.getInstance().save(SpKey.PHONE, phone);
             SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
             SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
 
+            mHeaderBean.setOrgCode(mOrgCode);
+            mHeaderBean.setOrgName(mOrgName);
             mHeaderBean.setSigningStatus(signingStatus);
             mHeaderBean.setPaymentStatus(paymentStatus);
             mHeaderBean.setFeeTotal(feeTotal);
@@ -196,9 +206,14 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     @Override
     public void feeBillResult(FeeBillEntity entity) {
         if (entity != null) {
+            llNeedPay.setVisibility(View.VISIBLE);
+            String feeTotal = entity.getFee_total();
+            tvMoneyNum.setText(feeTotal);
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
             mItemList.addAll(details); // 添加医院欠费信息数据(放到下标为0处)
             refreshAdapter();
+        } else {
+            llNeedPay.setVisibility(View.GONE);
         }
     }
 
@@ -220,9 +235,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentExtra.REQUEST_CODE && resultCode == IntentExtra.RESULT_CODE) {
-            String orgName = data.getStringExtra(IntentExtra.ORG_NAME);
-            String orgCode = data.getStringExtra(IntentExtra.ORG_CODE);
-            mHeaderBean.setHospitalName(orgName);
+            mOrgName = data.getStringExtra(IntentExtra.ORG_NAME);
+            mOrgCode = data.getStringExtra(IntentExtra.ORG_CODE);
+            mHeaderBean.setHospitalName(mOrgName);
 
             // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
             if (mItemList.size() > 0) {
@@ -232,7 +247,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             refreshAdapter();
 
             HashMap<String, String> map = new HashMap<>();
-            map.put(MapKey.ORG_CODE, orgCode);
+            map.put(MapKey.ORG_CODE, mOrgCode);
             map.put(MapKey.PAGE_NUMBER, "1");
             map.put(MapKey.PAGE_SIZE, "10");
             mPresenter.getUnclearedBill(map);

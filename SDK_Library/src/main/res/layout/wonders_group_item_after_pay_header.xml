@@ -7,6 +7,7 @@
     <include layout="@layout/wonders_group_afterpay_state_card" />
 
     <LinearLayout
+        android:id="@+id/llSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/wonders_margin_24dp"
@@ -32,7 +33,6 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/tvUpdateInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/wonders_margin_10dp"
@@ -49,6 +49,7 @@
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <LinearLayout
+        android:id="@+id/llPayRecord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/wonders_rgb_color_ffffff"
@@ -73,7 +74,6 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/tvPayRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/wonders_margin_10dp"
@@ -138,5 +138,10 @@
             android:text="@string/wonders_select_hospital"
             android:textColor="@color/wonders_rgb_color_c9c9c9" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
 
 </LinearLayout>

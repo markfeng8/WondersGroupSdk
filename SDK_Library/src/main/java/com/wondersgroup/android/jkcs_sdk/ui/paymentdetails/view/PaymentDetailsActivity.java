@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import com.epsoft.hzauthsdk.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
@@ -44,6 +46,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private TextView tvPayMoney;
     private View activityView;
     private String mOrgCode;
+    private String mOrgName;
     private DetailHeadBean mHeadBean;
     private List<Object> mItemList = new ArrayList<>();
     private DetailsAdapter mAdapter;
@@ -70,10 +73,16 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 .setDropView(activityView)
                 .build();
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
+            mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+        }
+
         // mOrgCode 暂时写死
         // 中心医院(朱凯)：47117170333050211A1001
         // 第一医院(陆晓明)：47117166633050211A1001
-        mOrgCode = "47117166633050211A1001";
+        // mOrgCode = "47117166633050211A1001";
 
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
@@ -85,13 +94,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         // ------------------下面是一些写死的数据-----------------
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        String hospitalName = "中心医院";
+        //String hospitalName = "中心医院";
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
         mHeadBean.setOrderNum("92829389283");
         mHeadBean.setSocialNum(cardNum);
-        mHeadBean.setHospitalName(hospitalName);
+        mHeadBean.setHospitalName(mOrgName);
 
         mDetailPayBean = new DetailPayBean();
         mDetailPayBean.setTotalPay("");
@@ -243,7 +252,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
      */
     public void getOrderDetails(String hisOrderNo, int position) {
         mClickItemPos = position;
-        mPresenter.getOrderDetails(hisOrderNo);
+        mPresenter.getOrderDetails(hisOrderNo, mOrgCode);
     }
 
     /**

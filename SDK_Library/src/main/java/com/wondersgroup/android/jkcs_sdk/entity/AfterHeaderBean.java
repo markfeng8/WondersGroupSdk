@@ -13,12 +13,15 @@ public class AfterHeaderBean {
     private String signingStatus; // 医后付签约状态
     private String mobPayStatus;
     private String feeTotal;
+    private String orgCode;
+    private String orgName;
 
     public AfterHeaderBean() {
     }
 
-    public AfterHeaderBean(String name, String socialNum, String hospitalName, String paymentStatus,
-                           String signingStatus, String mobPayStatus, String feeTotal) {
+    public AfterHeaderBean(String name, String socialNum, String hospitalName,
+                           String paymentStatus, String signingStatus, String mobPayStatus,
+                           String feeTotal, String orgCode, String orgName) {
         this.name = name;
         this.socialNum = socialNum;
         this.hospitalName = hospitalName;
@@ -26,6 +29,24 @@ public class AfterHeaderBean {
         this.signingStatus = signingStatus;
         this.mobPayStatus = mobPayStatus;
         this.feeTotal = feeTotal;
+        this.orgCode = orgCode;
+        this.orgName = orgName;
+    }
+
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
 
     public String getFeeTotal() {
@@ -94,6 +115,8 @@ public class AfterHeaderBean {
                 ", signingStatus='" + signingStatus + '\'' +
                 ", mobPayStatus='" + mobPayStatus + '\'' +
                 ", feeTotal='" + feeTotal + '\'' +
+                ", orgCode='" + orgCode + '\'' +
+                ", orgName='" + orgName + '\'' +
                 '}';
     }
 }

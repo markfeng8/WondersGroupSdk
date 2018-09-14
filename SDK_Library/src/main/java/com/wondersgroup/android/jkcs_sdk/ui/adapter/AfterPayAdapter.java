@@ -114,8 +114,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     // 1.Header 类型
     class HeaderViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvSettings;
-        private TextView tvPayRecord;
+        private LinearLayout llSettings;
+        private LinearLayout llPayRecord;
         private TextView tvPayToast;
         private TextView tvHospitalName;
         private TextView tvSelectHospital;
@@ -125,11 +125,13 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView tvMobilePayState;
         private TextView tvToPay;
         private LinearLayout llToPayFee;
+        private String orgCode;
+        private String orgName;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
-            tvSettings = (TextView) itemView.findViewById(R.id.tvUpdateInfo);
-            tvPayRecord = (TextView) itemView.findViewById(R.id.tvPayRecord);
+            llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
+            llPayRecord = (LinearLayout) itemView.findViewById(R.id.llPayRecord);
             tvPayToast = (TextView) itemView.findViewById(R.id.tvPayToast);
             tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
             tvSelectHospital = (TextView) itemView.findViewById(R.id.tvSelectHospital);
@@ -161,24 +163,26 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
             // 缴费记录
-            tvPayRecord.setOnClickListener(v -> {
-                mContext.startActivity(
-                        new Intent(mContext, PayRecordActivity.class));
+            llPayRecord.setOnClickListener(v -> {
+                mContext.startActivity(new Intent(mContext, PayRecordActivity.class));
             });
             // 去缴费
-            llToPayFee.setOnClickListener(v -> mContext.startActivity(
-                    new Intent(mContext, PaymentDetailsActivity.class)));
+            llToPayFee.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, PaymentDetailsActivity.class);
+                intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+                intent.putExtra(IntentExtra.ORG_NAME, orgName);
+                mContext.startActivity(intent);
+            });
             // 去开通医后付
             tvAfterPayState.setOnClickListener(v -> mContext.startActivity(
                     new Intent(mContext, OpenAfterPayActivity.class)));
             // 去开通医保移动支付
             tvMobilePayState.setOnClickListener(v -> openMobilePay());
             // 设置
-            tvSettings.setOnClickListener(v -> {
+            llSettings.setOnClickListener(v -> {
                 String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
                 if ("01".equals(signingStatus)) {
-                    mContext.startActivity(
-                            new Intent(mContext, SettingsActivity.class));
+                    mContext.startActivity(new Intent(mContext, SettingsActivity.class));
                 } else {
                     WToastUtil.show("您未开通医后付，请先开通医后付！");
                 }
@@ -193,6 +197,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 String signingStatus = afterHeaderBean.getSigningStatus();
                 String mobPayStatus = afterHeaderBean.getMobPayStatus();
                 String hospitalName = afterHeaderBean.getHospitalName();
+                orgCode = afterHeaderBean.getOrgCode();
+                orgName = afterHeaderBean.getOrgName();
 
                 tvTreatName.setText(name);
                 if (!TextUtils.isEmpty(hospitalName)) {
@@ -279,7 +285,14 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void setData(FeeBillEntity.DetailsBean detailsBean) {
-
+            if (detailsBean != null) {
+                String orderName = detailsBean.getOrdername();
+                String hisOrderTime = detailsBean.getHis_order_time();
+                String feeOrder = detailsBean.getFee_order();
+                tvFeeName.setText(orderName);
+                tvTimestamp.setText(hisOrderTime);
+                tvMoney.setText(feeOrder);
+            }
         }
     }
 }

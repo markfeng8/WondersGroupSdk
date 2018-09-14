@@ -213,6 +213,11 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if (openDetails != null) {
                     if (openDetails.size() > 0) {
+                        // 先清除就布局中的 Item
+                        int count = llDetails.getChildCount();
+                        if (count > 1) {
+                            llDetails.removeViews(1, count - 1);
+                        }
                         for (int i = 0; i < openDetails.size(); i++) {
                             StringBuilder stringBuilder = new StringBuilder();
                             OrderDetailsEntity.DetailsBean detailsBean = openDetails.get(i);

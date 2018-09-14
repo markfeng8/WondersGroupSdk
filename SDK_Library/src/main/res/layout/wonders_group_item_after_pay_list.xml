@@ -31,7 +31,8 @@
                 android:layout_marginStart="@dimen/wonders_margin_16dp"
                 android:text="外科 普通门诊"
                 android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_14sp" />
+                android:textSize="@dimen/wonders_text_size_14sp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView

@@ -13,6 +13,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.DetailsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
@@ -40,9 +41,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
                 }
 
                 @Override
-                public void onFailed() {
-                    LogUtil.e(TAG, "getUnclearedBill() -> onFailed()");
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "getUnclearedBill() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -51,10 +53,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     }
 
     @Override
-    public void getOrderDetails(String hisOrderNo) {
+    public void getOrderDetails(String hisOrderNo, String orgCode) {
         if (!TextUtils.isEmpty(hisOrderNo)) {
             showLoading();
-            mModel.getOrderDetails(hisOrderNo, new OnOrderDetailListener() {
+            mModel.getOrderDetails(hisOrderNo, orgCode, new OnOrderDetailListener() {
                 @Override
                 public void onSuccess(OrderDetailsEntity entity) {
                     LogUtil.i(TAG, "getOrderDetails() -> onSuccess()");

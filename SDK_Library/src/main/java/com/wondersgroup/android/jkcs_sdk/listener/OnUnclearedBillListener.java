@@ -10,5 +10,5 @@ public interface OnUnclearedBillListener {
 
     void onSuccess(FeeBillEntity entity);
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 }

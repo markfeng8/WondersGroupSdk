@@ -85,8 +85,11 @@ public class DetailsModel implements DetailsContract.IModel {
                                     listener.onSuccess(body);
                                 }
                             } else {
-                                if (listener != null) {
-                                    listener.onFailed();
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
                             }
                         }
@@ -97,7 +100,7 @@ public class DetailsModel implements DetailsContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });
@@ -159,14 +162,14 @@ public class DetailsModel implements DetailsContract.IModel {
      * @param listener
      */
     @Override
-    public void getOrderDetails(String hisOrderNo, OnOrderDetailListener listener) {
+    public void getOrderDetails(String hisOrderNo, String orgCode, OnOrderDetailListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
-        map.put(MapKey.ORG_CODE, "47117166633050211A1001");
+        map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.HIS_ORDER_NO, hisOrderNo);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 

@@ -20,7 +20,7 @@ public interface DetailsContract {
 
         void getUnclearedBill(HashMap<String, String> map, OnUnclearedBillListener listener);
 
-        void getOrderDetails(String hisOrderNo, OnOrderDetailListener listener);
+        void getOrderDetails(String hisOrderNo, String orgCode, OnOrderDetailListener listener);
 
         void tryToSettle(String token);
     }
@@ -42,7 +42,7 @@ public interface DetailsContract {
 
         void getUnclearedBill(HashMap<String, String> map);
 
-        void getOrderDetails(String hisOrderNo);
+        void getOrderDetails(String hisOrderNo, String orgCode);
 
         void tryToSettle(String token);
     }

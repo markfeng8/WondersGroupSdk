@@ -12,6 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
@@ -80,16 +81,20 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "getUnclearedBill() -> onSuccess()");
+                    dismissLoading();
                     if (isNonNull()) {
                         mViewRef.get().feeBillResult(entity);
                     }
-                    dismissLoading();
                 }
 
                 @Override
-                public void onFailed() {
-                    LogUtil.e(TAG, "getUnclearedBill() -> onFailed()");
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "getUnclearedBill() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
+                    if (isNonNull()) {
+                        mViewRef.get().feeBillResult(null);
+                    }
                 }
             });
         } else {

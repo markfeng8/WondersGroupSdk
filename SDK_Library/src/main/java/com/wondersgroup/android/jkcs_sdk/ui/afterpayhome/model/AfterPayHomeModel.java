@@ -185,8 +185,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                                     listener.onSuccess(body);
                                 }
                             } else {
-                                if (listener != null) {
-                                    listener.onFailed();
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
                             }
                         }
@@ -197,7 +200,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });
