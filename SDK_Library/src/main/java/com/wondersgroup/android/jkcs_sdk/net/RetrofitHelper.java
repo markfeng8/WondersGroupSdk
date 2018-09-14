@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     private static final String BASE_URL = RequestUrl.HOST; // host
-    private static final long DEFAULT_TIMEOUT = 10000L; // timeout millis
+    private static final long DEFAULT_TIMEOUT = 20000L; // timeout millis
 
     private Retrofit retrofit;
     private OkHttpClient client;

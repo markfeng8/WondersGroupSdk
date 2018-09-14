@@ -64,7 +64,7 @@ public class EpSoftMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String trim = etMobile.getText().toString().trim();
                 if (!TextUtils.isEmpty(trim) && trim.length() == 11) {
-                    AuthCall.businessProcess(EpSoftMainActivity.this, MakeArgsFactory.getBussArgs(), new AuthCall.CallBackListener() {
+                    AuthCall.businessProcess(EpSoftMainActivity.this, MakeArgsFactory.getOpenArgs(), new AuthCall.CallBackListener() {
                         @Override
                         public void callBack(String result) {
                             ToastUtils.showToast(EpSoftMainActivity.this, result);

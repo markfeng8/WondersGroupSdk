@@ -2,9 +2,15 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.epsoft.hzauthsdk.all.AuthCall;
+import com.epsoft.hzauthsdk.bean.OpenStatusBean;
+import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
+import com.epsoft.hzauthsdk.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
@@ -21,6 +27,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPres
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
@@ -96,7 +103,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     private void initListener() {
-
+        tvPayMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getYiBaoToken();
+            }
+        });
     }
 
     private void findViews() {
@@ -232,5 +244,35 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     public void getOrderDetails(String hisOrderNo, int position) {
         mClickItemPos = position;
         mPresenter.getOrderDetails(hisOrderNo);
+    }
+
+    /**
+     * 查询医保移动支付状态
+     */
+    public void getMobilePayState() {
+        AuthCall.queryOpenStatus(PaymentDetailsActivity.this, MakeArgsFactory.getOpenStatusArgs(), new AuthCall.CallBackListener() {
+            @Override
+            public void callBack(String result) {
+                if (!TextUtils.isEmpty(result)) {
+                    LogUtil.i(TAG, "result===" + result);
+                    OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
+                    int isYbPay = statusBean.getIsYbPay();
+                    if (isYbPay == 1) { // 已开通
+                        getYiBaoToken();
+                    } else { // 未开通
+                        WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
+                    }
+                }
+            }
+        });
+    }
+
+    private void getYiBaoToken() {
+        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getTokenArgs(), new AuthCall.CallBackListener() {
+            @Override
+            public void callBack(String result) {
+                ToastUtils.showToast(PaymentDetailsActivity.this, result);
+            }
+        });
     }
 }

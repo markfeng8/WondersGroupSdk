@@ -259,7 +259,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void openMobilePay() {
             AuthCall.businessProcess(mContext,
-                    MakeArgsFactory.getBussArgs(), WToastUtil::show);
+                    MakeArgsFactory.getOpenArgs(), WToastUtil::show);
         }
     }
 

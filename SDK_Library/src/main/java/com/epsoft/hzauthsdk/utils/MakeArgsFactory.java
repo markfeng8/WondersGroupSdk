@@ -3,7 +3,8 @@ package com.epsoft.hzauthsdk.utils;
 import com.epsoft.hzauthsdk.cons.YiBaoConfig;
 import com.epsoft.hzauthsdk.pub.BusinessArgs;
 import com.epsoft.hzauthsdk.pub.ChangePWArgs;
-import com.google.gson.Gson;
+import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
+import com.epsoft.hzauthsdk.pub.TokenArgs;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -13,18 +14,12 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
  */
 public class MakeArgsFactory {
 
-    private static Gson gson;
-
-    static {
-        gson = new Gson();
-    }
-
     /**
      * 开通医保移动支付参数
      *
      * @return
      */
-    public static BusinessArgs getBussArgs() {
+    public static BusinessArgs getOpenArgs() {
         String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
@@ -40,6 +35,35 @@ public class MakeArgsFactory {
                 .setCardNum(cardNum)
                 .setAuthChannel(YiBaoConfig.CHANNEL)
                 //.setExtendedField(extendedField)
+                .build();
+    }
+
+    /**
+     * 获取试结算时的 Token 参数
+     *
+     * @return
+     */
+    public static TokenArgs getTokenArgs() {
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
+        return new TokenArgs.Builder()
+                .setAuthChannel(YiBaoConfig.CHANNEL)
+                .setCardNum(cardNum)
+                .setType("2") // 2 ??
+                .build();
+    }
+
+    /**
+     * 获取查询开通状态参数
+     *
+     * @return
+     */
+    public static QueryOpenStatusArgs getOpenStatusArgs() {
+        String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
+        return new QueryOpenStatusArgs.Builder()
+                .setAuthChannel(YiBaoConfig.CHANNEL)
+                .setCardNum(socialNum)
                 .build();
     }
 

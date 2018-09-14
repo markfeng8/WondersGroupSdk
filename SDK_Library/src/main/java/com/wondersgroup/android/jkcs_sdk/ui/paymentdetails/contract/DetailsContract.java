@@ -21,6 +21,8 @@ public interface DetailsContract {
         void getUnclearedBill(HashMap<String, String> map, OnUnclearedBillListener listener);
 
         void getOrderDetails(String hisOrderNo, OnOrderDetailListener listener);
+
+        void tryToSettle(String token);
     }
 
     interface IView {
@@ -41,5 +43,7 @@ public interface DetailsContract {
         void getUnclearedBill(HashMap<String, String> map);
 
         void getOrderDetails(String hisOrderNo);
+
+        void tryToSettle(String token);
     }
 }

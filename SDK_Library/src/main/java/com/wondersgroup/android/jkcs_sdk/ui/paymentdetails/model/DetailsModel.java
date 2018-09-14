@@ -207,4 +207,55 @@ public class DetailsModel implements DetailsContract.IModel {
                 });
     }
 
+    @Override
+    public void tryToSettle(String token) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0006);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.ORG_CODE, "47117166633050211A1001");
+        map.put(MapKey.TOKEN, token);
+        map.put(MapKey.ADVICE_DATE_TIME, "");
+        map.put(MapKey.HIS_ORDER_NO, "");
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(OrderDetailsService.class)
+                .getOrderDetails(RequestUrl.YD0006, map)
+                .enqueue(new Callback<OrderDetailsEntity>() {
+                    @Override
+                    public void onResponse(Call<OrderDetailsEntity> call, Response<OrderDetailsEntity> response) {
+                        OrderDetailsEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+//                                if (listener != null) {
+//                                    listener.onSuccess(body);
+//                                }
+                            } else {
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+//                                    if (listener != null) {
+//                                        listener.onFailed(errCodeDes);
+//                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderDetailsEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        LogUtil.e(TAG, error);
+//                        if (listener != null) {
+//                            listener.onFailed(error);
+//                        }
+                    }
+                });
+    }
+
 }

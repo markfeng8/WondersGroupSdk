@@ -11,16 +11,21 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.List;
 
@@ -218,7 +223,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                             stringBuilder
                                     .append(itemName)
-                                    .append("  ")
+                                    .append("              ")
                                     .append(price)
                                     .append("*")
                                     .append(amount)
@@ -232,7 +237,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             bigText.setText(stringBuilder.toString());
                             bigText.setPadding(2, 2, 2, 2);
                             bigText.setGravity(Gravity.CENTER);
-                            bigText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                            bigText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                             bigText.setTextColor(Color.parseColor("#333333"));
                             llDetails.addView(bigText, textLp);
                         }
@@ -247,12 +252,35 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvTotalMoney;
         private TextView tvPersonalPay;
         private TextView tvYiBaoPay;
+        private ToggleButton tbYiBaoEnable;
 
         public PayViewHolder(View itemView) {
             super(itemView);
             tvTotalMoney = (TextView) itemView.findViewById(R.id.tvTotalMoney);
             tvPersonalPay = (TextView) itemView.findViewById(R.id.tvPersonalPay);
             tvYiBaoPay = (TextView) itemView.findViewById(R.id.tvYiBaoPay);
+            tbYiBaoEnable = (ToggleButton) itemView.findViewById(R.id.tbYiBaoEnable);
+            initListener();
+        }
+
+        private void initListener() {
+            tbYiBaoEnable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                        if ("01".equals(mobPayStatus)) { // 已开通
+                            SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, true);
+                        } else { // 未开通
+                            SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
+                            WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
+                            tbYiBaoEnable.setChecked(false);
+                        }
+                    } else {
+                        SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
+                    }
+                }
+            });
         }
 
         public void setData(DetailPayBean payBean) {

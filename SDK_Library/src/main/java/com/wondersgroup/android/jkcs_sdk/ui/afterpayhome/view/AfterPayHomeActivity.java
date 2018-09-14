@@ -12,8 +12,7 @@ import android.widget.Toast;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.bean.OpenStatusBean;
-import com.epsoft.hzauthsdk.cons.YiBaoConfig;
-import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
+import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -244,12 +243,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 查询医保移动支付状态
      */
     private void getMobilePayState() {
-        String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        QueryOpenStatusArgs build = new QueryOpenStatusArgs.Builder()
-                .setAuthChannel(YiBaoConfig.CHANNEL)
-                .setCardNum(socialNum)
-                .build();
-        AuthCall.queryOpenStatus(AfterPayHomeActivity.this, build, new AuthCall.CallBackListener() {
+        AuthCall.queryOpenStatus(AfterPayHomeActivity.this, MakeArgsFactory.getOpenStatusArgs(), new AuthCall.CallBackListener() {
             @Override
             public void callBack(String result) {
                 String mobPayStatus = "00";

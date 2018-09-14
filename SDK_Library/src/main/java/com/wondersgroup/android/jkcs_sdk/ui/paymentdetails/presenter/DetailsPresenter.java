@@ -76,6 +76,11 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     }
 
     @Override
+    public void tryToSettle(String token) {
+
+    }
+
+    @Override
     public void lockOrder(HashMap<String, Object> map, int totalCount) {
         if (map != null && !map.isEmpty()) {
             showLoading();
