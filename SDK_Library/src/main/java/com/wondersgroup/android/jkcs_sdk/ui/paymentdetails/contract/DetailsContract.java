@@ -22,7 +22,7 @@ public interface DetailsContract {
 
         void getOrderDetails(String hisOrderNo, String orgCode, OnOrderDetailListener listener);
 
-        void tryToSettle(String token);
+        void tryToSettle(String token, String orgCode);
     }
 
     interface IView {
@@ -44,6 +44,6 @@ public interface DetailsContract {
 
         void getOrderDetails(String hisOrderNo, String orgCode);
 
-        void tryToSettle(String token);
+        void tryToSettle(String token, String orgCode);
     }
 }

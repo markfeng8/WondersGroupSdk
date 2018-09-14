@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
+import com.epsoft.hzauthsdk.bean.GetTokenBean;
 import com.epsoft.hzauthsdk.bean.OpenStatusBean;
 import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.epsoft.hzauthsdk.utils.ToastUtils;
@@ -29,12 +30,15 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPres
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import cn.iwgang.countdownview.CountdownView;
 
 // 缴费详情页面
 public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IView,
@@ -44,6 +48,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
+    private CountdownView countDownView;
     private View activityView;
     private String mOrgCode;
     private String mOrgName;
@@ -125,6 +130,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
+        countDownView = findViewById(R.id.countDownView);
     }
 
     private void setAdapter() {
@@ -172,6 +178,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
             // 调用锁单接口
             mPresenter.lockOrder(map, detailsList.size());
+
+            getYiBaoToken();
         }
     }
 
@@ -196,6 +204,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
             SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockStartTime);
             SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
+
+            long countDownMillis = TimeUtil.getCountDownMillis(lockStartTime);
+            countDownView.start(countDownMillis);
         }
     }
 
@@ -278,6 +289,21 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void getYiBaoToken() {
         AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getTokenArgs(), new AuthCall.CallBackListener() {
+            @Override
+            public void callBack(String result) {
+                LogUtil.i(TAG, "result===" + result);
+                if (!TextUtils.isEmpty(result)) {
+                    GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
+                    String siCardCode = bean.getSiCardCode();
+                    // 发起试结算
+                    mPresenter.tryToSettle(siCardCode, mOrgCode);
+                }
+            }
+        });
+    }
+
+    private void openYiBaoKeyBoard() {
+        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(), new AuthCall.CallBackListener() {
             @Override
             public void callBack(String result) {
                 ToastUtils.showToast(PaymentDetailsActivity.this, result);

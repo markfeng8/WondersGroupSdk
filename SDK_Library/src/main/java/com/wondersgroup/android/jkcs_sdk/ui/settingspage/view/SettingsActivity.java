@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
@@ -167,6 +168,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvTermination = findViewById(R.id.tvTermination);
     }
 
+    @SuppressLint("SetTextI18n")
     private void showPopupWindow() {
         LogUtil.i(TAG, "popupWindow == null ? " + (popupWindow == null));
         if (popupWindow == null) {
@@ -224,7 +226,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             // 开通
             tvOpen.setOnClickListener(v -> {
                 String verifyCode = etVerifyCode.getText().toString();
-
                 if (!TextUtils.isEmpty(verifyCode)) {
                     HashMap<String, String> param = new HashMap<>();
                     param.put(MapKey.IDEN_CODE, verifyCode);
@@ -259,7 +260,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             String phoneText = getString(R.string.wonders_original_phone) + mPhone;
             tvOriginalPhone.setVisibility(View.VISIBLE);
             tvOriginalPhone.setText(phoneText);
-            tvOpen.setText("开通");
+            tvOpen.setText("修改");
             tvPhoneNum.setVisibility(View.GONE);
             etPhone.setVisibility(View.VISIBLE);
         } else if (mFlag == 2) {

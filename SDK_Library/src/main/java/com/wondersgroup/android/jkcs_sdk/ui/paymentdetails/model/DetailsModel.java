@@ -211,14 +211,14 @@ public class DetailsModel implements DetailsContract.IModel {
     }
 
     @Override
-    public void tryToSettle(String token) {
+    public void tryToSettle(String token, String orgCode) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
-        map.put(MapKey.ORG_CODE, "47117166633050211A1001");
+        map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, "");
         map.put(MapKey.HIS_ORDER_NO, "");

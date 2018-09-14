@@ -39,6 +39,21 @@ public class MakeArgsFactory {
     }
 
     /**
+     * 获取试结算时弹出键盘的参数
+     *
+     * @return
+     */
+    public static TokenArgs getKeyboardArgs() {
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
+        return new TokenArgs.Builder()
+                .setAuthChannel(YiBaoConfig.CHANNEL)
+                .setCardNum(cardNum)
+                .setType("2") // 2 ??
+                .build();
+    }
+
+    /**
      * 获取试结算时的 Token 参数
      *
      * @return
@@ -49,7 +64,7 @@ public class MakeArgsFactory {
         return new TokenArgs.Builder()
                 .setAuthChannel(YiBaoConfig.CHANNEL)
                 .setCardNum(cardNum)
-                .setType("2") // 2 ??
+                .setType("1")
                 .build();
     }
 

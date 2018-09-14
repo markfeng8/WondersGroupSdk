@@ -78,7 +78,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     }
 
     @Override
-    public void tryToSettle(String token) {
+    public void tryToSettle(String token, String orgCode) {
 
     }
 
