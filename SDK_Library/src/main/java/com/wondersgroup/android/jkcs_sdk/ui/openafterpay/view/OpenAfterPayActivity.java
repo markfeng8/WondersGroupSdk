@@ -17,6 +17,8 @@ import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.AfterPayPrese
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
+import cn.iwgang.countdownview.CountdownView;
+
 // 开通医后付页面
 public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView,
         AfterPayPresenter<AfterPayContract.IView>> implements AfterPayContract.IView {
@@ -29,6 +31,7 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     private ToggleButton toggleButton;
     private LinearLayout llOpenPager;
     private LinearLayout llOpenSuccess;
+    private CountdownView countDownView;
 
     @Override
     protected AfterPayPresenter<AfterPayContract.IView> createPresenter() {
@@ -56,10 +59,13 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
         btnOpen = findViewById(R.id.btnOpen);
         llOpenPager = findViewById(R.id.llOpenPager);
         llOpenSuccess = findViewById(R.id.llOpenSuccess);
+        countDownView = findViewById(R.id.countDownView);
     }
 
     private void initListener() {
-        btnGetSmsCode.setOnClickListener(v -> mPresenter.sendSmsCode());
+        btnGetSmsCode.setOnClickListener(v -> {
+            mPresenter.sendSmsCode();
+        });
         btnOpen.setOnClickListener(v -> sendOpenRequest());
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -68,6 +74,13 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
             }
         });
         btnBackToHome.setOnClickListener(v -> finish());
+        countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                countDownView.setVisibility(View.GONE);
+                btnGetSmsCode.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void sendOpenRequest() {
@@ -95,5 +108,12 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     @Override
     public void onAfterPayOpenFailed() {
         WToastUtil.show("开通失败！");
+    }
+
+    @Override
+    public void showCountDownView() {
+        btnGetSmsCode.setVisibility(View.GONE);
+        countDownView.setVisibility(View.VISIBLE);
+        countDownView.start(60000);
     }
 }

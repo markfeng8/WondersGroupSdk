@@ -26,6 +26,8 @@ import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
+import cn.iwgang.countdownview.CountdownView;
+
 // 设置页面
 public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         SettingsPresenter<SettingsContract.IView>> implements SettingsContract.IView {
@@ -48,8 +50,10 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvUpdateTitle;
     private TextView tvOpen;
     private TextView tvPhoneNum;
+    private TextView tvGetSmsCode;
 
     private PopupWindow popupWindow;
+    private CountdownView countDownView;
     private View popupView;
     private String mName;
     private String mIdNo;
@@ -180,19 +184,34 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             tvOpen = (TextView) popupView.findViewById(R.id.tvOpen);
             tvPhoneNum = (TextView) popupView.findViewById(R.id.tvPhoneNum);
             tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
+            countDownView = (CountdownView) popupView.findViewById(R.id.countDownView);
+            tvGetSmsCode = (TextView) popupView.findViewById(R.id.tvGetSmsCode);
 
             // 获取验证码
-            popupView.findViewById(R.id.tvGetSmsCode).setOnClickListener(v -> {
-
+            tvGetSmsCode.setOnClickListener(v -> {
                 if (mFlag == 1) {
                     String phone = etPhone.getText().toString();
                     if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+                        tvGetSmsCode.setVisibility(View.GONE);
+                        countDownView.setVisibility(View.VISIBLE);
+                        countDownView.start(60000);
                         mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS2);
                     } else {
                         WToastUtil.show("手机号为空或不正确！");
                     }
                 } else if (mFlag == 2) {
+                    tvGetSmsCode.setVisibility(View.GONE);
+                    countDownView.setVisibility(View.VISIBLE);
+                    countDownView.start(60000);
                     mPresenter.sendVerifyCode(mPhone, OrgConfig.IDEN_CLASS3);
+                }
+            });
+
+            countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+                @Override
+                public void onEnd(CountdownView cv) {
+                    countDownView.setVisibility(View.GONE);
+                    tvGetSmsCode.setVisibility(View.VISIBLE);
                 }
             });
 

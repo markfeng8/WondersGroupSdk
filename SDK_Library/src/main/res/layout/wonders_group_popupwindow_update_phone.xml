@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -106,6 +107,27 @@
                     android:text="@string/wonders_get_sms_code"
                     android:textColor="@color/wonders_rgb_color_0060ff"
                     android:textSize="@dimen/wonders_text_size_12sp" />
+
+                <cn.iwgang.countdownview.CountdownView
+                    android:id="@+id/countDownView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/wonders_margin_16dp"
+                    android:background="#E9E9E9"
+                    android:padding="@dimen/wonders_padding_8dp"
+                    android:visibility="gone"
+                    app:isHideTimeBackground="true"
+                    app:isShowDay="false"
+                    app:isShowHour="false"
+                    app:isShowMillisecond="false"
+                    app:isShowMinute="false"
+                    app:isShowSecond="true"
+                    app:isTimeTextBold="false"
+                    app:suffixGravity="bottom"
+                    app:suffixSecond="S"
+                    app:suffixTextSize="12sp"
+                    app:timeTextColor="@android:color/black"
+                    app:timeTextSize="12sp" />
             </LinearLayout>
 
             <View

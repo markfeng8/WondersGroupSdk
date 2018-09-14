@@ -20,6 +20,8 @@ public interface AfterPayContract {
         void onAfterPayOpenSuccess();
 
         void onAfterPayOpenFailed();
+
+        void showCountDownView();
     }
 
     interface IPresenter {

@@ -33,7 +33,10 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
             phoneNumber = mViewRef.get().getPhoneNumber();
         }
 
-        if (!TextUtils.isEmpty(phoneNumber)) {
+        if (!TextUtils.isEmpty(phoneNumber) && phoneNumber.length() == 11) {
+            if (isNonNull()) {
+                mViewRef.get().showCountDownView();
+            }
             mModel.sendSmsCode(phoneNumber, new OnSmsSendListener() {
                 @Override
                 public void onSuccess() {
