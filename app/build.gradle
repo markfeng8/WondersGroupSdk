@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.6"
+        versionCode 9
+        versionName "1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -76,3 +76,7 @@ dependencies {
 //    implementation(name: 'SDK_Library-release', ext: 'aar')
 //    implementation(name: 'hzauthsdk-release', ext: 'aar')
 }
+
+/* 打包命令：
+ * gradlew assembleRelease
+ */

@@ -44,6 +44,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:background="@drawable/wonders_group_toggle_switch_selector"
+            android:checked="true"
             android:textOff=""
             android:textOn="" />
     </LinearLayout>

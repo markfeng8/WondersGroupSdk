@@ -124,7 +124,7 @@ public class WonderGroup {
      */
     private static void savePassValues(@NonNull HashMap<String, String> param) {
         String name = param.get(MapKey.NAME);
-        //String phone = param.get(MapKey.PHONE);
+        String phone = param.get(MapKey.PHONE);
         String idType = param.get(MapKey.ID_TYPE);
         String idNum = param.get(MapKey.ID_NO);
         String cardType = param.get(MapKey.CARD_TYPE);
@@ -132,7 +132,7 @@ public class WonderGroup {
         String homeAddress = param.get(MapKey.HOME_ADDRESS);
 
         SpUtil.getInstance().save(SpKey.NAME, name);
-        //SpUtil.getInstance().save(SpKey.PHONE, phone);
+        SpUtil.getInstance().save(SpKey.PASS_PHONE, phone);
         SpUtil.getInstance().save(SpKey.ID_TYPE, idType);
         SpUtil.getInstance().save(SpKey.ID_NUM, idNum);
         SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);

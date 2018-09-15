@@ -9,11 +9,12 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/wonders_padding_16dp">
+        android:padding="@dimen/wonders_padding_8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
             android:drawablePadding="4dp"
             android:drawableStart="@drawable/wonders_group_pay_record_complete"
             android:gravity="center"
@@ -34,7 +35,7 @@
             android:gravity="center"
             android:text="2018年5月9日"
             android:textColor="@color/wonders_rgb_color_646464"
-            android:textSize="@dimen/wonders_text_size_12sp" />
+            android:textSize="@dimen/wonders_text_size_14sp" />
 
         <View
             android:layout_width="10dp"
@@ -49,9 +50,22 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/wonders_group_down_arrow"
             android:gravity="center"
-            android:text="2018年6月9日"
+            android:text="6月9日"
             android:textColor="@color/wonders_rgb_color_646464"
-            android:textSize="@dimen/wonders_text_size_12sp" />
+            android:textSize="@dimen/wonders_text_size_14sp" />
+
+        <TextView
+            android:id="@+id/tvQuery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_8dp"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:background="@drawable/wonders_group_4dp_blue_shape"
+            android:gravity="center"
+            android:padding="@dimen/wonders_padding_4dp"
+            android:text="查询"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_14sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

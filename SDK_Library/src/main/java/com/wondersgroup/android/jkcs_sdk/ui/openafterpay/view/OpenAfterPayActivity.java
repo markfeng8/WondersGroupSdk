@@ -32,6 +32,7 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     private LinearLayout llOpenPager;
     private LinearLayout llOpenSuccess;
     private CountdownView countDownView;
+    private boolean isAgreeRule = false;
 
     @Override
     protected AfterPayPresenter<AfterPayContract.IView> createPresenter() {
@@ -47,7 +48,11 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     }
 
     private void initData() {
-
+        String phone = SpUtil.getInstance().getString(SpKey.PASS_PHONE, "");
+        if (!TextUtils.isEmpty(phone)) {
+            etPhone.setText(phone);
+            etPhone.setSelection(phone.length());
+        }
     }
 
     private void initViews() {
@@ -66,11 +71,17 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
         btnGetSmsCode.setOnClickListener(v -> {
             mPresenter.sendSmsCode();
         });
-        btnOpen.setOnClickListener(v -> sendOpenRequest());
+        btnOpen.setOnClickListener(v -> {
+            if (isAgreeRule) {
+                sendOpenRequest();
+            } else {
+                WToastUtil.show("请先勾选同意！");
+            }
+        });
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO: 2018/8/24 set button enable
+                isAgreeRule = isChecked;
             }
         });
         btnBackToHome.setOnClickListener(v -> finish());

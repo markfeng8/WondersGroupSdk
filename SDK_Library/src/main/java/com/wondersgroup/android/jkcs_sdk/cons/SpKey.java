@@ -8,6 +8,7 @@ public class SpKey {
 
     public static final String NAME = "name";
     public static final String PHONE = "phone";
+    public static final String PASS_PHONE = "passPhone"; // 传过来的手机号
     public static final String ID_TYPE = "idType"; // 证件类型 01：身份证
     public static final String ID_NUM = "idNum";
     public static final String SIGN_DATE = "SignDate";

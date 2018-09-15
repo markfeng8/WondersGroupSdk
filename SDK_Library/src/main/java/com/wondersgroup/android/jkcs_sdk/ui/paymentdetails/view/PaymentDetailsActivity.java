@@ -84,11 +84,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
         }
 
-        // mOrgCode 暂时写死
-        // 中心医院(朱凯)：47117170333050211A1001
-        // 第一医院(陆晓明)：47117166633050211A1001
-        // mOrgCode = "47117166633050211A1001";
-
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
         map.put(MapKey.PAGE_NUMBER, "1");
@@ -120,7 +115,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         tvPayMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
                 getYiBaoToken();
+            }
+        });
+        countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                tvPayMoney.setEnabled(false);
             }
         });
     }

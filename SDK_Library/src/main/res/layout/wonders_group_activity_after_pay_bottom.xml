@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/wonders_margin_10dp"
-        android:background="@drawable/wonders_group_short"
+        android:background="@drawable/wonders_group_pay_normal"
         android:gravity="center"
         android:text="@string/wonders_pay_money"
         android:textColor="@color/wonders_rgb_color_ffffff" />
