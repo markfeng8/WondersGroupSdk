@@ -11,6 +11,6 @@ public class AfterPayRuleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_after_pay_rule);
+        setContentView(R.layout.wonders_group_activity_after_pay_rule);
     }
 }

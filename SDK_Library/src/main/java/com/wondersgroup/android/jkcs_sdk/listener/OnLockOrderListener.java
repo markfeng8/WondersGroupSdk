@@ -10,5 +10,6 @@ public interface OnLockOrderListener {
 
     void onSuccess(LockOrderEntity entity);
 
-    void onFailed();
+    void onFailed(String errCodeDes);
+
 }

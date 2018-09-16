@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/llPaySuccess"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_10dp"
+        android:drawablePadding="@dimen/wonders_padding_10dp"
+        android:drawableStart="@drawable/wonders_group_pay_success"
+        android:gravity="center"
+        android:text="恭喜您已全部成功支付！"
+        android:textColor="@color/wonders_rgb_color_58c78f"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+    <include layout="@layout/wonders_group_payment_result_common" />
+
+    <TextView
+        android:id="@+id/tvPayDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/wonders_margin_10dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:background="@drawable/wonders_group_blue_stroke_shape"
+        android:gravity="center"
+        android:padding="@dimen/wonders_padding_8dp"
+        android:text="支付详情"
+        android:textColor="@color/wonders_rgb_color_0000ff"
+        android:textSize="18sp" />
+
+</LinearLayout>

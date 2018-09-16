@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_10dp"
-        android:drawablePadding="@dimen/wonders_padding_10dp"
-        android:drawableStart="@drawable/wonders_group_mark"
-        android:gravity="center"
-        android:text="结算失败！"
-        android:textColor="@color/wonders_rgb_color_58c78f"
-        android:textSize="@dimen/wonders_text_size_16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +20,7 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -55,6 +45,7 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
+            android:id="@+id/tvCardNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -79,6 +70,7 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
+            android:id="@+id/tvHospitalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -103,6 +95,7 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -163,26 +156,5 @@
         android:text="总计金额：￥560.44"
         android:textColor="@color/wonders_rgb_color_969696"
         android:textSize="@dimen/wonders_text_size_10sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
-        android:background="@color/wonders_rgb_color_f8f8f8"
-        android:padding="@dimen/wonders_padding_10dp"
-        android:text="医保结算失败，您可返回订单重新支付。"
-        android:textColor="@color/wonders_rgb_color_979797"
-        android:textSize="@dimen/wonders_text_size_12sp" />
-
-    <Button
-        android:id="@+id/btnOpen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/wonders_margin_10dp"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
-        android:background="@drawable/wonders_group_blue_shape"
-        android:text="@string/wonders_text_open"
-        android:textColor="@color/wonders_rgb_color_ffffff"
-        android:textSize="16sp" />
 
 </LinearLayout>

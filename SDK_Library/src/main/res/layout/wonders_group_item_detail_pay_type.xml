@@ -73,6 +73,7 @@
             android:textSize="@dimen/wonders_text_size_16sp" />
 
         <TextView
+            android:id="@+id/tvPayType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/wonders_group_right_arrow"

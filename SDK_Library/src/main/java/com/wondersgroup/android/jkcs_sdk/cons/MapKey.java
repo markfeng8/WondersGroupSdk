@@ -31,6 +31,7 @@ public class MapKey {
     public static final String DETAILS = "details";
     public static final String HIS_ORDER_NO = "his_order_no";
     public static final String FEE_ORDER = "fee_order";
+    public static final String ORDER_NO = "order_no";
     public static final String ORDER_NAME = "order_name";
     public static final String IDEN_CODE = "iden_code"; // 验证码
     public static final String IDEN_CLASS = "iden_class"; // 通知类别

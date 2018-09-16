@@ -3,7 +3,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.payrecord;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -19,7 +18,6 @@ import java.util.List;
 // 支付记录页面
 public class PayRecordActivity extends AppCompatActivity {
 
-    private ImageView ivBackBtn;
     private ViewPager viewPager;
     private TextView tvTitleName;
     private SlidingTabLayout slidingTabLayout;
@@ -37,12 +35,11 @@ public class PayRecordActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        ivBackBtn.setOnClickListener(v -> PayRecordActivity.this.finish());
+
     }
 
     private void findViews() {
         viewPager = findViewById(R.id.viewPager);
-        ivBackBtn = findViewById(R.id.ivBackBtn);
         tvTitleName = findViewById(R.id.tvTitleName);
         slidingTabLayout = findViewById(R.id.slidingTabLayout);
     }

@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -198,15 +197,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         tvOrderTime.setText("订单时间：" + orderTime);
                     }
 
-                    tvDetail.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            boolean visible = llDetails.getVisibility() == View.GONE;
-                            llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
-                            int childCount = llDetails.getChildCount();
-                            if (visible && childCount == 1) {
-                                ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
-                            }
+                    tvDetail.setOnClickListener(v -> {
+                        boolean visible = llDetails.getVisibility() == View.GONE;
+                        llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
+                        int childCount = llDetails.getChildCount();
+                        if (visible && childCount == 1) {
+                            ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
                         }
                     });
                 }
@@ -257,6 +253,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvTotalMoney;
         private TextView tvPersonalPay;
         private TextView tvYiBaoPay;
+        private TextView tvPayType;
+        private LinearLayout llPayType;
         private ToggleButton tbYiBaoEnable;
 
         public PayViewHolder(View itemView) {
@@ -264,28 +262,36 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvTotalMoney = (TextView) itemView.findViewById(R.id.tvTotalMoney);
             tvPersonalPay = (TextView) itemView.findViewById(R.id.tvPersonalPay);
             tvYiBaoPay = (TextView) itemView.findViewById(R.id.tvYiBaoPay);
+            tvPayType = (TextView) itemView.findViewById(R.id.tvPayType);
+            llPayType = (LinearLayout) itemView.findViewById(R.id.llPayType);
             tbYiBaoEnable = (ToggleButton) itemView.findViewById(R.id.tbYiBaoEnable);
             initListener();
         }
 
         private void initListener() {
-            tbYiBaoEnable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                        if ("01".equals(mobPayStatus)) { // 已开通
-                            SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, true);
-                        } else { // 未开通
-                            SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
-                            WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
-                            tbYiBaoEnable.setChecked(false);
-                        }
-                    } else {
+            tbYiBaoEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                    if ("01".equals(mobPayStatus)) { // 已开通
+                        SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, true);
+                    } else { // 未开通
                         SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
+                        WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
+                        tbYiBaoEnable.setChecked(false);
                     }
+                } else {
+                    SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
                 }
             });
+            llPayType.setOnClickListener(v -> ((PaymentDetailsActivity) mContext).showSelectPayTypeWindow(type -> {
+                if (type == 1) {
+                    tvPayType.setText("支付宝");
+                } else if (type == 2) {
+                    tvPayType.setText("微信");
+                } else if (type == 3) {
+                    tvPayType.setText("银行卡");
+                }
+            }));
         }
 
         public void setData(DetailPayBean payBean) {
@@ -305,5 +311,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         }
+    }
+
+    public interface OnCheckedCallback {
+        void onSelected(int type);
     }
 }
