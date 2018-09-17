@@ -264,7 +264,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             tvPhoneNum.setVisibility(View.GONE);
             etPhone.setVisibility(View.VISIBLE);
         } else if (mFlag == 2) {
-            tvUpdateTitle.setText(getString(R.string.wonders_termination_after_pay));
+            tvUpdateTitle.setText(getString(R.string.wonders_cancel_after_pay));
             tvOriginalPhone.setVisibility(View.INVISIBLE);
             tvOpen.setText("解约");
             tvPhoneNum.setVisibility(View.VISIBLE);

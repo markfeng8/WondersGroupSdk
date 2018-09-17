@@ -227,10 +227,10 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     setAfterPayState(false);
                 }
 
-                if ("01".equals(mobPayStatus)) { // 01已签约
-                    setMobilePayState(false);
-                } else { // 00 02 未签约 其他
+                if ("00".equals(mobPayStatus)) { // 00 未签约
                     setMobilePayState(true);
+                } else if ("01".equals(mobPayStatus)) { // 01 已签约
+                    setMobilePayState(false);
                 }
             }
         }

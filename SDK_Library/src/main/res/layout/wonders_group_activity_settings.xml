@@ -306,7 +306,7 @@
             android:background="@drawable/wonders_group_blue_shape"
             android:gravity="center"
             android:padding="@dimen/wonders_padding_12dp"
-            android:text="@string/wonders_termination_after_pay"
+            android:text="@string/wonders_cancel_after_pay"
             android:textColor="@color/wonders_rgb_color_ffffff"
             android:textSize="@dimen/wonders_text_size_16sp" />
 
