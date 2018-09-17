@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WonderGroup;
+import com.wondersgroup.android.jkcs_sdk.utils.WondersGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
          * @param cardNum   就诊卡号
          * @param homeAddress 家庭地址
          */
-        WonderGroup.startAfterPayHome(MainActivity.this,
+        WondersGroup.startAfterPayHome(MainActivity.this,
                 name, phone, idType, idNum, cardType, cardNum, homeAddress);
     }
 

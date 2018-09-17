@@ -19,7 +19,7 @@ import java.util.HashMap;
  * Created by x-sir on 2018/8/10 :)
  * Function:
  */
-public class WonderGroup {
+public class WondersGroup {
 
     /**
      * jump to after pay home page.
