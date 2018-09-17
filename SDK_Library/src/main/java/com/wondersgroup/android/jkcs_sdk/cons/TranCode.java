@@ -23,4 +23,5 @@ public class TranCode {
     public static final String TRAN_YD0007 = "yd0007";
     public static final String TRAN_YD0008 = "yd0008";
     public static final String TRAN_YD0009 = "yd0009";
+    public static final String TRAN_YD0010 = "yd0010";
 }

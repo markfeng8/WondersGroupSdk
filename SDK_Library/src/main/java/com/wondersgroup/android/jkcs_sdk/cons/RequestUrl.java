@@ -26,6 +26,7 @@ public class RequestUrl {
     public static final String YD0007 = "/huzh_credit/sdk/yd0007";
     public static final String YD0008 = "/huzh_credit/sdk/yd0008";
     public static final String YD0009 = "/huzh_credit/sdk/yd0009";
+    public static final String YD0010 = "/huzh_credit/sdk/yd0010";
 
     //------------------- 测试环境 --------------------------------------------
 
@@ -48,4 +49,5 @@ public class RequestUrl {
 //    public static final String YD0007 = "/test/huzh_credit/sdk/yd0007";
 //    public static final String YD0008 = "/test/huzh_credit/sdk/yd0008";
 //    public static final String YD0009 = "/test/huzh_credit/sdk/yd0009";
+//    public static final String YD0010 = "/test/huzh_credit/sdk/yd0010";
 }

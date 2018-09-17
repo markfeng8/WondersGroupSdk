@@ -52,7 +52,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

@@ -23,11 +23,12 @@ import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.TryToSettleEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
@@ -184,7 +185,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             public void onClick(View v) {
                 // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
                 //getYiBaoToken();
-                toPayMoney();
+                // 获取支付所需的参数
+                //mPresenter.getPayParam(mOrgCode);
+                toPayMoney("");
             }
         });
         countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
@@ -195,15 +198,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         });
     }
 
-    private void toPayMoney() {
+    private void toPayMoney(String appId) {
         CheckOut.setIsPrint(true);
         CheckOut.setNetworkWay("CT");
 
         String money = "1";
-        String goodsTitle = "药品费1";
-        String goodsDesc = "药品费2";
-        String orderTitle = "hz123456sdk";
-        String orderDesc = "药品费4";
+        String goodsTitle = getOrderTitle();
+        String goodsDesc = getOrderTitle();
+        String orderTitle = getOrderTitle();
+        String orderDesc = getOrderTitle();
         Long i = 0L;
 
         if (isNumeric(money)) {
@@ -214,7 +217,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
 
         // appId
-        String strAppId = "wd2015tst001";
+        appId = "wd2015tst001";
         // app secret 工作密钥
         String strAppSecret = "6XtC7H8NuykaRv423hrf1gGS09FEZQoB";
         // 填写当前appId 对应的子商户号
@@ -223,13 +226,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         String subName = "万达信息";
 
         WDPay.reqPayAsync(PaymentDetailsActivity.this,
-                strAppId, strAppSecret,
+                appId, strAppSecret,
                 getWdPayType(), subMerNo,
                 goodsTitle, // 订单标题
                 goodsDesc, i, // 订单金额(分)
                 orderTitle, // 订单流水号
                 orderDesc, null, // 扩展参数(可以null)
                 bcCallback);
+    }
+
+    /**
+     * 生成唯一账单号：hzsdk + 10位随机数
+     */
+    private String getOrderTitle() {
+        return "hzsdk" + (int) ((Math.random() * 9 + 1) * 100000);
     }
 
     public boolean isNumeric(String s) {
@@ -364,6 +374,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     @Override
     public void onTryToSettleResult(TryToSettleEntity body) {
 
+    }
+
+    @Override
+    public void onPayParamResult(PayParamEntity body) {
+        if (body != null) {
+            String appId = body.getAppid();
+            String version = body.getVersion();
+            toPayMoney(appId);
+        }
     }
 
     @Override

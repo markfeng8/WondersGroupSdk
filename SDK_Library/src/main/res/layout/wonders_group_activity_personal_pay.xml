@@ -7,7 +7,7 @@
     android:background="@color/wonders_rgb_color_ffffff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".ui.personalpay.PersonalPayActivity">
+    tools:context=".ui.personalpay.view.PersonalPayActivity">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
         android:layout_width="match_parent"

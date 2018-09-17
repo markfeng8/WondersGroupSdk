@@ -16,21 +16,19 @@
         android:layout_marginLeft="@dimen/wonders_margin_16dp"
         android:layout_marginRight="@dimen/wonders_margin_16dp"
         android:background="@drawable/wonders_group_white_shape_4dp"
-        android:orientation="vertical"
-        android:padding="@dimen/wonders_padding_20dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_10dp"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
+            android:layout_marginTop="@dimen/wonders_margin_28dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvTreatName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_24dp"
+                android:layout_marginStart="@dimen/wonders_margin_48dp"
                 android:text="@string/wonders_text_liangxiaoning"
                 android:textColor="@color/wonders_rgb_color_333333"
                 android:textSize="@dimen/wonders_text_size_18sp" />
@@ -48,7 +46,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_10dp"
             android:layout_marginTop="@dimen/wonders_margin_10dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
@@ -87,17 +84,17 @@
             android:id="@+id/llToPayFee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:layout_marginBottom="@dimen/wonders_margin_20dp"
             android:layout_marginTop="@dimen/wonders_margin_8dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:padding="@dimen/wonders_padding_2dp"
-            android:visibility="invisible">
+            android:padding="@dimen/wonders_padding_4dp"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/tvToPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_8dp"
                 android:text="@string/wonders_to_pay_money"
                 android:textColor="@color/wonders_rgb_color_333333"
                 android:textSize="@dimen/wonders_text_size_12sp" />

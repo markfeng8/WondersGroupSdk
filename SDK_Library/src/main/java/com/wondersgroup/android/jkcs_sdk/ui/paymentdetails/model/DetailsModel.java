@@ -10,14 +10,17 @@ import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.TryToSettleEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnTryToSettleListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
+import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.net.service.LockOrderService;
 import com.wondersgroup.android.jkcs_sdk.net.service.OrderDetailsService;
 import com.wondersgroup.android.jkcs_sdk.net.service.TryToSettleService;
@@ -257,6 +260,54 @@ public class DetailsModel implements DetailsContract.IModel {
 
                     @Override
                     public void onFailure(Call<TryToSettleEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        LogUtil.e(TAG, error);
+                        if (listener != null) {
+                            listener.onFailed(error);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getPayParam(String orgCode, OnPayParamListener listener) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.ORG_CODE, orgCode);
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(GetPayParamService.class)
+                .getPayParams(RequestUrl.YD0010, map)
+                .enqueue(new Callback<PayParamEntity>() {
+                    @Override
+                    public void onResponse(Call<PayParamEntity> call, Response<PayParamEntity> response) {
+                        PayParamEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                if (listener != null) {
+                                    listener.onSuccess(body);
+                                }
+                            } else {
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PayParamEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {

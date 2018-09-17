@@ -7,9 +7,11 @@ import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.TryToSettleEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnTryToSettleListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
@@ -82,15 +84,47 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void tryToSettle(String token, String orgCode, HashMap<String, Object> map) {
         if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(orgCode)) {
+            showLoading();
             mModel.tryToSettle(token, orgCode, map, new OnTryToSettleListener() {
                 @Override
                 public void onSuccess(TryToSettleEntity body) {
                     LogUtil.i(TAG, "tryToSettle() -> onSuccess()");
+                    dismissLoading();
+                    if (isNonNull()) {
+                        mViewRef.get().onTryToSettleResult(body);
+                    }
                 }
 
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "tryToSettle() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+        }
+    }
+
+    @Override
+    public void getPayParam(String orgCode) {
+        if (!TextUtils.isEmpty(orgCode)) {
+            showLoading();
+            mModel.getPayParam(orgCode, new OnPayParamListener() {
+                @Override
+                public void onSuccess(PayParamEntity entity) {
+                    LogUtil.i(TAG, "getPayParam() -> onSuccess()");
+                    dismissLoading();
+                    if (isNonNull()) {
+                        mViewRef.get().onPayParamResult(entity);
+                    }
+                }
+
+                @Override
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "getPayParam() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {

@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.personalpay;
+package com.wondersgroup.android.jkcs_sdk.ui.personalpay.view;
 
 import android.app.Activity;
 import android.content.Context;
