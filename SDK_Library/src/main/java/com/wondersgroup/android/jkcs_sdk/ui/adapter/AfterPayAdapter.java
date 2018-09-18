@@ -23,7 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;

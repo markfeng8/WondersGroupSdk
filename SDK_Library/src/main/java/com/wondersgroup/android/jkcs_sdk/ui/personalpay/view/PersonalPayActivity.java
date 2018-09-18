@@ -17,7 +17,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.PayRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.PayRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.contract.PersonalPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.presenter.PersonalPayPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;

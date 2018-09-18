@@ -1,22 +1,24 @@
-package com.wondersgroup.android.jkcs_sdk.ui.payrecord;
+package com.wondersgroup.android.jkcs_sdk.ui.payrecord.view;
 
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.BaseFragment;
+import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.MyFragmentPagerAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.frament.FinishedOrderFragment;
 import com.wondersgroup.android.jkcs_sdk.ui.frament.UnfinishedOrderFragment;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.PayRecordContract;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.PayRecordPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // 支付记录页面
-public class PayRecordActivity extends AppCompatActivity {
+public class PayRecordActivity extends MvpBaseActivity<PayRecordContract.IView,
+        PayRecordPresenter<PayRecordContract.IView>> implements PayRecordContract.IView {
 
     private ViewPager viewPager;
     private TextView tvTitleName;
@@ -25,8 +27,12 @@ public class PayRecordActivity extends AppCompatActivity {
     private String[] topTitles = new String[2];
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected PayRecordPresenter<PayRecordContract.IView> createPresenter() {
+        return new PayRecordPresenter<>();
+    }
+
+    @Override
+    protected void bindView() {
         setContentView(R.layout.wonders_group_activity_pay_record);
         findViews();
         initData();
