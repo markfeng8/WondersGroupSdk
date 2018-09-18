@@ -8,11 +8,11 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.TryToSettleEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnTryToSettleListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.DetailsModel;
@@ -85,9 +85,9 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     public void tryToSettle(String token, String orgCode, HashMap<String, Object> map) {
         if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(orgCode)) {
             showLoading();
-            mModel.tryToSettle(token, orgCode, map, new OnTryToSettleListener() {
+            mModel.tryToSettle(token, orgCode, map, new OnSettleListener() {
                 @Override
-                public void onSuccess(TryToSettleEntity body) {
+                public void onSuccess(SettleEntity body) {
                     LogUtil.i(TAG, "tryToSettle() -> onSuccess()");
                     dismissLoading();
                     if (isNonNull()) {

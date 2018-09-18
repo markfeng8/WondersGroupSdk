@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.TryToSettleEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
@@ -372,8 +372,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     @Override
-    public void onTryToSettleResult(TryToSettleEntity body) {
+    public void onTryToSettleResult(SettleEntity body) {
+        if (body != null) {
+            String feeTotal = body.getFee_total();
+            String feeCashTotal = body.getFee_cash_total();
+            String feeYbTotal = body.getFee_yb_total();
 
+            // TODO: 2018/9/18 携带数据跳转到正式结算页面并显示
+        }
     }
 
     @Override
@@ -385,18 +391,18 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
     }
 
-    @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.show();
-        }
-    }
-
     public void showSelectPayTypeWindow(DetailsAdapter.OnCheckedCallback onCheckedCallback) {
         mOnCheckedCallback = onCheckedCallback;
         BrightnessManager.lightoff(this);
         if (mSelectPayTypeWindow != null) {
             mSelectPayTypeWindow.show();
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        if (mLoading != null) {
+            mLoading.show();
         }
     }
 

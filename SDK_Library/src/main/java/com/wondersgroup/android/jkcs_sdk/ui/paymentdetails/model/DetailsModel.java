@@ -11,11 +11,11 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.TryToSettleEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnTryToSettleListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
@@ -23,7 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.net.service.LockOrderService;
 import com.wondersgroup.android.jkcs_sdk.net.service.OrderDetailsService;
-import com.wondersgroup.android.jkcs_sdk.net.service.TryToSettleService;
+import com.wondersgroup.android.jkcs_sdk.net.service.SettleService;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
@@ -220,7 +220,7 @@ public class DetailsModel implements DetailsContract.IModel {
     }
 
     @Override
-    public void tryToSettle(String token, String orgCode, HashMap<String, Object> map, OnTryToSettleListener listener) {
+    public void tryToSettle(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0006);
@@ -234,12 +234,12 @@ public class DetailsModel implements DetailsContract.IModel {
 
         RetrofitHelper
                 .getInstance()
-                .createService(TryToSettleService.class)
-                .tryToSettle(RequestUrl.YD0006, Converter.toBody(map))
-                .enqueue(new Callback<TryToSettleEntity>() {
+                .createService(SettleService.class)
+                .toSettle(RequestUrl.YD0006, Converter.toBody(map))
+                .enqueue(new Callback<SettleEntity>() {
                     @Override
-                    public void onResponse(Call<TryToSettleEntity> call, Response<TryToSettleEntity> response) {
-                        TryToSettleEntity body = response.body();
+                    public void onResponse(Call<SettleEntity> call, Response<SettleEntity> response) {
+                        SettleEntity body = response.body();
                         if (body != null) {
                             String returnCode = body.getReturn_code();
                             String resultCode = body.getResult_code();
@@ -259,7 +259,7 @@ public class DetailsModel implements DetailsContract.IModel {
                     }
 
                     @Override
-                    public void onFailure(Call<TryToSettleEntity> call, Throwable t) {
+                    public void onFailure(Call<SettleEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {

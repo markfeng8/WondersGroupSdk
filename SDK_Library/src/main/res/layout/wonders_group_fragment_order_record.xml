@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/wonders_group_down_arrow"
             android:gravity="center"
-            android:text="2018年5月9日"
+            android:text="2018-5-9"
             android:textColor="@color/wonders_rgb_color_646464"
             android:textSize="@dimen/wonders_text_size_14sp" />
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/wonders_group_down_arrow"
             android:gravity="center"
-            android:text="6月9日"
+            android:text="2018-06-09"
             android:textColor="@color/wonders_rgb_color_646464"
             android:textSize="@dimen/wonders_text_size_14sp" />
 

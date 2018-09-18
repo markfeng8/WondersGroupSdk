@@ -4,14 +4,14 @@ import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/9 :)
- * Function:
+ * Function:试结算、正式结算响应的 Bean
  */
-public class TryToSettleEntity extends BaseEntity {
+public class SettleEntity extends BaseEntity {
 
     private String fee_total;
     private String fee_cash_total;
     private String fee_yb_total;
-    private List<FeeBillEntity.DetailsBean> details;
+    private List<DetailsBean> details;
 
     public String getFee_total() {
         return fee_total;
@@ -37,11 +37,11 @@ public class TryToSettleEntity extends BaseEntity {
         this.fee_yb_total = fee_yb_total;
     }
 
-    public List<FeeBillEntity.DetailsBean> getDetails() {
+    public List<DetailsBean> getDetails() {
         return details;
     }
 
-    public void setDetails(List<FeeBillEntity.DetailsBean> details) {
+    public void setDetails(List<DetailsBean> details) {
         this.details = details;
     }
 
