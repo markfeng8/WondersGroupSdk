@@ -42,6 +42,16 @@ public class TimeUtil {
         return format;
     }
 
+    public static long getScrollMinTime() {
+        Date date = null;
+        try {
+            date = sdf4.parse("2018-01-01");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date == null ? 0L : date.getTime();
+    }
+
     /**
      * 返回倒计时毫秒数
      *
@@ -74,6 +84,18 @@ public class TimeUtil {
         Date date = new Date(System.currentTimeMillis());
         String format = sdf4.format(date);
         LogUtil.i(TAG, "getCurrentDate()===" + format);
+        return format;
+    }
+
+    /**
+     * 返回如下格式的当天时间
+     *
+     * @return 2018-08-03
+     */
+    public static String getDate(long millis) {
+        Date date = new Date(millis);
+        String format = sdf4.format(date);
+        LogUtil.i(TAG, "getDate()===" + format);
         return format;
     }
 

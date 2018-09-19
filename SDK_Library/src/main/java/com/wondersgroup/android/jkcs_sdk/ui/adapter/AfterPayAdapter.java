@@ -23,7 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.PayRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
@@ -164,7 +164,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             // 缴费记录
             llPayRecord.setOnClickListener(v -> {
-                mContext.startActivity(new Intent(mContext, PayRecordActivity.class));
+                mContext.startActivity(new Intent(mContext, FeeRecordActivity.class));
             });
             // 去缴费
             llToPayFee.setOnClickListener(v -> {

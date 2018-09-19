@@ -166,18 +166,33 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvOrderTime;
         private TextView tvDetail;
         private LinearLayout llDetails;
+        private String hisOrderNo;
+        private int position;
 
-        public ListViewHolder(View itemView) {
+        ListViewHolder(View itemView) {
             super(itemView);
             tvOrderName = (TextView) itemView.findViewById(R.id.tvOrderName);
             tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
             tvOrderTime = (TextView) itemView.findViewById(R.id.tvOrderTime);
             tvDetail = (TextView) itemView.findViewById(R.id.tvDetail);
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
+            initListener();
+        }
+
+        private void initListener() {
+            tvDetail.setOnClickListener(v -> {
+                boolean visible = llDetails.getVisibility() == View.GONE;
+                llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
+                int childCount = llDetails.getChildCount();
+                if (visible && childCount == 1) {
+                    ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
+                }
+            });
         }
 
         @SuppressLint("SetTextI18n")
-        public void setData(CombineDetailsBean combineDetails, int position) {
+        void setData(CombineDetailsBean combineDetails, int position) {
+            this.position = position;
             if (combineDetails != null) {
                 FeeBillEntity.DetailsBean defaultDetails = combineDetails.getDefaultDetails();
                 List<OrderDetailsEntity.DetailsBean> openDetails = combineDetails.getOpenDetails();
@@ -185,7 +200,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     String orderName = defaultDetails.getOrdername();
                     String feeOrder = defaultDetails.getFee_order();
                     String orderTime = defaultDetails.getHis_order_time();
-                    final String hisOrderNo = defaultDetails.getHis_order_no();
+                    hisOrderNo = defaultDetails.getHis_order_no();
 
                     if (!TextUtils.isEmpty(orderName)) {
                         tvOrderName.setText(orderName);
@@ -196,15 +211,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (!TextUtils.isEmpty(orderTime)) {
                         tvOrderTime.setText("订单时间：" + orderTime);
                     }
-
-                    tvDetail.setOnClickListener(v -> {
-                        boolean visible = llDetails.getVisibility() == View.GONE;
-                        llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
-                        int childCount = llDetails.getChildCount();
-                        if (visible && childCount == 1) {
-                            ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
-                        }
-                    });
                 }
 
                 if (openDetails != null) {
@@ -257,7 +263,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private LinearLayout llPayType;
         private ToggleButton tbYiBaoEnable;
 
-        public PayViewHolder(View itemView) {
+        PayViewHolder(View itemView) {
             super(itemView);
             tvTotalMoney = (TextView) itemView.findViewById(R.id.tvTotalMoney);
             tvPersonalPay = (TextView) itemView.findViewById(R.id.tvPersonalPay);

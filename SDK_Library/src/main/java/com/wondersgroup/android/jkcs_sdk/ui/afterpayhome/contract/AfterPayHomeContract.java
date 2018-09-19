@@ -4,7 +4,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 
 import java.util.HashMap;
 
@@ -18,7 +18,7 @@ public interface AfterPayHomeContract {
 
         void uploadMobilePayState(String status, OnMobilePayStateListener listener);
 
-        void getUnclearedBill(HashMap<String, String> map, OnUnclearedBillListener listener);
+        void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener);
     }
 
     interface IView {

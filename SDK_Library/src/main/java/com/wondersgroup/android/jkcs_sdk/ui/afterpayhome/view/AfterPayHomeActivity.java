@@ -282,4 +282,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLoading != null) {
+            mLoading.dispose();
+        }
+    }
 }

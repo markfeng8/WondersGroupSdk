@@ -16,7 +16,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
@@ -59,7 +59,7 @@ public class DetailsModel implements DetailsContract.IModel {
     }
 
     @Override
-    public void getUnclearedBill(HashMap<String, String> map, OnUnclearedBillListener listener) {
+    public void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

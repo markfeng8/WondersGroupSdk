@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.wondersgroup.android.jkcs_sdk.base.BaseFragment;
+import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private List<BaseFragment> mFragments;
+    private List<MvpBaseFragment> mFragments;
     private String[] mTitles;
 
-    public MyFragmentPagerAdapter(FragmentManager fm, List<BaseFragment> mFragments, String[] mTitles) {
+    public MyFragmentPagerAdapter(FragmentManager fm, List<MvpBaseFragment> mFragments, String[] mTitles) {
         super(fm);
         this.mFragments = mFragments;
         this.mTitles = mTitles;

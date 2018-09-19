@@ -72,7 +72,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.PayRecordActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

@@ -10,15 +10,19 @@ import android.view.ViewGroup;
 
 /**
  * Created by x-sir on 2017/03/23.
- * Function :Fragment的基类
+ * Function :MvpFragment的基类
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class MvpBaseFragment<V, T extends MvpBasePresenter<V>> extends Fragment {
 
+    public T mPresenter;
     public Context mContext;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = createPresenter();
+        mPresenter.attachView((V) this);
         mContext = getActivity();
     }
 
@@ -28,9 +32,6 @@ public abstract class BaseFragment extends Fragment {
         return initView();
     }
 
-    // 交给子类实现，让子类实现自己特有的效果
-    public abstract View initView();
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -38,10 +39,33 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
+     * create presenter with subclass to implementation.
+     */
+    protected abstract T createPresenter();
+
+    /**
+     * 交给子类实现，让子类实现自己特有的效果
+     */
+    public abstract View initView();
+
+    /**
      * 当子类需要绑定数据到ui的时候，重写该方法
      * 1.绑定数据  2.联网请求
      */
     public void initData() {
 
+    }
+
+    /**
+     * 获取缴费账单的详情
+     */
+    public void getFeeDetails(String payPlatTradeNo, int position) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
     }
 }

@@ -8,7 +8,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnUnclearedBillListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -77,7 +77,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     public void getUnclearedBill(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
             showLoading();
-            mModel.getUnclearedBill(map, new OnUnclearedBillListener() {
+            mModel.getUnclearedBill(map, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "getUnclearedBill() -> onSuccess()");

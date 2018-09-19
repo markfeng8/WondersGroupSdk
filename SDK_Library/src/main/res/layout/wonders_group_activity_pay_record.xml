@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/wonders_rgb_color_ffffff"
     android:orientation="vertical"
-    tools:context=".ui.payrecord.view.PayRecordActivity">
+    tools:context=".ui.payrecord.view.FeeRecordActivity">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
         android:layout_width="match_parent"

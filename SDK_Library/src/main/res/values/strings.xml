@@ -70,11 +70,11 @@
     <string name="wonders_arrearage">欠费</string>
     <string name="wonders_sign_date">签约日期</string>
     <string name="wonders_ic_number">身份证号</string>
-    <string name="wonders_finished_order">已完成订单页面</string>
+    <string name="wonders_finished_order">已完成订单</string>
     <string name="wonders_after_pay_home">医后付首页</string>
     <string name="wonders_after_pay_rules">医后付协议</string>
     <string name="wonders_notification_phone">通知手机号</string>
-    <string name="wonders_unfinished_order">未完成订单页面</string>
+    <string name="wonders_unfinished_order">未完成订单</string>
     <string name="wonders_original_phone">原手机号码为</string>
     <string name="wonders_update_notification_phone">修改通知手机号</string>
 

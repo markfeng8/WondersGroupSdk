@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by x-sir on 2018/8/23 :)
- * Function:
+ * Function:缴费详情、缴费记录展开 Item 响应的 Bean
  */
 public class FeeBillEntity extends BaseEntity {
 
