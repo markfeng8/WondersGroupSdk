@@ -139,4 +139,12 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     public void onFeeDetailResult(FeeBillEntity entity) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLoading != null) {
+            mLoading.dispose();
+        }
+    }
 }

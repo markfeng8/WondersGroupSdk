@@ -169,10 +169,16 @@ public class LoadingView {
      * Invoke on Activity onDestroy() method.
      */
     public void dispose() {
-        if (mPopupWindow != null && mPopupWindow.isShowing()) {
-            mPopupWindow.dismiss();
+        if (mPopupWindow != null) {
+            if (mPopupWindow.isShowing()) {
+                mPopupWindow.dismiss();
+            }
+            mPopupWindow = null;
         }
-        mPopupWindow = null;
+        if (mPopupView != null) {
+            mPopupView.destroyDrawingCache();
+            mPopupView = null;
+        }
         if (mView != null) {
             mView.clear();
             mView = null;

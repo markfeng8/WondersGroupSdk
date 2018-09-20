@@ -502,5 +502,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         super.onDestroy();
         // 统一支付平台，调用结束
         WDPay.ReleasePayserver();
+        if (mLoading != null) {
+            mLoading.dispose();
+        }
     }
+
 }

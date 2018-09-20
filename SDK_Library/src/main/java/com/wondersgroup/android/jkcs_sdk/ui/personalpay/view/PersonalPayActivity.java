@@ -151,4 +151,12 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             String feeYbTotal = body.getFee_yb_total();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLoading != null) {
+            mLoading.dispose();
+        }
+    }
 }
