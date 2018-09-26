@@ -2,12 +2,9 @@ package com.wondersgroup.android.jkcs_sdk.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +22,13 @@ import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
+import com.wondersgroup.android.jkcs_sdk.widget.FeeDetailLayout;
 
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/9 :)
- * Function:
+ * Function:缴费详情的 Adapter
  */
 public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -229,24 +227,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             String unit = detailsBean.getUnit();
 
                             stringBuilder
-                                    .append(itemName)
-                                    .append("              ")
                                     .append(price)
                                     .append("*")
                                     .append(amount)
                                     .append(unit);
 
-                            LinearLayout.LayoutParams textLp = new LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                            // new a textView widget
-                            TextView bigText = new TextView(mContext);
-                            bigText.setText(stringBuilder.toString());
-                            bigText.setPadding(2, 2, 2, 2);
-                            bigText.setGravity(Gravity.CENTER);
-                            bigText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                            bigText.setTextColor(Color.parseColor("#333333"));
-                            llDetails.addView(bigText, textLp);
+                            FeeDetailLayout layout = new FeeDetailLayout(mContext);
+                            layout.setFeeName(itemName);
+                            layout.setFeeNum(stringBuilder.toString());
+                            llDetails.addView(layout);
                         }
                     }
                 }

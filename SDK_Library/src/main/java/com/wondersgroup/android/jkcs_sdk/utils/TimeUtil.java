@@ -88,6 +88,21 @@ public class TimeUtil {
     }
 
     /**
+     * 返回当前时间向前推 30 天
+     *
+     * @return 2018-08-03
+     */
+    @SuppressWarnings("NumericOverflow")
+    public static String getBefore30Date() {
+        long beforeTime = 1000L * 60L * 60L * 24L * 30L;
+        long millis = System.currentTimeMillis() - beforeTime;
+        Date date = new Date(millis);
+        String format = sdf4.format(date);
+        LogUtil.i(TAG, "getBefore30Date()===" + format);
+        return format;
+    }
+
+    /**
      * 返回如下格式的当天时间
      *
      * @return 2018-08-03

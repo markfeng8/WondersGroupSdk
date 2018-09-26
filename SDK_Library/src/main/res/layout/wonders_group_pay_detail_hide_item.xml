@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/wonders_rgb_color_ffffff"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/wonders_padding_8dp">
+
+    <TextView
+        android:id="@+id/tvFeeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:text="药品费"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tvFeeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="2018-08-23 09:55:36"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+</LinearLayout>

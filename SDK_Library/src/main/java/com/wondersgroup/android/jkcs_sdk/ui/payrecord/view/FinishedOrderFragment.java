@@ -78,7 +78,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
                 .setDropView(fragmentView)
                 .build();
 
-        mStartDate = TimeUtil.getCurrentDate();
+        mStartDate = TimeUtil.getBefore30Date();
         mEndDate = TimeUtil.getCurrentDate();
         tvStartDate.setText(mStartDate);
         tvEndDate.setText(mEndDate);

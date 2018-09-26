@@ -105,8 +105,10 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
                         if (keyboardBean != null) {
                             String code = keyboardBean.getCode();
                             if ("0".equals(code)) {
+                                String token = keyboardBean.getToken();
 
                                 // TODO: 2018/9/18 携带 token 发起正式结算
+                                //mPresenter.sendOfficialPay(token, );
                                 showPaySuccess();
 
                             } else {
