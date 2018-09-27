@@ -348,6 +348,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             mHeadBean.setOrderNum(payPlatTradeNo);
             mItemList.set(0, mHeadBean);
             refreshAdapter();
+
+            // 进行医保移动状态查询并发起试结算
+            getMobilePayState();
         }
     }
 
@@ -382,8 +385,23 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             String feeTotal = body.getFee_total();
             String feeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
+            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
 
-            // TODO: 2018/9/18 携带数据跳转到正式结算页面并显示
+            if (mDetailPayBean == null) {
+                mDetailPayBean = new DetailPayBean();
+            }
+            mDetailPayBean.setTotalPay(feeTotal);
+            mDetailPayBean.setPersonalPay(feeCashTotal);
+            mDetailPayBean.setYibaoPay(feeYbTotal);
+
+            // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+            if (mItemList.size() > 0) {
+                mItemList.clear();
+            }
+            mItemList.add(mHeadBean); // 先添加头部数据
+            mItemList.addAll(mCombineList);// 再添加 List 数据
+            mItemList.add(mDetailPayBean); // 添加支付数据
+            refreshAdapter();
         }
     }
 

@@ -96,7 +96,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                     @Override
                     public void onFailure(Call<AfterPayStateEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                        }
                         if (listener != null) {
                             listener.onFailed(error);
                         }

@@ -2,7 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.entity;
 
 /**
  * Created by x-sir on 2018/9/10 :)
- * Function:
+ * Function:试结算发起完成后数据的 Bean 类
  */
 public class DetailPayBean {
 

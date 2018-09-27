@@ -23,6 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsAc
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.FeeDetailLayout;
+import com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout;
 
 import java.util.List;
 
@@ -245,18 +246,18 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // 3.支付的数据类型
     class PayViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvTotalMoney;
-        private TextView tvPersonalPay;
-        private TextView tvYiBaoPay;
+        private PayItemLayout plTotalMoney;
+        private PayItemLayout plPersonalPay;
+        private PayItemLayout plYiBaoPay;
         private TextView tvPayType;
         private LinearLayout llPayType;
         private ToggleButton tbYiBaoEnable;
 
         PayViewHolder(View itemView) {
             super(itemView);
-            tvTotalMoney = (TextView) itemView.findViewById(R.id.tvTotalMoney);
-            tvPersonalPay = (TextView) itemView.findViewById(R.id.tvPersonalPay);
-            tvYiBaoPay = (TextView) itemView.findViewById(R.id.tvYiBaoPay);
+            plTotalMoney = (PayItemLayout) itemView.findViewById(R.id.plTotalMoney);
+            plPersonalPay = (PayItemLayout) itemView.findViewById(R.id.plPersonalPay);
+            plYiBaoPay = (PayItemLayout) itemView.findViewById(R.id.plYiBaoPay);
             tvPayType = (TextView) itemView.findViewById(R.id.tvPayType);
             llPayType = (LinearLayout) itemView.findViewById(R.id.llPayType);
             tbYiBaoEnable = (ToggleButton) itemView.findViewById(R.id.tbYiBaoEnable);
@@ -296,13 +297,16 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String yibaoPay = payBean.getYibaoPay();
 
                 if (!TextUtils.isEmpty(totalPay)) {
-                    tvTotalMoney.setText(totalPay);
+                    plTotalMoney.setFeeName("总计金额：");
+                    plTotalMoney.setFeeNum(totalPay);
                 }
                 if (!TextUtils.isEmpty(personalPay)) {
-                    tvPersonalPay.setText(personalPay);
+                    plPersonalPay.setFeeName("个人账户支付：");
+                    plPersonalPay.setFeeNum(personalPay);
                 }
                 if (!TextUtils.isEmpty(yibaoPay)) {
-                    tvYiBaoPay.setText(yibaoPay);
+                    plYiBaoPay.setFeeName("医保账户支付：");
+                    plYiBaoPay.setFeeNum(yibaoPay);
                 }
             }
         }
