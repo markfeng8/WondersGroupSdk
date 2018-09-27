@@ -24,7 +24,6 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.HospitalAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
@@ -55,7 +54,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private AfterHeaderBean mHeaderBean;
     private List<Object> mItemList = new ArrayList<>();
     private AfterPayAdapter mAdapter;
-    private HospitalAdapter mHospitalAdapter;
     private HashMap<String, String> mPassParamMap;
     private boolean mAfterPayOpenSuccess;
     private String mOrgName;
