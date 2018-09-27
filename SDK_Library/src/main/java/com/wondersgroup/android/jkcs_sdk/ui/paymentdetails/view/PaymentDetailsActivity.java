@@ -387,6 +387,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             String feeYbTotal = body.getFee_yb_total();
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
 
+            tvMoneyNum.setText(feeCashTotal);
+
             if (mDetailPayBean == null) {
                 mDetailPayBean = new DetailPayBean();
             }
