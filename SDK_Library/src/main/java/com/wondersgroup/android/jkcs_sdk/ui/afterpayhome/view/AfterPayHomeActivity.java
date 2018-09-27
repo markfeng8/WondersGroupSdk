@@ -21,15 +21,19 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
+import com.wondersgroup.android.jkcs_sdk.ui.adapter.HospitalAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
+import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,13 +51,18 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private LinearLayout llNeedPay;
 
     private LoadingView mLoading;
+    private SelectHospitalWindow mSelectHospitalWindow;
     private AfterHeaderBean mHeaderBean;
     private List<Object> mItemList = new ArrayList<>();
     private AfterPayAdapter mAdapter;
+    private HospitalAdapter mHospitalAdapter;
     private HashMap<String, String> mPassParamMap;
     private boolean mAfterPayOpenSuccess;
     private String mOrgName;
     private String mOrgCode;
+    private List<HospitalEntity.DetailsBean> mHospitalBeanList;
+    private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
+            () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -231,12 +240,17 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IntentExtra.REQUEST_CODE && resultCode == IntentExtra.RESULT_CODE) {
-            mOrgName = data.getStringExtra(IntentExtra.ORG_NAME);
-            mOrgCode = data.getStringExtra(IntentExtra.ORG_CODE);
+    private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
+        @Override
+        public void onClick(int position) {
+            if (mHospitalBeanList != null && position < mHospitalBeanList.size()) {
+                HospitalEntity.DetailsBean bean = mHospitalBeanList.get(position);
+                if (bean != null) {
+                    mOrgCode = bean.getOrg_code();
+                    mOrgName = bean.getOrg_name();
+                }
+            }
+
             mHeaderBean.setHospitalName(mOrgName);
 
             // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
@@ -251,6 +265,26 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             map.put(MapKey.PAGE_NUMBER, "1");
             map.put(MapKey.PAGE_SIZE, "10");
             mPresenter.getUnclearedBill(map);
+        }
+    };
+
+    @Override
+    public void onHospitalListResult(HospitalEntity body) {
+        if (body != null) {
+            mHospitalBeanList = body.getDetails();
+            if (mHospitalBeanList != null && mHospitalBeanList.size() > 0) {
+                if (mSelectHospitalWindow == null) {
+                    mSelectHospitalWindow = new SelectHospitalWindow.Builder(this)
+                            .setDropView(activityView)
+                            .setListener(mOnLoadingListener)
+                            .setOnItemClickListener(mOnItemClickListener)
+                            .build();
+                }
+
+                BrightnessManager.lightoff(this);
+                mSelectHospitalWindow.setBeanList(mHospitalBeanList);
+                mSelectHospitalWindow.show();
+            }
         }
     }
 
@@ -281,6 +315,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 refreshAdapter();
             }
         });
+    }
+
+    public void getHospitalList() {
+        mPresenter.getHospitalList();
     }
 
     @Override

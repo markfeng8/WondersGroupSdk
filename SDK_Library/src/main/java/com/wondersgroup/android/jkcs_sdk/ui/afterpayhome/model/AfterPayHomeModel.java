@@ -9,15 +9,18 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.AfterPayStateService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
+import com.wondersgroup.android.jkcs_sdk.net.service.HospitalService;
 import com.wondersgroup.android.jkcs_sdk.net.service.MobilePayService;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
-import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
@@ -197,6 +200,53 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
                     @Override
                     public void onFailure(Call<FeeBillEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        LogUtil.e(TAG, error);
+                        if (listener != null) {
+                            listener.onFailed(error);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getHospitalList(OnHospitalListListener listener) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(HospitalService.class)
+                .getHosList(RequestUrl.XY0008, map)
+                .enqueue(new Callback<HospitalEntity>() {
+                    @Override
+                    public void onResponse(Call<HospitalEntity> call, Response<HospitalEntity> response) {
+                        HospitalEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                if (listener != null) {
+                                    listener.onSuccess(body);
+                                }
+                            } else {
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<HospitalEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {

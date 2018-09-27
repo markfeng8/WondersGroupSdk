@@ -127,7 +127,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvHospitalName;
         private TextView tvOrderNum;
 
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvSocialNum = (TextView) itemView.findViewById(R.id.tvSocialNum);

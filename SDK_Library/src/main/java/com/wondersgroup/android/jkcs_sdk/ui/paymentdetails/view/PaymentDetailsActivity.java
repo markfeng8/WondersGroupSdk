@@ -166,7 +166,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
-        mHeadBean.setOrderNum("92829389283");
+        mHeadBean.setOrderNum(payPlatTradeNo);
         mHeadBean.setSocialNum(cardNum);
         mHeadBean.setHospitalName(mOrgName);
 
@@ -343,6 +343,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
             long countDownMillis = TimeUtil.getCountDownMillis(lockStartTime);
             countDownView.start(countDownMillis);
+
+            // 锁单成功后刷新订单号
+            mHeadBean.setOrderNum(payPlatTradeNo);
+            mItemList.set(0, mHeadBean);
+            refreshAdapter();
         }
     }
 

@@ -10,5 +10,5 @@ public interface OnHospitalListListener {
 
     void onSuccess(HospitalEntity body);
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 }

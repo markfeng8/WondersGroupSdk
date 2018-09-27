@@ -1,7 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -21,10 +20,10 @@ import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.selecthospital.view.SelectHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -128,7 +127,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private String orgCode;
         private String orgName;
 
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
             llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
             llPayRecord = (LinearLayout) itemView.findViewById(R.id.llPayRecord);
@@ -156,8 +155,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvSelectHospital.setOnClickListener(v -> {
                 String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
                 if (TextUtils.isEmpty(feeTotal)) {
-                    ((Activity) mContext).startActivityForResult(new Intent(mContext,
-                            SelectHospitalActivity.class), IntentExtra.REQUEST_CODE);
+                    ((AfterPayHomeActivity) mContext).getHospitalList();
                 } else {
                     WToastUtil.show("您有欠费记录，需先缴清欠费！");
                 }

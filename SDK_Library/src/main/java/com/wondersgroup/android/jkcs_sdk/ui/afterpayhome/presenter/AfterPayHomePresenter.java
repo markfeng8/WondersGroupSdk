@@ -6,9 +6,11 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -100,6 +102,28 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
         } else {
             throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
         }
+    }
+
+    @Override
+    public void getHospitalList() {
+        showLoading();
+        mModel.getHospitalList(new OnHospitalListListener() {
+            @Override
+            public void onSuccess(HospitalEntity body) {
+                LogUtil.i(TAG, "get hospital list success~");
+                dismissLoading();
+                if (isNonNull()) {
+                    mViewRef.get().onHospitalListResult(body);
+                }
+            }
+
+            @Override
+            public void onFailed(String errCodeDes) {
+                LogUtil.e(TAG, "get hospital list failed!");
+                dismissLoading();
+                WToastUtil.show(errCodeDes);
+            }
+        });
     }
 
     private void showLoading() {
