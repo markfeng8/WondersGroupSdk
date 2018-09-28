@@ -163,7 +163,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvOrderName;
         private TextView tvMoney;
         private TextView tvOrderTime;
-        private TextView tvDetail;
+        private LinearLayout llItem;
         private LinearLayout llDetails;
         private String hisOrderNo;
         private int position;
@@ -173,13 +173,13 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvOrderName = (TextView) itemView.findViewById(R.id.tvOrderName);
             tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
             tvOrderTime = (TextView) itemView.findViewById(R.id.tvOrderTime);
-            tvDetail = (TextView) itemView.findViewById(R.id.tvDetail);
+            llItem = (LinearLayout) itemView.findViewById(R.id.llItem);
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
             initListener();
         }
 
         private void initListener() {
-            tvDetail.setOnClickListener(v -> {
+            llItem.setOnClickListener(v -> {
                 boolean visible = llDetails.getVisibility() == View.GONE;
                 llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
                 int childCount = llDetails.getChildCount();

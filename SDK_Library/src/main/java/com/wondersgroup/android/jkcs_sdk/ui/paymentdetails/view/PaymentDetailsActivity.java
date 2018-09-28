@@ -72,6 +72,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private List<CombineDetailsBean> mCombineList = new ArrayList<>(); // 组合 Item 数据的集合
     private int mPayType = 1;
     private DetailsAdapter.OnCheckedCallback mOnCheckedCallback;
+    private String mFeeCashTotal;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
         mPayType = type;
@@ -186,8 +187,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
                 //getYiBaoToken();
                 // 获取支付所需的参数
-                //mPresenter.getPayParam(mOrgCode);
-                toPayMoney("");
+                mPresenter.getPayParam(mOrgCode);
             }
         });
         countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
@@ -198,48 +198,29 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         });
     }
 
-    private void toPayMoney(String appId) {
+    private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
         CheckOut.setNetworkWay("CT");
 
-        String money = "1";
-        String goodsTitle = getOrderTitle();
-        String goodsDesc = getOrderTitle();
-        String orderTitle = getOrderTitle();
-        String orderDesc = getOrderTitle();
         Long i = 0L;
 
-        if (isNumeric(money)) {
-            i = Long.parseLong(money);
+        long formatCents = (long) (Double.parseDouble(mFeeCashTotal) * 100);
+
+        if (isNumeric(String.valueOf(formatCents))) {
+            i = Long.parseLong(String.valueOf(formatCents));
         } else {
             WToastUtil.show("请输入正确的交易金额（单位：分）");
             return;
         }
 
-        // appId
-        appId = "wd2015tst001";
-        // app secret 工作密钥
-        String strAppSecret = "6XtC7H8NuykaRv423hrf1gGS09FEZQoB";
-        // 填写当前appId 对应的子商户号
-        String subMerNo = "wdtstsub00001";
-        // 填写当前appId 对应的子商户名
-        String subName = "万达信息";
-
         WDPay.reqPayAsync(PaymentDetailsActivity.this,
-                appId, strAppSecret,
+                appId, apiKey,
                 getWdPayType(), subMerNo,
-                goodsTitle, // 订单标题
-                goodsDesc, i, // 订单金额(分)
-                orderTitle, // 订单流水号
-                orderDesc, null, // 扩展参数(可以null)
+                mOrgName, // 订单标题
+                "药品费", i, // 订单金额(分)
+                payPlatTradeNo, // 订单流水号
+                "药品费", null, // 扩展参数(可以null)
                 bcCallback);
-    }
-
-    /**
-     * 生成唯一账单号：hzsdk + 10位随机数
-     */
-    private String getOrderTitle() {
-        return "hzsdk" + (int) ((Math.random() * 9 + 1) * 100000);
     }
 
     public boolean isNumeric(String s) {
@@ -383,17 +364,17 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     public void onTryToSettleResult(SettleEntity body) {
         if (body != null) {
             String feeTotal = body.getFee_total();
-            String feeCashTotal = body.getFee_cash_total();
+            mFeeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
-            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",mFeeCashTotal===" + mFeeCashTotal + ",feeYbTotal===" + feeYbTotal);
 
-            tvMoneyNum.setText(feeCashTotal);
+            tvMoneyNum.setText(mFeeCashTotal);
 
             if (mDetailPayBean == null) {
                 mDetailPayBean = new DetailPayBean();
             }
             mDetailPayBean.setTotalPay(feeTotal);
-            mDetailPayBean.setPersonalPay(feeCashTotal);
+            mDetailPayBean.setPersonalPay(mFeeCashTotal);
             mDetailPayBean.setYibaoPay(feeYbTotal);
 
             // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
@@ -412,7 +393,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         if (body != null) {
             String appId = body.getAppid();
             String version = body.getVersion();
-            toPayMoney(appId);
+            String subMerNo = body.getSubmerno();
+            String apiKey = body.getApikey();
+            toPayMoney(appId, subMerNo, apiKey);
         }
     }
 
