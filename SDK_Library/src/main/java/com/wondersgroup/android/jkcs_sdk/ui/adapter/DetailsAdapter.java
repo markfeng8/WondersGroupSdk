@@ -301,11 +301,11 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     plTotalMoney.setFeeNum(totalPay);
                 }
                 if (!TextUtils.isEmpty(personalPay)) {
-                    plPersonalPay.setFeeName("个人账户支付：");
+                    plPersonalPay.setFeeName("个人支付：");
                     plPersonalPay.setFeeNum(personalPay);
                 }
                 if (!TextUtils.isEmpty(yibaoPay)) {
-                    plYiBaoPay.setFeeName("医保账户支付：");
+                    plYiBaoPay.setFeeName("医保支付：");
                     plYiBaoPay.setFeeNum(yibaoPay);
                 }
             }
