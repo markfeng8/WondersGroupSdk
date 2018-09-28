@@ -101,5 +101,6 @@
     <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
         android:id="@+id/plYiBaoPay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
 </LinearLayout>

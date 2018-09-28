@@ -96,7 +96,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     String result = bcPayResult.getResult();
                     LogUtil.i(TAG, "done result=" + result);
                     if (result.equals(WDPayResult.RESULT_SUCCESS)) {
-                        WToastUtil.show("用户支付成功");
+                        WToastUtil.show("支付成功~");
+                        // TODO: 2018/9/28 传递参数过去
                         PersonalPayActivity.actionStart(PaymentDetailsActivity.this);
                     } else if (result.equals(WDPayResult.RESULT_CANCEL)) {
                         WToastUtil.show("用户取消支付");
@@ -200,7 +201,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
-        CheckOut.setNetworkWay("CT");
+        CheckOut.setNetworkWay("");
 
         Long i = 0L;
 

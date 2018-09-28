@@ -278,6 +278,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
                 }
+
+                plYiBaoPay.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             });
             llPayType.setOnClickListener(v -> ((PaymentDetailsActivity) mContext).showSelectPayTypeWindow(type -> {
                 if (type == 1) {

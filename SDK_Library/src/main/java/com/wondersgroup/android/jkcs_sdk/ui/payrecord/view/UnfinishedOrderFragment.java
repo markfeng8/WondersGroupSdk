@@ -4,7 +4,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
@@ -21,10 +20,6 @@ import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import java.util.ArrayList;
 import java.util.List;
 
-import widget.DateScrollerDialog;
-import widget.data.Type;
-import widget.listener.OnDateSetListener;
-
 /**
  * Created by x-sir on 2018/8/9 :)
  * Function:未完成订单页面
@@ -32,21 +27,16 @@ import widget.listener.OnDateSetListener;
 public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IView,
         FeeRecordPresenter<FeeRecordContract.IView>> implements FeeRecordContract.IView {
 
-    private TextView tvStartDate;
-    private TextView tvEndDate;
-    private TextView tvQuery;
     private View fragmentView;
     private LoadingView mLoading;
     private RecyclerView recyclerView;
-    private long mLastTime = System.currentTimeMillis(); // 上次设置的时间
-    private boolean isStartTime = true;
-    private String mStartDate;
     private String mEndDate;
-    private String mPageNumber = "10";
+    private String mStartDate;
+    private int mPosition = -1;
     private String mPageSize = "1";
+    private String mPageNumber = "10";
     private FeeRecordAdapter mAdapter;
     private List<FeeRecordEntity.DetailsBean> mDetails;
-    private int mPosition = -1;
     private List<CombineFeeRecord> mItemList = new ArrayList<>();
 
     @Override
@@ -56,12 +46,9 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
 
     @Override
     public View initView() {
-        View view = View.inflate(mContext, R.layout.wonders_group_fragment_order_record, null);
+        View view = View.inflate(mContext, R.layout.wonders_group_fragment_unfinish_order, null);
         fragmentView = view.findViewById(R.id.fragmentView);
         recyclerView = view.findViewById(R.id.recyclerView);
-        tvStartDate = view.findViewById(R.id.tvStartDate);
-        tvEndDate = view.findViewById(R.id.tvEndDate);
-        tvQuery = view.findViewById(R.id.tvQuery);
         return view;
     }
 
@@ -80,73 +67,16 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
 
         mStartDate = TimeUtil.getCurrentDate();
         mEndDate = TimeUtil.getCurrentDate();
-        tvStartDate.setText(mStartDate);
-        tvEndDate.setText(mEndDate);
     }
 
     private void initListener() {
-        tvStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isStartTime = true;
-                showDate();
-            }
-        });
-        tvEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isStartTime = false;
-                showDate();
-            }
-        });
-        tvQuery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFeeState();
-            }
-        });
+
     }
 
     private void getFeeState() {
         mPresenter.getFeeRecord(OrgConfig.FEE_STATE00, mStartDate,
                 mEndDate, mPageNumber, mPageSize); // 00 未完成订单
     }
-
-    /**
-     * 显示日期(配置最大、最小时间伐值)
-     */
-    public void showDate() {
-        DateScrollerDialog dialog = new DateScrollerDialog.Builder()
-                .setType(Type.YEAR_MONTH_DAY)
-                .setTitleStringId(getString(R.string.wonders_select_date_please))
-                .setMinMilliseconds(TimeUtil.getScrollMinTime())
-                .setMaxMilliseconds(System.currentTimeMillis())
-                .setCurMilliseconds(mLastTime)
-                .setCallback(mOnDateSetListener)
-                .build();
-
-        if (dialog != null) {
-            if (!dialog.isAdded()) {
-                dialog.show(getFragmentManager(), "year_month_day");
-            }
-        }
-    }
-
-    // 数据的回调
-    private OnDateSetListener mOnDateSetListener = new OnDateSetListener() {
-        @Override
-        public void onDateSet(DateScrollerDialog timePickerView, long milliseconds) {
-            mLastTime = milliseconds;
-            String date = TimeUtil.getDate(milliseconds);
-            if (isStartTime) {
-                mStartDate = date;
-                tvStartDate.setText(date);
-            } else {
-                mEndDate = date;
-                tvEndDate.setText(date);
-            }
-        }
-    };
 
     @Override
     public void showLoading() {
@@ -250,4 +180,5 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
             mLoading.dispose();
         }
     }
+
 }

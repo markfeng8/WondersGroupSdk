@@ -56,7 +56,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
 
     @Override
     public View initView() {
-        View view = View.inflate(mContext, R.layout.wonders_group_fragment_order_record, null);
+        View view = View.inflate(mContext, R.layout.wonders_group_fragment_finish_order, null);
         fragmentView = view.findViewById(R.id.fragmentView);
         recyclerView = view.findViewById(R.id.recyclerView);
         tvStartDate = view.findViewById(R.id.tvStartDate);
