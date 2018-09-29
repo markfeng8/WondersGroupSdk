@@ -72,7 +72,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private List<CombineDetailsBean> mCombineList = new ArrayList<>(); // 组合 Item 数据的集合
     private int mPayType = 1;
     private DetailsAdapter.OnCheckedCallback mOnCheckedCallback;
+    private String mFeeTotal;
     private String mFeeCashTotal;
+    private String mFeeYbTotal;
+    private String payPlatTradeNo;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
         mPayType = type;
@@ -83,7 +86,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
     private List<FeeBillEntity.DetailsBean> details;
-    private String payPlatTradeNo;
 
     // 支付结果返回入口
     private WDCallBack bcCallback = new WDCallBack() {
@@ -98,7 +100,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     if (result.equals(WDPayResult.RESULT_SUCCESS)) {
                         WToastUtil.show("支付成功~");
                         // TODO: 2018/9/28 传递参数过去
-                        PersonalPayActivity.actionStart(PaymentDetailsActivity.this);
+                        PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
+                                mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
                     } else if (result.equals(WDPayResult.RESULT_CANCEL)) {
                         WToastUtil.show("用户取消支付");
                     } else if (result.equals(WDPayResult.RESULT_FAIL)) {
@@ -285,6 +288,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 FeeBillEntity.DetailsBean detailsBean = details.get(i);
                 HashMap<String, String> detailItem = new HashMap<>();
                 detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
+                //detailItem.put(MapKey.HIS_ORDER_TIME, detailsBean.getHis_order_time());
                 detailItem.put(MapKey.FEE_ORDER, NumberUtil.twoBitDecimal(detailsBean.getFee_order()));
                 detailItem.put(MapKey.ORDER_NAME, detailsBean.getOrdername());
                 detailsList.add(detailItem);
@@ -364,19 +368,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     @Override
     public void onTryToSettleResult(SettleEntity body) {
         if (body != null) {
-            String feeTotal = body.getFee_total();
+            mFeeTotal = body.getFee_total();
             mFeeCashTotal = body.getFee_cash_total();
-            String feeYbTotal = body.getFee_yb_total();
-            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",mFeeCashTotal===" + mFeeCashTotal + ",feeYbTotal===" + feeYbTotal);
+            mFeeYbTotal = body.getFee_yb_total();
+            LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal==="
+                    + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
 
             tvMoneyNum.setText(mFeeCashTotal);
 
             if (mDetailPayBean == null) {
                 mDetailPayBean = new DetailPayBean();
             }
-            mDetailPayBean.setTotalPay(feeTotal);
+            mDetailPayBean.setTotalPay(mFeeTotal);
             mDetailPayBean.setPersonalPay(mFeeCashTotal);
-            mDetailPayBean.setYibaoPay(feeYbTotal);
+            mDetailPayBean.setYibaoPay(mFeeYbTotal);
 
             // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
             if (mItemList.size() > 0) {
@@ -479,6 +484,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 if (!TextUtils.isEmpty(result)) {
                     GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
                     String siCardCode = bean.getSiCardCode();
+                    LogUtil.i(TAG, "siCardCode===" + siCardCode);
                     tryToSettle(siCardCode);
                 }
             }
@@ -507,6 +513,27 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
         // 发起试结算
         mPresenter.tryToSettle(siCardCode, mOrgCode, map);
+    }
+
+    /**
+     * 获取发起正式结算时的参数
+     */
+    private HashMap<String, Object> getOfficialSettleParam() {
+        HashMap<String, Object> map = new HashMap<>();
+        List<HashMap<String, String>> detailsList = new ArrayList<>();
+        for (int i = 0; i < details.size(); i++) {
+            FeeBillEntity.DetailsBean detailsBean = details.get(i);
+            HashMap<String, String> detailItem = new HashMap<>();
+            detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
+            detailItem.put(MapKey.ORDER_NO, "1");
+            detailsList.add(detailItem);
+        }
+
+        if (detailsList.size() > 0) {
+            map.put(MapKey.DETAILS, detailsList);
+        }
+
+        return map;
     }
 
     private void openYiBaoKeyBoard() {

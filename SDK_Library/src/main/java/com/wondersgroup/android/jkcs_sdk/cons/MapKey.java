@@ -30,6 +30,7 @@ public class MapKey {
     public static final String ADVICE_DATE_TIME = "advice_datetime";
     public static final String DETAILS = "details";
     public static final String HIS_ORDER_NO = "his_order_no";
+    public static final String HIS_ORDER_TIME = "his_order_time";
     public static final String FEE_ORDER = "fee_order";
     public static final String ORDER_NO = "order_no";
     public static final String ORDER_NAME = "order_name";

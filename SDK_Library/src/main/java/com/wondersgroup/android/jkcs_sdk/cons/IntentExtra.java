@@ -11,6 +11,9 @@ public class IntentExtra {
     public static final String SERIALIZABLE_MOBILEPAY_ENTITY = "SerializableMobilePayEntity";
     public static final String ORG_CODE = "orgCode";
     public static final String ORG_NAME = "orgName";
+    public static final String FEE_TOTAL = "feeTotal";
+    public static final String FEE_CASH_TOTAL = "feeCashTotal";
+    public static final String FEE_YB_TOTAL = "feeYbTotal";
     public static final int REQUEST_CODE = 1;
     public static final int RESULT_CODE = 2;
 }

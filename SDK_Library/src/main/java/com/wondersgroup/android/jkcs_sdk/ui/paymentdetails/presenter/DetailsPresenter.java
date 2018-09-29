@@ -74,6 +74,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "getOrderDetails() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -99,6 +100,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "tryToSettle() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -150,6 +152,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "lockOrder() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {

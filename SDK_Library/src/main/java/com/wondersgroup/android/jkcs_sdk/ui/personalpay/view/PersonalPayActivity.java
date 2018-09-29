@@ -1,8 +1,10 @@
 package com.wondersgroup.android.jkcs_sdk.ui.personalpay.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,15 +17,20 @@ import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.SerializableObjectHashMap;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.contract.PersonalPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.presenter.PersonalPayPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
+
+import java.util.HashMap;
 
 // 个人账户支付页面
 public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IView,
@@ -34,13 +41,25 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private TextView tvTongChouPay;
     private TextView tvTreatName;
     private TextView tvSocialNum;
+    private TextView tvHospitalName;
     private TextView tvBillDate;
+    private TextView tvPayToast;
     private TextView tvTotalPay;
+    private TextView tvYiBaoPay;
     private TextView tvPayDetails;
+    private TextView tvCompleteTotal;
+    private TextView tvCompletePersonal;
+    private TextView tvCompleteYiBao;
     private Button btnConfirmPay;
     private LinearLayout llPaySuccess;
     private LinearLayout llPayResult;
     private LoadingView mLoading;
+    private String mOrgCode = "";
+    private String mOrgName = "";
+    private String mFeeTotal = "";
+    private String mFeeCashTotal = "";
+    private String mFeeYbTotal = "";
+    private HashMap<String, Object> mPassParamMap;
 
     @Override
     protected PersonalPayPresenter<PersonalPayContract.IView> createPresenter() {
@@ -55,24 +74,64 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         initListener();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .setDropView(activityView)
                 .build();
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
+            mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+            mFeeTotal = intent.getStringExtra(IntentExtra.FEE_TOTAL);
+            mFeeCashTotal = intent.getStringExtra(IntentExtra.FEE_CASH_TOTAL);
+            mFeeYbTotal = intent.getStringExtra(IntentExtra.FEE_YB_TOTAL);
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                SerializableObjectHashMap sMap = (SerializableObjectHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
+                if (sMap != null) {
+                    mPassParamMap = sMap.getMap();
+                }
+            }
+        }
+
+        double yiBaoAmount = Double.parseDouble(mFeeYbTotal);
+        // 如果医保支付不为 0, 那么就需要继续支付，如果为 0，那说明是全部走的个人支付且已经全部支付完成
+        if (yiBaoAmount != 0) {
+            setPaymentView(false);
+            tvTongChouPay.setText("个人账户支付" + mFeeCashTotal + "元已完成！");
+            tvPayToast.setText("您还有一笔医保" + mFeeYbTotal + "元尚未支付，请继续支付！");
+            tvTotalPay.setText(mFeeTotal);
+            tvYiBaoPay.setText(mFeeYbTotal);
+        } else {
+            setPaymentView(true);
+            tvCompleteTotal.setText(mFeeTotal);
+            tvCompletePersonal.setText(mFeeCashTotal);
+            tvYiBaoPay.setText(mFeeYbTotal);
+        }
+
+        // 设置不管是全部完成支付还是全部未完成支付时需要显示的数据
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-
         tvTreatName.setText(name);
         tvSocialNum.setText(cardNum);
+        tvHospitalName.setText(mOrgName);
+        tvBillDate.setText(TimeUtil.getCurrentDate());
     }
 
     private void findViews() {
         tvTongChouPay = (TextView) findViewById(R.id.tvTongChouPay);
         tvTreatName = (TextView) findViewById(R.id.tvTreatName);
         tvSocialNum = (TextView) findViewById(R.id.tvSocialNum);
+        tvHospitalName = (TextView) findViewById(R.id.tvHospitalName);
         tvBillDate = (TextView) findViewById(R.id.tvBillDate);
+        tvPayToast = (TextView) findViewById(R.id.tvPayToast);
         tvTotalPay = (TextView) findViewById(R.id.tvTotalPay);
+        tvYiBaoPay = (TextView) findViewById(R.id.tvYiBaoPay);
+        tvCompleteTotal = (TextView) findViewById(R.id.tvCompleteTotal);
+        tvCompletePersonal = (TextView) findViewById(R.id.tvCompletePersonal);
+        tvCompleteYiBao = (TextView) findViewById(R.id.tvCompleteYiBao);
         btnConfirmPay = (Button) findViewById(R.id.btnConfirmPay);
         activityView = findViewById(R.id.activityView);
         tvPayDetails = findViewById(R.id.tvPayDetails);
@@ -106,11 +165,8 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
                             String code = keyboardBean.getCode();
                             if ("0".equals(code)) {
                                 String token = keyboardBean.getToken();
-
-                                // TODO: 2018/9/18 携带 token 发起正式结算
-                                //mPresenter.sendOfficialPay(token, );
-                                showPaySuccess();
-
+                                // 携带 token 发起正式结算
+                                mPresenter.sendOfficialPay(token, mOrgCode, mPassParamMap);
                             } else {
                                 String msg = keyboardBean.getMsg();
                                 WToastUtil.show(String.valueOf(msg));
@@ -120,15 +176,27 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
                 });
     }
 
-    private void showPaySuccess() {
-        llPayResult.setVisibility(View.GONE);
-        llPaySuccess.setVisibility(View.VISIBLE);
-    }
+    public static void actionStart(Context context, String orgName, String orgCode, String feeTotal,
+                                   String feeCashTotal, String feeYbTotal, HashMap<String, Object> param) {
+        if (context != null) {
+            Intent intent = new Intent(context, PersonalPayActivity.class);
+            intent.putExtra(IntentExtra.ORG_NAME, orgName);
+            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+            intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
+            intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
+            intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
+            // 传递序列化的 map 数据
+            SerializableObjectHashMap sMap = new SerializableObjectHashMap();
+            sMap.setMap(param); // 将map数据添加到封装的sMap中
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentExtra.SERIALIZABLE_MAP, sMap);
+            intent.putExtras(bundle);
 
-    public static void actionStart(Context context) {
-        Intent intent = new Intent(context, PersonalPayActivity.class);
-        context.startActivity(intent);
-        ((Activity) context).finish();
+            context.startActivity(intent);
+            ((Activity) context).finish();
+        } else {
+            LogUtil.e(TAG, "context is null!");
+        }
     }
 
     @Override
@@ -151,6 +219,24 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             String feeTotal = body.getFee_total();
             String feeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
+            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+
+            tvCompleteTotal.setText(feeTotal);
+            tvCompletePersonal.setText(feeCashTotal);
+            tvYiBaoPay.setText(feeYbTotal);
+        }
+    }
+
+    /**
+     * 设置是否已经全部支付完成的视图
+     */
+    private void setPaymentView(boolean isComplete) {
+        if (isComplete) {
+            llPayResult.setVisibility(View.GONE);
+            llPaySuccess.setVisibility(View.VISIBLE);
+        } else {
+            llPayResult.setVisibility(View.VISIBLE);
+            llPaySuccess.setVisibility(View.GONE);
         }
     }
 

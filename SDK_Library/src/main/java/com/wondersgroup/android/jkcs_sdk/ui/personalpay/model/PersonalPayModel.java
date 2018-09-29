@@ -34,11 +34,14 @@ public class PersonalPayModel implements PersonalPayContract.IModel {
     private static final String TAG = "PersonalPayModel";
 
     public PersonalPayModel() {
+
     }
 
     @Override
     public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
+        String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
+
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0007);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -47,6 +50,7 @@ public class PersonalPayModel implements PersonalPayContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
+        map.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 
         RetrofitHelper

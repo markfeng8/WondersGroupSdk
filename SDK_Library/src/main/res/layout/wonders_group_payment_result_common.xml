@@ -95,7 +95,7 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvBillDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -110,51 +110,5 @@
         android:layout_marginBottom="@dimen/wonders_margin_10dp"
         android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:background="@color/wonders_rgb_color_eeeeee" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_10dp"
-        android:drawablePadding="@dimen/wonders_padding_6dp"
-        android:drawableStart="@drawable/wonders_group_pay"
-        android:text="@string/wonders_text_pay_detail"
-        android:textColor="@color/wonders_rgb_color_666666"
-        android:textSize="@dimen/wonders_text_size_18sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingEnd="@dimen/wonders_padding_20dp"
-        android:text="总计金额：￥560.44"
-        android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingEnd="@dimen/wonders_padding_20dp"
-        android:text="总计金额：￥560.44"
-        android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingEnd="@dimen/wonders_padding_20dp"
-        android:text="总计金额：￥560.44"
-        android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingEnd="@dimen/wonders_padding_20dp"
-        android:text="总计金额：￥560.44"
-        android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
 
 </LinearLayout>
