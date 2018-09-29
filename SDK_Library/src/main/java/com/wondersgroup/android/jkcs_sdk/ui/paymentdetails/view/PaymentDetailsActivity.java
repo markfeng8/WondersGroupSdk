@@ -408,6 +408,17 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
     }
 
+    /**
+     * 设置个人支付金额
+     */
+    public void setPersonalPayAmount(String amount) {
+        if (!TextUtils.isEmpty(amount)) {
+            // 设置个人需要支付的金额
+            mFeeCashTotal = amount;
+            tvMoneyNum.setText(amount);
+        }
+    }
+
     @Override
     public void showLoading() {
         if (mLoading != null) {

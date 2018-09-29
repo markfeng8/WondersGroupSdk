@@ -252,6 +252,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvPayType;
         private LinearLayout llPayType;
         private ToggleButton tbYiBaoEnable;
+        private String totalPay;
+        private String personalPay;
+        private String yiBaoPay;
 
         PayViewHolder(View itemView) {
             super(itemView);
@@ -275,12 +278,21 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
                         tbYiBaoEnable.setChecked(false);
                     }
+
                 } else {
                     SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
                 }
 
+                // 处理显示隐藏医保金额布局
                 plYiBaoPay.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+
+                // 如果允许医保支付，则个人支付就是个人支付的金额，如果不允许医保支付，则个人支付就是总支付的金额
+                plPersonalPay.setFeeNum(isChecked ? personalPay : totalPay);
+
+                // 如果允许医保支付，则个人需要支付个人部分即可，如果不允许，则显示全部支付金额
+                ((PaymentDetailsActivity) mContext).setPersonalPayAmount(isChecked ? personalPay : totalPay);
             });
+
             llPayType.setOnClickListener(v -> ((PaymentDetailsActivity) mContext).showSelectPayTypeWindow(type -> {
                 if (type == 1) {
                     tvPayType.setText("支付宝");
@@ -294,9 +306,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public void setData(DetailPayBean payBean) {
             if (payBean != null) {
-                String totalPay = payBean.getTotalPay();
-                String personalPay = payBean.getPersonalPay();
-                String yibaoPay = payBean.getYibaoPay();
+                totalPay = payBean.getTotalPay();
+                personalPay = payBean.getPersonalPay();
+                yiBaoPay = payBean.getYibaoPay();
 
                 if (!TextUtils.isEmpty(totalPay)) {
                     plTotalMoney.setFeeName("总计金额：");
@@ -306,9 +318,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     plPersonalPay.setFeeName("个人支付：");
                     plPersonalPay.setFeeNum(personalPay);
                 }
-                if (!TextUtils.isEmpty(yibaoPay)) {
+                if (!TextUtils.isEmpty(yiBaoPay)) {
                     plYiBaoPay.setFeeName("医保支付：");
-                    plYiBaoPay.setFeeNum(yibaoPay);
+                    plYiBaoPay.setFeeNum(yiBaoPay);
                 }
             }
         }

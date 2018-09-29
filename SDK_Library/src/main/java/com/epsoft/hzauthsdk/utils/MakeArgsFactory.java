@@ -6,6 +6,7 @@ import com.epsoft.hzauthsdk.pub.ChangePWArgs;
 import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
 import com.epsoft.hzauthsdk.pub.TokenArgs;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 /**
@@ -13,6 +14,8 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
  * Function:医保移动支付（开通、查询、认证等相关）
  */
 public class MakeArgsFactory {
+
+    private static final String TAG = "MakeArgsFactory";
 
     /**
      * 开通医保移动支付参数
@@ -24,6 +27,7 @@ public class MakeArgsFactory {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        LogUtil.i(TAG, "phone===" + phone + ",name===" + ",idNum===" + idNum + ",cardNum===" + cardNum);
 
         return new BusinessArgs.Builder()
                 .setCbd(YiBaoConfig.CBD)
