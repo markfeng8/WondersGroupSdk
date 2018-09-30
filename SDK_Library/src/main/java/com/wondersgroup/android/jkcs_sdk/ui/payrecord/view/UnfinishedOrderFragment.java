@@ -107,10 +107,10 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
             mDetails = entity.getDetails();
 
             // 制造一些假数据
-            FeeRecordEntity.DetailsBean detailsBean = new FeeRecordEntity.DetailsBean();
-            detailsBean.setOrg_name("第一人民医院");
-            detailsBean.setFee_total("100");
-            mDetails.add(detailsBean);
+//            FeeRecordEntity.DetailsBean detailsBean = new FeeRecordEntity.DetailsBean();
+//            detailsBean.setOrg_name("第一人民医院");
+//            detailsBean.setFee_total("100");
+//            mDetails.add(detailsBean);
 
             if (mDetails != null && mDetails.size() > 0) {
                 combineListData();
