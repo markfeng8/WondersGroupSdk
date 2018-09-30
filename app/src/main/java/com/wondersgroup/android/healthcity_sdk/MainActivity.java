@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
          * @param idType      证件类型(01：身份证)
          * @param idNum       证件号码
          * @param cardType    就诊卡类型(0：社保卡 2：自费卡)
-         * @param cardNum   就诊卡号
+         * @param cardNum     就诊卡号
          * @param homeAddress 家庭地址
          */
         WondersGroup.startAfterPayHome(MainActivity.this,
