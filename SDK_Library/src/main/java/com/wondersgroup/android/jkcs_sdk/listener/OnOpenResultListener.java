@@ -8,6 +8,6 @@ public interface OnOpenResultListener {
 
     void onSuccess();
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 
 }

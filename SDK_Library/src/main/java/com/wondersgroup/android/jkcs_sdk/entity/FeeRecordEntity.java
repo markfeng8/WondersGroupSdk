@@ -20,10 +20,19 @@ public class FeeRecordEntity extends BaseEntity {
 
     public static class DetailsBean {
         private String org_name;
+        private String org_code;
         private String fee_total;
         private String payplat_tradno;
         private String shop_order_time;
         private String fee_state;
+
+        public String getOrg_code() {
+            return org_code;
+        }
+
+        public void setOrg_code(String org_code) {
+            this.org_code = org_code;
+        }
 
         public String getOrg_name() {
             return org_name;

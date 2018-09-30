@@ -8,6 +8,5 @@ public interface OnOpenAfterPayListener {
 
     void onSuccess();
 
-    void onFailed();
-
+    void onFailed(String errCodeDes);
 }

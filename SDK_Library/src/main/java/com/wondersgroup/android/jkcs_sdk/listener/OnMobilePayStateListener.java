@@ -8,5 +8,5 @@ public interface OnMobilePayStateListener {
 
     void onSuccess();
 
-    void onFailed();
+    void onFailed(String errCodeDes);
 }

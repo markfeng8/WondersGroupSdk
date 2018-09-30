@@ -288,7 +288,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 FeeBillEntity.DetailsBean detailsBean = details.get(i);
                 HashMap<String, String> detailItem = new HashMap<>();
                 detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-                //detailItem.put(MapKey.HIS_ORDER_TIME, detailsBean.getHis_order_time());
+                detailItem.put(MapKey.HIS_ORDER_TIME, detailsBean.getHis_order_time());
                 detailItem.put(MapKey.FEE_ORDER, NumberUtil.twoBitDecimal(detailsBean.getFee_order()));
                 detailItem.put(MapKey.ORDER_NAME, detailsBean.getOrdername());
                 detailsList.add(detailItem);
@@ -300,8 +300,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
             // 调用锁单接口
             mPresenter.lockOrder(map, detailsList.size());
-
-            //getYiBaoToken();
         }
     }
 
@@ -485,7 +483,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
                     String siCardCode = bean.getSiCardCode();
                     LogUtil.i(TAG, "siCardCode===" + siCardCode);
-                    tryToSettle(siCardCode);
+                    if (siCardCode != null) {
+                        tryToSettle(siCardCode);
+                    }
                 }
             }
         });

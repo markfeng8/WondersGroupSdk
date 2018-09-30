@@ -9,6 +9,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.contract.PersonalPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.model.PersonalPayModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
@@ -40,6 +41,7 @@ public class PersonalPayPresenter<T extends PersonalPayContract.IView>
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "sendOfficialPay() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {

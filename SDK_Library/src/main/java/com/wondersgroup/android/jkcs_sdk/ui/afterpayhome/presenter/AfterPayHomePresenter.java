@@ -66,8 +66,9 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
 
                 @Override
-                public void onFailed() {
+                public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "移动医保状态上报失败~");
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {

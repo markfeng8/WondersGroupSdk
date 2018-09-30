@@ -40,9 +40,9 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 }
 
                 @Override
-                public void onFailed() {
-                    WToastUtil.show("修改失败！");
+                public void onFailed(String errCodeDes) {
                     dismissPopupWindow();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -66,8 +66,8 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 }
 
                 @Override
-                public void onFailed() {
-                    WToastUtil.show("发送失败！");
+                public void onFailed(String errCodeDes) {
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -93,8 +93,8 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "医后付解约失败！");
-                    WToastUtil.show(errCodeDes);
                     dismissPopupWindow();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {

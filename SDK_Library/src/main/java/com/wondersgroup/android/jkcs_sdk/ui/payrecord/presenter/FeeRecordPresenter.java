@@ -11,6 +11,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.model.FeeRecordModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/9/18 :)
@@ -41,6 +42,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "getFeeRecord() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -66,6 +68,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "getFeeDetail() -> onFailed()===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {

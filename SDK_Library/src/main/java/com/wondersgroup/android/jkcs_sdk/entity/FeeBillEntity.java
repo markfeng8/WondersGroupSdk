@@ -42,10 +42,19 @@ public class FeeBillEntity extends BaseEntity {
          */
 
         private String his_order_no;
+        private String org_code;
         private String his_order_time;
         private String ordername;
         private String fee_state;
         private String fee_order;
+
+        public String getOrg_code() {
+            return org_code;
+        }
+
+        public void setOrg_code(String org_code) {
+            this.org_code = org_code;
+        }
 
         public String getHis_order_no() {
             return his_order_no;

@@ -47,7 +47,7 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "发送失败===" + errCodeDes);
-                    WToastUtil.show("发送失败！");
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -69,8 +69,8 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
                 }
 
                 @Override
-                public void onFailed() {
-                    WToastUtil.show("开通失败！");
+                public void onFailed(String errCodeDes) {
+                    WToastUtil.show(errCodeDes);
                     if (isNonNull()) {
                         mViewRef.get().onAfterPayOpenFailed();
                     }

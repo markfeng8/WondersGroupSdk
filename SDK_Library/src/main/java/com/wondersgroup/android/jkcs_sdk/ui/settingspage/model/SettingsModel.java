@@ -69,8 +69,11 @@ public class SettingsModel implements SettingsContract.IModel {
                                     listener.onSuccess();
                                 }
                             } else {
-                                if (listener != null) {
-                                    listener.onFailed();
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
                             }
                         }
@@ -81,7 +84,7 @@ public class SettingsModel implements SettingsContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });
@@ -117,8 +120,11 @@ public class SettingsModel implements SettingsContract.IModel {
                                     listener.onSuccess();
                                 }
                             } else {
-                                if (listener != null) {
-                                    listener.onFailed();
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
                             }
                         }
@@ -129,7 +135,7 @@ public class SettingsModel implements SettingsContract.IModel {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
                         if (listener != null) {
-                            listener.onFailed();
+                            listener.onFailed(error);
                         }
                     }
                 });
