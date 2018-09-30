@@ -29,6 +29,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
+import com.wondersgroup.android.jkcs_sdk.widget.PayResultLayout;
 
 import java.util.HashMap;
 
@@ -39,10 +40,6 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private static final String TAG = "PersonalPayActivity";
     private View activityView;
     private TextView tvTongChouPay;
-    private TextView tvTreatName;
-    private TextView tvSocialNum;
-    private TextView tvHospitalName;
-    private TextView tvBillDate;
     private TextView tvPayToast;
     private TextView tvTotalPay;
     private TextView tvYiBaoPay;
@@ -53,6 +50,8 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private Button btnConfirmPay;
     private LinearLayout llPaySuccess;
     private LinearLayout llPayResult;
+    private LinearLayout llContainer1;
+    private LinearLayout llContainer2;
     private LoadingView mLoading;
     private String mOrgCode = "";
     private String mOrgName = "";
@@ -96,6 +95,16 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             }
         }
 
+        // 设置不管是全部完成支付还是全部未完成支付时需要显示的数据
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
+        PayResultLayout payResultLayout = new PayResultLayout(this);
+        payResultLayout.setTreatName(name);
+        payResultLayout.setSocialNum(cardNum);
+        payResultLayout.setHospitalName(mOrgName);
+        payResultLayout.setBillDate(TimeUtil.getCurrentDate());
+
         double yiBaoAmount = Double.parseDouble(mFeeYbTotal);
         // 如果医保支付不为 0, 那么就需要继续支付，如果为 0，那说明是全部走的个人支付且已经全部支付完成
         if (yiBaoAmount != 0) {
@@ -104,28 +113,18 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             tvPayToast.setText("您还有一笔医保" + mFeeYbTotal + "元尚未支付，请继续支付！");
             tvTotalPay.setText(mFeeTotal);
             tvYiBaoPay.setText(mFeeYbTotal);
+            llContainer1.addView(payResultLayout);
         } else {
             setPaymentView(true);
-            tvCompleteTotal.setText(mFeeTotal);
-            tvCompletePersonal.setText(mFeeCashTotal);
-            tvYiBaoPay.setText(mFeeYbTotal);
+            tvCompleteTotal.setText("总计金额：￥" + mFeeTotal);
+            tvCompletePersonal.setText("个人支付：￥" + mFeeCashTotal);
+            tvCompleteYiBao.setText("医保支付：￥" + mFeeYbTotal);
+            llContainer2.addView(payResultLayout);
         }
-
-        // 设置不管是全部完成支付还是全部未完成支付时需要显示的数据
-        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        tvTreatName.setText(name);
-        tvSocialNum.setText(cardNum);
-        tvHospitalName.setText(mOrgName);
-        tvBillDate.setText(TimeUtil.getCurrentDate());
     }
 
     private void findViews() {
         tvTongChouPay = (TextView) findViewById(R.id.tvTongChouPay);
-        tvTreatName = (TextView) findViewById(R.id.tvTreatName);
-        tvSocialNum = (TextView) findViewById(R.id.tvSocialNum);
-        tvHospitalName = (TextView) findViewById(R.id.tvHospitalName);
-        tvBillDate = (TextView) findViewById(R.id.tvBillDate);
         tvPayToast = (TextView) findViewById(R.id.tvPayToast);
         tvTotalPay = (TextView) findViewById(R.id.tvTotalPay);
         tvYiBaoPay = (TextView) findViewById(R.id.tvYiBaoPay);
@@ -137,6 +136,8 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         tvPayDetails = findViewById(R.id.tvPayDetails);
         llPaySuccess = findViewById(R.id.llPaySuccess);
         llPayResult = findViewById(R.id.llPayResult);
+        llContainer1 = findViewById(R.id.llContainer1);
+        llContainer2 = findViewById(R.id.llContainer2);
     }
 
     private void initListener() {
@@ -223,7 +224,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
 
             tvCompleteTotal.setText(feeTotal);
             tvCompletePersonal.setText(feeCashTotal);
-            tvYiBaoPay.setText(feeYbTotal);
+            tvCompleteYiBao.setText(feeYbTotal);
         }
     }
 

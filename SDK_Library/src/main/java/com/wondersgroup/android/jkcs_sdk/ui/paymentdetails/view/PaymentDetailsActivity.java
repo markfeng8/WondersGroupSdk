@@ -99,7 +99,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     LogUtil.i(TAG, "done result=" + result);
                     if (result.equals(WDPayResult.RESULT_SUCCESS)) {
                         WToastUtil.show("支付成功~");
-                        // TODO: 2018/9/28 传递参数过去
+                        // 传递参数过去
                         PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
                                 mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
                     } else if (result.equals(WDPayResult.RESULT_CANCEL)) {
@@ -191,7 +191,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
                 //getYiBaoToken();
                 // 获取支付所需的参数
-                mPresenter.getPayParam(mOrgCode);
+//                mPresenter.getPayParam(mOrgCode);
+
+                mFeeTotal = "0.01";
+                mFeeCashTotal = "0.01";
+                mFeeYbTotal = "0.00";
+                PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
+                        mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
+
             }
         });
         countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {

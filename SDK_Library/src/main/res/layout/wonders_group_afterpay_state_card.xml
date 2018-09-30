@@ -89,13 +89,13 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:padding="@dimen/wonders_padding_4dp"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/tvToPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/wonders_to_pay_money"
+                android:text=""
                 android:textColor="@color/wonders_rgb_color_333333"
                 android:textSize="@dimen/wonders_text_size_12sp" />
 

@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_10dp"
+        android:layout_marginStart="@dimen/wonders_margin_20dp"
         android:layout_marginTop="16dp"
         android:drawablePadding="@dimen/wonders_padding_10dp"
         android:drawableStart="@drawable/wonders_group_pay_success"
@@ -18,7 +18,11 @@
         android:textColor="@color/wonders_rgb_color_58c78f"
         android:textSize="@dimen/wonders_text_size_16sp" />
 
-    <include layout="@layout/wonders_group_payment_result_common" />
+    <LinearLayout
+        android:id="@+id/llContainer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,7 +42,7 @@
         android:paddingEnd="@dimen/wonders_padding_20dp"
         android:text="总计金额：￥0.00"
         android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
+        android:textSize="@dimen/wonders_text_size_12sp" />
 
     <TextView
         android:id="@+id/tvCompletePersonal"
@@ -49,7 +53,7 @@
         android:paddingEnd="@dimen/wonders_padding_20dp"
         android:text="个人支付：￥0.00"
         android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
+        android:textSize="@dimen/wonders_text_size_12sp" />
 
     <TextView
         android:id="@+id/tvCompleteYiBao"
@@ -60,7 +64,7 @@
         android:paddingEnd="@dimen/wonders_padding_20dp"
         android:text="医保支付：￥0.00"
         android:textColor="@color/wonders_rgb_color_969696"
-        android:textSize="@dimen/wonders_text_size_10sp" />
+        android:textSize="@dimen/wonders_text_size_12sp" />
 
     <TextView
         android:id="@+id/tvPayDetails"

@@ -45,7 +45,7 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
-            android:id="@+id/tvCardNum"
+            android:id="@+id/tvSocialNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
