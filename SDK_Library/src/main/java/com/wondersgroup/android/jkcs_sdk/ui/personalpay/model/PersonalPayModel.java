@@ -41,6 +41,7 @@ public class PersonalPayModel implements PersonalPayContract.IModel {
     public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
+        LogUtil.i(TAG, "adviceDateTime===" + adviceDateTime + ",payPlatTradeNo===" + payPlatTradeNo);
 
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0007);

@@ -191,14 +191,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
                 //getYiBaoToken();
                 // 获取支付所需的参数
-//                mPresenter.getPayParam(mOrgCode);
-
-                mFeeTotal = "0.01";
-                mFeeCashTotal = "0.01";
-                mFeeYbTotal = "0.00";
-                PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
-                        mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
-
+                mPresenter.getPayParam(mOrgCode);
             }
         });
         countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
