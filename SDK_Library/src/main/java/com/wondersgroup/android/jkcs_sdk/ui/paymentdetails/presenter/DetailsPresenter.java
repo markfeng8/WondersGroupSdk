@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter;
 
 import android.text.TextUtils;
 
+import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
@@ -9,14 +10,15 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.DetailsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -34,7 +36,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void getUnclearedBill(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.getUnclearedBill(map, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
@@ -59,7 +64,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void getOrderDetails(String hisOrderNo, String orgCode) {
         if (!TextUtils.isEmpty(hisOrderNo)) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.getOrderDetails(hisOrderNo, orgCode, new OnOrderDetailListener() {
                 @Override
                 public void onSuccess(OrderDetailsEntity entity) {
@@ -85,7 +93,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void tryToSettle(String token, String orgCode, HashMap<String, Object> map) {
         if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(orgCode)) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.tryToSettle(token, orgCode, map, new OnSettleListener() {
                 @Override
                 public void onSuccess(SettleEntity body) {
@@ -111,7 +122,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void getPayParam(String orgCode) {
         if (!TextUtils.isEmpty(orgCode)) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.getPayParam(orgCode, new OnPayParamListener() {
                 @Override
                 public void onSuccess(PayParamEntity entity) {
@@ -137,7 +151,10 @@ public class DetailsPresenter<T extends DetailsContract.IView>
     @Override
     public void lockOrder(HashMap<String, Object> map, int totalCount) {
         if (map != null && !map.isEmpty()) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.lockOrder(map, totalCount, new OnLockOrderListener() {
                 @Override
                 public void onSuccess(LockOrderEntity entity) {

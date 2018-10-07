@@ -104,9 +104,11 @@ public class DetailsModel implements DetailsContract.IModel {
                     @Override
                     public void onFailure(Call<FeeBillEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -156,9 +158,11 @@ public class DetailsModel implements DetailsContract.IModel {
                     @Override
                     public void onFailure(Call<LockOrderEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -211,9 +215,11 @@ public class DetailsModel implements DetailsContract.IModel {
                     @Override
                     public void onFailure(Call<OrderDetailsEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -261,9 +267,11 @@ public class DetailsModel implements DetailsContract.IModel {
                     @Override
                     public void onFailure(Call<SettleEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -309,9 +317,11 @@ public class DetailsModel implements DetailsContract.IModel {
                     @Override
                     public void onFailure(Call<PayParamEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });

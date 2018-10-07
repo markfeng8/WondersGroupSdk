@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
@@ -25,6 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivi
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
@@ -37,12 +39,24 @@ import java.util.List;
 public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = AfterPayAdapter.class.getSimpleName();
-    private static final int TYPE_HEADER = 1;  // 头部信息类型
-    private static final int TYPE_LIST = 2;    // 未缴清账单类型
+    /**
+     * 头部信息类型
+     */
+    private static final int TYPE_HEADER = 1;
+    /**
+     * 未缴清账单类型
+     */
+    private static final int TYPE_LIST = 2;
+    /**
+     * 初始化布局加载器
+     */
+    private LayoutInflater mLayoutInflater;
+    /**
+     * 当前Item的类型
+     */
+    private int mCurrentType = -1;
     private Context mContext;
     private List<Object> mItemList;
-    private LayoutInflater mLayoutInflater; // 初始化布局加载器
-    private int mCurrentType = -1; // 当前Item的类型
 
     public AfterPayAdapter(Context context, List<Object> itemList) {
         this.mContext = context;
@@ -111,7 +125,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mCurrentType;
     }
 
-    // 1.Header 类型
+    /**
+     * 1.Header 类型
+     */
     class HeaderViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout llSettings;
         private LinearLayout llPayRecord;
@@ -204,7 +220,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 tvSocialNum.setText(mContext.getString(R.string.wonders_text_social_number) + cardNo);
 
-                if ("00".equals(signingStatus)) { // 00未签约（医后付状态给NULL）
+                // 00未签约（医后付状态给NULL）
+                if ("00".equals(signingStatus)) {
                     setAfterPayState(true);
                 } else if ("01".equals(signingStatus)) { // 01已签约
                     setAfterPayState(false);
@@ -262,8 +279,12 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         private void openMobilePay() {
-            AuthCall.businessProcess(mContext,
-                    MakeArgsFactory.getOpenArgs(), WToastUtil::show);
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                AuthCall.businessProcess(mContext,
+                        MakeArgsFactory.getOpenArgs(), WToastUtil::show);
+            } else {
+                WToastUtil.show("网络连接错误，请检查您的网络连接！");
+            }
         }
     }
 
@@ -274,7 +295,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView tvTimestamp;
         private TextView tvMoney;
 
-        public ListViewHolder(View itemView) {
+        ListViewHolder(View itemView) {
             super(itemView);
             tvFeeName = itemView.findViewById(R.id.tvFeeName);
             tvDepartment = itemView.findViewById(R.id.tvDepartment);

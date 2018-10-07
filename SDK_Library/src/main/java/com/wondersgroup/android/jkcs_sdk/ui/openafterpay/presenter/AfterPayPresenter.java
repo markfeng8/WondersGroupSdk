@@ -15,7 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:开通医后付
  */
 public class AfterPayPresenter<T extends AfterPayContract.IView>
         extends MvpBasePresenter<T> implements AfterPayContract.IPresenter {
@@ -62,6 +62,7 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
             mModel.openAfterPay(phone, idenCode, new OnOpenAfterPayListener() {
                 @Override
                 public void onSuccess() {
+                    LogUtil.i(TAG, "openAfterPay() -> onSuccess()");
                     WToastUtil.show("开通成功！");
                     if (isNonNull()) {
                         mViewRef.get().onAfterPayOpenSuccess();
@@ -70,6 +71,7 @@ public class AfterPayPresenter<T extends AfterPayContract.IView>
 
                 @Override
                 public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "openAfterPay() -> onFailed()===" + errCodeDes);
                     WToastUtil.show(errCodeDes);
                     if (isNonNull()) {
                         mViewRef.get().onAfterPayOpenFailed();

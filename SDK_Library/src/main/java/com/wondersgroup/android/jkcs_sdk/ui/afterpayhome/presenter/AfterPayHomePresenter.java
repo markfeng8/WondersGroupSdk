@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter;
 
 import android.text.TextUtils;
 
+import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
@@ -14,6 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -34,21 +36,25 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     @Override
     public void getAfterPayState(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.getAfterPayState(map, new OnAfterPayStateListener() {
                 @Override
                 public void onSuccess(AfterPayStateEntity entity) {
                     LogUtil.i(TAG, "医后付状态查询成功~");
+                    dismissLoading();
                     if (isNonNull()) {
                         mViewRef.get().afterPayResult(entity);
                     }
-                    dismissLoading();
                 }
 
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "医后付状态查询失败===" + errCodeDes);
                     dismissLoading();
+                    WToastUtil.show(errCodeDes);
                 }
             });
         } else {
@@ -79,7 +85,10 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     @Override
     public void getUnclearedBill(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.getUnclearedBill(map, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
@@ -107,7 +116,10 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
     @Override
     public void getHospitalList() {
-        showLoading();
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            showLoading();
+        }
+
         mModel.getHospitalList(new OnHospitalListListener() {
             @Override
             public void onSuccess(HospitalEntity body) {

@@ -35,12 +35,14 @@ public class SettingsPresenter<T extends SettingsContract.IView>
             mModel.sendOpenRequest(map, new OnOpenResultListener() {
                 @Override
                 public void onSuccess() {
+                    LogUtil.i(TAG, "sendOpenRequest() -> onSuccess()");
                     WToastUtil.show("修改成功！");
                     dismissPopupWindow();
                 }
 
                 @Override
                 public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "sendOpenRequest() -> onFailed()===" + errCodeDes);
                     dismissPopupWindow();
                     WToastUtil.show(errCodeDes);
                 }
@@ -50,23 +52,19 @@ public class SettingsPresenter<T extends SettingsContract.IView>
         }
     }
 
-    private void dismissPopupWindow() {
-        if (isNonNull()) {
-            mViewRef.get().dismissPopupWindow();
-        }
-    }
-
     @Override
     public void sendVerifyCode(String phone, String idenClass) {
         if (!TextUtils.isEmpty(phone)) {
             mModel.sendVerifyCode(phone, idenClass, new OnVerifySendListener() {
                 @Override
                 public void onSuccess() {
+                    LogUtil.i(TAG, "sendVerifyCode() -> onSuccess()");
                     WToastUtil.show("发送成功！");
                 }
 
                 @Override
                 public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "sendVerifyCode() -> onFailed()===" + errCodeDes);
                     WToastUtil.show(errCodeDes);
                 }
             });
@@ -99,6 +97,12 @@ public class SettingsPresenter<T extends SettingsContract.IView>
             });
         } else {
             throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+        }
+    }
+
+    private void dismissPopupWindow() {
+        if (isNonNull()) {
+            mViewRef.get().dismissPopupWindow();
         }
     }
 }

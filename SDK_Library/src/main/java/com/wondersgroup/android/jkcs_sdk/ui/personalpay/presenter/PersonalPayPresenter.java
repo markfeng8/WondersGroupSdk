@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.personalpay.presenter;
 
 import android.text.TextUtils;
 
+import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
@@ -9,6 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.contract.PersonalPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.model.PersonalPayModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -26,7 +28,10 @@ public class PersonalPayPresenter<T extends PersonalPayContract.IView>
     @Override
     public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map) {
         if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(orgCode)) {
-            showLoading();
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
             mModel.sendOfficialPay(token, orgCode, map, new OnSettleListener() {
                 @Override
                 public void onSuccess(SettleEntity body) {

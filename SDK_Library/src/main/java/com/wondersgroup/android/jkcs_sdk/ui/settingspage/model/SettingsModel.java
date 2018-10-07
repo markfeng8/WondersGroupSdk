@@ -49,7 +49,6 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
-        //param.put(MapKey.ID_TYPE, OrgConfig.ID_TYPE01);
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
@@ -82,9 +81,11 @@ public class SettingsModel implements SettingsContract.IModel {
                     @Override
                     public void onFailure(Call<BaseEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if(!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });

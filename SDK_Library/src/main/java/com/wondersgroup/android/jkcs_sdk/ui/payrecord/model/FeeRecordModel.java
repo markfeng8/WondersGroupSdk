@@ -98,9 +98,11 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
                     @Override
                     public void onFailure(Call<FeeRecordEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if(!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -146,9 +148,11 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
                     @Override
                     public void onFailure(Call<FeeBillEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if(!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });

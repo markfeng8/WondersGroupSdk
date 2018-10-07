@@ -83,9 +83,11 @@ public class PersonalPayModel implements PersonalPayContract.IModel {
                     @Override
                     public void onFailure(Call<SettleEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if(!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });

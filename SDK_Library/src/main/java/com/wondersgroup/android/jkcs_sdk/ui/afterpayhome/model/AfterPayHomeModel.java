@@ -98,9 +98,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                        }
-                        if (listener != null) {
-                            listener.onFailed(error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -152,9 +152,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                     @Override
                     public void onFailure(Call<MobilePayEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -206,9 +208,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                     @Override
                     public void onFailure(Call<FeeBillEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
@@ -253,9 +257,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                     @Override
                     public void onFailure(Call<HospitalEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
                         }
                     }
                 });
