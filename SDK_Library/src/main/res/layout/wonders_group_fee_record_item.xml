@@ -42,6 +42,18 @@
                 android:visibility="visible" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvPayMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_10dp"
+            android:background="@drawable/wonders_group_pay_detail_selector"
+            android:enabled="true"
+            android:gravity="center"
+            android:text="付款"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/ivArrow"
             android:layout_width="wrap_content"

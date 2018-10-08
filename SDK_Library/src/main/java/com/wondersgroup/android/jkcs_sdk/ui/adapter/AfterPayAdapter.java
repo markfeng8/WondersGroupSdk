@@ -17,7 +17,6 @@ import com.epsoft.hzauthsdk.all.AuthCall;
 import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
-import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
@@ -182,10 +181,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             // 去缴费
             llToPayFee.setOnClickListener(v -> {
-                Intent intent = new Intent(mContext, PaymentDetailsActivity.class);
-                intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-                intent.putExtra(IntentExtra.ORG_NAME, orgName);
-                mContext.startActivity(intent);
+                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName);
             });
             // 去开通医后付
             tvAfterPayState.setOnClickListener(v -> mContext.startActivity(

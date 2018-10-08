@@ -16,6 +16,7 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.widget.FeeRecordLayout;
 
 import java.util.List;
@@ -26,15 +27,17 @@ import java.util.List;
  */
 public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<CombineFeeRecord> mDetails;
     private Context mContext;
     private MvpBaseFragment mBaseFragment;
     private LayoutInflater mLayoutInflater;
+    private List<CombineFeeRecord> mDetails;
+    private boolean payViewVisibility;
 
-    public FeeRecordAdapter(Context context, MvpBaseFragment baseFragment, List<CombineFeeRecord> details) {
+    public FeeRecordAdapter(Context context, MvpBaseFragment baseFragment, List<CombineFeeRecord> details, boolean visible) {
         this.mContext = context;
         this.mBaseFragment = baseFragment;
         this.mDetails = details;
+        this.payViewVisibility = visible;
         this.mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -66,18 +69,25 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private LinearLayout llHideLayout;
         private TextView tvHospitalName;
         private TextView tvFeeNum;
+        private TextView tvPayMoney;
         private ImageView ivArrow;
         private String payPlatTradeNo;
         private int position;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
             tvFeeNum = (TextView) itemView.findViewById(R.id.tvFeeNum);
+            tvPayMoney = (TextView) itemView.findViewById(R.id.tvPayMoney);
             llHideLayout = (LinearLayout) itemView.findViewById(R.id.llHideLayout);
             llHospitalItem = (LinearLayout) itemView.findViewById(R.id.llHospitalItem);
             ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
             initListener();
+            setVisibility();
+        }
+
+        private void setVisibility() {
+            tvPayMoney.setVisibility(payViewVisibility ? View.VISIBLE : View.GONE);
         }
 
         private void initListener() {
@@ -93,10 +103,20 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
             });
+            tvPayMoney.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CombineFeeRecord combineFeeRecord = mDetails.get(position);
+                    FeeRecordEntity.DetailsBean recordDetail = combineFeeRecord.getRecordDetail();
+                    String orgCode = recordDetail.getOrg_code();
+                    String orgName = recordDetail.getOrg_name();
+                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName);
+                }
+            });
         }
 
         @SuppressLint("SetTextI18n")
-        public void setData(CombineFeeRecord item, int position) {
+        void setData(CombineFeeRecord item, int position) {
             this.position = position;
             if (item != null) {
                 FeeRecordEntity.DetailsBean detailsBean = item.getRecordDetail();

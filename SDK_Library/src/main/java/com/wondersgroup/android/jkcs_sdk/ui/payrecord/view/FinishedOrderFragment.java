@@ -155,15 +155,15 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
             mDetails = entity.getDetails();
 
             // 制造一些假数据
-//            FeeRecordEntity.DetailsBean detailsBean = new FeeRecordEntity.DetailsBean();
-//            detailsBean.setOrg_name("第一人民医院");
-//            detailsBean.setFee_total("100");
-//            mDetails.add(detailsBean);
+            FeeRecordEntity.DetailsBean detailsBean = new FeeRecordEntity.DetailsBean();
+            detailsBean.setOrg_name("第一人民医院");
+            detailsBean.setFee_total("100");
+            mDetails.add(detailsBean);
 
             if (mDetails != null && mDetails.size() > 0) {
                 combineListData();
                 setAdapter();
-            }else {
+            } else {
                 WToastUtil.show("没有查询到相关记录！");
             }
         }
@@ -227,7 +227,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
 
     private void setAdapter() {
         if (mAdapter == null) {
-            mAdapter = new FeeRecordAdapter(mContext, FinishedOrderFragment.this, mItemList);
+            mAdapter = new FeeRecordAdapter(mContext, FinishedOrderFragment.this, mItemList, false);
             recyclerView.setAdapter(mAdapter);
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);

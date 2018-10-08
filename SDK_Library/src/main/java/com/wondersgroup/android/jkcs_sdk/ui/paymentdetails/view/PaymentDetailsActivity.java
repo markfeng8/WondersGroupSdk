@@ -1,5 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -542,6 +544,18 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     LogUtil.i(TAG, "result===" + result);
                     WToastUtil.show(String.valueOf(result));
                 });
+    }
+
+    public static void actionStart(Context context, String orgCode, String orgName) {
+        if (context != null) {
+            Intent intent = new Intent(context, PaymentDetailsActivity.class);
+            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+            intent.putExtra(IntentExtra.ORG_NAME, orgName);
+            context.startActivity(intent);
+            ((Activity) context).finish();
+        } else {
+            LogUtil.e(TAG, "context is null!");
+        }
     }
 
     @Override
