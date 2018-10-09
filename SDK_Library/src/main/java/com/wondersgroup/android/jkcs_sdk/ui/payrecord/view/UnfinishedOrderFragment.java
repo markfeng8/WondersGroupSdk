@@ -34,8 +34,8 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     private String mEndDate;
     private String mStartDate;
     private int mPosition = -1;
-    private String mPageSize = "1";
-    private String mPageNumber = "10";
+    private String mPageNumber = "1"; // 页数
+    private String mPageSize = "10"; // 每页的条数
     private FeeRecordAdapter mAdapter;
     private List<FeeRecordEntity.DetailsBean> mDetails;
     private List<CombineFeeRecord> mItemList = new ArrayList<>();
@@ -106,13 +106,6 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     public void onFeeRecordResult(FeeRecordEntity entity) {
         if (entity != null) {
             mDetails = entity.getDetails();
-
-            // 制造一些假数据
-            FeeRecordEntity.DetailsBean detailsBean = new FeeRecordEntity.DetailsBean();
-            detailsBean.setOrg_name("第一人民医院");
-            detailsBean.setFee_total("100");
-            mDetails.add(detailsBean);
-
             if (mDetails != null && mDetails.size() > 0) {
                 combineListData();
                 setAdapter();
@@ -126,32 +119,6 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
         for (int i = 0; i < mDetails.size(); i++) {
             CombineFeeRecord record = new CombineFeeRecord();
             record.setRecordDetail(mDetails.get(i));
-
-            // make some data
-            List<FeeBillEntity.DetailsBean> details = new ArrayList<>();
-
-            FeeBillEntity.DetailsBean bean1 = new FeeBillEntity.DetailsBean();
-            bean1.setOrdername("处方1");
-            bean1.setHis_order_time("2018-09-01");
-            bean1.setFee_order("12.3");
-
-            FeeBillEntity.DetailsBean bean2 = new FeeBillEntity.DetailsBean();
-            bean2.setOrdername("处方2");
-            bean2.setHis_order_time("2018-09-02");
-            bean2.setFee_order("12.4");
-
-            FeeBillEntity.DetailsBean bean3 = new FeeBillEntity.DetailsBean();
-            bean3.setOrdername("处方3");
-            bean3.setHis_order_time("2018-09-03");
-            bean3.setFee_order("12.5");
-
-            details.add(bean1);
-            details.add(bean2);
-            details.add(bean3);
-
-            record.setFeeDetail(details);
-            // --------------------------------------
-
             mItemList.add(record);
         }
     }
@@ -173,6 +140,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
         if (entity != null) {
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
             mItemList.get(mPosition).setFeeDetail(details);
+            setAdapter();
         }
     }
 

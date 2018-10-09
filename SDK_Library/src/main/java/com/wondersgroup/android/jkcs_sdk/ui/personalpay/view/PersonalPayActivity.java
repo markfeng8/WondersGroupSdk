@@ -107,6 +107,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
 
         double yiBaoAmount = Double.parseDouble(mFeeYbTotal);
         // 如果医保支付不为 0, 那么就需要继续支付，如果为 0，那说明是全部走的个人支付且已经全部支付完成
+        // TODO: 2018/10/9 医保支付为 0 时也需要发起正式结算，也就是需要弹出医保键盘输入密码然后发起正式结算
         if (yiBaoAmount != 0) {
             setPaymentView(false);
             tvTongChouPay.setText("个人账户支付" + mFeeCashTotal + "元已完成！");

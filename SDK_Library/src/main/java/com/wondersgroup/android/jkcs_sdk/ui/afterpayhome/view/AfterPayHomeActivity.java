@@ -73,8 +73,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         findViews();
         initData();
         initListener();
-
-        // TODO: 2018/9/10 处理Loading
     }
 
     @Override
@@ -158,7 +156,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                     mPassParamMap = sMap.getMap();
                     // 查询当前医后付签约状态
                     mPresenter.getAfterPayState(mPassParamMap);
-                    // 查询当前移动支付状态
+                    // 查询当前医保移动支付状态
                     getMobilePayState();
                 }
             }

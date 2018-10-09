@@ -304,7 +304,6 @@ public class PayDemoActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         //统一支付平台 调用支付结束
         WDPay.ReleasePayserver();

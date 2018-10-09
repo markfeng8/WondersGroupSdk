@@ -13,10 +13,13 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.FeeRecordLayout;
 
 import java.util.List;
@@ -99,18 +102,30 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     llHideLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
                     ivArrow.setImageResource(visible ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
                     if (!visible) {
-                        mBaseFragment.getFeeDetails(payPlatTradeNo, position);
+                        // 当里面为空的时候才去请求，请求过一次就不用再次请求了
+                        if (llHideLayout.getChildCount() == 0) {
+                            mBaseFragment.getFeeDetails(payPlatTradeNo, position);
+                        }
                     }
                 }
             });
             tvPayMoney.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CombineFeeRecord combineFeeRecord = mDetails.get(position);
-                    FeeRecordEntity.DetailsBean recordDetail = combineFeeRecord.getRecordDetail();
-                    String orgCode = recordDetail.getOrg_code();
-                    String orgName = recordDetail.getOrg_name();
-                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName);
+                    // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
+                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                    if ("01".equals(mobPayStatus)) {
+
+                        // TODO: 2018/10/9 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
+
+                        CombineFeeRecord combineFeeRecord = mDetails.get(position);
+                        FeeRecordEntity.DetailsBean recordDetail = combineFeeRecord.getRecordDetail();
+                        String orgCode = recordDetail.getOrg_code();
+                        String orgName = recordDetail.getOrg_name();
+                        PaymentDetailsActivity.actionStart(mContext, orgCode, orgName);
+                    } else {
+                        WToastUtil.show("您未开通医保移动支付，请先开通！");
+                    }
                 }
             });
         }

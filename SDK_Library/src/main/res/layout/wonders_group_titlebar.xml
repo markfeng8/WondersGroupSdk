@@ -8,10 +8,11 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:padding="@dimen/wonders_padding_8dp"
         android:id="@+id/ivBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginStart="@dimen/wonders_margin_8dp"
         android:src="@drawable/wonders_group_back_button" />
 
     <TextView

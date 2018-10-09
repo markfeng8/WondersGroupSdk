@@ -2,7 +2,7 @@ package com.epsoft.hzauthsdk.cons;
 
 /**
  * Created by x-sir on 2018/9/11 :)
- * Function:医保移动配置的常量类
+ * Function:医保移动支付配置的常量类
  */
 public class YiBaoConfig {
 

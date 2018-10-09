@@ -102,7 +102,6 @@ public class VertifyActivity extends Activity {
 
             @Override
             public void done(WDResult result) {
-                // TODO Auto-generated method stub
                 WDPayResult r = (WDPayResult) result;
                 info = r.getResult() + " : " + r.getErrMsg() + " : " + r.getDetailInfo();
                 Log.i("TAG", info);
