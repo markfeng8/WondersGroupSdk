@@ -293,6 +293,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((PaymentDetailsActivity) mContext).setPersonalPayAmount(isChecked ? personalPay : totalPay);
             });
 
+            // TODO: 2018/10/9 隐藏选择支付方式 Layout
             llPayType.setOnClickListener(v -> ((PaymentDetailsActivity) mContext).showSelectPayTypeWindow(type -> {
                 if (type == 1) {
                     tvPayType.setText("支付宝");

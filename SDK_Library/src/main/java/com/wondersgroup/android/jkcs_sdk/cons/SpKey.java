@@ -24,4 +24,6 @@ public class SpKey {
     public static final String PAYMENT_STATUS = "paymentStatus"; // 医后付付费状态
     public static final String MOB_PAY_STATUS = "mobPayStatus";  // 移动支付状态
     public static final String AFTER_PAY_OPEN_SUCCESS = "afterPayOpenSuccess";
+    public static final String SDK_DEBUG = "sdkDebug"; // sdk 是否时调试模式
+    public static final String SDK_ENV = "sdkEnv"; // sdk 环境
 }

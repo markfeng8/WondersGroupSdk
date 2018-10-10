@@ -2,9 +2,13 @@ package com.wondersgroup.android.jkcs_sdk;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.ConfigOption;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 /**
  * Company:WondersGroup
@@ -24,10 +28,10 @@ public class WondersSdk {
         private static WondersSdk holder = new WondersSdk();
     }
 
-    public void init(Context context, boolean isDebug) {
+    public void init(Context context, ConfigOption option) {
         WondersApplication.sContext = context.getApplicationContext();
-        initLog(isDebug);
         initEpSoft(context);
+        initLog(getIsDebug(option));
     }
 
     private void initEpSoft(Context context) {
@@ -36,6 +40,22 @@ public class WondersSdk {
 
     private void initLog(boolean isDebug) {
         LogUtil.setIsNeedPrintLog(isDebug);
+    }
+
+    private boolean getIsDebug(ConfigOption option) {
+        boolean isDebug = false;
+        if (option != null) {
+            isDebug = option.isDebug();
+            String env = option.getEnv();
+            SpUtil.getInstance().save(SpKey.SDK_DEBUG, isDebug);
+            if (!TextUtils.isEmpty(env) && "test".equals(env.toLowerCase())) {
+                SpUtil.getInstance().save(SpKey.SDK_ENV, env);
+            } else {
+                SpUtil.getInstance().save(SpKey.SDK_ENV, "");
+            }
+        }
+
+        return isDebug;
     }
 
 }
