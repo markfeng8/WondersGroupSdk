@@ -50,7 +50,7 @@
             android:background="@drawable/wonders_group_pay_detail_selector"
             android:enabled="true"
             android:gravity="center"
-            android:text="付款"
+            android:text="支付订单"
             android:textColor="@color/wonders_rgb_color_ffffff"
             android:visibility="gone" />
 

@@ -209,8 +209,8 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
     }
 
     @Override
-    public void getFeeDetails(String payPlatTradeNo, int position) {
-        super.getFeeDetails(payPlatTradeNo, position);
+    public void getFeeDetails(String payPlatTradeNo, int position, boolean isOfficialPay) {
+        super.getFeeDetails(payPlatTradeNo, position, isOfficialPay);
         this.mPosition = position;
         if (!TextUtils.isEmpty(payPlatTradeNo)) {
             mPresenter.getFeeDetail(payPlatTradeNo);

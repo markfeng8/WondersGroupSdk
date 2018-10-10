@@ -37,7 +37,6 @@ public class FeeBillEntity extends BaseEntity {
          * his_order_no : CF20839351
          * his_order_time : 2018-08-22 11:37:25
          * ordername : 处方
-         * fee_state : 00
          * fee_order : 123.15
          */
 
@@ -45,7 +44,6 @@ public class FeeBillEntity extends BaseEntity {
         private String org_code;
         private String his_order_time;
         private String ordername;
-        private String fee_state;
         private String fee_order;
 
         public String getOrg_code() {
@@ -78,14 +76,6 @@ public class FeeBillEntity extends BaseEntity {
 
         public void setOrdername(String ordername) {
             this.ordername = ordername;
-        }
-
-        public String getFee_state() {
-            return fee_state;
-        }
-
-        public void setFee_state(String fee_state) {
-            this.fee_state = fee_state;
         }
 
         public String getFee_order() {

@@ -19,12 +19,42 @@ public class FeeRecordEntity extends BaseEntity {
     }
 
     public static class DetailsBean {
+
+        /**
+         * "org_name": "湖州市中心医院",
+         * "fee_total": "21.80",
+         * "fee_cash_total": "10.00",
+         * "fee_yb_total": "11.80",
+         * "payplat_tradno": "b3d5cf9fea624dd4a06c54cd6c7bd16d",
+         * "shop_order_time": "2018-10-10 14:42:10",
+         * "fee_state": "01",
+         * "org_code": "47117170333050211A1001"
+         */
+
         private String org_name;
         private String org_code;
         private String fee_total;
+        private String fee_cash_total;
+        private String fee_yb_total;
         private String payplat_tradno;
         private String shop_order_time;
         private String fee_state;
+
+        public String getFee_cash_total() {
+            return fee_cash_total;
+        }
+
+        public void setFee_cash_total(String fee_cash_total) {
+            this.fee_cash_total = fee_cash_total;
+        }
+
+        public String getFee_yb_total() {
+            return fee_yb_total;
+        }
+
+        public void setFee_yb_total(String fee_yb_total) {
+            this.fee_yb_total = fee_yb_total;
+        }
 
         public String getOrg_code() {
             return org_code;

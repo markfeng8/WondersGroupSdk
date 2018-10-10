@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
+import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
@@ -14,11 +15,13 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,6 +42,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     private FeeRecordAdapter mAdapter;
     private List<FeeRecordEntity.DetailsBean> mDetails;
     private List<CombineFeeRecord> mItemList = new ArrayList<>();
+    private boolean mIsOfficialPay;
 
     @Override
     protected FeeRecordPresenter<FeeRecordContract.IView> createPresenter() {
@@ -94,9 +98,10 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     }
 
     @Override
-    public void getFeeDetails(String payPlatTradeNo, int position) {
-        super.getFeeDetails(payPlatTradeNo, position);
+    public void getFeeDetails(String payPlatTradeNo, int position, boolean isOfficialPay) {
+        super.getFeeDetails(payPlatTradeNo, position, isOfficialPay);
         this.mPosition = position;
+        this.mIsOfficialPay = isOfficialPay;
         if (!TextUtils.isEmpty(payPlatTradeNo)) {
             mPresenter.getFeeDetail(payPlatTradeNo);
         }
@@ -139,9 +144,46 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     public void onFeeDetailResult(FeeBillEntity entity) {
         if (entity != null) {
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            mItemList.get(mPosition).setFeeDetail(details);
-            setAdapter();
+            // 如果是发起正式结算时请求的 yd0009，则进行组装数据
+            if (mIsOfficialPay) {
+                FeeRecordEntity.DetailsBean detailsBean = mDetails.get(mPosition);
+                String orgCode = detailsBean.getOrg_code();
+                String orgName = detailsBean.getOrg_name();
+                String feeTotal = detailsBean.getFee_total();
+                String feeCashTotal = detailsBean.getFee_cash_total();
+                String feeYbTotal = detailsBean.getFee_yb_total();
+                // 传递参数过去
+                PersonalPayActivity.actionStart(mContext, orgName, orgCode, feeTotal, feeCashTotal,
+                        feeYbTotal, getOfficialSettleParam(details));
+            } else {
+                // 如果是展开详情，直接刷新适配器即可
+                mItemList.get(mPosition).setFeeDetail(details);
+                setAdapter();
+            }
         }
+    }
+
+    /**
+     * 获取发起正式结算时的参数
+     *
+     * @param details
+     */
+    private HashMap<String, Object> getOfficialSettleParam(List<FeeBillEntity.DetailsBean> details) {
+        HashMap<String, Object> map = new HashMap<>();
+        List<HashMap<String, String>> detailsList = new ArrayList<>();
+        for (int i = 0; i < details.size(); i++) {
+            FeeBillEntity.DetailsBean detailsBean = details.get(i);
+            HashMap<String, String> detailItem = new HashMap<>();
+            detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
+            detailItem.put(MapKey.ORDER_NO, "1");
+            detailsList.add(detailItem);
+        }
+
+        if (detailsList.size() > 0) {
+            map.put(MapKey.DETAILS, detailsList);
+        }
+
+        return map;
     }
 
     @Override
