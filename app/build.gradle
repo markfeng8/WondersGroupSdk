@@ -77,7 +77,8 @@ dependencies {
 //    implementation(name: 'hzauthsdk-debug', ext: 'aar')
 }
 
-/* 打包命令：
+/*
+ * 打包命令：
  * ./gradlew assembleRelease
  * cp /Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/outputs/apk/release/app-release.apk /Users/pengfeixin/Desktop/
  */
