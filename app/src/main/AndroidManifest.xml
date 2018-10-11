@@ -73,16 +73,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <!-- epsoft Activity pages. -->
-        <activity
-            android:name="com.epsoft.hzauthsdk.activity.WebViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.epsoft.hzauthsdk.activity.ScannerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <!-- WondersGroup common pay pages. -->
 
         <!-- WXPay sdk begin -->

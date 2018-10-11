@@ -4,7 +4,6 @@ import com.epsoft.hzauthsdk.pub.BusinessArgs;
 import com.epsoft.hzauthsdk.pub.ChangePWArgs;
 import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
 import com.epsoft.hzauthsdk.pub.TokenArgs;
-import com.epsoft.hzauthsdk.utils.TestArgs;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.YiBaoConfig;
 
@@ -26,7 +25,7 @@ public class MakeArgsFactory {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        LogUtil.i(TAG, "phone===" + phone + ",name===" +name+ ",idNum===" + idNum + ",cardNum===" + cardNum);
+        LogUtil.i(TAG, "phone===" + phone + ",name===" + name + ",idNum===" + idNum + ",cardNum===" + cardNum);
 
         return new BusinessArgs.Builder()
                 .setCbd(YiBaoConfig.CBD)
@@ -91,10 +90,13 @@ public class MakeArgsFactory {
      * @return
      */
     public static ChangePWArgs getChangeArgs() {
+        String cardNum = "";
+        String extendedField = "";
+
         return new ChangePWArgs.Builder()
                 .setAuthChannel(YiBaoConfig.CHANNEL)
-                .setCardNum(TestArgs.cardNum)
-                .setExtendedField(TestArgs.extendedField)
+                .setCardNum(cardNum)
+                .setExtendedField(extendedField)
                 .build();
     }
 
