@@ -1,4 +1,4 @@
-package com.epsoft.hzauthsdk.cons;
+package com.wondersgroup.android.jkcs_sdk.cons;
 
 /**
  * Created by x-sir on 2018/9/11 :)

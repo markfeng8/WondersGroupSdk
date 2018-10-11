@@ -13,7 +13,7 @@ import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
 import com.epsoft.hzauthsdk.pub.TokenArgs;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.epsoft.hzauthsdk.utils.CheckPermissionUtils;
-import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.epsoft.hzauthsdk.utils.TestArgs;
 import com.epsoft.hzauthsdk.utils.ToastUtils;
 

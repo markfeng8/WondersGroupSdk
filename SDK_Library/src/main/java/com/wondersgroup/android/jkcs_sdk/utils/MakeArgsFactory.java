@@ -1,13 +1,12 @@
-package com.epsoft.hzauthsdk.utils;
+package com.wondersgroup.android.jkcs_sdk.utils;
 
-import com.epsoft.hzauthsdk.cons.YiBaoConfig;
 import com.epsoft.hzauthsdk.pub.BusinessArgs;
 import com.epsoft.hzauthsdk.pub.ChangePWArgs;
 import com.epsoft.hzauthsdk.pub.QueryOpenStatusArgs;
 import com.epsoft.hzauthsdk.pub.TokenArgs;
+import com.epsoft.hzauthsdk.utils.TestArgs;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.cons.YiBaoConfig;
 
 /**
  * Created by x-sir on 2018/8/24 :)

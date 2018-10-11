@@ -1,4 +1,4 @@
-package com.epsoft.hzauthsdk.bean;
+package com.wondersgroup.android.jkcs_sdk.entity;
 
 /**
  * Created by x-sir on 2018/9/16 :)

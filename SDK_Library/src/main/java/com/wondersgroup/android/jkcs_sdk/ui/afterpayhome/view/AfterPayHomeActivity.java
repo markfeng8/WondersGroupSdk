@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.epsoft.hzauthsdk.bean.OpenStatusBean;
-import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
