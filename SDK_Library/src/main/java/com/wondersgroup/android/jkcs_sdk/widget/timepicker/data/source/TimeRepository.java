@@ -1,12 +1,13 @@
-package widget.data.source;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.source;
 
+
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.WheelCalendar;
 
 import java.util.Calendar;
 
-import widget.config.ScrollerConfig;
-import widget.data.WheelCalendar;
-import widget.utils.DateConstants;
-import widget.utils.Utils;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.DateConstants;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.Utils;
 
 /**
  * 时间数据集合, 代理WheelCalendar和DateConstants

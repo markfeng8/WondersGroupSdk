@@ -1,10 +1,10 @@
-package widget.adapters;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.adapters;
 
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 
-import widget.config.ScrollerConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
 
 /**
  * 滚轮列表视图的适配器接口

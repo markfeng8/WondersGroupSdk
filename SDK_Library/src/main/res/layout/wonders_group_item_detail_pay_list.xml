@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="合计："
             android:textColor="@color/wonders_rgb_color_666666"
-            android:textSize="@dimen/wonders_text_size_16sp" />
+            android:textSize="@dimen/wonders_text_size_14sp" />
 
         <TextView
             android:id="@+id/tvMoney"
@@ -46,7 +46,7 @@
             android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:text="元"
             android:textColor="@color/wonders_rgb_color_666666"
-            android:textSize="@dimen/wonders_text_size_16sp" />
+            android:textSize="@dimen/wonders_text_size_14sp" />
     </LinearLayout>
 
     <TextView

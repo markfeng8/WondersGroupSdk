@@ -1,13 +1,13 @@
-package widget.config;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.config;
 
 
 import android.support.annotation.ColorRes;
 
-import widget.data.Type;
-import widget.data.WheelCalendar;
-import widget.listener.OnDateSetListener;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.WheelCalendar;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener.OnDateSetListener;
 
-import static widget.config.DefaultConfig.MAX_LINE;
+import static com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.DefaultConfig.MAX_LINE;
 
 /**
  * 滚动配置

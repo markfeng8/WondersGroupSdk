@@ -1,4 +1,4 @@
-package widget;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,13 +15,12 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.WheelCalendar;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener.OnDateSetListener;
 
 import java.util.Calendar;
-
-import widget.config.ScrollerConfig;
-import widget.data.Type;
-import widget.data.WheelCalendar;
-import widget.listener.OnDateSetListener;
 
 /**
  * 时间选择框, 设置若干参数

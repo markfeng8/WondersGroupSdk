@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package widget.adapters;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 
-import widget.config.ScrollerConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
 
 /**
  * Abstract wheel adapter provides common functionality for adapters.

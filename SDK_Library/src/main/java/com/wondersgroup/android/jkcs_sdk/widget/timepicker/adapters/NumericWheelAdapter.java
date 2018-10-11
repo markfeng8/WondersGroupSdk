@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package widget.adapters;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;

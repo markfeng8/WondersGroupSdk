@@ -1,7 +1,7 @@
-package widget.data.source;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.source;
 
 
-import widget.data.WheelCalendar;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.WheelCalendar;
 
 /**
  * 数据源的接口

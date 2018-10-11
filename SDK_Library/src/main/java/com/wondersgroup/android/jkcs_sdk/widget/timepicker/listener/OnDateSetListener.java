@@ -1,7 +1,7 @@
-package widget.listener;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener;
 
 
-import widget.DateScrollerDialog;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
 
 /**
  * 日期设置的监听器

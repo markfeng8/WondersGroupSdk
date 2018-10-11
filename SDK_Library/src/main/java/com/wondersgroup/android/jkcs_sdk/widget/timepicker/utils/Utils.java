@@ -1,9 +1,9 @@
-package widget.utils;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils;
 
 import android.content.Context;
 import android.view.View;
 
-import widget.data.WheelCalendar;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.WheelCalendar;
 
 /**
  * 工具类

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package widget.wheel;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel;
 
 /**
  * Wheel scrolled listener interface.

@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package widget.wheel;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -32,14 +32,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.adapters.WheelViewAdapter;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.DefaultConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.Utils;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import widget.adapters.WheelViewAdapter;
-import widget.config.DefaultConfig;
-import widget.config.ScrollerConfig;
-import widget.utils.Utils;
 
 
 /**

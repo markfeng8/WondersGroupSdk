@@ -1,9 +1,9 @@
-package widget.config;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.config;
 
 
 import com.wondersgroup.android.jkcs_sdk.R;
 
-import widget.data.Type;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
 
 /**
  * 默认配置, 类型, 颜色, 文字

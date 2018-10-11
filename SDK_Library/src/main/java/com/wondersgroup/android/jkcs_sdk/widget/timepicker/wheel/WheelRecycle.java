@@ -1,4 +1,4 @@
-package widget.wheel;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel;
 
 import android.view.View;
 import android.widget.LinearLayout;

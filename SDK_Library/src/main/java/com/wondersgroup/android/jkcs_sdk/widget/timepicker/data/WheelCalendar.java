@@ -1,4 +1,4 @@
-package widget.data;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.data;
 
 import java.util.Calendar;
 

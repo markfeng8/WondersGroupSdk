@@ -1,4 +1,4 @@
-package widget.utils;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils;
 
 /**
  * 时间的若干常量

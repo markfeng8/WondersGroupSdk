@@ -1,19 +1,18 @@
-package widget;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker;
 
 import android.content.Context;
 import android.view.View;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.adapters.NumericWheelAdapter;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.source.TimeRepository;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.DateConstants;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.Utils;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel.OnWheelChangedListener;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel.WheelView;
 
 import java.util.Calendar;
-
-import widget.adapters.NumericWheelAdapter;
-import widget.config.ScrollerConfig;
-import widget.data.source.TimeRepository;
-import widget.utils.DateConstants;
-import widget.utils.Utils;
-import widget.wheel.OnWheelChangedListener;
-import widget.wheel.WheelView;
 
 /**
  * 时间滚轮, 用于控制时间数据

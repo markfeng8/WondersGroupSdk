@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package widget.wheel;
+package com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel;
 
 /**
  * Range for visible items.
