@@ -9,15 +9,11 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.wondersgroup.android.jkcs_sdk.R;
 
 import java.lang.ref.WeakReference;
@@ -30,9 +26,6 @@ public class LoadingView {
 
     private String mText;
     private int mTextSize;
-    private int mGifWidth;
-    private int mGifHeight;
-    private int mDrawableId;
     private View mPopupView;
     private Context mContext;
     private String mTextColor;
@@ -52,16 +45,13 @@ public class LoadingView {
     private static final String DEFAULT_TEXT_COLOR = "#FFFFFF"; // default text color
     private static final int DEFAULT_CORNER_RADIUS = 4; // default loading background radius size
     private static final String DEFAULT_LOADING_BG_COLOR = "#CC000000"; // default loading background color
-    private static final int DEFAULT_DRAWABLE_ID = R.drawable.loading1; // default loading drawable
-    private static final int DEFAULT_GIF_WIDTH = 30; // default gif width
-    private static final int DEFAULT_GIF_HEIGHT = 30; // default gif height
 
     /**
      * Constructor.
      *
      * @param builder
      */
-    public LoadingView(Builder builder) {
+    LoadingView(Builder builder) {
         this.mText = builder.text;
         this.mView = builder.view;
         this.mListener = builder.listener;
@@ -70,9 +60,6 @@ public class LoadingView {
         this.mCornerRadius = builder.cornerRadius;
         this.mContext = builder.applicationContext;
         this.mLoadingBgColor = builder.loadingBgColor;
-        this.mDrawableId = builder.drawableId;
-        this.mGifWidth = builder.gifWidth;
-        this.mGifHeight = builder.gifHeight;
         this.mLoadingWidth = builder.loadingWidth;
         this.mLoadingHeight = builder.loadingHeight;
         this.mTextMarginTop = builder.textMarginTop;
@@ -102,7 +89,6 @@ public class LoadingView {
         mPopupWindow.setFocusable(mIsFocusable);
 
         LinearLayout llLoadingBg = (LinearLayout) mPopupView.findViewById(R.id.llLoadingBg);
-        ImageView ivLoading = (ImageView) mPopupView.findViewById(R.id.ivLoading);
         TextView tvContent = (TextView) mPopupView.findViewById(R.id.tvContent);
 
         RelativeLayout.LayoutParams rlParams = (RelativeLayout.LayoutParams) llLoadingBg.getLayoutParams();
@@ -133,15 +119,6 @@ public class LoadingView {
         tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
         /*设置文本颜色*/
         tvContent.setTextColor(Color.parseColor(mTextColor));
-
-        LinearLayout.LayoutParams llParams = (LinearLayout.LayoutParams) ivLoading.getLayoutParams();
-        llParams.width = dp2px(mGifWidth);
-        llParams.height = dp2px(mGifHeight);
-        ivLoading.setLayoutParams(llParams);
-        /*加载 GIF 图片*/
-        RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
-        Glide.with(mContext).load(mDrawableId).apply(options).into(ivLoading);
     }
 
     /**
@@ -201,9 +178,6 @@ public class LoadingView {
         private String text;
         private String textColor;
         private int textSize = -1;
-        private int gifWidth = -1;
-        private int gifHeight = -1;
-        private int drawableId = -1;
         private String loadingBgColor;
         private int cornerRadius = -1;
         private int loadingWidth = -1;
@@ -266,28 +240,6 @@ public class LoadingView {
         }
 
         /**
-         * Set gif imageView width.
-         *
-         * @param gifWidth
-         * @return
-         */
-        public Builder setGifWidth(int gifWidth) {
-            this.gifWidth = gifWidth;
-            return this;
-        }
-
-        /**
-         * Set gif imageView height.
-         *
-         * @param gifHeight
-         * @return
-         */
-        public Builder setGifHeight(int gifHeight) {
-            this.gifHeight = gifHeight;
-            return this;
-        }
-
-        /**
          * Set gif loadingView width.
          *
          * @param loadingWidth
@@ -343,17 +295,6 @@ public class LoadingView {
         }
 
         /**
-         * Set gif drawable resource.
-         *
-         * @param drawableId
-         * @return
-         */
-        public Builder setGifDrawable(int drawableId) {
-            this.drawableId = drawableId;
-            return this;
-        }
-
-        /**
          * Set location at parent view, because popupWindow must be dependency activity.
          *
          * @param view
@@ -401,15 +342,7 @@ public class LoadingView {
             if (view == null) {
                 throw new IllegalArgumentException("must be point parent view!");
             }
-            if (drawableId == -1) {
-                drawableId = DEFAULT_DRAWABLE_ID;
-            }
-            if (gifWidth == -1) {
-                gifWidth = DEFAULT_GIF_WIDTH;
-            }
-            if (gifHeight == -1) {
-                gifHeight = DEFAULT_GIF_HEIGHT;
-            }
+
             return new LoadingView(this);
         }
     }
