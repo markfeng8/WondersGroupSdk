@@ -210,6 +210,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
         CheckOut.setNetworkWay("");
+        // 设置自定义支付地址
+        //CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
 
         Long i = 0L;
 

@@ -341,7 +341,8 @@ public class DetailsModel implements DetailsContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
-        map.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
+        // 如果个人支付为 0时，不传此字段
+        //map.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 
         RetrofitHelper
