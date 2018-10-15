@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
-import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -23,7 +20,10 @@ import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
+import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
@@ -33,6 +33,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPres
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
@@ -101,9 +102,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     LogUtil.i(TAG, "done result=" + result);
                     if (result.equals(WDPayResult.RESULT_SUCCESS)) {
                         WToastUtil.show("支付成功~");
-                        // 传递参数过去
+                        // 传递参数过去，false 代表还没有全部支付完成
                         PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
-                                mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
+                                false, mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
                     } else if (result.equals(WDPayResult.RESULT_CANCEL)) {
                         WToastUtil.show("用户取消支付");
                     } else if (result.equals(WDPayResult.RESULT_FAIL)) {
@@ -166,10 +167,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         // 获取未结清账单详情
         mPresenter.getUnclearedBill(map);
 
-        // ------------------下面是一些写死的数据-----------------
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        //String hospitalName = "中心医院";
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
@@ -190,10 +189,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         tvPayMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
-                //getYiBaoToken();
-                // 获取支付所需的参数
-                mPresenter.getPayParam(mOrgCode);
+                // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
+                if (Double.parseDouble(mFeeCashTotal) == 0) {
+                    openYiBaoKeyBoard();
+                } else {
+                    // 获取支付所需的参数
+                    mPresenter.getPayParam(mOrgCode);
+                }
             }
         });
         countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
@@ -405,6 +407,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
     }
 
+    @Override
+    public void onOfficialSettleResult(SettleEntity body) {
+        if (body != null) {
+            String feeTotal = body.getFee_total();
+            String feeCashTotal = body.getFee_cash_total();
+            String feeYbTotal = body.getFee_yb_total();
+            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+
+            // 跳转过去，显示全部支付完成 true 代表全部支付完成
+            PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true,
+                    mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
+        }
+    }
+
     public void showSelectPayTypeWindow(DetailsAdapter.OnCheckedCallback onCheckedCallback) {
         mOnCheckedCallback = onCheckedCallback;
         BrightnessManager.lightoff(this);
@@ -542,9 +558,23 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(),
                 result -> {
                     LogUtil.i(TAG, "result===" + result);
-                    WToastUtil.show(String.valueOf(result));
+                    if (!TextUtils.isEmpty(result)) {
+                        KeyboardBean keyboardBean = new Gson().fromJson(result, KeyboardBean.class);
+                        if (keyboardBean != null) {
+                            String code = keyboardBean.getCode();
+                            if ("0".equals(code)) {
+                                String token = keyboardBean.getToken();
+                                // 携带 token 发起正式结算
+                                mPresenter.sendOfficialPay(token, mOrgCode, getOfficialSettleParam());
+                            } else {
+                                String msg = keyboardBean.getMsg();
+                                WToastUtil.show(String.valueOf(msg));
+                            }
+                        }
+                    }
                 });
     }
+
 
     public static void actionStart(Context context, String orgCode, String orgName, boolean isFinish) {
         if (context != null) {

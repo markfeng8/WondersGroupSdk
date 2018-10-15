@@ -177,6 +177,35 @@ public class DetailsPresenter<T extends DetailsContract.IView>
         }
     }
 
+    @Override
+    public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map) {
+        if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(orgCode)) {
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
+            mModel.sendOfficialPay(token, orgCode, map, new OnSettleListener() {
+                @Override
+                public void onSuccess(SettleEntity body) {
+                    LogUtil.i(TAG, "sendOfficialPay() -> onSuccess()");
+                    dismissLoading();
+                    if (isNonNull()) {
+                        mViewRef.get().onOfficialSettleResult(body);
+                    }
+                }
+
+                @Override
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "sendOfficialPay() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
+                    WToastUtil.show(errCodeDes);
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+        }
+    }
+
     private void showLoading() {
         if (isNonNull()) {
             mViewRef.get().showLoading();

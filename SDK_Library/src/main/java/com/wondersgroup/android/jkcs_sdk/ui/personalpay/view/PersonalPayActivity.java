@@ -51,6 +51,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private LinearLayout llPaySuccess;
     private LinearLayout llPayResult;
     private LinearLayout llContainer1;
+    private LinearLayout llContainer2;
     private LoadingView mLoading;
     private String mOrgCode = "";
     private String mOrgName = "";
@@ -58,6 +59,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private String mFeeCashTotal = "";
     private String mFeeYbTotal = "";
     private HashMap<String, Object> mPassParamMap;
+    private boolean mIsFinish = false;
 
     @Override
     protected PersonalPayPresenter<PersonalPayContract.IView> createPresenter() {
@@ -80,6 +82,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
 
         Intent intent = getIntent();
         if (intent != null) {
+            mIsFinish = intent.getBooleanExtra(IntentExtra.IS_FINISH, false);
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
             mFeeTotal = intent.getStringExtra(IntentExtra.FEE_TOTAL);
@@ -104,13 +107,22 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         payResultLayout.setHospitalName(mOrgName);
         payResultLayout.setBillDate(TimeUtil.getCurrentDate());
 
-        // 医保支付为 0 时也需要发起正式结算，也就是需要弹出医保键盘输入密码然后发起正式结算
-        setPaymentView(false);
-        tvTongChouPay.setText("个人账户支付" + mFeeCashTotal + "元已完成！");
-        tvPayToast.setText("您还有一笔医保" + mFeeYbTotal + "元尚未支付，请继续支付！");
-        tvTotalPay.setText(mFeeTotal);
-        tvYiBaoPay.setText(mFeeYbTotal);
-        llContainer1.addView(payResultLayout);
+        // 判断是否已经全部支付完成
+        if (mIsFinish) {
+            setPaymentView(true);
+            tvCompleteTotal.setText(mFeeTotal);
+            tvCompletePersonal.setText(mFeeCashTotal);
+            tvCompleteYiBao.setText(mFeeYbTotal);
+            llContainer2.addView(payResultLayout);
+        } else {
+            // 医保支付为 0 时也需要发起正式结算，也就是需要弹出医保键盘输入密码然后发起正式结算
+            setPaymentView(false);
+            tvTongChouPay.setText("个人账户支付" + mFeeCashTotal + "元已完成！");
+            tvPayToast.setText("您还有一笔医保" + mFeeYbTotal + "元尚未支付，请继续支付！");
+            tvTotalPay.setText(mFeeTotal);
+            tvYiBaoPay.setText(mFeeYbTotal);
+            llContainer1.addView(payResultLayout);
+        }
     }
 
     private void findViews() {
@@ -127,6 +139,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         llPaySuccess = findViewById(R.id.llPaySuccess);
         llPayResult = findViewById(R.id.llPayResult);
         llContainer1 = findViewById(R.id.llContainer1);
+        llContainer2 = findViewById(R.id.llContainer2);
     }
 
     private void initListener() {
@@ -166,10 +179,11 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
                 });
     }
 
-    public static void actionStart(Context context, String orgName, String orgCode, String feeTotal,
+    public static void actionStart(Context context, boolean isFinish, String orgName, String orgCode, String feeTotal,
                                    String feeCashTotal, String feeYbTotal, HashMap<String, Object> param) {
         if (context != null) {
             Intent intent = new Intent(context, PersonalPayActivity.class);
+            intent.putExtra(IntentExtra.IS_FINISH, isFinish);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);

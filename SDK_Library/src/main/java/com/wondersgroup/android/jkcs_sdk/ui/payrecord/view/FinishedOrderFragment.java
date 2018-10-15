@@ -41,7 +41,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
     private String mStartDate;
     private String mEndDate;
     private String mPageNumber = "1"; // 页数
-    private String mPageSize = "10"; // 每页的条数
+    private String mPageSize = "100"; // 每页的条数
     private FeeRecordAdapter mAdapter;
     private LoadingView mLoading;
     private List<FeeRecordEntity.DetailsBean> mDetails;

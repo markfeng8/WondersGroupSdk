@@ -29,6 +29,8 @@ public interface DetailsContract {
         void tryToSettle(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
 
         void getPayParam(String orgCode, OnPayParamListener listener);
+
+        void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
     }
 
     interface IView {
@@ -41,6 +43,8 @@ public interface DetailsContract {
         void onTryToSettleResult(SettleEntity body);
 
         void onPayParamResult(PayParamEntity body);
+
+        void onOfficialSettleResult(SettleEntity body);
 
         void showLoading();
 
@@ -57,5 +61,7 @@ public interface DetailsContract {
         void tryToSettle(String token, String orgCode, HashMap<String, Object> map);
 
         void getPayParam(String orgCode);
+
+        void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map);
     }
 }

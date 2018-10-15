@@ -29,10 +29,10 @@
     <string name="wonders_to_pay_fee2">元未付，建议前去</string>
     <string name="wonders_settings">设置</string>
     <string name="wonders_pay_fee"><u>缴纳</u>!</string>
-    <string name="wonders_pay_records">查看所有医院已缴/未交费记录</string>
-    <string name="wonders_pass_update">手机号/解约/协议/密码修改</string>
+    <string name="wonders_pay_records">查看未完成/已完成门诊订单</string>
+    <string name="wonders_pass_update">修改手机号/取消医后付/查看协议</string>
     <string name="wonders_mark_text"><![CDATA[<font size="40" color="#333333">您已成功支付湖州第三人民医院未缴纳费用126元，另89元支付失败，请继续支付。详情>>></font>]]></string>
-    <string name="wonders_pay_money_record">缴费记录</string>
+    <string name="wonders_pay_money_record">门诊订单</string>
     <string name="wonders_not_pay_records">门诊在线缴费</string>
     <string name="wonders_pay_fee_record">支付记录</string>
     <string name="wonders_huzhou_renmin_hospital">湖州人民医院</string>

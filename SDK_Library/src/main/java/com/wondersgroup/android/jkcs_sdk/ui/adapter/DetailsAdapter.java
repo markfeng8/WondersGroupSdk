@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -163,6 +164,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvOrderName;
         private TextView tvMoney;
         private TextView tvOrderTime;
+        private ImageView ivArrow;
         private LinearLayout llItem;
         private LinearLayout llDetails;
         private String hisOrderNo;
@@ -173,6 +175,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvOrderName = (TextView) itemView.findViewById(R.id.tvOrderName);
             tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
             tvOrderTime = (TextView) itemView.findViewById(R.id.tvOrderTime);
+            ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
             llItem = (LinearLayout) itemView.findViewById(R.id.llItem);
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
             initListener();
@@ -182,6 +185,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             llItem.setOnClickListener(v -> {
                 boolean visible = llDetails.getVisibility() == View.GONE;
                 llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
+                ivArrow.setImageResource(visible ? R.drawable.wonders_group_up_arrow : R.drawable.wonders_group_down_arrow);
                 int childCount = llDetails.getChildCount();
                 if (visible && childCount == 1) {
                     ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
@@ -306,7 +310,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((PaymentDetailsActivity) mContext).setPersonalPayAmount(isChecked ? personalPay : totalPay);
             });
 
-            // TODO: 2018/10/9 隐藏选择支付方式 Layout
+            // 选择支付方式 Layout
             llPayType.setOnClickListener(v -> ((PaymentDetailsActivity) mContext).showSelectPayTypeWindow(type -> {
                 if (type == 1) {
                     tvPayType.setText("支付宝");
@@ -331,6 +335,10 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (!TextUtils.isEmpty(personalPay)) {
                     plPersonalPay.setFeeName("个人支付：");
                     plPersonalPay.setFeeNum(personalPay);
+                    // 如果个人支付为 0，隐藏选择支付方式 Layout
+                    if (Double.parseDouble(personalPay) == 0) {
+                        llPayType.setVisibility(View.GONE);
+                    }
                 }
                 if (!TextUtils.isEmpty(yiBaoPay)) {
                     plYiBaoPay.setFeeName("医保支付：");

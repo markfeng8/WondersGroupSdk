@@ -139,7 +139,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 String feeCashTotal = detailsBean.getFee_cash_total();
                                 String feeYbTotal = detailsBean.getFee_yb_total();
                                 // 传递参数过去
-                                PersonalPayActivity.actionStart(mContext, orgName, orgCode,
+                                PersonalPayActivity.actionStart(mContext, true, orgName, orgCode,
                                         feeTotal, feeCashTotal, feeYbTotal, getOfficialSettleParam());
                             }
                         }
