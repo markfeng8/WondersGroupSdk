@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:orientation="horizontal"
     android:padding="@dimen/wonders_padding_4dp">
 
@@ -10,6 +9,7 @@
         android:layout_width="4dp"
         android:layout_height="4dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/wonders_margin_20dp"
         android:background="@drawable/wonders_group_red_dot_shape" />
 
     <TextView
@@ -22,11 +22,24 @@
         android:textColor="@color/wonders_rgb_color_666666"
         android:textSize="@dimen/wonders_text_size_12sp" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
     <TextView
         android:id="@+id/tvFeeNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="元"
         android:textColor="@color/wonders_rgb_color_333333"
         android:textSize="@dimen/wonders_text_size_14sp" />
 

@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMrPan;
     @BindView(R.id.tvMrYang)
     TextView tvMrYang;
+    @BindView(R.id.tvMrShen)
+    TextView tvMrShen;
+    @BindView(R.id.tvMrZhao)
+    TextView tvMrZhao;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private PersonBean mPersonZhu;
     private PersonBean mPersonPan;
     private PersonBean mPersonYang;
+    private PersonBean mPersonShen;
+    private PersonBean mPersonZhao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         String versionName = "demo 版本：V" + version;
         tvVersion.setText(versionName);
 
-        /*吴振强的就是专门测试登录注册这些的*/
+        /*吴振强 的就是专门测试登录注册这些的*/
         mPersonWu = new PersonBean();
         mPersonWu.setName("吴振强");
         mPersonWu.setPhone("13588259873");
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonWu.setCardNum("A05111650");
         mPersonWu.setAddress("ShangHai");
 
-        /*第一医院陆晓明主要测试账单欠费这些*/
+        /*第一医院 陆晓明 主要测试账单欠费这些*/
         mPersonLu = new PersonBean();
         mPersonLu.setName("陆晓明");
         mPersonLu.setPhone("13588259873");
@@ -90,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonLu.setCardNum("A0109403X");
         mPersonLu.setAddress("ShangHai");
 
-        /*中心医院朱凯主要测试账单等信息*/
+        /*中心医院 朱凯 主要测试账单等信息*/
         mPersonZhu = new PersonBean();
         mPersonZhu.setName("朱凯");
         mPersonZhu.setPhone("13588259873");
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonZhu.setCardNum("A0486807X");
         mPersonZhu.setAddress("ShangHai");
 
-        /*中心医院潘人伟主要测试账单等信息*/
+        /*中心医院 潘人伟 主要测试账单等信息*/
         mPersonPan = new PersonBean();
         mPersonPan.setName("潘人伟");
         mPersonPan.setPhone("13588259873");
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonPan.setCardNum("A00305253");
         mPersonPan.setAddress("ShangHai");
 
-        /*中心医院杨旭成主要测试账单等信息*/
+        /*中心医院 杨旭成 主要测试账单等信息*/
         mPersonYang = new PersonBean();
         mPersonYang.setName("杨旭成");
         mPersonYang.setPhone("13588259873");
@@ -120,9 +126,29 @@ public class MainActivity extends AppCompatActivity {
         mPersonYang.setCardNum("A00997691");
         mPersonYang.setAddress("ShangHai");
 
+        /*中心医院 沈佳威 主要测试账单等信息*/
+        mPersonShen = new PersonBean();
+        mPersonShen.setName("沈佳威");
+        mPersonShen.setPhone("13588259873");
+        mPersonShen.setIdType("01");
+        mPersonShen.setIdNum("330501198709151313");
+        mPersonShen.setCardType("0");
+        mPersonShen.setCardNum("A02418702");
+        mPersonShen.setAddress("ShangHai");
+
+        /*中心医院 赵岳寅 主要测试账单等信息*/
+        mPersonZhao = new PersonBean();
+        mPersonZhao.setName("赵岳寅");
+        mPersonZhao.setPhone("13588259873");
+        mPersonZhao.setIdType("01");
+        mPersonZhao.setIdNum("330681198610031570");
+        mPersonZhao.setCardType("0");
+        mPersonZhao.setCardNum("A05401164");
+        mPersonZhao.setAddress("ShangHai");
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan, R.id.tvMrYang})
+    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
+            R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -142,6 +168,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrYang:
                 setPersonInfo(mPersonYang);
+                break;
+            case R.id.tvMrShen:
+                setPersonInfo(mPersonShen);
+                break;
+            case R.id.tvMrZhao:
+                setPersonInfo(mPersonZhao);
                 break;
         }
     }

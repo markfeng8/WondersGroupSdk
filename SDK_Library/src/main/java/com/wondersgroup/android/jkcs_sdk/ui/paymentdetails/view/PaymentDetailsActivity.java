@@ -59,6 +59,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private static final String TAG = "PaymentDetailsActivity";
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
+    private TextView tvPayName;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
     private CountdownView countDownView;
@@ -252,6 +253,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void findViews() {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        tvPayName = (TextView) findViewById(R.id.tvPayName);
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
@@ -376,7 +378,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal==="
                     + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
 
-            tvMoneyNum.setText(mFeeCashTotal);
+            // 判断如果个人支付为 0 时，显示医保支付金额
+            if (Double.parseDouble(mFeeCashTotal) == 0) {
+                tvPayName.setText("需医保支付：");
+                tvMoneyNum.setText(mFeeYbTotal);
+            } else {
+                tvPayName.setText("需现金支付：");
+                // 显示现金需要支付的金额
+                tvMoneyNum.setText(mFeeCashTotal);
+            }
 
             if (mDetailPayBean == null) {
                 mDetailPayBean = new DetailPayBean();

@@ -148,7 +148,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 tvName.setText(name);
             }
             if (!TextUtils.isEmpty(socialNum)) {
-                tvSocialNum.setText(socialNum);
+                tvSocialNum.setText("社保卡号：" + socialNum);
             }
             if (!TextUtils.isEmpty(hospitalName)) {
                 tvHospitalName.setText(hospitalName);
@@ -333,7 +333,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     plTotalMoney.setFeeNum(totalPay);
                 }
                 if (!TextUtils.isEmpty(personalPay)) {
-                    plPersonalPay.setFeeName("个人支付：");
+                    plPersonalPay.setFeeName("现金部分：");
                     plPersonalPay.setFeeNum(personalPay);
                     // 如果个人支付为 0，隐藏选择支付方式 Layout
                     if (Double.parseDouble(personalPay) == 0) {
@@ -341,7 +341,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
                 if (!TextUtils.isEmpty(yiBaoPay)) {
-                    plYiBaoPay.setFeeName("医保支付：");
+                    plYiBaoPay.setFeeName("医保部分：");
                     plYiBaoPay.setFeeNum(yiBaoPay);
                 }
             }

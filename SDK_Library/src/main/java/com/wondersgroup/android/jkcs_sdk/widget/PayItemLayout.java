@@ -13,7 +13,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 
 /**
  * Created by x-sir on 2018/9/27 :)
- * Function:自定义付款 Item 的布局
+ * Function:自定义付款 Item 的布局I(带小红点)
  */
 public class PayItemLayout extends LinearLayout {
 
@@ -48,7 +48,7 @@ public class PayItemLayout extends LinearLayout {
     @SuppressLint("SetTextI18n")
     public void setFeeNum(String num) {
         if (!TextUtils.isEmpty(num)) {
-            tvFeeNum.setText("￥" + num);
+            tvFeeNum.setText(num);
         }
     }
 }
