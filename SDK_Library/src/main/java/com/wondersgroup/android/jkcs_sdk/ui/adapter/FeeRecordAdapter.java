@@ -129,7 +129,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         // 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
                         // 00 全部未结算 01 医保未结算、自费已结(作保留）
                         if ("00".equals(feeState)) {
-                            PaymentDetailsActivity.actionStart(mContext, orgCode, orgName);
+                            PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
                         } else {
                             // 当里面为空的时候才去请求，请求过一次就不用再次请求了
                             if (llHideLayout.getChildCount() == 0) {

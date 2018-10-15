@@ -184,7 +184,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
                 String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
                 if ("01".equals(mobPayStatus)) {
-                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName);
+                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                 } else {
                     WToastUtil.show("您未开通医保移动支付，请先开通！");
                 }

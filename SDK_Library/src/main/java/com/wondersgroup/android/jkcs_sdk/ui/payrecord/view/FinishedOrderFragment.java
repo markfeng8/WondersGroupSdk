@@ -16,7 +16,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
@@ -156,7 +155,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
                 combineListData();
                 setAdapter();
             } else {
-                WToastUtil.show("没有查询到相关记录！");
+                //WToastUtil.show("没有查询到相关记录！");
             }
         }
     }

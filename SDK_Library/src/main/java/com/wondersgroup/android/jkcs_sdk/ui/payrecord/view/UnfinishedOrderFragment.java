@@ -17,7 +17,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
@@ -115,7 +114,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 combineListData();
                 setAdapter();
             } else {
-                WToastUtil.show("没有查询到相关记录！");
+                //WToastUtil.show("没有查询到相关记录！");
             }
         }
     }

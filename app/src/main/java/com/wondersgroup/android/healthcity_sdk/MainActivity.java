@@ -7,7 +7,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
@@ -41,13 +40,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tvMrZhu)
     TextView tvMrZhu;
     @BindView(R.id.tvMrWu)
-    LinearLayout tvMrWu;
+    TextView tvMrWu;
+    @BindView(R.id.tvMrPan)
+    TextView tvMrPan;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
     private PersonBean mPersonWu;
     private PersonBean mPersonLu;
     private PersonBean mPersonZhu;
+    private PersonBean mPersonPan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +97,19 @@ public class MainActivity extends AppCompatActivity {
         mPersonZhu.setCardNum("A0486807X");
         mPersonZhu.setAddress("ShangHai");
 
-        // 中心医院 "沈桂珠" "330502196702211421" "A04811583"
+        /*中心医院潘人伟主要测试账单等信息*/
+        mPersonPan = new PersonBean();
+        mPersonPan.setName("潘人伟");
+        mPersonPan.setPhone("13588259873");
+        mPersonPan.setIdType("01");
+        mPersonPan.setIdNum("330502196310210630");
+        mPersonPan.setCardType("0");
+        mPersonPan.setCardNum("A00305253");
+        mPersonPan.setAddress("ShangHai");
+
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu})
+    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -112,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrZhu:
                 setPersonInfo(mPersonZhu);
+                break;
+            case R.id.tvMrPan:
+                setPersonInfo(mPersonPan);
                 break;
         }
     }

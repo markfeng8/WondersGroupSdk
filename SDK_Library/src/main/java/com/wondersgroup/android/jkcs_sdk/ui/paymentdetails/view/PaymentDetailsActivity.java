@@ -546,13 +546,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 });
     }
 
-    public static void actionStart(Context context, String orgCode, String orgName) {
+    public static void actionStart(Context context, String orgCode, String orgName, boolean isFinish) {
         if (context != null) {
             Intent intent = new Intent(context, PaymentDetailsActivity.class);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
             context.startActivity(intent);
-            ((Activity) context).finish();
+            if (isFinish) {
+                ((Activity) context).finish();
+            }
         } else {
             LogUtil.e(TAG, "context is null!");
         }
