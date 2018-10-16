@@ -135,6 +135,9 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 LogUtil.e(TAG, "get hospital list failed!");
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
+                if (isNonNull()) {
+                    mViewRef.get().onHospitalListResult(null);
+                }
             }
         });
     }

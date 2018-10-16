@@ -219,9 +219,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             tvMoneyNum.setText(feeTotal);
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
             mItemList.addAll(1, details); // 添加医院欠费信息数据(放到下标为 1 处)
+            mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
         } else {
             llNeedPay.setVisibility(View.GONE);
+            mItemList.add(mNotice); // 第二次添加数据
+            refreshAdapter();
         }
     }
 
