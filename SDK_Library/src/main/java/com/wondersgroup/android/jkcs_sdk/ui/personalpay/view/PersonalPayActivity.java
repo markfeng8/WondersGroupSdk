@@ -228,6 +228,8 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             String feeYbTotal = body.getFee_yb_total();
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
 
+            // 显示全部支付完成的布局
+            setPaymentView(true);
             tvCompleteTotal.setText(feeTotal);
             tvCompletePersonal.setText(feeCashTotal);
             tvCompleteYiBao.setText(feeYbTotal);

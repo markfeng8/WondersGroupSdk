@@ -66,6 +66,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private View activityView;
     private String mOrgCode;
     private String mOrgName;
+    private String mPageNumber = "1"; // 页数
+    private String mPageSize = "100"; // 每页的条数
     private DetailHeadBean mHeadBean;
     private List<Object> mItemList = new ArrayList<>();
     private DetailsAdapter mAdapter;
@@ -163,8 +165,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
-        map.put(MapKey.PAGE_NUMBER, "1");
-        map.put(MapKey.PAGE_SIZE, "10");
+        map.put(MapKey.PAGE_NUMBER, mPageNumber);
+        map.put(MapKey.PAGE_SIZE, mPageSize);
         // 获取未结清账单详情
         mPresenter.getUnclearedBill(map);
 
@@ -334,6 +336,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
 
             long countDownMillis = TimeUtil.getCountDownMillis(lockStartTime);
+            // 如果倒计时结束了或者为0，就不让点击"立即支付"
+            if (countDownMillis <= 0) {
+                tvPayMoney.setEnabled(false);
+            }
             countDownView.start(countDownMillis);
 
             // 锁单成功后刷新订单号

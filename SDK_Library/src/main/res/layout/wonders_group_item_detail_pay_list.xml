@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/wonders_margin_24dp"
         android:layout_marginTop="@dimen/wonders_margin_8dp"
-        android:text="账单创建时间：2018-09-06"
+        android:text="账单时间：2018-09-06"
         android:textColor="@color/wonders_rgb_color_666666"
         android:textSize="@dimen/wonders_text_size_12sp" />
 

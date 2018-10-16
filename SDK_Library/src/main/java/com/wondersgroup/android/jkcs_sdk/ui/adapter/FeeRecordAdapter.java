@@ -161,7 +161,8 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     String feeTotal = detailsBean.getFee_total();
                     payPlatTradeNo = detailsBean.getPayplat_tradno();
                     tvHospitalName.setText(orgName);
-                    tvFeeNum.setText("未支付：" + feeTotal + "元");
+                    // 如果是已支付页面显示 "已支付：" 否则显示 "未支付："
+                    tvFeeNum.setText((payViewVisibility ? "未支付：" : "已支付：") + feeTotal + "元");
                 }
 
                 if (feeDetail != null) {

@@ -212,7 +212,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         tvMoney.setText(feeOrder);
                     }
                     if (!TextUtils.isEmpty(orderTime)) {
-                        tvOrderTime.setText("订单时间：" + orderTime);
+                        tvOrderTime.setText("账单时间：" + orderTime);
                     }
                 }
 
