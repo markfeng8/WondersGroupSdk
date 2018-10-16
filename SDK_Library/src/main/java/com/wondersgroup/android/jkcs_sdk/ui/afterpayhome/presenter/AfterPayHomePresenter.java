@@ -7,9 +7,11 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
@@ -140,6 +142,36 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
             }
         });
+    }
+
+    @Override
+    public void getFeeRecord(String feeState, String startDate, String endDate,
+                             String pageNumber, String pageSize) {
+        if (!TextUtils.isEmpty(feeState)) {
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
+            mModel.getFeeRecord(feeState, startDate, endDate, pageNumber, pageSize, new OnFeeRecordListener() {
+                @Override
+                public void onSuccess(FeeRecordEntity entity) {
+                    LogUtil.i(TAG, "getFeeRecord() -> onSuccess()");
+                    dismissLoading();
+                    if (isNonNull()) {
+                        mViewRef.get().onFeeRecordResult(entity);
+                    }
+                }
+
+                @Override
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "getFeeRecord() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
+                    WToastUtil.show(errCodeDes);
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+        }
     }
 
     private void showLoading() {

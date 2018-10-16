@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
@@ -25,6 +24,8 @@ import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivi
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -130,7 +131,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 mCurrentType = TYPE_HEADER;
             } else if (object instanceof FeeBillEntity.DetailsBean) {
                 mCurrentType = TYPE_LIST;
-            }else if (object instanceof String) {
+            } else if (object instanceof String) {
                 mCurrentType = TYPE_NOTICE;
             }
         }
@@ -143,7 +144,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class HeaderViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout llSettings;
         private LinearLayout llPayRecord;
-        private TextView tvPayToast;
+        private LinearLayout llCenterMessage;
         private TextView tvHospitalName;
         private TextView tvSelectHospital;
         private TextView tvTreatName;
@@ -151,6 +152,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView tvAfterPayState;
         private TextView tvMobilePayState;
         private TextView tvToPay;
+        private TextView tvPayInfo;
         private LinearLayout llToPayFee;
         private String orgCode;
         private String orgName;
@@ -159,7 +161,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
             llPayRecord = (LinearLayout) itemView.findViewById(R.id.llPayRecord);
-            tvPayToast = (TextView) itemView.findViewById(R.id.tvPayToast);
+            llCenterMessage = (LinearLayout) itemView.findViewById(R.id.llCenterMessage);
             tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
             tvSelectHospital = (TextView) itemView.findViewById(R.id.tvSelectHospital);
             tvTreatName = (TextView) itemView.findViewById(R.id.tvTreatName);
@@ -167,15 +169,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvAfterPayState = (TextView) itemView.findViewById(R.id.tvAfterPayState);
             tvMobilePayState = (TextView) itemView.findViewById(R.id.tvMobilePayState);
             tvToPay = (TextView) itemView.findViewById(R.id.tvToPay);
+            tvPayInfo = (TextView) itemView.findViewById(R.id.tvPayInfo);
             llToPayFee = (LinearLayout) itemView.findViewById(R.id.llToPayFee);
-            initData();
             initListener();
-        }
-
-        private void initData() {
-            if (tvPayToast.getVisibility() == View.VISIBLE) {
-                tvPayToast.setText(Html.fromHtml(mContext.getString(R.string.wonders_mark_text)));
-            }
         }
 
         private void initListener() {
@@ -216,6 +212,12 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     WToastUtil.show("您未开通医后付，请先开通医后付！");
                 }
             });
+            tvPayInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LogUtil.i(TAG, "点击医后付首页中间的欠费信息去缴费～");
+                }
+            });
         }
 
         @SuppressLint("SetTextI18n")
@@ -228,6 +230,29 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
+                String feeState = afterHeaderBean.getFeeState();
+                String feeTotals = afterHeaderBean.getFeeTotals();
+                String feeCashTotal = afterHeaderBean.getFeeCashTotal();
+                String feeYbTotal = afterHeaderBean.getFeeYbTotal();
+                String feeOrgName = afterHeaderBean.getFeeOrgName();
+
+                if (!TextUtils.isEmpty(feeState)) {
+                    String html = "";
+                    // 代码中使用 html 不需要拼接 <![CDATA[ 标签，xml 中需要拼接
+                    String head = "<font size=\"40\" color=\"#333333\">";
+                    String tail = "</font><font size=\"40\" color=\"#007edf\">继续支付！</font>";
+                    if ("00".equals(feeState)) {
+                        html = head + "您有一笔未完成的订单" + feeOrgName + "，总金额" + feeTotals + "元，请" + tail;
+                    } else if ("".equals(feeState)) {
+                        html = head + "您有一笔未完成的订单" + feeOrgName + "，总金额" + feeTotals + "元，还需支付医保" + feeYbTotal + "元，请" + tail;
+                    }
+
+                    llCenterMessage.setVisibility(View.VISIBLE);
+                    if (!TextUtils.isEmpty(html)) {
+                        LogUtil.i(TAG, "html===" + html);
+                        tvPayInfo.setText(Html.fromHtml(html));
+                    }
+                }
 
                 tvTreatName.setText(name);
                 if (!TextUtils.isEmpty(hospitalName)) {

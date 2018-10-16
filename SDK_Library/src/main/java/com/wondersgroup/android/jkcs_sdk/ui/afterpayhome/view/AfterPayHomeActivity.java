@@ -10,18 +10,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
@@ -29,7 +30,9 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomeP
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
@@ -116,6 +119,16 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
         initHeaderData();
         getIntentAndFindAfterPayState();
+
+        // 获取未完成订单列表
+        getFeeState();
+    }
+
+    private void getFeeState() {
+        String startDate = "2018-01-01";
+        String endDate = TimeUtil.getCurrentDate();
+        mPresenter.getFeeRecord(OrgConfig.FEE_STATE00, startDate,
+                endDate, mPageNumber, mPageSize); // 00 未完成订单
     }
 
     private void initHeaderData() {
@@ -225,6 +238,31 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             llNeedPay.setVisibility(View.GONE);
             mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
+        }
+    }
+
+    @Override
+    public void onFeeRecordResult(FeeRecordEntity entity) {
+        if (entity != null) {
+            List<FeeRecordEntity.DetailsBean> details = entity.getDetails();
+            if (details != null && details.size() > 0) {
+                FeeRecordEntity.DetailsBean detailsBean = details.get(0);
+                String feeState = detailsBean.getFee_state();
+                String feeTotals = detailsBean.getFee_total();
+                String feeCashTotal = detailsBean.getFee_cash_total();
+                String feeYbTotal = detailsBean.getFee_yb_total();
+                String feeOrgName = detailsBean.getOrg_name();
+
+                mHeaderBean.setFeeState(feeState);
+                mHeaderBean.setFeeTotals(feeTotals);
+                mHeaderBean.setFeeCashTotal(feeCashTotal);
+                mHeaderBean.setFeeYbTotal(feeYbTotal);
+                mHeaderBean.setFeeOrgName(feeOrgName);
+                refreshAdapter();
+
+            } else {
+                LogUtil.e(TAG, "没有查询到未完成订单记录！");
+            }
         }
     }
 

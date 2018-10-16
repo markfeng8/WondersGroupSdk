@@ -69,7 +69,6 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 .setDropView(fragmentView)
                 .build();
 
-        //mStartDate = TimeUtil.getCurrentDate();
         mStartDate = "2018-01-01";
         mEndDate = TimeUtil.getCurrentDate();
     }

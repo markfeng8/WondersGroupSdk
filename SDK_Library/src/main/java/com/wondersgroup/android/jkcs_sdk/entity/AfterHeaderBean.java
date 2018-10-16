@@ -15,13 +15,19 @@ public class AfterHeaderBean {
     private String feeTotal;
     private String orgCode;
     private String orgName;
+    private String feeState;
+    private String feeTotals;
+    private String feeCashTotal;
+    private String feeYbTotal;
+    private String feeOrgName;
 
     public AfterHeaderBean() {
     }
 
-    public AfterHeaderBean(String name, String socialNum, String hospitalName,
-                           String paymentStatus, String signingStatus, String mobPayStatus,
-                           String feeTotal, String orgCode, String orgName) {
+    public AfterHeaderBean(String name, String socialNum, String hospitalName, String paymentStatus,
+                           String signingStatus, String mobPayStatus, String feeTotal, String orgCode,
+                           String orgName, String feeState, String feeTotals, String feeCashTotal,
+                           String feeYbTotal, String feeOrgName) {
         this.name = name;
         this.socialNum = socialNum;
         this.hospitalName = hospitalName;
@@ -31,6 +37,51 @@ public class AfterHeaderBean {
         this.feeTotal = feeTotal;
         this.orgCode = orgCode;
         this.orgName = orgName;
+        this.feeState = feeState;
+        this.feeTotals = feeTotals;
+        this.feeCashTotal = feeCashTotal;
+        this.feeYbTotal = feeYbTotal;
+        this.feeOrgName = feeOrgName;
+    }
+
+    public String getFeeOrgName() {
+        return feeOrgName;
+    }
+
+    public void setFeeOrgName(String feeOrgName) {
+        this.feeOrgName = feeOrgName;
+    }
+
+    public String getFeeState() {
+        return feeState;
+    }
+
+    public void setFeeState(String feeState) {
+        this.feeState = feeState;
+    }
+
+    public String getFeeTotals() {
+        return feeTotals;
+    }
+
+    public void setFeeTotals(String feeTotals) {
+        this.feeTotals = feeTotals;
+    }
+
+    public String getFeeCashTotal() {
+        return feeCashTotal;
+    }
+
+    public void setFeeCashTotal(String feeCashTotal) {
+        this.feeCashTotal = feeCashTotal;
+    }
+
+    public String getFeeYbTotal() {
+        return feeYbTotal;
+    }
+
+    public void setFeeYbTotal(String feeYbTotal) {
+        this.feeYbTotal = feeYbTotal;
     }
 
     public String getOrgCode() {
@@ -117,6 +168,11 @@ public class AfterHeaderBean {
                 ", feeTotal='" + feeTotal + '\'' +
                 ", orgCode='" + orgCode + '\'' +
                 ", orgName='" + orgName + '\'' +
+                ", feeState='" + feeState + '\'' +
+                ", feeTotals='" + feeTotals + '\'' +
+                ", feeCashTotal='" + feeCashTotal + '\'' +
+                ", feeYbTotal='" + feeYbTotal + '\'' +
+                ", feeOrgName='" + feeOrgName + '\'' +
                 '}';
     }
 }
