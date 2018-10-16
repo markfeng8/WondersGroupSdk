@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -18,9 +17,8 @@ import java.util.List;
 public class FeeRecordActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private TextView tvTitleName;
     private SlidingTabLayout slidingTabLayout;
-    private List<MvpBaseFragment> fragments;
+    private List<MvpBaseFragment> mFragments;
     private String[] topTitles = new String[2];
 
     @Override
@@ -39,24 +37,22 @@ public class FeeRecordActivity extends AppCompatActivity {
 
     private void findViews() {
         viewPager = findViewById(R.id.viewPager);
-        tvTitleName = findViewById(R.id.tvTitleName);
         slidingTabLayout = findViewById(R.id.slidingTabLayout);
     }
 
     private void initFragment() {
-        fragments = new ArrayList<>();
-        fragments.add(new FinishedOrderFragment());
-        fragments.add(new UnfinishedOrderFragment());
-        if (fragments != null && fragments.size() > 0) {
+        mFragments = new ArrayList<>();
+        mFragments.add(new FinishedOrderFragment());
+        mFragments.add(new UnfinishedOrderFragment());
+        if (mFragments != null && mFragments.size() > 0) {
             // 设置ViewPager的适配器
-            viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragments, topTitles));
+            viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragments, topTitles));
             slidingTabLayout.setViewPager(viewPager); // 将slidingTabLayout和ViewPager绑定！
         }
         viewPager.setCurrentItem(0); // 默认在第一页
     }
 
     private void initData() {
-        tvTitleName.setText(R.string.wonders_pay_fee_record);
         topTitles[0] = getResources().getString(R.string.wonders_finished_order);
         topTitles[1] = getResources().getString(R.string.wonders_unfinished_order);
     }

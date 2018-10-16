@@ -20,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_8dp"
-            android:drawablePadding="@dimen/wonders_padding_4dp"
             android:drawableStart="@drawable/wonders_group_setting"
+            android:drawablePadding="@dimen/wonders_padding_4dp"
             android:gravity="center"
             android:text="@string/wonders_settings"
             android:textColor="@color/wonders_rgb_color_333333"
@@ -61,8 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_8dp"
-            android:drawablePadding="@dimen/wonders_padding_4dp"
             android:drawableStart="@drawable/wonders_group_record"
+            android:drawablePadding="@dimen/wonders_padding_4dp"
             android:gravity="center"
             android:text="@string/wonders_pay_money_record"
             android:textColor="@color/wonders_rgb_color_333333"
@@ -84,16 +84,7 @@
             android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPayToast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_16dp"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
-        android:drawablePadding="@dimen/wonders_padding_6dp"
-        android:drawableStart="@drawable/wonders_group_mark"
-        android:text="@string/wonders_mark_text"
-        android:visibility="gone" />
+    <include layout="@layout/wonders_group_need_payment" />
 
     <TextView
         android:layout_width="match_parent"
@@ -117,8 +108,8 @@
             android:id="@+id/tvHospitalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/wonders_padding_10dp"
             android:drawableStart="@drawable/wonders_group_hospital"
+            android:drawablePadding="@dimen/wonders_padding_10dp"
             android:gravity="center"
             android:text="@string/wonders_huzhou_city"
             android:textColor="@color/wonders_rgb_color_333333" />

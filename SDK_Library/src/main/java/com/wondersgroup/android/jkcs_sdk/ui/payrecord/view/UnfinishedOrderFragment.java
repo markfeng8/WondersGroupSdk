@@ -17,7 +17,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     private String mStartDate;
     private int mPosition = -1;
     private String mPageNumber = "1"; // 页数
-    private String mPageSize = "10"; // 每页的条数
+    private String mPageSize = "100"; // 每页的条数
     private FeeRecordAdapter mAdapter;
     private List<FeeRecordEntity.DetailsBean> mDetails;
     private List<CombineFeeRecord> mItemList = new ArrayList<>();
@@ -70,7 +69,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 .setDropView(fragmentView)
                 .build();
 
-        mStartDate = TimeUtil.getCurrentDate();
+        mStartDate = "2018-01-01";
         mEndDate = TimeUtil.getCurrentDate();
     }
 
@@ -115,7 +114,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 combineListData();
                 setAdapter();
             } else {
-                WToastUtil.show("没有查询到相关记录！");
+                //WToastUtil.show("没有查询到相关记录！");
             }
         }
     }
@@ -153,7 +152,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 String feeCashTotal = detailsBean.getFee_cash_total();
                 String feeYbTotal = detailsBean.getFee_yb_total();
                 // 传递参数过去
-                PersonalPayActivity.actionStart(mContext, orgName, orgCode, feeTotal, feeCashTotal,
+                PersonalPayActivity.actionStart(mContext, true, orgName, orgCode, feeTotal, feeCashTotal,
                         feeYbTotal, getOfficialSettleParam(details));
             } else {
                 // 如果是展开详情，直接刷新适配器即可

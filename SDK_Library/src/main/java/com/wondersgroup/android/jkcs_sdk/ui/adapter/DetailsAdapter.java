@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -147,7 +148,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 tvName.setText(name);
             }
             if (!TextUtils.isEmpty(socialNum)) {
-                tvSocialNum.setText(socialNum);
+                tvSocialNum.setText("社保卡号：" + socialNum);
             }
             if (!TextUtils.isEmpty(hospitalName)) {
                 tvHospitalName.setText(hospitalName);
@@ -163,6 +164,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView tvOrderName;
         private TextView tvMoney;
         private TextView tvOrderTime;
+        private ImageView ivArrow;
         private LinearLayout llItem;
         private LinearLayout llDetails;
         private String hisOrderNo;
@@ -173,6 +175,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvOrderName = (TextView) itemView.findViewById(R.id.tvOrderName);
             tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
             tvOrderTime = (TextView) itemView.findViewById(R.id.tvOrderTime);
+            ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
             llItem = (LinearLayout) itemView.findViewById(R.id.llItem);
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
             initListener();
@@ -182,6 +185,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             llItem.setOnClickListener(v -> {
                 boolean visible = llDetails.getVisibility() == View.GONE;
                 llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
+                ivArrow.setImageResource(visible ? R.drawable.wonders_group_up_arrow : R.drawable.wonders_group_down_arrow);
                 int childCount = llDetails.getChildCount();
                 if (visible && childCount == 1) {
                     ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
@@ -208,7 +212,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         tvMoney.setText(feeOrder);
                     }
                     if (!TextUtils.isEmpty(orderTime)) {
-                        tvOrderTime.setText("订单时间：" + orderTime);
+                        tvOrderTime.setText("账单时间：" + orderTime);
                     }
                 }
 
@@ -251,6 +255,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private PayItemLayout plYiBaoPay;
         private TextView tvPayType;
         private LinearLayout llPayType;
+        private LinearLayout llYiBaoPayLayout;
         private ToggleButton tbYiBaoEnable;
         private String totalPay;
         private String personalPay;
@@ -263,8 +268,18 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             plYiBaoPay = (PayItemLayout) itemView.findViewById(R.id.plYiBaoPay);
             tvPayType = (TextView) itemView.findViewById(R.id.tvPayType);
             llPayType = (LinearLayout) itemView.findViewById(R.id.llPayType);
+            llYiBaoPayLayout = (LinearLayout) itemView.findViewById(R.id.llYiBaoPayLayout);
             tbYiBaoEnable = (ToggleButton) itemView.findViewById(R.id.tbYiBaoEnable);
+            initData();
             initListener();
+        }
+
+        private void initData() {
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            if (!"01".equals(mobPayStatus)) {
+                // 如果未开通医保移动支付就显示医保移动支付开关
+                llYiBaoPayLayout.setVisibility(View.VISIBLE);
+            }
         }
 
         private void initListener() {
@@ -277,6 +292,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, false);
                         WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
                         tbYiBaoEnable.setChecked(false);
+
+                        // TODO: 2018/10/11 跳转到开通医保移动支付页面，当开通完成后回来需要刷新页面，隐藏开关布局
                     }
 
                 } else {
@@ -293,7 +310,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((PaymentDetailsActivity) mContext).setPersonalPayAmount(isChecked ? personalPay : totalPay);
             });
 
-            // TODO: 2018/10/9 隐藏选择支付方式 Layout
+            // 选择支付方式 Layout
             llPayType.setOnClickListener(v -> ((PaymentDetailsActivity) mContext).showSelectPayTypeWindow(type -> {
                 if (type == 1) {
                     tvPayType.setText("支付宝");
@@ -316,11 +333,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     plTotalMoney.setFeeNum(totalPay);
                 }
                 if (!TextUtils.isEmpty(personalPay)) {
-                    plPersonalPay.setFeeName("个人支付：");
+                    plPersonalPay.setFeeName("现金部分：");
                     plPersonalPay.setFeeNum(personalPay);
+                    // 如果个人支付为 0，隐藏选择支付方式 Layout
+                    if (Double.parseDouble(personalPay) == 0) {
+                        llPayType.setVisibility(View.GONE);
+                    }
                 }
                 if (!TextUtils.isEmpty(yiBaoPay)) {
-                    plYiBaoPay.setFeeName("医保支付：");
+                    plYiBaoPay.setFeeName("医保部分：");
                     plYiBaoPay.setFeeNum(yiBaoPay);
                 }
             }

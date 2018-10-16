@@ -16,15 +16,13 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
+import com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener.OnDateSetListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import widget.DateScrollerDialog;
-import widget.data.Type;
-import widget.listener.OnDateSetListener;
 
 /**
  * Created by x-sir on 2018/8/9 :)
@@ -43,7 +41,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
     private String mStartDate;
     private String mEndDate;
     private String mPageNumber = "1"; // 页数
-    private String mPageSize = "10"; // 每页的条数
+    private String mPageSize = "100"; // 每页的条数
     private FeeRecordAdapter mAdapter;
     private LoadingView mLoading;
     private List<FeeRecordEntity.DetailsBean> mDetails;
@@ -157,7 +155,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
                 combineListData();
                 setAdapter();
             } else {
-                WToastUtil.show("没有查询到相关记录！");
+                //WToastUtil.show("没有查询到相关记录！");
             }
         }
     }

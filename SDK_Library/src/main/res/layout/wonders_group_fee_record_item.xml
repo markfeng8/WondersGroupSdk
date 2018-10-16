@@ -33,10 +33,10 @@
                 android:textSize="@dimen/wonders_text_size_16sp" />
 
             <TextView
-                android:id="@+id/tvFeeNum"
+                android:id="@+id/tvFeeDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="未支付：89元"
+                android:text="订单日期：2018-10-16"
                 android:textColor="@color/wonders_rgb_color_666666"
                 android:textSize="@dimen/wonders_text_size_12sp"
                 android:visibility="visible" />
@@ -50,7 +50,7 @@
             android:background="@drawable/wonders_group_pay_detail_selector"
             android:enabled="true"
             android:gravity="center"
-            android:text="支付订单"
+            android:text="继续支付"
             android:textColor="@color/wonders_rgb_color_ffffff"
             android:visibility="gone" />
 

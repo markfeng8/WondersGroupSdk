@@ -42,7 +42,7 @@
             android:layout_marginTop="@dimen/wonders_margin_8dp"
             android:text="2018-08-23 09:55:36"
             android:textColor="@color/wonders_rgb_color_c9c9c9"
-            android:textSize="@dimen/wonders_text_size_10sp" />
+            android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
 
     <TextView
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="156.88"
         android:textColor="@color/wonders_rgb_color_00a861"
-        android:textSize="@dimen/wonders_text_size_12sp"
+        android:textSize="@dimen/wonders_text_size_14sp"
         android:textStyle="bold" />
 
     <TextView

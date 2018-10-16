@@ -38,6 +38,8 @@ public class RequestUrl {
     public static final String YD0009 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0009";
     public static final String YD0010 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0010";
 
+    public static final String SDKTOBILL = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/sdktobill";
+
     private static boolean isTestEnv() {
         boolean isTestEnv = false;
         String env = SpUtil.getInstance().getString(SpKey.SDK_ENV, "");

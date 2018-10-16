@@ -13,8 +13,8 @@
         android:layout_height="48dp"
         android:button="@null"
         android:drawableLeft="@drawable/wonders_group_alipay"
-        android:drawablePadding="8dp"
         android:drawableRight="@drawable/wonders_group_checked_selector"
+        android:drawablePadding="8dp"
         android:lineSpacingExtra="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -27,13 +27,14 @@
         android:layout_marginTop="8dp"
         android:button="@null"
         android:drawableLeft="@drawable/wonders_group_wechat"
-        android:drawablePadding="8dp"
         android:drawableRight="@drawable/wonders_group_checked_selector"
+        android:drawablePadding="8dp"
         android:lineSpacingExtra="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="@string/wonders_text_wechat_pay" />
 
+    <!-- 暂时隐藏银联支付方式 -->
     <RadioButton
         android:id="@+id/rbUnionPay"
         android:layout_width="match_parent"
@@ -41,10 +42,11 @@
         android:layout_marginTop="8dp"
         android:button="@null"
         android:drawableLeft="@drawable/wonders_group_union_pay"
-        android:drawablePadding="8dp"
         android:drawableRight="@drawable/wonders_group_checked_selector"
+        android:drawablePadding="8dp"
         android:lineSpacingExtra="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/wonders_text_union_pay" />
+        android:text="@string/wonders_text_union_pay"
+        android:visibility="invisible" />
 </RadioGroup>

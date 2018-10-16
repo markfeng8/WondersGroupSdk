@@ -14,10 +14,9 @@
         android:orientation="vertical"
         android:padding="@dimen/wonders_padding_20dp">
 
-        <ImageView
-            android:id="@+id/ivLoading"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/tvContent"

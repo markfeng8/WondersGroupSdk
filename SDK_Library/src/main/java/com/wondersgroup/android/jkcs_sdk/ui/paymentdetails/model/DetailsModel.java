@@ -327,4 +327,61 @@ public class DetailsModel implements DetailsContract.IModel {
                 });
     }
 
+    @Override
+    public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
+        String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
+        String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
+        LogUtil.i(TAG, "adviceDateTime===" + adviceDateTime + ",payPlatTradeNo===" + payPlatTradeNo);
+
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0007);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.ORG_CODE, orgCode);
+        map.put(MapKey.TOKEN, token);
+        map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
+        // 如果现金支付为 0时，锁单号固定传 0，如果不为0，就传真是锁单号
+        map.put(MapKey.PAY_PLAT_TRADE_NO, "0");
+        map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(SettleService.class)
+                .toSettle(RequestUrl.YD0007, Converter.toBody(map))
+                .enqueue(new Callback<SettleEntity>() {
+                    @Override
+                    public void onResponse(Call<SettleEntity> call, Response<SettleEntity> response) {
+                        SettleEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                if (listener != null) {
+                                    listener.onSuccess(body);
+                                }
+                            } else {
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SettleEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
+                        }
+                    }
+                });
+    }
+
 }

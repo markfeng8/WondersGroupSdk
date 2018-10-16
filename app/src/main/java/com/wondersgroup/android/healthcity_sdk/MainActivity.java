@@ -3,9 +3,10 @@ package com.wondersgroup.android.healthcity_sdk;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
@@ -39,18 +40,36 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tvMrZhu)
     TextView tvMrZhu;
     @BindView(R.id.tvMrWu)
-    LinearLayout tvMrWu;
+    TextView tvMrWu;
+    @BindView(R.id.tvMrPan)
+    TextView tvMrPan;
+    @BindView(R.id.tvMrYang)
+    TextView tvMrYang;
+    @BindView(R.id.tvMrShen)
+    TextView tvMrShen;
+    @BindView(R.id.tvMrZhao)
+    TextView tvMrZhao;
+    @BindView(R.id.tvMrZhong)
+    TextView tvMrZhong;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
     private PersonBean mPersonWu;
     private PersonBean mPersonLu;
     private PersonBean mPersonZhu;
+    private PersonBean mPersonPan;
+    private PersonBean mPersonYang;
+    private PersonBean mPersonShen;
+    private PersonBean mPersonZhao;
+    private PersonBean mPersonZhong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Window window = this.getWindow();
+        // 隐藏软键盘
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
         initData();
     }
@@ -60,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         String versionName = "demo 版本：V" + version;
         tvVersion.setText(versionName);
 
-        /*吴振强的就是专门测试登录注册这些的*/
+        /*吴振强 的就是专门测试登录注册这些的*/
         mPersonWu = new PersonBean();
         mPersonWu.setName("吴振强");
         mPersonWu.setPhone("13588259873");
@@ -70,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonWu.setCardNum("A05111650");
         mPersonWu.setAddress("ShangHai");
 
-        /*第一医院陆晓明主要测试账单欠费这些*/
+        /*第一医院 陆晓明 主要测试账单欠费这些*/
         mPersonLu = new PersonBean();
         mPersonLu.setName("陆晓明");
         mPersonLu.setPhone("13588259873");
@@ -80,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonLu.setCardNum("A0109403X");
         mPersonLu.setAddress("ShangHai");
 
-        /*中心医院朱凯主要测试账单等信息*/
+        /*中心医院 朱凯 主要测试账单等信息*/
         mPersonZhu = new PersonBean();
         mPersonZhu.setName("朱凯");
         mPersonZhu.setPhone("13588259873");
@@ -90,10 +109,59 @@ public class MainActivity extends AppCompatActivity {
         mPersonZhu.setCardNum("A0486807X");
         mPersonZhu.setAddress("ShangHai");
 
-        // 中心医院 "沈桂珠" "330502196702211421" "A04811583"
+        /*中心医院 潘人伟 主要测试账单等信息*/
+        mPersonPan = new PersonBean();
+        mPersonPan.setName("潘人伟");
+        mPersonPan.setPhone("13588259873");
+        mPersonPan.setIdType("01");
+        mPersonPan.setIdNum("330502196310210630");
+        mPersonPan.setCardType("0");
+        mPersonPan.setCardNum("A00305253");
+        mPersonPan.setAddress("ShangHai");
+
+        /*中心医院 杨旭成 主要测试账单等信息*/
+        mPersonYang = new PersonBean();
+        mPersonYang.setName("杨旭成");
+        mPersonYang.setPhone("13588259873");
+        mPersonYang.setIdType("01");
+        mPersonYang.setIdNum("330102197703011512");
+        mPersonYang.setCardType("0");
+        mPersonYang.setCardNum("A00997691");
+        mPersonYang.setAddress("ShangHai");
+
+        /*中心医院 沈佳威 主要测试账单等信息*/
+        mPersonShen = new PersonBean();
+        mPersonShen.setName("沈佳威");
+        mPersonShen.setPhone("13588259873");
+        mPersonShen.setIdType("01");
+        mPersonShen.setIdNum("330501198709151313");
+        mPersonShen.setCardType("0");
+        mPersonShen.setCardNum("A02418702");
+        mPersonShen.setAddress("ShangHai");
+
+        /*中心医院 赵岳寅 主要测试账单等信息*/
+        mPersonZhao = new PersonBean();
+        mPersonZhao.setName("赵岳寅");
+        mPersonZhao.setPhone("13588259873");
+        mPersonZhao.setIdType("01");
+        mPersonZhao.setIdNum("330681198610031570");
+        mPersonZhao.setCardType("0");
+        mPersonZhao.setCardNum("A05401164");
+        mPersonZhao.setAddress("ShangHai");
+
+        /*中心医院 钟瑜 主要测试账单等信息*/
+        mPersonZhong = new PersonBean();
+        mPersonZhong.setName("钟瑜");
+        mPersonZhong.setPhone("13588259873");
+        mPersonZhong.setIdType("01");
+        mPersonZhong.setIdNum("330501198112238539");
+        mPersonZhong.setCardType("0");
+        mPersonZhong.setCardNum("A03111112");
+        mPersonZhong.setAddress("ShangHai");
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu})
+    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
+            R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -107,6 +175,21 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrZhu:
                 setPersonInfo(mPersonZhu);
+                break;
+            case R.id.tvMrPan:
+                setPersonInfo(mPersonPan);
+                break;
+            case R.id.tvMrYang:
+                setPersonInfo(mPersonYang);
+                break;
+            case R.id.tvMrShen:
+                setPersonInfo(mPersonShen);
+                break;
+            case R.id.tvMrZhao:
+                setPersonInfo(mPersonZhao);
+                break;
+            case R.id.tvMrZhong:
+                setPersonInfo(mPersonZhong);
                 break;
         }
     }

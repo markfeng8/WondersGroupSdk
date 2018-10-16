@@ -73,39 +73,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <!-- epsoft Activity pages. -->
-        <activity
-            android:name="com.epsoft.hzauthsdk.activity.WebViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.epsoft.hzauthsdk.activity.ScannerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <!-- WondersGroup common pay pages. -->
-        <activity android:name="cashier.SetWorkKeyActivity" />
-
-        <activity
-            android:name="cashier.WdPayMainActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="cashier.PayFunctionActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="cashier.appnative.PayDemoActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="cashier.web.PayWebActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="cashier.web.JSPayActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- WXPay sdk begin -->
         <activity
@@ -152,9 +120,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity
-            android:name="cashier.Vertify.VertifyActivity"
-            android:label="@string/title_activity_vertify" />
         <activity
             android:name="cn.wd.checkout.api.WDVertifyActivity"
             android:label="@string/title_activity_vertify"

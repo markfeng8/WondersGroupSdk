@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.epsoft.hzauthsdk.bean.GetTokenBean;
-import com.epsoft.hzauthsdk.bean.OpenStatusBean;
-import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -23,7 +20,10 @@ import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
+import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
@@ -33,6 +33,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPres
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
@@ -58,12 +59,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private static final String TAG = "PaymentDetailsActivity";
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
+    private TextView tvPayName;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
     private CountdownView countDownView;
     private View activityView;
     private String mOrgCode;
     private String mOrgName;
+    private String mPageNumber = "1"; // 页数
+    private String mPageSize = "100"; // 每页的条数
     private DetailHeadBean mHeadBean;
     private List<Object> mItemList = new ArrayList<>();
     private DetailsAdapter mAdapter;
@@ -101,9 +105,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                     LogUtil.i(TAG, "done result=" + result);
                     if (result.equals(WDPayResult.RESULT_SUCCESS)) {
                         WToastUtil.show("支付成功~");
-                        // 传递参数过去
+                        // 传递参数过去，false 代表还没有全部支付完成
                         PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
-                                mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
+                                false, mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
                     } else if (result.equals(WDPayResult.RESULT_CANCEL)) {
                         WToastUtil.show("用户取消支付");
                     } else if (result.equals(WDPayResult.RESULT_FAIL)) {
@@ -161,15 +165,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
-        map.put(MapKey.PAGE_NUMBER, "1");
-        map.put(MapKey.PAGE_SIZE, "10");
+        map.put(MapKey.PAGE_NUMBER, mPageNumber);
+        map.put(MapKey.PAGE_SIZE, mPageSize);
         // 获取未结清账单详情
         mPresenter.getUnclearedBill(map);
 
-        // ------------------下面是一些写死的数据-----------------
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        //String hospitalName = "中心医院";
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
@@ -190,10 +192,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         tvPayMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 点付款时，需要查询用户的医保移动支付是否开通？如果未开通就提示开通
-                //getYiBaoToken();
-                // 获取支付所需的参数
-                mPresenter.getPayParam(mOrgCode);
+                // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
+                if (Double.parseDouble(mFeeCashTotal) == 0) {
+                    openYiBaoKeyBoard();
+                } else {
+                    // 获取支付所需的参数
+                    mPresenter.getPayParam(mOrgCode);
+                }
             }
         });
         countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
@@ -207,6 +212,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
         CheckOut.setNetworkWay("");
+        // 设置自定义支付地址
+        //CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
 
         Long i = 0L;
 
@@ -250,6 +257,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void findViews() {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        tvPayName = (TextView) findViewById(R.id.tvPayName);
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
@@ -328,6 +336,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
 
             long countDownMillis = TimeUtil.getCountDownMillis(lockStartTime);
+            // 如果倒计时结束了或者为0，就不让点击"立即支付"
+            if (countDownMillis <= 0) {
+                tvPayMoney.setEnabled(false);
+            }
             countDownView.start(countDownMillis);
 
             // 锁单成功后刷新订单号
@@ -374,7 +386,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal==="
                     + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
 
-            tvMoneyNum.setText(mFeeCashTotal);
+            // 判断如果个人支付为 0 时，显示医保支付金额
+            if (Double.parseDouble(mFeeCashTotal) == 0) {
+                tvPayName.setText("需医保支付：");
+                tvMoneyNum.setText(mFeeYbTotal);
+            } else {
+                tvPayName.setText("需现金支付：");
+                // 显示现金需要支付的金额
+                tvMoneyNum.setText(mFeeCashTotal);
+            }
 
             if (mDetailPayBean == null) {
                 mDetailPayBean = new DetailPayBean();
@@ -402,6 +422,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             String subMerNo = body.getSubmerno();
             String apiKey = body.getApikey();
             toPayMoney(appId, subMerNo, apiKey);
+        }
+    }
+
+    @Override
+    public void onOfficialSettleResult(SettleEntity body) {
+        if (body != null) {
+            String feeTotal = body.getFee_total();
+            String feeCashTotal = body.getFee_cash_total();
+            String feeYbTotal = body.getFee_yb_total();
+            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+
+            // 跳转过去，显示全部支付完成 true 代表全部支付完成
+            PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true,
+                    mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
         }
     }
 
@@ -542,17 +576,33 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(),
                 result -> {
                     LogUtil.i(TAG, "result===" + result);
-                    WToastUtil.show(String.valueOf(result));
+                    if (!TextUtils.isEmpty(result)) {
+                        KeyboardBean keyboardBean = new Gson().fromJson(result, KeyboardBean.class);
+                        if (keyboardBean != null) {
+                            String code = keyboardBean.getCode();
+                            if ("0".equals(code)) {
+                                String token = keyboardBean.getToken();
+                                // 携带 token 发起正式结算
+                                mPresenter.sendOfficialPay(token, mOrgCode, getOfficialSettleParam());
+                            } else {
+                                String msg = keyboardBean.getMsg();
+                                WToastUtil.show(String.valueOf(msg));
+                            }
+                        }
+                    }
                 });
     }
 
-    public static void actionStart(Context context, String orgCode, String orgName) {
+
+    public static void actionStart(Context context, String orgCode, String orgName, boolean isFinish) {
         if (context != null) {
             Intent intent = new Intent(context, PaymentDetailsActivity.class);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
             context.startActivity(intent);
-            ((Activity) context).finish();
+            if (isFinish) {
+                ((Activity) context).finish();
+            }
         } else {
             LogUtil.e(TAG, "context is null!");
         }

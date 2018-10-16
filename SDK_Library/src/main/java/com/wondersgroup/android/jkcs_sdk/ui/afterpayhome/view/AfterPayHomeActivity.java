@@ -10,18 +10,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.epsoft.hzauthsdk.bean.OpenStatusBean;
-import com.epsoft.hzauthsdk.utils.MakeArgsFactory;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
@@ -29,7 +30,9 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomeP
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
@@ -48,7 +51,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private TextView tvPayMoney;
     private View activityView;
     private LinearLayout llNeedPay;
-
+    private String mPageNumber = "1"; // 页数
+    private String mPageSize = "100"; // 每页的条数
+    private String mNotice = "温馨提示";
     private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
     private AfterHeaderBean mHeaderBean;
@@ -58,6 +63,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private boolean mAfterPayOpenSuccess;
     private String mOrgName;
     private String mOrgCode;
+    private int mYd0008Size = -1;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
@@ -114,6 +120,16 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
         initHeaderData();
         getIntentAndFindAfterPayState();
+
+        // 获取未完成订单列表
+        getFeeState();
+    }
+
+    private void getFeeState() {
+        String startDate = "2018-01-01";
+        String endDate = TimeUtil.getCurrentDate();
+        mPresenter.getFeeRecord(OrgConfig.FEE_STATE00, startDate,
+                endDate, mPageNumber, mPageSize); // 00 未完成订单
     }
 
     private void initHeaderData() {
@@ -124,6 +140,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         mHeaderBean.setSocialNum(socialNum);
 
         mItemList.add(mHeaderBean); // 第一次添加数据
+        mItemList.add(mNotice); // 第二次添加数据
 
         setAdapter();
     }
@@ -215,11 +232,45 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             String feeTotal = entity.getFee_total();
             tvMoneyNum.setText(feeTotal);
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            mItemList.addAll(details); // 添加医院欠费信息数据(放到下标为0处)
+            mItemList.addAll(1, details); // 添加医院欠费信息数据(放到下标为 1 处)
+            mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
         } else {
             llNeedPay.setVisibility(View.GONE);
+            mItemList.add(mNotice); // 第二次添加数据
+            refreshAdapter();
         }
+    }
+
+    @Override
+    public void onFeeRecordResult(FeeRecordEntity entity) {
+        mYd0008Size = -1;
+        if (entity != null) {
+            List<FeeRecordEntity.DetailsBean> details = entity.getDetails();
+            if (details != null && details.size() > 0) {
+                mYd0008Size = details.size();
+                FeeRecordEntity.DetailsBean detailsBean = details.get(0);
+                String feeState = detailsBean.getFee_state();
+                String feeTotals = detailsBean.getFee_total();
+                String feeCashTotal = detailsBean.getFee_cash_total();
+                String feeYbTotal = detailsBean.getFee_yb_total();
+                String feeOrgName = detailsBean.getOrg_name();
+                String feeOrgCode = detailsBean.getOrg_code();
+
+                mHeaderBean.setFeeState(feeState);
+                mHeaderBean.setFeeTotals(feeTotals);
+                mHeaderBean.setFeeCashTotal(feeCashTotal);
+                mHeaderBean.setFeeYbTotal(feeYbTotal);
+                mHeaderBean.setFeeOrgName(feeOrgName);
+                mHeaderBean.setFeeOrgCode(feeOrgCode);
+                refreshAdapter();
+
+            } else {
+                LogUtil.e(TAG, "没有查询到未完成订单记录！");
+            }
+        }
+
+        SpUtil.getInstance().save(SpKey.YD0008_SIZE, mYd0008Size);
     }
 
     @Override
@@ -254,12 +305,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mItemList.clear();
             }
             mItemList.add(mHeaderBean); // 选择医院后添加数据
+            //mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
 
             HashMap<String, String> map = new HashMap<>();
             map.put(MapKey.ORG_CODE, mOrgCode);
-            map.put(MapKey.PAGE_NUMBER, "1");
-            map.put(MapKey.PAGE_SIZE, "10");
+            map.put(MapKey.PAGE_NUMBER, mPageNumber);
+            map.put(MapKey.PAGE_SIZE, mPageSize);
             mPresenter.getUnclearedBill(map);
         }
     };

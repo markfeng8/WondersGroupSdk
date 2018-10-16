@@ -2,9 +2,11 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 
@@ -23,6 +25,10 @@ public interface AfterPayHomeContract {
         void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener);
 
         void getHospitalList(OnHospitalListListener listener);
+
+        void getFeeRecord(String feeState, String startDate, String endDate,
+                          String pageNumber, String pageSize, OnFeeRecordListener listener);
+
     }
 
     interface IView {
@@ -35,6 +41,8 @@ public interface AfterPayHomeContract {
         void dismissLoading();
 
         void onHospitalListResult(HospitalEntity body);
+
+        void onFeeRecordResult(FeeRecordEntity entity);
     }
 
     interface IPresenter {
@@ -45,5 +53,8 @@ public interface AfterPayHomeContract {
         void getUnclearedBill(HashMap<String, String> map);
 
         void getHospitalList();
+
+        void getFeeRecord(String feeState, String startDate, String endDate,
+                          String pageNumber, String pageSize);
     }
 }

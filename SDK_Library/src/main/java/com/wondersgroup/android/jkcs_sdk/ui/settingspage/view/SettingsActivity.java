@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -45,7 +46,9 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvUpdatePayPwd;
     private TextView tvTermination;
     private ImageView ivEditPhone;
+    private ImageView ivBackground;
     private EditText etPhone;
+    private LinearLayout llPhone;
     private EditText etVerifyCode;
     private TextView tvOriginalPhone;
     private TextView tvUpdateTitle;
@@ -127,9 +130,9 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
         String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
         if ("00".equals(mobPayStatus)) { // 00 未签约
-            tvMobilePayState.setText("未签约");
+            tvMobilePayState.setText("未开通");
         } else if ("01".equals(mobPayStatus)) { // 01已签约
-            tvMobilePayState.setText("已签约");
+            tvMobilePayState.setText("已开通");
         } else if ("02".equals(mobPayStatus)) { // 02 其他
             tvMobilePayState.setText("其他");
         }
@@ -181,9 +184,11 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             popupWindow.setOutsideTouchable(true);
 
             etPhone = (EditText) popupView.findViewById(R.id.etPhone);
+            llPhone = (LinearLayout) popupView.findViewById(R.id.llPhone);
             etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
             tvUpdateTitle = (TextView) popupView.findViewById(R.id.tvUpdateTitle);
             tvOpen = (TextView) popupView.findViewById(R.id.tvOpen);
+            ivBackground = (ImageView) popupView.findViewById(R.id.ivBackground);
             tvPhoneNum = (TextView) popupView.findViewById(R.id.tvPhoneNum);
             tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
             countDownView = (CountdownView) popupView.findViewById(R.id.countDownView);
@@ -256,19 +261,21 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         }
 
         if (mFlag == 1) {
+            ivBackground.setImageResource(R.drawable.wonders_group_pop_window2);
             tvUpdateTitle.setText(getString(R.string.wonders_update_notification_phone));
             String phoneText = getString(R.string.wonders_original_phone) + mPhone;
             tvOriginalPhone.setVisibility(View.VISIBLE);
             tvOriginalPhone.setText(phoneText);
-            tvOpen.setText("修改");
+            tvOpen.setText("确认修改");
             tvPhoneNum.setVisibility(View.GONE);
-            etPhone.setVisibility(View.VISIBLE);
+            llPhone.setVisibility(View.VISIBLE);
         } else if (mFlag == 2) {
+            ivBackground.setImageResource(R.drawable.wonders_group_pop_window1);
             tvUpdateTitle.setText(getString(R.string.wonders_cancel_after_pay));
             tvOriginalPhone.setVisibility(View.INVISIBLE);
-            tvOpen.setText("解约");
+            tvOpen.setText("确认取消");
             tvPhoneNum.setVisibility(View.VISIBLE);
-            etPhone.setVisibility(View.GONE);
+            llPhone.setVisibility(View.GONE);
             tvPhoneNum.setText("手机号：" + mPhone);
         }
 

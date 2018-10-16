@@ -51,6 +51,7 @@ public class PersonalPayModel implements PersonalPayContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
+        // 如果现金支付为 0时，锁单号固定传 0，如果不为0，就传真是锁单号
         map.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 
