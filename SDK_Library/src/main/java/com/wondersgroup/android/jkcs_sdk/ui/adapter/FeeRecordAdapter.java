@@ -75,7 +75,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private LinearLayout llHospitalItem;
         private LinearLayout llHideLayout;
         private TextView tvHospitalName;
-        private TextView tvFeeNum;
+        private TextView tvFeeDate;
         private TextView tvPayMoney;
         private ImageView ivArrow;
         private String payPlatTradeNo;
@@ -86,7 +86,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         MyViewHolder(View itemView) {
             super(itemView);
             tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
-            tvFeeNum = (TextView) itemView.findViewById(R.id.tvFeeNum);
+            tvFeeDate = (TextView) itemView.findViewById(R.id.tvFeeDate);
             tvPayMoney = (TextView) itemView.findViewById(R.id.tvPayMoney);
             llHideLayout = (LinearLayout) itemView.findViewById(R.id.llHideLayout);
             llHospitalItem = (LinearLayout) itemView.findViewById(R.id.llHospitalItem);
@@ -160,9 +160,15 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     String orgName = detailsBean.getOrg_name();
                     String feeTotal = detailsBean.getFee_total();
                     payPlatTradeNo = detailsBean.getPayplat_tradno();
+                    String shopOrderTime = detailsBean.getShop_order_time();
                     tvHospitalName.setText(orgName);
-                    // 如果是已支付页面显示 "已支付：" 否则显示 "未支付："
-                    tvFeeNum.setText((payViewVisibility ? "未支付：" : "已支付：") + feeTotal + "元");
+                    // 如果是已支付页面显示 "已支付：" 否则显示 订单日期
+                    // TODO: 2018/10/16 确认已完成页面显示日期还是已支付？& 订单日期过长？
+                    if (payViewVisibility) {
+                        tvFeeDate.setText("订单日期：" + shopOrderTime);
+                    } else {
+                        tvFeeDate.setText("已支付：" + feeTotal + "元");
+                    }
                 }
 
                 if (feeDetail != null) {

@@ -35,7 +35,6 @@
     <string name="wonders_mark_text2"><![CDATA[<font size="40" color="#333333">您有一笔未完成的订单湖州市中心医院，总金额48.60元，请</font> <font size="40" color="#007edf">继续支付！</font>]]></string>
     <string name="wonders_pay_money_record">门诊订单</string>
     <string name="wonders_not_pay_records">门诊在线缴费</string>
-    <string name="wonders_pay_fee_record">支付记录</string>
     <string name="wonders_huzhou_renmin_hospital">湖州人民医院</string>
     <string name="wonders_huzhou_city">湖州市</string>
     <string name="wonders_select_hospital">选择缴费医院</string>
@@ -75,7 +74,7 @@
     <string name="wonders_after_pay_rules">医后付协议</string>
     <string name="wonders_notification_phone">通知手机号</string>
     <string name="wonders_unfinished_order">未完成订单</string>
-    <string name="wonders_original_phone">原手机号码为</string>
+    <string name="wonders_original_phone">原手机号为</string>
     <string name="wonders_update_notification_phone">修改通知手机号</string>
 
     <!-- date scroller -->

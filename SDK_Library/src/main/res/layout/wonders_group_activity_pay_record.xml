@@ -12,7 +12,7 @@
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:text="@string/wonders_pay_fee_record"
+        app:text="@string/wonders_pay_money_record"
         app:textColor="@color/wonders_rgb_color_ffffff"
         app:textSize="@dimen/wonders_text_size_16sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />

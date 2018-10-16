@@ -156,7 +156,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private LinearLayout llToPayFee;
         private String orgCode;
         private String orgName;
-
         private String feeState;
         private String feeTotals;
         private String feeCashTotal;
@@ -234,11 +233,13 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
                     String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
                     if ("01".equals(mobPayStatus)) {
+
                         switch (feeState) {
                             case "00": // 全部未结算
                                 PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                                 break;
                             case "01": // 医保未结算
+                                // TODO: 2018/10/16 跳转到医保结算页面
                                 break;
                             default:
                                 break;
@@ -261,7 +262,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
-                // yd0008 的数据
+                // yd0008
                 feeState = afterHeaderBean.getFeeState();
                 feeTotals = afterHeaderBean.getFeeTotals();
                 feeCashTotal = afterHeaderBean.getFeeCashTotal();

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
  * Created by x-sir on 2018/9/19 :)
@@ -19,6 +20,7 @@ public class FeeRecordLayout extends LinearLayout {
     private TextView tvFeeName;
     private TextView tvTimestamp;
     private TextView tvFeeNum;
+    private static final String TAG = "FeeRecordLayout";
 
     public FeeRecordLayout(Context context) {
         this(context, null);
@@ -43,18 +45,24 @@ public class FeeRecordLayout extends LinearLayout {
     public void setFeeName(String feeName) {
         if (!TextUtils.isEmpty(feeName)) {
             tvFeeName.setText(feeName);
+        } else {
+            LogUtil.e(TAG, "feeName is null set failed!");
         }
     }
 
     public void setTimestamp(String timestamp) {
         if (!TextUtils.isEmpty(timestamp)) {
             tvTimestamp.setText(timestamp);
+        } else {
+            LogUtil.e(TAG, "timestamp is null set failed!");
         }
     }
 
     public void setFeeNum(String feeNum) {
         if (!TextUtils.isEmpty(feeNum)) {
             tvFeeNum.setText(feeNum);
+        } else {
+            LogUtil.e(TAG, "feeNum is null set failed!");
         }
     }
 }
