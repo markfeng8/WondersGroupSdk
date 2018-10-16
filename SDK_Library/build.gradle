@@ -87,4 +87,9 @@ static def releaseTime() {
  * ./gradlew copyAndRenameFile
  * 查看 app 依赖库关系：
  * ./gradlew dependencies app:dependencies
+ * 合并dev分支，请注意--no-ff参数，表示禁用Fast forward
+ * git merge --no-ff -m "merge with no-ff" dev
+ * git log看看分支历史：
+ * git log --graph --pretty=oneline --abbrev-commit
+ * git branch -d feature1
  */
