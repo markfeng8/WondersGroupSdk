@@ -37,7 +37,7 @@
     <string name="wonders_pay_fee_record">支付记录</string>
     <string name="wonders_huzhou_renmin_hospital">湖州人民医院</string>
     <string name="wonders_huzhou_city">湖州市</string>
-    <string name="wonders_select_hospital">请选择医院</string>
+    <string name="wonders_select_hospital">选择缴费医院</string>
     <string name="wonders_select_date_please">请选择日期</string>
     <string name="wonders_select_hospital_please">请选择医院</string>
     <string name="wonders_pay_money">立即支付</string>
@@ -98,5 +98,9 @@
 四、您的责任：当天未付清费用的，停止“医后付”服务。超过7个自然日未付清费用的，将您欠费信息上传市公共信用平台。付清后恢复“医后付”服务。\n
 五、本协议在您同意后生效，并为您启用“医后付”服务。
 </string>
+    <string name="wonders_after_pay_home_notice">温馨提示：\n
+        1.开通医后付，可在湖州五家市级医院享受“先看病后付费”服务。\n
+        2.开通移动支付，通过刷脸认证并设置移动支付密码后，享受在线医保支付服务。\n
+        3.订单需在30分钟内完成现金支付和医保支付两个步骤。30分钟内未全部完成，现金部分原路退回。</string>
     <string name="wonders_group_select_pay_type">选择支付方式</string>
 </resources>

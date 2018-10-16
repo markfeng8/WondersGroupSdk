@@ -60,6 +60,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private String mFeeYbTotal = "";
     private HashMap<String, Object> mPassParamMap;
     private boolean mIsFinish = false;
+    private PayResultLayout mPayResultLayout;
 
     @Override
     protected PersonalPayPresenter<PersonalPayContract.IView> createPresenter() {
@@ -102,11 +103,11 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         String lockStartTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
 
-        PayResultLayout payResultLayout = new PayResultLayout(this);
-        payResultLayout.setTreatName(name);
-        payResultLayout.setSocialNum(cardNum);
-        payResultLayout.setHospitalName(mOrgName);
-        payResultLayout.setBillDate(lockStartTime);
+        mPayResultLayout = new PayResultLayout(this);
+        mPayResultLayout.setTreatName(name);
+        mPayResultLayout.setSocialNum(cardNum);
+        mPayResultLayout.setHospitalName(mOrgName);
+        mPayResultLayout.setBillDate(lockStartTime);
 
         // 判断是否已经全部支付完成
         if (mIsFinish) {
@@ -114,7 +115,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             tvCompleteTotal.setText(mFeeTotal);
             tvCompletePersonal.setText(mFeeCashTotal);
             tvCompleteYiBao.setText(mFeeYbTotal);
-            llContainer2.addView(payResultLayout);
+            llContainer2.addView(mPayResultLayout);
         } else {
             // 医保支付为 0 时也需要发起正式结算，也就是需要弹出医保键盘输入密码然后发起正式结算
             setPaymentView(false);
@@ -123,7 +124,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             tvTotalPay.setText(mFeeTotal + "元");
             tvPersonalPay.setText(mFeeCashTotal + "元");
             tvYiBaoPay.setText(mFeeYbTotal + "元");
-            llContainer1.addView(payResultLayout);
+            llContainer1.addView(mPayResultLayout);
         }
     }
 
@@ -233,6 +234,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             tvCompleteTotal.setText(feeTotal);
             tvCompletePersonal.setText(feeCashTotal);
             tvCompleteYiBao.setText(feeYbTotal);
+            llContainer2.addView(mPayResultLayout);
         }
     }
 

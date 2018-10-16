@@ -47,6 +47,10 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     private static final int TYPE_LIST = 2;
     /**
+     * 温馨提示类型
+     */
+    private static final int TYPE_NOTICE = 3;
+    /**
      * 初始化布局加载器
      */
     private LayoutInflater mLayoutInflater;
@@ -84,6 +88,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case TYPE_LIST:
                 viewHolder = new ListViewHolder(mLayoutInflater.inflate(R.layout.wonders_group_item_after_pay_list, parent, false));
                 break;
+            case TYPE_NOTICE:
+                viewHolder = new NoticeViewHolder(mLayoutInflater.inflate(R.layout.wonders_group_item_after_pay_notice, parent, false));
+                break;
             default:
                 break;
         }
@@ -100,6 +107,10 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case TYPE_LIST:
                 ListViewHolder listViewHolder = (ListViewHolder) holder;
                 listViewHolder.setData((FeeBillEntity.DetailsBean) mItemList.get(position));
+                break;
+            case TYPE_NOTICE:
+                NoticeViewHolder noticeViewHolder = (NoticeViewHolder) holder;
+                noticeViewHolder.setData((String) mItemList.get(position));
                 break;
             default:
                 break;
@@ -119,6 +130,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 mCurrentType = TYPE_HEADER;
             } else if (object instanceof FeeBillEntity.DetailsBean) {
                 mCurrentType = TYPE_LIST;
+            }else if (object instanceof String) {
+                mCurrentType = TYPE_NOTICE;
             }
         }
         return mCurrentType;
@@ -314,6 +327,18 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 tvTimestamp.setText(hisOrderTime);
                 tvMoney.setText(feeOrder);
             }
+        }
+    }
+
+    // 3.notice 数据类型
+    class NoticeViewHolder extends RecyclerView.ViewHolder {
+
+        NoticeViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        public void setData(String info) {
+
         }
     }
 }

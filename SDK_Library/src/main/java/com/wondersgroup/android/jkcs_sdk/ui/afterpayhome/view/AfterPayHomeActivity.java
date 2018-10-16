@@ -48,7 +48,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private TextView tvPayMoney;
     private View activityView;
     private LinearLayout llNeedPay;
-
+    private String mPageNumber = "1"; // 页数
+    private String mPageSize = "100"; // 每页的条数
+    private String mNotice = "温馨提示";
     private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
     private AfterHeaderBean mHeaderBean;
@@ -124,6 +126,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         mHeaderBean.setSocialNum(socialNum);
 
         mItemList.add(mHeaderBean); // 第一次添加数据
+        mItemList.add(mNotice); // 第二次添加数据
 
         setAdapter();
     }
@@ -215,7 +218,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             String feeTotal = entity.getFee_total();
             tvMoneyNum.setText(feeTotal);
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            mItemList.addAll(details); // 添加医院欠费信息数据(放到下标为0处)
+            mItemList.addAll(1, details); // 添加医院欠费信息数据(放到下标为 1 处)
             refreshAdapter();
         } else {
             llNeedPay.setVisibility(View.GONE);
@@ -254,12 +257,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mItemList.clear();
             }
             mItemList.add(mHeaderBean); // 选择医院后添加数据
+            //mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
 
             HashMap<String, String> map = new HashMap<>();
             map.put(MapKey.ORG_CODE, mOrgCode);
-            map.put(MapKey.PAGE_NUMBER, "1");
-            map.put(MapKey.PAGE_SIZE, "10");
+            map.put(MapKey.PAGE_NUMBER, mPageNumber);
+            map.put(MapKey.PAGE_SIZE, mPageSize);
             mPresenter.getUnclearedBill(map);
         }
     };
@@ -308,6 +312,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mHeaderBean.setMobPayStatus(mobPayStatus);
 
                 mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
+                //mItemList.set(1, mNotice); // 第二次添加数据
                 refreshAdapter();
             }
         });

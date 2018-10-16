@@ -36,18 +36,16 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="剩余"
-        android:textColor="@color/wonders_rgb_color_00b76a"
-        android:textSize="@dimen/wonders_text_size_14sp"
-        android:visibility="visible" />
+        android:src="@drawable/wonders_group_countdown" />
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/countDownView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_4dp"
         android:layout_marginEnd="@dimen/wonders_margin_16dp"
         android:padding="@dimen/wonders_padding_2dp"
         android:visibility="visible"
