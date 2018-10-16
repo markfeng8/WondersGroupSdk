@@ -157,6 +157,13 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private String orgCode;
         private String orgName;
 
+        private String feeState;
+        private String feeTotals;
+        private String feeCashTotal;
+        private String feeYbTotal;
+        private String feeOrgName;
+        private String feeOrgCode;
+
         HeaderViewHolder(View itemView) {
             super(itemView);
             llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
@@ -193,7 +200,15 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
                 String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
                 if ("01".equals(mobPayStatus)) {
-                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                    // 需要取出 yd0008 的 size ，如果没有记录说明是第一次去，就直接跳转到缴费详情页面，
+                    // 如果有的话就跳转到医保缴费页面，发起结算时使用的时yd0009 的 details
+                    int yd0008Size = SpUtil.getInstance().getInt(SpKey.YD0008_SIZE, -1);
+                    if (yd0008Size == -1) {
+                        PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                    } else {
+                        // TODO: 2018/10/16 跳转到医保支付页面
+                    }
+
                 } else {
                     WToastUtil.show("您未开通医保移动支付，请先开通！");
                 }
@@ -216,6 +231,22 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View v) {
                     LogUtil.i(TAG, "点击医后付首页中间的欠费信息去缴费～");
+                    // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
+                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                    if ("01".equals(mobPayStatus)) {
+                        switch (feeState) {
+                            case "00": // 全部未结算
+                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                                break;
+                            case "01": // 医保未结算
+                                break;
+                            default:
+                                break;
+                        }
+
+                    } else {
+                        WToastUtil.show("您未开通医保移动支付，请先开通！");
+                    }
                 }
             });
         }
@@ -230,11 +261,13 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
-                String feeState = afterHeaderBean.getFeeState();
-                String feeTotals = afterHeaderBean.getFeeTotals();
-                String feeCashTotal = afterHeaderBean.getFeeCashTotal();
-                String feeYbTotal = afterHeaderBean.getFeeYbTotal();
-                String feeOrgName = afterHeaderBean.getFeeOrgName();
+                // yd0008 的数据
+                feeState = afterHeaderBean.getFeeState();
+                feeTotals = afterHeaderBean.getFeeTotals();
+                feeCashTotal = afterHeaderBean.getFeeCashTotal();
+                feeYbTotal = afterHeaderBean.getFeeYbTotal();
+                feeOrgName = afterHeaderBean.getFeeOrgName();
+                feeOrgCode = afterHeaderBean.getFeeOrgCode();
 
                 if (!TextUtils.isEmpty(feeState)) {
                     String html = "";
