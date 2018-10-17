@@ -205,7 +205,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     if (yd0008Size == -1) {
                         PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                     } else {
-                        // TODO: 2018/10/16 跳转到医保支付页面
+                        // 跳转到医保结算页面
+                        ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
+                                feeTotals, feeCashTotal, feeYbTotal);
                     }
 
                 } else {
@@ -233,13 +235,14 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
                     String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
                     if ("01".equals(mobPayStatus)) {
-
                         switch (feeState) {
                             case "00": // 全部未结算
                                 PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                                 break;
                             case "01": // 医保未结算
-                                // TODO: 2018/10/16 跳转到医保结算页面
+                                // 跳转到医保结算页面
+                                ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
+                                        feeTotals, feeCashTotal, feeYbTotal);
                                 break;
                             default:
                                 break;

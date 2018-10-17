@@ -28,9 +28,11 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
+import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
@@ -67,6 +69,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
+    private String payPlatTradeNo;
+    private String mFeeOrgCode;
+    private String mFeeOrgName;
+    private String mFeeTotals;
+    private String mFeeCashTotal;
+    private String mFeeYbTotal;
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -256,6 +264,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 String feeYbTotal = detailsBean.getFee_yb_total();
                 String feeOrgName = detailsBean.getOrg_name();
                 String feeOrgCode = detailsBean.getOrg_code();
+                payPlatTradeNo = detailsBean.getPayplat_tradno();
 
                 mHeaderBean.setFeeState(feeState);
                 mHeaderBean.setFeeTotals(feeTotals);
@@ -336,6 +345,17 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    @Override
+    public void onFeeDetailResult(FeeBillEntity entity) {
+        if (entity != null) {
+            List<FeeBillEntity.DetailsBean> details = entity.getDetails();
+            // 传递参数过去，发起正式结算，此种情况是个人已经支付完成，医保未支付完成
+            PersonalPayActivity.actionStart(AfterPayHomeActivity.this, true,
+                    false, mFeeOrgName, mFeeOrgCode, mFeeTotals, mFeeCashTotal,
+                    mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+        }
+    }
+
     /**
      * 查询医保移动支付状态
      */
@@ -367,6 +387,21 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     public void getHospitalList() {
         mPresenter.getHospitalList();
+    }
+
+    public void requestYd0009(String feeOrgCode, String feeOrgName, String feeTotals,
+                              String feeCashTotal, String feeYbTotal) {
+        this.mFeeOrgCode = feeOrgCode;
+        this.mFeeOrgName = feeOrgName;
+        this.mFeeTotals = feeTotals;
+        this.mFeeCashTotal = feeCashTotal;
+        this.mFeeYbTotal = feeYbTotal;
+
+        if (!TextUtils.isEmpty(payPlatTradeNo)) {
+            mPresenter.getFeeDetail(payPlatTradeNo);
+        } else {
+            LogUtil.e(TAG, "request yd0009 failed, because payPlatTradeNo is null!");
+        }
     }
 
     @Override

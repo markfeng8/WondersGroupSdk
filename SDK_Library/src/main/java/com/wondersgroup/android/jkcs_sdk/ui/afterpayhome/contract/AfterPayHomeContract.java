@@ -14,9 +14,10 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:
+ * Function:医后付首页接口的契约类
  */
 public interface AfterPayHomeContract {
+
     interface IModel {
         void getAfterPayState(HashMap<String, String> map, OnAfterPayStateListener listener);
 
@@ -29,6 +30,7 @@ public interface AfterPayHomeContract {
         void getFeeRecord(String feeState, String startDate, String endDate,
                           String pageNumber, String pageSize, OnFeeRecordListener listener);
 
+        void getFeeDetail(String tradeNo, OnFeeDetailListener listener);
     }
 
     interface IView {
@@ -43,6 +45,8 @@ public interface AfterPayHomeContract {
         void onHospitalListResult(HospitalEntity body);
 
         void onFeeRecordResult(FeeRecordEntity entity);
+
+        void onFeeDetailResult(FeeBillEntity entity);
     }
 
     interface IPresenter {
@@ -56,5 +60,7 @@ public interface AfterPayHomeContract {
 
         void getFeeRecord(String feeState, String startDate, String endDate,
                           String pageNumber, String pageSize);
+
+        void getFeeDetail(String tradeNo);
     }
 }

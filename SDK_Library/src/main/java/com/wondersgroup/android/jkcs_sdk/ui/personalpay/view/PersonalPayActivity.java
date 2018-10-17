@@ -59,7 +59,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     private String mFeeCashTotal = "";
     private String mFeeYbTotal = "";
     private HashMap<String, Object> mPassParamMap;
-    private boolean mIsFinish = false;
+    private boolean mIsComplete = false;
     private PayResultLayout mPayResultLayout;
 
     @Override
@@ -83,7 +83,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
 
         Intent intent = getIntent();
         if (intent != null) {
-            mIsFinish = intent.getBooleanExtra(IntentExtra.IS_FINISH, false);
+            mIsComplete = intent.getBooleanExtra(IntentExtra.IS_COMPLETE, false);
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
             mFeeTotal = intent.getStringExtra(IntentExtra.FEE_TOTAL);
@@ -110,7 +110,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         mPayResultLayout.setBillDate(lockStartTime);
 
         // 判断是否已经全部支付完成
-        if (mIsFinish) {
+        if (mIsComplete) {
             setPaymentView(true);
             tvCompleteTotal.setText(mFeeTotal);
             tvCompletePersonal.setText(mFeeCashTotal);
@@ -183,11 +183,12 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
                 });
     }
 
-    public static void actionStart(Context context, boolean isFinish, String orgName, String orgCode, String feeTotal,
-                                   String feeCashTotal, String feeYbTotal, HashMap<String, Object> param) {
+    public static void actionStart(Context context, boolean isComplete, boolean isFinish, String orgName,
+                                   String orgCode, String feeTotal, String feeCashTotal, String feeYbTotal,
+                                   HashMap<String, Object> param) {
         if (context != null) {
             Intent intent = new Intent(context, PersonalPayActivity.class);
-            intent.putExtra(IntentExtra.IS_FINISH, isFinish);
+            intent.putExtra(IntentExtra.IS_COMPLETE, isComplete);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
@@ -201,7 +202,9 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             intent.putExtras(bundle);
 
             context.startActivity(intent);
-            ((Activity) context).finish();
+            if (isFinish) {
+                ((Activity) context).finish();
+            }
         } else {
             LogUtil.e(TAG, "context is null!");
         }

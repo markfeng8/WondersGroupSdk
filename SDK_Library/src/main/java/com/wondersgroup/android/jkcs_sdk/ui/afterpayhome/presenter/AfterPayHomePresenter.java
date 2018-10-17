@@ -174,6 +174,35 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
         }
     }
 
+    @Override
+    public void getFeeDetail(String tradeNo) {
+        if (!TextUtils.isEmpty(tradeNo)) {
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
+            mModel.getFeeDetail(tradeNo, new OnFeeDetailListener() {
+                @Override
+                public void onSuccess(FeeBillEntity entity) {
+                    LogUtil.i(TAG, "getFeeDetail() -> onSuccess()");
+                    dismissLoading();
+                    if (isNonNull()) {
+                        mViewRef.get().onFeeDetailResult(entity);
+                    }
+                }
+
+                @Override
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "getFeeDetail() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
+                    WToastUtil.show(errCodeDes);
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+        }
+    }
+
     private void showLoading() {
         if (isNonNull()) {
             mViewRef.get().showLoading();

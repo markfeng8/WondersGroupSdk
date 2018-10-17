@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
@@ -16,11 +15,11 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -152,37 +151,14 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 String feeCashTotal = detailsBean.getFee_cash_total();
                 String feeYbTotal = detailsBean.getFee_yb_total();
                 // 传递参数过去
-                PersonalPayActivity.actionStart(mContext, true, orgName, orgCode, feeTotal, feeCashTotal,
-                        feeYbTotal, getOfficialSettleParam(details));
+                PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode, feeTotal, feeCashTotal,
+                        feeYbTotal, SettleUtil.getOfficialSettleParam(details));
             } else {
                 // 如果是展开详情，直接刷新适配器即可
                 mItemList.get(mPosition).setFeeDetail(details);
                 setAdapter();
             }
         }
-    }
-
-    /**
-     * 获取发起正式结算时的参数
-     *
-     * @param details
-     */
-    private HashMap<String, Object> getOfficialSettleParam(List<FeeBillEntity.DetailsBean> details) {
-        HashMap<String, Object> map = new HashMap<>();
-        List<HashMap<String, String>> detailsList = new ArrayList<>();
-        for (int i = 0; i < details.size(); i++) {
-            FeeBillEntity.DetailsBean detailsBean = details.get(i);
-            HashMap<String, String> detailItem = new HashMap<>();
-            detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-            detailItem.put(MapKey.ORDER_NO, "1");
-            detailsList.add(detailItem);
-        }
-
-        if (detailsList.size() > 0) {
-            map.put(MapKey.DETAILS, detailsList);
-        }
-
-        return map;
     }
 
     @Override

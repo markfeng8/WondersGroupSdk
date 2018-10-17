@@ -35,6 +35,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -103,30 +104,43 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 public void run() {
                     String result = bcPayResult.getResult();
                     LogUtil.i(TAG, "done result=" + result);
-                    if (result.equals(WDPayResult.RESULT_SUCCESS)) {
-                        WToastUtil.show("支付成功~");
-                        // 传递参数过去，false 代表还没有全部支付完成
-                        PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
-                                false, mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
-                    } else if (result.equals(WDPayResult.RESULT_CANCEL)) {
-                        WToastUtil.show("用户取消支付");
-                    } else if (result.equals(WDPayResult.RESULT_FAIL)) {
-                        String info = "支付失败, 原因: " + bcPayResult.getErrMsg() + ", " + bcPayResult.getDetailInfo();
-                        WToastUtil.show(info);
-                    } else if (result.equals(WDPayResult.FAIL_UNKNOWN_WAY)) {
-                        WToastUtil.show("未知支付渠道");
-                    } else if (result.equals(WDPayResult.FAIL_WEIXIN_VERSION_ERROR)) {
-                        WToastUtil.show("针对微信 支付版本错误（版本不支持）");
-                    } else if (result.equals(WDPayResult.FAIL_EXCEPTION)) {
-                        WToastUtil.show("支付过程中的Exception");
-                    } else if (result.equals(WDPayResult.FAIL_ERR_FROM_CHANNEL)) {
-                        WToastUtil.show("从第三方app支付渠道返回的错误信息，原因: " + bcPayResult.getErrMsg());
-                    } else if (result.equals(WDPayResult.FAIL_INVALID_PARAMS)) {
-                        WToastUtil.show("参数不合法造成的支付失败");
-                    } else if (result.equals(WDPayResult.RESULT_PAYING_UNCONFIRMED)) {
-                        WToastUtil.show("表示支付中，未获取确认信息");
-                    } else {
-                        WToastUtil.show("invalid return");
+
+                    switch (result) {
+                        case WDPayResult.RESULT_SUCCESS:
+                            WToastUtil.show("支付成功~");
+                            // 传递参数过去，false 代表还没有全部支付完成
+                            PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
+                                    false, true, mOrgName, mOrgCode, mFeeTotal,
+                                    mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+                            break;
+                        case WDPayResult.RESULT_CANCEL:
+                            WToastUtil.show("用户取消支付");
+                            break;
+                        case WDPayResult.RESULT_FAIL:
+                            String info = "支付失败, 原因: " + bcPayResult.getErrMsg() + ", " + bcPayResult.getDetailInfo();
+                            WToastUtil.show(info);
+                            break;
+                        case WDPayResult.FAIL_UNKNOWN_WAY:
+                            WToastUtil.show("未知支付渠道");
+                            break;
+                        case WDPayResult.FAIL_WEIXIN_VERSION_ERROR:
+                            WToastUtil.show("针对微信 支付版本错误（版本不支持）");
+                            break;
+                        case WDPayResult.FAIL_EXCEPTION:
+                            WToastUtil.show("支付过程中的Exception");
+                            break;
+                        case WDPayResult.FAIL_ERR_FROM_CHANNEL:
+                            WToastUtil.show("从第三方app支付渠道返回的错误信息，原因: " + bcPayResult.getErrMsg());
+                            break;
+                        case WDPayResult.FAIL_INVALID_PARAMS:
+                            WToastUtil.show("参数不合法造成的支付失败");
+                            break;
+                        case WDPayResult.RESULT_PAYING_UNCONFIRMED:
+                            WToastUtil.show("表示支付中，未获取确认信息");
+                            break;
+                        default:
+                            WToastUtil.show("invalid return");
+                            break;
                     }
                 }
             });
@@ -434,8 +448,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
 
             // 跳转过去，显示全部支付完成 true 代表全部支付完成
-            PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true,
-                    mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, getOfficialSettleParam());
+            PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
+                    mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
         }
     }
 
@@ -551,27 +565,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         mPresenter.tryToSettle(siCardCode, mOrgCode, map);
     }
 
-    /**
-     * 获取发起正式结算时的参数
-     */
-    private HashMap<String, Object> getOfficialSettleParam() {
-        HashMap<String, Object> map = new HashMap<>();
-        List<HashMap<String, String>> detailsList = new ArrayList<>();
-        for (int i = 0; i < details.size(); i++) {
-            FeeBillEntity.DetailsBean detailsBean = details.get(i);
-            HashMap<String, String> detailItem = new HashMap<>();
-            detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-            detailItem.put(MapKey.ORDER_NO, "1");
-            detailsList.add(detailItem);
-        }
-
-        if (detailsList.size() > 0) {
-            map.put(MapKey.DETAILS, detailsList);
-        }
-
-        return map;
-    }
-
     private void openYiBaoKeyBoard() {
         AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(),
                 result -> {
@@ -583,7 +576,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                             if ("0".equals(code)) {
                                 String token = keyboardBean.getToken();
                                 // 携带 token 发起正式结算
-                                mPresenter.sendOfficialPay(token, mOrgCode, getOfficialSettleParam());
+                                mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
                             } else {
                                 String msg = keyboardBean.getMsg();
                                 WToastUtil.show(String.valueOf(msg));

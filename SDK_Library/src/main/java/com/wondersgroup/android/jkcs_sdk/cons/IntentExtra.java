@@ -11,7 +11,7 @@ public class IntentExtra {
     public static final String SERIALIZABLE_MOBILEPAY_ENTITY = "SerializableMobilePayEntity";
     public static final String ORG_CODE = "orgCode";
     public static final String ORG_NAME = "orgName";
-    public static final String IS_FINISH = "isFinish"; // 是否全部支付完成
+    public static final String IS_COMPLETE = "isComplete"; // 是否全部支付完成
     public static final String FEE_TOTAL = "feeTotal";
     public static final String FEE_CASH_TOTAL = "feeCashTotal";
     public static final String FEE_YB_TOTAL = "feeYbTotal";

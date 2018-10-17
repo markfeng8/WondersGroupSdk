@@ -329,4 +329,54 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                     }
                 });
     }
+
+    @Override
+    public void getFeeDetail(String tradeNo, OnFeeDetailListener listener) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0009);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.PAY_PLAT_TRADE_NO, tradeNo);
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(FeeBillService.class)
+                .getBillInfo(RequestUrl.YD0009, map)
+                .enqueue(new Callback<FeeBillEntity>() {
+                    @Override
+                    public void onResponse(Call<FeeBillEntity> call, Response<FeeBillEntity> response) {
+                        FeeBillEntity body = response.body();
+                        if (body != null) {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                if (listener != null) {
+                                    listener.onSuccess(body);
+                                }
+                            } else {
+                                String errCodeDes = body.getErr_code_des();
+                                if (!TextUtils.isEmpty(errCodeDes)) {
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FeeBillEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
+                        }
+                    }
+                });
+    }
 }

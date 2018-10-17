@@ -13,24 +13,22 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.FeeRecordLayout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/19 :)
- * Function:
+ * Function:门诊缴费记录页面（已完成/未完成订单）的 Adapter
  */
 public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -124,25 +122,31 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                         String orgCode = detailsBean.getOrg_code();
                         String orgName = detailsBean.getOrg_name();
-
                         String feeState = detailsBean.getFee_state();
+
                         // 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
                         // 00 全部未结算 01 医保未结算、自费已结(作保留）
-                        if ("00".equals(feeState)) {
-                            PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
-                        } else {
-                            // 当里面为空的时候才去请求，请求过一次就不用再次请求了
-                            if (llHideLayout.getChildCount() == 0) {
-                                mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
-                            } else {
-                                String feeTotal = detailsBean.getFee_total();
-                                String feeCashTotal = detailsBean.getFee_cash_total();
-                                String feeYbTotal = detailsBean.getFee_yb_total();
-                                // 传递参数过去
-                                PersonalPayActivity.actionStart(mContext, true, orgName, orgCode,
-                                        feeTotal, feeCashTotal, feeYbTotal, getOfficialSettleParam());
-                            }
+                        switch (feeState) {
+                            case "00":
+                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
+                                break;
+                            case "01":
+                                // 当里面为空的时候才去请求，请求过一次就不用再次请求了
+                                if (llHideLayout.getChildCount() == 0) {
+                                    mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
+                                } else {
+                                    String feeTotal = detailsBean.getFee_total();
+                                    String feeCashTotal = detailsBean.getFee_cash_total();
+                                    String feeYbTotal = detailsBean.getFee_yb_total();
+                                    // 传递参数过去
+                                    PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode,
+                                            feeTotal, feeCashTotal, feeYbTotal, SettleUtil.getOfficialSettleParam(feeDetail));
+                                }
+                                break;
+                            default:
+                                break;
                         }
+
                     } else {
                         WToastUtil.show("您未开通医保移动支付，请先开通！");
                     }
@@ -187,27 +191,6 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
             }
-        }
-
-        /**
-         * 获取发起正式结算时的参数
-         */
-        private HashMap<String, Object> getOfficialSettleParam() {
-            HashMap<String, Object> map = new HashMap<>();
-            List<HashMap<String, String>> detailsList = new ArrayList<>();
-            for (int i = 0; i < feeDetail.size(); i++) {
-                FeeBillEntity.DetailsBean detailsBean = feeDetail.get(i);
-                HashMap<String, String> detailItem = new HashMap<>();
-                detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-                detailItem.put(MapKey.ORDER_NO, "1");
-                detailsList.add(detailItem);
-            }
-
-            if (detailsList.size() > 0) {
-                map.put(MapKey.DETAILS, detailsList);
-            }
-
-            return map;
         }
     }
 
