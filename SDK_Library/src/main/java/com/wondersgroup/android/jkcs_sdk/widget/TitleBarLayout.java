@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
  * Created by x-sir on 2018/9/2 :)
@@ -31,8 +33,10 @@ public class TitleBarLayout extends LinearLayout {
     private int mTextSize;
     private int mTextColor;
     private OnMenuClickListener mListener;
+    private OnBackClickListener mOnBackListener;
     private static final String DEFAULT_TEXT = "Title"; // default text.
     private static final int DEFAULT_TEXT_SIZE = 16; // default text size.
+    private static final String TAG = "TitleBarLayout";
 
     public TitleBarLayout(Context context) {
         this(context, null);
@@ -79,7 +83,12 @@ public class TitleBarLayout extends LinearLayout {
         ivBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Activity) getContext()).finish();
+                // 如果监听器不为空就让其自己处理，为空就默认处理（销毁页面）
+                if (mOnBackListener != null) {
+                    mOnBackListener.onClick();
+                } else {
+                    ((Activity) getContext()).finish();
+                }
             }
         });
         ivMenu.setOnClickListener(new OnClickListener() {
@@ -92,11 +101,27 @@ public class TitleBarLayout extends LinearLayout {
         });
     }
 
+    public void setTitleName(String title) {
+        if (!TextUtils.isEmpty(title)) {
+            tvTitleName.setText(title);
+        } else {
+            LogUtil.w(TAG, "set title name failed, because title is null!");
+        }
+    }
+
     public void setOnMenuListener(OnMenuClickListener mListener) {
         this.mListener = mListener;
     }
 
+    public void setOnBackListener(OnBackClickListener mOnBackListener) {
+        this.mOnBackListener = mOnBackListener;
+    }
+
     public interface OnMenuClickListener {
+        void onClick();
+    }
+
+    public interface OnBackClickListener {
         void onClick();
     }
 }

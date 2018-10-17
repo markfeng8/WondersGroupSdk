@@ -186,8 +186,11 @@ public <methods>;
 -keep class com.android.volley.** {*;}
 -dontwarn com.alipay.**
 
--keep class com.alipay.** {*;}
+# bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
 
+-keep class com.alipay.** {*;}
 
 # ########## ͳһ����̨   ###########
 -dontwarn cn.wd.checkout.**

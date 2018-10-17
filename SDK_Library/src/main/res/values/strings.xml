@@ -10,7 +10,7 @@
     <string name="title_activity_vertify">VertifyActivity</string>
     <string name="wonders_pay_name">支付名称</string>
     <string name="wonders_detail_introduce">详细介绍</string>
-    <string name="wonders_personal_pay_complete">个人账户支付0.01元已完成！</string>
+    <string name="wonders_personal_pay_complete">个人账户支付0.00元已完成！</string>
     <string name="wonders_text_alipay"><Data><![CDATA[<font size="40" color="#333333">支付宝</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
     <string name="wonders_text_wechat_pay"><Data><![CDATA[<font size="40" color="#333333">微信</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
     <string name="wonders_text_union_pay"><Data><![CDATA[<font size="40" color="#333333">银行卡</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
@@ -90,7 +90,7 @@
 
     <string name="birthday">出生日期</string>
     <string name="birthday_hint">请选择出生日期</string>
-    <string name="wonders_group_text_pay_notice">温馨提示：总额将由现金部分和医保部分组成，请先点击"立即支付"完成现金部分支付，然后再完成医保部分支付。</string>
+    <string name="wonders_group_text_pay_notice">温馨提示：总额将由现金部分和医保部分组成，请先点击“立即支付”完成现金部分支付，然后再完成医保部分支付。</string>
     <string name="wonders_after_pay_rules_title">湖州市市级医院“医后付”服务协议</string>
     <string name="wonders_after_pay_rules_content">一、服务内容：为您提供“医后付”服务，让您原来多次付费改变为诊后合并付一次费。\n
 二、服务范围：开通“医后付”即可在五家市级医院享受“医后付”服务。即：湖州市中心医院、湖州市第一人民医院、湖州市第三人民医院、湖州市妇幼保健院、湖州市中医院。\n

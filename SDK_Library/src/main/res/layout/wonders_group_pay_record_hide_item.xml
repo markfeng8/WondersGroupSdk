@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_8dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -18,7 +19,7 @@
             android:id="@+id/tvFeeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="账单"
+            android:text="诊疗"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_16sp" />
 

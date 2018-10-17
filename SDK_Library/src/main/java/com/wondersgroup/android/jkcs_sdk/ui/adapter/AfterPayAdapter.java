@@ -161,6 +161,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private String feeYbTotal;
         private String feeOrgName;
         private String feeOrgCode;
+        private int yd0008Size;
 
         HeaderViewHolder(View itemView) {
             super(itemView);
@@ -186,9 +187,15 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvSelectHospital.setOnClickListener(v -> {
                 String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
                 if (TextUtils.isEmpty(feeTotal)) {
-                    ((AfterPayHomeActivity) mContext).getHospitalList();
+                    // 点击选择医院时先判断是否有欠费再判断yd0008；
+                    if (yd0008Size <= 0) {
+                        ((AfterPayHomeActivity) mContext).getHospitalList();
+                    } else {
+                        WToastUtil.show("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
+                    }
                 } else {
-                    WToastUtil.show("您有欠费记录，需先缴清欠费！");
+                    WToastUtil.show("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
+                    //WToastUtil.show("您有欠费记录，需先缴清欠费！");
                 }
             });
 
@@ -200,7 +207,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             /*
              * 点击医后付首页顶部的 "点击缴纳"
              */
-            llToPayFee.setOnClickListener(v -> toPaymentPager());
+            llToPayFee.setOnClickListener(v -> toPaymentPager(true));
 
             /*
              * 去开通医后付
@@ -227,28 +234,41 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             /*
              * 点击医后付页面中间的 "继续支付"
              */
-            tvPayInfo.setOnClickListener(v -> toPaymentPager());
+            tvPayInfo.setOnClickListener(v -> toPaymentPager(false));
         }
 
         /**
          * 发起支付，跳转到缴费详情页面 & 医保支付页面
+         *
+         * @param isYd0003Click 是否是顶部 yd0003 点击的支付，如果是就用 orgCode & orgName
+         *                      否则用 feeOrgCode & feeOrgName
          */
-        private void toPaymentPager() {
+        private void toPaymentPager(boolean isYd0003Click) {
             // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
             String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
             if ("01".equals(mobPayStatus)) {
-                switch (feeState) {
-                    case "00":
-                        // 全部未结算，跳转到 "缴费详情" 页面
-                        PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-                        break;
-                    case "01":
-                        // 医保未结算，跳转到医保结算页面
-                        ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
-                                feeTotals, feeCashTotal, feeYbTotal);
-                        break;
-                    default:
-                        break;
+                if (!TextUtils.isEmpty(feeState)) {
+                    switch (feeState) {
+                        case "00":
+                            if (isYd0003Click) {
+                                // 全部未结算，跳转到 "缴费详情" 页面
+                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                            } else {
+                                // 全部未结算，跳转到 "缴费详情" 页面
+                                PaymentDetailsActivity.actionStart(mContext, feeOrgCode, feeOrgName, false);
+                            }
+                            break;
+                        case "01":
+                            // 医保未结算，跳转到医保结算页面
+                            ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
+                                    feeTotals, feeCashTotal, feeYbTotal);
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    // 全部未结算，跳转到 "缴费详情" 页面
+                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                 }
 
             } else {
@@ -273,6 +293,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 feeYbTotal = afterHeaderBean.getFeeYbTotal();
                 feeOrgName = afterHeaderBean.getFeeOrgName();
                 feeOrgCode = afterHeaderBean.getFeeOrgCode();
+                yd0008Size = afterHeaderBean.getYd0008Size();
 
                 if (!TextUtils.isEmpty(feeState)) {
                     String html = "";
@@ -281,15 +302,16 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     String tail = "</font><font size=\"40\" color=\"#007edf\">继续支付！</font>";
                     if ("00".equals(feeState)) {
                         html = head + "您有一笔未完成的订单" + feeOrgName + "，总金额" + feeTotals + "元，请" + tail;
-                    } else if ("".equals(feeState)) {
+                    } else if ("01".equals(feeState)) {
                         html = head + "您有一笔未完成的订单" + feeOrgName + "，总金额" + feeTotals + "元，还需支付医保" + feeYbTotal + "元，请" + tail;
                     }
-
                     llCenterMessage.setVisibility(View.VISIBLE);
                     if (!TextUtils.isEmpty(html)) {
                         LogUtil.i(TAG, "html===" + html);
                         tvPayInfo.setText(Html.fromHtml(html));
                     }
+                } else {
+                    llCenterMessage.setVisibility(View.GONE);
                 }
 
                 tvTreatName.setText(name);

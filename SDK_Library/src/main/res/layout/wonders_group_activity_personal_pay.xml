@@ -11,6 +11,7 @@
     tools:context=".ui.personalpay.view.PersonalPayActivity">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/wonders_personal_pay"

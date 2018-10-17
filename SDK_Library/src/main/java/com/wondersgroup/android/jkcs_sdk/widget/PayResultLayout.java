@@ -20,6 +20,7 @@ public class PayResultLayout extends LinearLayout {
     private TextView tvSocialNum;
     private TextView tvHospitalName;
     private TextView tvBillDate;
+    private TextView tvBillNo;
 
     public PayResultLayout(Context context) {
         this(context, null);
@@ -40,6 +41,7 @@ public class PayResultLayout extends LinearLayout {
         tvSocialNum = findViewById(R.id.tvSocialNum);
         tvHospitalName = findViewById(R.id.tvHospitalName);
         tvBillDate = findViewById(R.id.tvBillDate);
+        tvBillNo = findViewById(R.id.tvBillNo);
     }
 
     public void setTreatName(String name) {
@@ -63,6 +65,12 @@ public class PayResultLayout extends LinearLayout {
     public void setBillDate(String billDate) {
         if (!TextUtils.isEmpty(billDate)) {
             tvBillDate.setText(billDate);
+        }
+    }
+
+    public void setBillNo(String billNo) {
+        if (!TextUtils.isEmpty(billNo)) {
+            tvBillNo.setText(billNo);
         }
     }
 }

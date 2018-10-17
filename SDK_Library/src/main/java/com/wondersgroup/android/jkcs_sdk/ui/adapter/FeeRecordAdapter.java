@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private LinearLayout llHideLayout;
         private TextView tvHospitalName;
         private TextView tvFeeDate;
+        private TextView tvTradeNo;
         private TextView tvPayMoney;
         private ImageView ivArrow;
         private String payPlatTradeNo;
@@ -85,6 +87,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
             tvFeeDate = (TextView) itemView.findViewById(R.id.tvFeeDate);
+            tvTradeNo = (TextView) itemView.findViewById(R.id.tvTradeNo);
             tvPayMoney = (TextView) itemView.findViewById(R.id.tvPayMoney);
             llHideLayout = (LinearLayout) itemView.findViewById(R.id.llHideLayout);
             llHospitalItem = (LinearLayout) itemView.findViewById(R.id.llHospitalItem);
@@ -124,27 +127,32 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         String orgName = detailsBean.getOrg_name();
                         String feeState = detailsBean.getFee_state();
 
-                        // 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
-                        // 00 全部未结算 01 医保未结算、自费已结(作保留）
-                        switch (feeState) {
-                            case "00":
-                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
-                                break;
-                            case "01":
-                                // 当里面为空的时候才去请求，请求过一次就不用再次请求了
-                                if (llHideLayout.getChildCount() == 0) {
-                                    mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
-                                } else {
-                                    String feeTotal = detailsBean.getFee_total();
-                                    String feeCashTotal = detailsBean.getFee_cash_total();
-                                    String feeYbTotal = detailsBean.getFee_yb_total();
-                                    // 传递参数过去
-                                    PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode,
-                                            feeTotal, feeCashTotal, feeYbTotal, SettleUtil.getOfficialSettleParam(feeDetail));
-                                }
-                                break;
-                            default:
-                                break;
+                        if (!TextUtils.isEmpty(feeState)) {
+                            // 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
+                            // 00 全部未结算 01 医保未结算、自费已结(作保留）
+                            switch (feeState) {
+                                case "00":
+                                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
+                                    break;
+                                case "01":
+                                    // 当里面为空的时候才去请求，请求过一次就不用再次请求了
+                                    if (llHideLayout.getChildCount() == 0) {
+                                        mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
+                                    } else {
+                                        String feeTotal = detailsBean.getFee_total();
+                                        String feeCashTotal = detailsBean.getFee_cash_total();
+                                        String feeYbTotal = detailsBean.getFee_yb_total();
+                                        // 传递参数过去
+                                        PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode,
+                                                feeTotal, feeCashTotal, feeYbTotal, SettleUtil.getOfficialSettleParam(feeDetail));
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else {
+                            // 全部未结算，跳转到 "缴费详情" 页面
+                            PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                         }
 
                     } else {
@@ -166,13 +174,8 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     payPlatTradeNo = detailsBean.getPayplat_tradno();
                     String shopOrderTime = detailsBean.getShop_order_time();
                     tvHospitalName.setText(orgName);
-                    // 如果是已支付页面显示 "已支付：" 否则显示 订单日期
-                    // TODO: 2018/10/16 确认已完成页面显示日期还是已支付？& 订单日期过长？
-                    if (payViewVisibility) {
-                        tvFeeDate.setText("订单日期：" + shopOrderTime);
-                    } else {
-                        tvFeeDate.setText("已支付：" + feeTotal + "元");
-                    }
+                    tvFeeDate.setText("订单日期：" + shopOrderTime.substring(0, 10));
+                    tvTradeNo.setText("订单号：" + payPlatTradeNo);
                 }
 
                 if (feeDetail != null) {
@@ -182,7 +185,10 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     for (int i = 0; i < feeDetail.size(); i++) {
                         FeeBillEntity.DetailsBean bean = feeDetail.get(i);
                         FeeRecordLayout layout = new FeeRecordLayout(mContext);
+                        // 此处取两个 order_name 那有个有值就用那个（后台返回的数据很垃圾！）
                         layout.setFeeName(bean.getOrdername());
+                        layout.setFeeName(bean.getOrder_name());
+
                         layout.setFeeNum(bean.getFee_order());
                         layout.setTimestamp(bean.getHis_order_time());
                         llHideLayout.addView(layout);

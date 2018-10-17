@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="账单日期："
+            android:text="订单时间："
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="@dimen/wonders_text_size_14sp" />
 
@@ -104,11 +104,36 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_20dp"
+        android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="订单编号："
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+
+        <TextView
+            android:id="@+id/tvBillNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="@dimen/wonders_margin_10dp"
         android:layout_marginTop="@dimen/wonders_margin_10dp"
+        android:layout_marginBottom="@dimen/wonders_margin_10dp"
         android:background="@color/wonders_rgb_color_eeeeee" />
 
 </LinearLayout>

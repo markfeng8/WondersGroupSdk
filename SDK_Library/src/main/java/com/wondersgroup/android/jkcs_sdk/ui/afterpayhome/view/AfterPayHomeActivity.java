@@ -99,6 +99,21 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         if (mAfterPayOpenSuccess) {
             refreshAfterPayState();
         }
+
+        /*
+         * 回到主页面刷新状态
+         */
+        refreshAfterPayState();
+        getFeeState();
+        getMobilePayState();
+
+        // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+        if (mItemList.size() > 0) {
+            mItemList.clear();
+        }
+        mItemList.add(mHeaderBean); // 选择医院后添加数据
+        mItemList.add(mNotice);
+        refreshAdapter();
     }
 
     /**
@@ -242,8 +257,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             String feeTotal = entity.getFee_total();
             tvMoneyNum.setText(feeTotal);
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            mItemList.addAll(1, details); // 添加医院欠费信息数据(放到下标为 1 处)
-            mItemList.add(mNotice); // 第二次添加数据
+            // 添加医院欠费信息数据(放到下标为 1 处)
+            mItemList.addAll(1, details);
+            // 第二次添加数据
+            mItemList.add(mNotice);
             refreshAdapter();
         } else {
             llNeedPay.setVisibility(View.GONE);
@@ -274,6 +291,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mHeaderBean.setFeeYbTotal(feeYbTotal);
                 mHeaderBean.setFeeOrgName(feeOrgName);
                 mHeaderBean.setFeeOrgCode(feeOrgCode);
+                mHeaderBean.setYd0008Size(mYd0008Size);
                 refreshAdapter();
 
             } else {
@@ -316,7 +334,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mItemList.clear();
             }
             mItemList.add(mHeaderBean); // 选择医院后添加数据
-            //mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
 
             HashMap<String, String> map = new HashMap<>();

@@ -21,6 +21,7 @@ public class AfterHeaderBean {
     private String feeYbTotal;
     private String feeOrgName;
     private String feeOrgCode;
+    private int yd0008Size;
 
     public AfterHeaderBean() {
     }
@@ -28,7 +29,7 @@ public class AfterHeaderBean {
     public AfterHeaderBean(String name, String socialNum, String hospitalName, String paymentStatus,
                            String signingStatus, String mobPayStatus, String feeTotal, String orgCode,
                            String orgName, String feeState, String feeTotals, String feeCashTotal,
-                           String feeYbTotal, String feeOrgName, String feeOrgCode) {
+                           String feeYbTotal, String feeOrgName, String feeOrgCode, int yd0008Size) {
         this.name = name;
         this.socialNum = socialNum;
         this.hospitalName = hospitalName;
@@ -44,6 +45,15 @@ public class AfterHeaderBean {
         this.feeYbTotal = feeYbTotal;
         this.feeOrgName = feeOrgName;
         this.feeOrgCode = feeOrgCode;
+        this.yd0008Size = yd0008Size;
+    }
+
+    public int getYd0008Size() {
+        return yd0008Size;
+    }
+
+    public void setYd0008Size(int yd0008Size) {
+        this.yd0008Size = yd0008Size;
     }
 
     public String getFeeOrgCode() {
@@ -184,6 +194,7 @@ public class AfterHeaderBean {
                 ", feeYbTotal='" + feeYbTotal + '\'' +
                 ", feeOrgName='" + feeOrgName + '\'' +
                 ", feeOrgCode='" + feeOrgCode + '\'' +
+                ", yd0008Size=" + yd0008Size +
                 '}';
     }
 }

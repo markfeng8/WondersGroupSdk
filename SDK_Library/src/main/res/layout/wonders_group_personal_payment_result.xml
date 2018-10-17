@@ -25,19 +25,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
-    <TextView
-        android:id="@+id/tvPayToast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_16dp"
-        android:drawableStart="@drawable/wonders_group_mark"
-        android:drawablePadding="@dimen/wonders_padding_6dp"
-        android:gravity="center_vertical"
-        android:text="您还有一笔医保0.08元尚未支付，请继续支付！"
-        android:textColor="@color/wonders_rgb_color_333333"
-        android:textSize="@dimen/wonders_text_size_12sp"
-        android:visibility="visible" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -54,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="总计合计"
+            android:text="总计"
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="14sp" />
 
@@ -85,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="现金账户支付"
+            android:text="现金部分已支付"
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="14sp" />
 
@@ -116,7 +103,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="医保账户支付"
+            android:text="医保部分待支付"
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="14sp" />
 
@@ -137,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/wonders_margin_10dp"
         android:background="@drawable/wonders_group_blue_shape"
-        android:text="@string/wonders_confirm_pay"
+        android:text="立即支付医保部分"
         android:textColor="@color/wonders_rgb_color_ffffff"
         android:textSize="16sp" />
 
