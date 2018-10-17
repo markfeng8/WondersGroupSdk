@@ -1,5 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +16,15 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.AfterPayPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import cn.iwgang.countdownview.CountdownView;
 
-// 开通医后付页面
+/**
+ * 开通医后付页面
+ */
 public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView,
         AfterPayPresenter<AfterPayContract.IView>> implements AfterPayContract.IView {
 
@@ -33,6 +38,7 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     private LinearLayout llOpenSuccess;
     private CountdownView countDownView;
     private boolean isAgreeRule = false;
+    private static final String TAG = "OpenAfterPayActivity";
 
     @Override
     protected AfterPayPresenter<AfterPayContract.IView> createPresenter() {
@@ -126,5 +132,14 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
         btnGetSmsCode.setVisibility(View.GONE);
         countDownView.setVisibility(View.VISIBLE);
         countDownView.start(60000);
+    }
+
+    public static void actionStart(Context context) {
+        if (context != null) {
+            Intent intent = new Intent(context, OpenAfterPayActivity.class);
+            context.startActivity(intent);
+        } else {
+            LogUtil.e(TAG, "context is null!");
+        }
     }
 }

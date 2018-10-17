@@ -329,10 +329,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 yiBaoPay = payBean.getYibaoPay();
 
                 if (!TextUtils.isEmpty(totalPay)) {
+                    plTotalMoney.setVisibility(View.VISIBLE);
                     plTotalMoney.setFeeName("总计金额：");
                     plTotalMoney.setFeeNum(totalPay);
                 }
                 if (!TextUtils.isEmpty(personalPay)) {
+                    plPersonalPay.setVisibility(View.VISIBLE);
                     plPersonalPay.setFeeName("现金部分：");
                     plPersonalPay.setFeeNum(personalPay);
                     // 如果个人支付为 0，隐藏选择支付方式 Layout
@@ -341,6 +343,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
                 if (!TextUtils.isEmpty(yiBaoPay)) {
+                    plYiBaoPay.setVisibility(View.VISIBLE);
                     plYiBaoPay.setFeeName("医保部分：");
                     plYiBaoPay.setFeeNum(yiBaoPay);
                 }

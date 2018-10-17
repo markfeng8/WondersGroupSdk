@@ -39,7 +39,7 @@ import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/9/9 :)
- * Function:
+ * Function:缴费详情页面的 Model 类
  */
 public class DetailsModel implements DetailsContract.IModel {
 

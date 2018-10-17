@@ -43,7 +43,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-// 医后付首页
+/**
+ * 医后付首页
+ */
 public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.IView,
         AfterPayHomePresenter<AfterPayHomeContract.IView>> implements AfterPayHomeContract.IView {
 
@@ -345,12 +347,23 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    /**
+     * yd0009 的响应（当点击医后付首页的缴费和继续支付时，如果是个人已支付，医保未支付的情况下，
+     * 携带 yd0009 返回来的 details 跳转到医保支付页面，携带医保的 token 去发起正式结算）
+     *
+     * @param entity
+     */
     @Override
     public void onFeeDetailResult(FeeBillEntity entity) {
         if (entity != null) {
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
+
+            LogUtil.i(TAG, "mFeeOrgName===" + mFeeOrgName + ",mFeeOrgCode===" + mFeeOrgCode +
+                    ",mFeeTotals===" + mFeeTotals + ",mFeeCashTotal===" + mFeeCashTotal +
+                    ",mFeeYbTotal===" + mFeeYbTotal);
+
             // 传递参数过去，发起正式结算，此种情况是个人已经支付完成，医保未支付完成
-            PersonalPayActivity.actionStart(AfterPayHomeActivity.this, true,
+            PersonalPayActivity.actionStart(AfterPayHomeActivity.this, false,
                     false, mFeeOrgName, mFeeOrgCode, mFeeTotals, mFeeCashTotal,
                     mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
         }
@@ -360,28 +373,25 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 查询医保移动支付状态
      */
     private void getMobilePayState() {
-        AuthCall.queryOpenStatus(AfterPayHomeActivity.this, MakeArgsFactory.getOpenStatusArgs(), new AuthCall.CallBackListener() {
-            @Override
-            public void callBack(String result) {
-                String mobPayStatus = "00";
-                if (!TextUtils.isEmpty(result)) {
-                    LogUtil.i(TAG, "result===" + result);
-                    OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
-                    int isYbPay = statusBean.getIsYbPay();
-                    if (isYbPay == 1) { // 已开通
-                        mobPayStatus = "01";
-                        mPresenter.uploadMobilePayState(mobPayStatus);
-                    } else { // 未开通
-                        mobPayStatus = "00";
-                    }
+        AuthCall.queryOpenStatus(AfterPayHomeActivity.this, MakeArgsFactory.getOpenStatusArgs(), result -> {
+            String mobPayStatus = "00";
+            if (!TextUtils.isEmpty(result)) {
+                LogUtil.i(TAG, "result===" + result);
+                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
+                int isYbPay = statusBean.getIsYbPay();
+                if (isYbPay == 1) { // 已开通
+                    mobPayStatus = "01";
+                    mPresenter.uploadMobilePayState(mobPayStatus);
+                } else { // 未开通
+                    mobPayStatus = "00";
                 }
-
-                SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
-                mHeaderBean.setMobPayStatus(mobPayStatus);
-
-                mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
-                refreshAdapter();
             }
+
+            SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
+            mHeaderBean.setMobPayStatus(mobPayStatus);
+
+            mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
+            refreshAdapter();
         });
     }
 

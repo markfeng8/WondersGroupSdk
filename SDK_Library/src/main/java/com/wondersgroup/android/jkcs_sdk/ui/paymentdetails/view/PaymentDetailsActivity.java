@@ -54,7 +54,9 @@ import cn.wd.checkout.api.WDPayResult;
 import cn.wd.checkout.api.WDReqParams;
 import cn.wd.checkout.api.WDResult;
 
-// 缴费详情页面
+/**
+ * 缴费详情页面
+ */
 public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IView,
         DetailsPresenter<DetailsContract.IView>> implements DetailsContract.IView {
 
@@ -226,7 +228,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
         CheckOut.setNetworkWay("");
-        // 设置自定义支付地址
+        // TODO 设置自定义支付地址
         //CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
 
         Long i = 0L;

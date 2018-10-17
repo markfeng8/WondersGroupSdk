@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/9/9 :)
- * Function:
+ * Function:缴费详情页面接口的契约类
  */
 public interface DetailsContract {
 

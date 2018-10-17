@@ -1,6 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.view;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayrules.AfterPayRuleActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
@@ -30,7 +32,9 @@ import java.util.HashMap;
 
 import cn.iwgang.countdownview.CountdownView;
 
-// 设置页面
+/**
+ * 设置页面
+ */
 public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         SettingsPresenter<SettingsContract.IView>> implements SettingsContract.IView {
 
@@ -285,6 +289,15 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         }
         popupWindow.showAtLocation(SettingsActivity.this.findViewById(R.id.activity_settings),
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    public static void actionStart(Context context) {
+        if (context != null) {
+            Intent intent = new Intent(context, SettingsActivity.class);
+            context.startActivity(intent);
+        } else {
+            LogUtil.e(TAG, "context is null!");
+        }
     }
 
     @Override

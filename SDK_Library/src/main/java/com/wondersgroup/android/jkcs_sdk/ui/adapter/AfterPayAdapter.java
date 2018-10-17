@@ -2,7 +2,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -181,7 +180,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         private void initListener() {
-            // 选择医院
+            /*
+             * 选择医院
+             */
             tvSelectHospital.setOnClickListener(v -> {
                 String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
                 if (TextUtils.isEmpty(feeTotal)) {
@@ -190,69 +191,69 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     WToastUtil.show("您有欠费记录，需先缴清欠费！");
                 }
             });
-            // 缴费记录
-            llPayRecord.setOnClickListener(v -> {
-                mContext.startActivity(new Intent(mContext, FeeRecordActivity.class));
-            });
-            // 去缴费
-            llToPayFee.setOnClickListener(v -> {
-                // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
-                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                if ("01".equals(mobPayStatus)) {
-                    // 需要取出 yd0008 的 size ，如果没有记录说明是第一次去，就直接跳转到缴费详情页面，
-                    // 如果有的话就跳转到医保缴费页面，发起结算时使用的时yd0009 的 details
-                    int yd0008Size = SpUtil.getInstance().getInt(SpKey.YD0008_SIZE, -1);
-                    if (yd0008Size == -1) {
-                        PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-                    } else {
-                        // 跳转到医保结算页面
-                        ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
-                                feeTotals, feeCashTotal, feeYbTotal);
-                    }
 
-                } else {
-                    WToastUtil.show("您未开通医保移动支付，请先开通！");
-                }
-            });
-            // 去开通医后付
-            tvAfterPayState.setOnClickListener(v -> mContext.startActivity(
-                    new Intent(mContext, OpenAfterPayActivity.class)));
-            // 去开通医保移动支付
+            /*
+             * 缴费记录
+             */
+            llPayRecord.setOnClickListener(v -> FeeRecordActivity.actionStart(mContext));
+
+            /*
+             * 点击医后付首页顶部的 "点击缴纳"
+             */
+            llToPayFee.setOnClickListener(v -> toPaymentPager());
+
+            /*
+             * 去开通医后付
+             */
+            tvAfterPayState.setOnClickListener(v -> OpenAfterPayActivity.actionStart(mContext));
+
+            /*
+             * 去开通医保移动支付
+             */
             tvMobilePayState.setOnClickListener(v -> openMobilePay());
-            // 设置
+
+            /*
+             * 跳转到 "设置" 页面
+             */
             llSettings.setOnClickListener(v -> {
                 String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
                 if ("01".equals(signingStatus)) {
-                    mContext.startActivity(new Intent(mContext, SettingsActivity.class));
+                    SettingsActivity.actionStart(mContext);
                 } else {
                     WToastUtil.show("您未开通医后付，请先开通医后付！");
                 }
             });
-            tvPayInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LogUtil.i(TAG, "点击医后付首页中间的欠费信息去缴费～");
-                    // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
-                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                    if ("01".equals(mobPayStatus)) {
-                        switch (feeState) {
-                            case "00": // 全部未结算
-                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-                                break;
-                            case "01": // 医保未结算
-                                // 跳转到医保结算页面
-                                ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
-                                        feeTotals, feeCashTotal, feeYbTotal);
-                                break;
-                            default:
-                                break;
-                        }
 
-                    } else {
-                        WToastUtil.show("您未开通医保移动支付，请先开通！");
-                    }
+            /*
+             * 点击医后付页面中间的 "继续支付"
+             */
+            tvPayInfo.setOnClickListener(v -> toPaymentPager());
+        }
+
+        /**
+         * 发起支付，跳转到缴费详情页面 & 医保支付页面
+         */
+        private void toPaymentPager() {
+            // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            if ("01".equals(mobPayStatus)) {
+                switch (feeState) {
+                    case "00":
+                        // 全部未结算，跳转到 "缴费详情" 页面
+                        PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                        break;
+                    case "01":
+                        // 医保未结算，跳转到医保结算页面
+                        ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
+                                feeTotals, feeCashTotal, feeYbTotal);
+                        break;
+                    default:
+                        break;
                 }
-            });
+
+            } else {
+                WToastUtil.show("您未开通医保移动支付，请先开通！");
+            }
         }
 
         @SuppressLint("SetTextI18n")
@@ -355,6 +356,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
+        /**
+         * 开通医保移动付
+         */
         private void openMobilePay() {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 AuthCall.businessProcess(mContext,
@@ -365,7 +369,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    // 2.List 数据类型
+    /**
+     * 2.List 数据类型
+     */
     class ListViewHolder extends RecyclerView.ViewHolder {
         private TextView tvFeeName;
         private TextView tvDepartment;
@@ -392,7 +398,9 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    // 3.notice 数据类型
+    /**
+     * 3.notice 数据类型
+     */
     class NoticeViewHolder extends RecyclerView.ViewHolder {
 
         NoticeViewHolder(View itemView) {

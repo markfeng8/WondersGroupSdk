@@ -183,6 +183,19 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
                 });
     }
 
+    /**
+     * 页面跳转的 action
+     *
+     * @param context      上下文
+     * @param isComplete   是否全部支付完成
+     * @param isFinish     是否需要销毁跳转前的页面
+     * @param orgName      机构名称
+     * @param orgCode      机构编码
+     * @param feeTotal     缴费总额
+     * @param feeCashTotal 现金部分金额
+     * @param feeYbTotal   医保部分金额
+     * @param param        正式结算需要的 details 数据参数
+     */
     public static void actionStart(Context context, boolean isComplete, boolean isFinish, String orgName,
                                    String orgCode, String feeTotal, String feeCashTotal, String feeYbTotal,
                                    HashMap<String, Object> param) {
