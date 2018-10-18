@@ -176,12 +176,10 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
 
     @SuppressLint("ResourceType")
     private void showAlertDialog() {
-        TextView textView = new TextView(this);
-        textView.setText(R.layout.wonders_group_personal_pay_notice);
-
+        // R.style.AlertDialog
         new AlertDialog.Builder(this)
                 .setTitle("温馨提示")
-                .setView(textView)
+                .setMessage(getString(R.string.wonders_group_personal_pay_back_notice))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

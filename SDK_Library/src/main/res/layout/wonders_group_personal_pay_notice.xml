@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:text="确定要放弃医保部分支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，现金部分将原路返回。"
-    android:textColor="@color/wonders_rgb_color_333333"
-    android:textSize="@dimen/wonders_text_size_12sp" />
