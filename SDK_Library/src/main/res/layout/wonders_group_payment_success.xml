@@ -37,22 +37,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_16dp"
-            android:layout_weight="1"
             android:text="总计金额："
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="@dimen/wonders_text_size_12sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tvCompleteTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:text="0.00"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_14sp" />
@@ -60,7 +64,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:text="元"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_12sp" />
@@ -69,23 +72,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_16dp"
-            android:layout_weight="1"
             android:text="现金部分："
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="@dimen/wonders_text_size_12sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tvCompletePersonal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:text="0.00"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_14sp" />
@@ -93,7 +100,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:text="元"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_12sp" />
@@ -102,23 +108,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_16dp"
-            android:layout_weight="1"
             android:text="医保部分："
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="@dimen/wonders_text_size_12sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tvCompleteYiBao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:text="0.00"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_14sp" />
@@ -126,7 +136,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:text="元"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_12sp" />
