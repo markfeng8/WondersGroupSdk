@@ -272,13 +272,14 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
             String feeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+            LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal===" + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
 
             // 显示全部支付完成的布局
             setPaymentView(true);
             titleBar.setTitleName("缴费结果");
-            tvCompleteTotal.setText(feeTotal);
-            tvCompletePersonal.setText(feeCashTotal);
-            tvCompleteYiBao.setText(feeYbTotal);
+            tvCompleteTotal.setText(mFeeTotal);
+            tvCompletePersonal.setText(mFeeCashTotal);
+            tvCompleteYiBao.setText(mFeeYbTotal);
             // 如果 llContainer1 中添加了 mPayResultLayout，需要先移除，然后再添加
             int childCount = llContainer1.getChildCount();
             if (childCount > 0) {

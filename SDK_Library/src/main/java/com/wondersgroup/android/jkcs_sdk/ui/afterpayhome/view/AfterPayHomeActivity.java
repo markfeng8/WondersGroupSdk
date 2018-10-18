@@ -99,7 +99,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         if (mAfterPayOpenSuccess) {
             refreshAfterPayState();
         }
+        backRefreshPager();
+    }
 
+    private void backRefreshPager() {
         /*
          * 回到主页面刷新状态
          */
@@ -111,9 +114,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         if (mItemList.size() > 0) {
             mItemList.clear();
         }
+        mHeaderBean.setHospitalName("湖州市");
         mItemList.add(mHeaderBean); // 选择医院后添加数据
         mItemList.add(mNotice);
         refreshAdapter();
+
+        // TODO: 2018/10/18
+        llNeedPay.setVisibility(View.GONE);
     }
 
     /**
