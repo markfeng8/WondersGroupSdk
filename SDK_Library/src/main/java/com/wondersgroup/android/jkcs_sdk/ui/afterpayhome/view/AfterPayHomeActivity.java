@@ -299,14 +299,19 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mHeaderBean.setFeeOrgName(feeOrgName);
                 mHeaderBean.setFeeOrgCode(feeOrgCode);
                 mHeaderBean.setYd0008Size(mYd0008Size);
+
+                mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
                 refreshAdapter();
 
             } else {
-                LogUtil.e(TAG, "没有查询到未完成订单记录！");
+                LogUtil.e(TAG, "没有查询到未完成订单(YD0008)记录！");
+                mHeaderBean.setYd0008Size(-1);
             }
-        }
 
-        SpUtil.getInstance().save(SpKey.YD0008_SIZE, mYd0008Size);
+            // 添加数据并刷新适配器
+            mItemList.set(0, mHeaderBean);
+            refreshAdapter();
+        }
     }
 
     @Override
