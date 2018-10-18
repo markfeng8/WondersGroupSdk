@@ -55,7 +55,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <LinearLayout
@@ -86,7 +86,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <LinearLayout
@@ -117,7 +117,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <LinearLayout
@@ -148,7 +148,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <View
@@ -191,7 +191,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <LinearLayout
@@ -223,7 +223,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <LinearLayout
@@ -254,7 +254,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
             <TextView
@@ -269,7 +269,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/wonders_rgb_color_eeeeee" />
 
         </LinearLayout>

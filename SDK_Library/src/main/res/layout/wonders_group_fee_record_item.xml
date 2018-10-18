@@ -70,6 +70,11 @@
             android:src="@drawable/wonders_group_down_arrow" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <LinearLayout
         android:id="@+id/llHideLayout"
         android:layout_width="match_parent"

@@ -3,22 +3,33 @@
     android:id="@+id/llCenterMessage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/wonders_padding_10dp"
-    android:visibility="gone">
+    android:orientation="vertical"
+    android:visibility="visible">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="@dimen/wonders_margin_8dp"
-        android:src="@drawable/wonders_group_mark" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
 
-    <TextView
-        android:id="@+id/tvPayInfo"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_4dp"
-        android:layout_marginEnd="@dimen/wonders_margin_8dp"
-        android:text="" />
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:src="@drawable/wonders_group_mark" />
+
+        <TextView
+            android:id="@+id/tvPayInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_4dp"
+            android:layout_marginEnd="@dimen/wonders_margin_8dp"
+            android:text="" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,11 +6,16 @@
 
     <include layout="@layout/wonders_group_afterpay_state_card" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <LinearLayout
         android:id="@+id/llSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wonders_margin_24dp"
         android:background="@color/wonders_rgb_color_ffffff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -45,7 +50,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <LinearLayout
@@ -86,10 +91,14 @@
 
     <include layout="@layout/wonders_group_need_payment" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:background="@color/wonders_rgb_color_eeeeee"
         android:gravity="center"
         android:padding="@dimen/wonders_padding_10dp"
@@ -97,17 +106,23 @@
         android:textColor="@color/wonders_rgb_color_000000"
         android:textSize="@dimen/wonders_text_size_18sp" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_6dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_6dp">
 
         <TextView
             android:id="@+id/tvHospitalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_4dp"
             android:drawableStart="@drawable/wonders_group_hospital"
             android:drawablePadding="@dimen/wonders_padding_10dp"
             android:gravity="center"
@@ -123,7 +138,7 @@
             android:id="@+id/tvSelectHospital"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/wonders_margin_10dp"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:drawableEnd="@drawable/wonders_group_right_arrow"
             android:drawablePadding="@dimen/wonders_padding_10dp"
             android:text="@string/wonders_select_hospital"
@@ -132,7 +147,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
 </LinearLayout>
