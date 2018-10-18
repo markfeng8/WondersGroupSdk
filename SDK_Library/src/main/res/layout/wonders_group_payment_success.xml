@@ -28,8 +28,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
         android:drawableStart="@drawable/wonders_group_pay"
         android:drawablePadding="@dimen/wonders_padding_6dp"
+        android:gravity="center"
         android:text="@string/wonders_text_pay_detail"
         android:textColor="@color/wonders_rgb_color_666666"
         android:textSize="@dimen/wonders_text_size_16sp" />

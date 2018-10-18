@@ -2,7 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.cons;
 
 /**
  * Created by x-sir on 2018/8/2 :)
- * Function:组织机构先关配置
+ * Function:组织机构相关配置
  */
 public class OrgConfig {
 

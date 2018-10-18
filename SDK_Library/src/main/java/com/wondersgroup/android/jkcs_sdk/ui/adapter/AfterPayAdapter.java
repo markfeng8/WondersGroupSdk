@@ -192,10 +192,10 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         ((AfterPayHomeActivity) mContext).getHospitalList();
                     } else {
                         //WToastUtil.show("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
-                        WToastUtil.show("您有当前还有未处理的订单！请在未完成订单进行处理！");
+                        WToastUtil.showLong("您有当前还有未处理的订单！请在未完成订单进行处理！");
                     }
                 } else {
-                    WToastUtil.show("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
+                    WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
                 }
             });
 

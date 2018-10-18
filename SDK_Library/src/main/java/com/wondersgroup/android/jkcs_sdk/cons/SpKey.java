@@ -2,7 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.cons;
 
 /**
  * Created by x-sir on 2018/8/20 :)
- * Function:
+ * Function:SharedPreference storage's key name.
  */
 public class SpKey {
 

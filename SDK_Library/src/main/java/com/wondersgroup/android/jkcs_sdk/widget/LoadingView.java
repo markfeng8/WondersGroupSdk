@@ -127,7 +127,8 @@ public class LoadingView {
     public void show() {
         dismiss();
         if (mPopupWindow != null) {
-            // 必须要 post runnable，如果在onCreate中调用则会抛：android.view.WindowManager$BadTokenException: Unable to add window -- token
+            // 必须要 post runnable，如果在onCreate中调用则会抛：android.view.WindowManager$BadTokenException:
+            // Unable to add window -- token
             mView.get().post(() -> mPopupWindow.showAtLocation(mView.get(),
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0));
         }
