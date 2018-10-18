@@ -12,7 +12,7 @@
     <string name="wonders_detail_introduce">详细介绍</string>
     <string name="wonders_personal_pay_complete">个人账户支付0.00元已完成！</string>
     <string name="wonders_text_alipay"><Data><![CDATA[<font size="40" color="#333333">支付宝</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
-    <string name="wonders_text_wechat_pay"><Data><![CDATA[<font size="40" color="#333333">微信</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
+    <string name="wonders_text_wechat_pay"><Data><![CDATA[<font size="40" color="#333333">微信</font><br><font size="36" color="#969696">推荐有微信账户的用户使用</font>]]></Data></string>
     <string name="wonders_text_union_pay"><Data><![CDATA[<font size="40" color="#333333">银行卡</font><br><font size="36" color="#969696">推荐有支付宝账户的用户使用</font>]]></Data></string>
     <string name="wonders_confirm_pay">确认付款</string>
     <string name="wonders_personal_pay">个人账户支付</string>

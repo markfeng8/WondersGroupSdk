@@ -72,7 +72,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      *
      * @param itemList
      */
-    public void setmItemList(List<Object> itemList) {
+    public void setItemList(List<Object> itemList) {
         this.mItemList = itemList;
         notifyDataSetChanged(); // 刷新适配器
     }

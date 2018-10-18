@@ -191,7 +191,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     public void refreshAdapter() {
         if (mAdapter != null) {
-            mAdapter.setmItemList(mItemList);
+            mAdapter.setItemList(mItemList);
         }
     }
 
