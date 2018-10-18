@@ -155,8 +155,11 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                 String feeTotal = detailsBean.getFee_total();
                 String feeCashTotal = detailsBean.getFee_cash_total();
                 String feeYbTotal = detailsBean.getFee_yb_total();
-                // 传递参数过去
-                PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode, feeTotal, feeCashTotal,
+                /*
+                 * 传递参数过去
+                 * 此时还是未完成订单的状态，所以 isComplete 传 false
+                 */
+                PersonalPayActivity.actionStart(mContext, false, true, orgName, orgCode, feeTotal, feeCashTotal,
                         feeYbTotal, SettleUtil.getOfficialSettleParam(details));
             } else {
                 // 如果是展开详情，直接刷新适配器即可
