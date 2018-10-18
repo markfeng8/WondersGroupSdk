@@ -174,7 +174,6 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         });
     }
 
-    @SuppressLint("ResourceType")
     private void showAlertDialog() {
         // R.style.AlertDialog
         new AlertDialog.Builder(this)

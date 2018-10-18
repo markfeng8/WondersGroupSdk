@@ -104,4 +104,5 @@
         3.订单需在30分钟内完成现金支付和医保支付两个步骤。30分钟内未全部完成，现金部分原路退回。</string>
     <string name="wonders_group_select_pay_type">选择支付方式</string>
     <string name="wonders_group_personal_pay_back_notice">确定要放弃医保部分支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，现金部分将原路返回。</string>
+    <string name="wonders_group_personal_pay_back_notice2">确定要放弃支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，订单自动取消，现金部分将原路退回。</string>
 </resources>

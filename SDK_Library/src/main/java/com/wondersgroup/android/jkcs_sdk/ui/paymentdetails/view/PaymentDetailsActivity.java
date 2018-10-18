@@ -1,7 +1,9 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
+import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +70,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private TextView tvPayMoney;
     private CountdownView countDownView;
     private View activityView;
+    private TitleBarLayout titleBar;
     private String mOrgCode;
     private String mOrgName;
     private String mPageNumber = "1"; // 页数
@@ -223,7 +227,29 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 tvPayMoney.setEnabled(false);
             }
         });
+        titleBar.setOnBackListener(new TitleBarLayout.OnBackClickListener() {
+            @Override
+            public void onClick() {
+                showAlertDialog();
+            }
+        });
     }
+
+    private void showAlertDialog() {
+        // R.style.AlertDialog
+        new AlertDialog.Builder(this)
+                .setTitle("温馨提示")
+                .setMessage(getString(R.string.wonders_group_personal_pay_back_notice2))
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PaymentDetailsActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
 
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
@@ -272,6 +298,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     private void findViews() {
+        titleBar = findViewById(R.id.titleBar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         tvPayName = (TextView) findViewById(R.id.tvPayName);
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
