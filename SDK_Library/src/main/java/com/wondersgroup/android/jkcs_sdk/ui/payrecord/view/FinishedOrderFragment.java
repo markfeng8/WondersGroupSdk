@@ -15,6 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
@@ -47,6 +48,7 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
     private List<FeeRecordEntity.DetailsBean> mDetails;
     private int mPosition = -1;
     private List<CombineFeeRecord> mItemList = new ArrayList<>();
+    private static final String TAG = "FinishedOrderFragment";
 
     @Override
     protected FeeRecordPresenter<FeeRecordContract.IView> createPresenter() {
@@ -131,7 +133,9 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
         }
     }
 
-    // 数据的回调
+    /**
+     * 选择时间数据的回调
+     */
     private OnDateSetListener mOnDateSetListener = new OnDateSetListener() {
         @Override
         public void onDateSet(DateScrollerDialog timePickerView, long milliseconds) {
@@ -152,11 +156,14 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
         if (entity != null) {
             mDetails = entity.getDetails();
             if (mDetails != null && mDetails.size() > 0) {
-                combineListData();
-                setAdapter();
+                LogUtil.e(TAG, "查询到" + mDetails.size() + "条【已完成订单】记录！");
             } else {
-                //WToastUtil.show("没有查询到相关记录！");
+                LogUtil.e(TAG, "没有查询到【已完成订单】记录！");
             }
+
+            // 获取到数据和没有获取到数据都需要刷新适配器（刷新掉适配器中的旧数据）
+            combineListData();
+            setAdapter();
         }
     }
 
@@ -164,6 +171,10 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
      * 组装数据
      */
     private void combineListData() {
+        // 清除旧集合中的数据
+        if (mItemList != null && mItemList.size() > 0) {
+            mItemList.clear();
+        }
         for (int i = 0; i < mDetails.size(); i++) {
             CombineFeeRecord record = new CombineFeeRecord();
             record.setRecordDetail(mDetails.get(i));

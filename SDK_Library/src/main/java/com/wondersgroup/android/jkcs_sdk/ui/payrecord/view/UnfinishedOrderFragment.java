@@ -15,6 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
@@ -36,11 +37,12 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     private String mStartDate;
     private int mPosition = -1;
     private String mPageNumber = "1"; // 页数
-    private String mPageSize = "100"; // 每页的条数
+    private String mPageSize = "100"; // 每页的条数（后续可能需要做下拉刷新&加载更多功能）
     private FeeRecordAdapter mAdapter;
     private List<FeeRecordEntity.DetailsBean> mDetails;
     private List<CombineFeeRecord> mItemList = new ArrayList<>();
     private boolean mIsOfficialPay;
+    private static final String TAG = "UnfinishedOrderFragment";
 
     @Override
     protected FeeRecordPresenter<FeeRecordContract.IView> createPresenter() {
@@ -110,11 +112,14 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
         if (entity != null) {
             mDetails = entity.getDetails();
             if (mDetails != null && mDetails.size() > 0) {
-                combineListData();
-                setAdapter();
+                LogUtil.e(TAG, "查询到" + mDetails.size() + "条【未完成订单】记录！");
             } else {
-                //WToastUtil.show("没有查询到相关记录！");
+                LogUtil.e(TAG, "没有查询到【未完成订单】记录！");
             }
+
+            // 获取到数据和没有获取到数据都需要刷新适配器（刷新掉适配器中的旧数据）
+            combineListData();
+            setAdapter();
         }
     }
 
