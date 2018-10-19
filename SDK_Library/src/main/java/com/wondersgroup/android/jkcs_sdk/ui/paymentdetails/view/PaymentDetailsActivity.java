@@ -621,7 +621,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 });
     }
 
-
+    /**
+     * 页面跳转的 action
+     *
+     * @param context  上下文
+     * @param orgCode  机构代码
+     * @param orgName  机构名称
+     * @param isFinish 是否需要销毁跳转前的页面
+     */
     public static void actionStart(Context context, String orgCode, String orgName, boolean isFinish) {
         if (context != null) {
             Intent intent = new Intent(context, PaymentDetailsActivity.class);

@@ -246,48 +246,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((AfterPayHomeActivity) mContext).requestYd0008(false, isYd0003Click);
         }
 
-//        /**
-//         * 发起支付，跳转到缴费详情页面 & 医保支付页面
-//         *
-//         * @param isYd0003Click 是否是顶部 yd0003 点击的支付，如果是就用 orgCode & orgName
-//         *                      否则用 feeOrgCode & feeOrgName
-//         */
-//        private void toPaymentPager(boolean isYd0003Click) {
-//            // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
-//            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-//            if ("01".equals(mobPayStatus)) {
-//                if (!TextUtils.isEmpty(feeState)) {
-//                    switch (feeState) {
-//                        case "00": // 全部未结算
-//                            if (isYd0003Click) {
-//                                // 全部未结算，跳转到 "缴费详情" 页面
-//                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-//                            } else {
-//                                // 全部未结算，跳转到 "缴费详情" 页面
-//                                PaymentDetailsActivity.actionStart(mContext, feeOrgCode, feeOrgName, false);
-//                            }
-//                            break;
-//                        case "01": // 个人已结算，医保未结算
-//                            // 医保未结算，跳转到医保结算页面
-//                            ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
-//                                    feeTotals, feeCashTotal, feeYbTotal);
-//                            break;
-//                        case "02": // 全部已结算，跳转到已完成订单页面
-//                            FeeRecordActivity.actionStart(mContext);
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                } else {
-//                    // 全部未结算，跳转到 "缴费详情" 页面
-//                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-//                }
-//
-//            } else {
-//                WToastUtil.show("您未开通医保移动支付，请先开通！");
-//            }
-//        }
-
         @SuppressLint("SetTextI18n")
         public void setData(AfterHeaderBean afterHeaderBean) {
             if (afterHeaderBean != null) {

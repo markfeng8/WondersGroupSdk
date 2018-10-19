@@ -321,7 +321,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                     mHeaderBean.setYd0008Size(-1);
                 } else {
                     // 全部未结算，跳转到 "缴费详情" 页面
-                    PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgCode, false);
+                    PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
                 }
             }
 
@@ -342,7 +342,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 case "00": // 全部未结算
                     if (mIsYd0003Click) {
                         // 全部未结算，跳转到 "缴费详情" 页面
-                        PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgCode, false);
+                        PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
                     } else {
                         // 全部未结算，跳转到 "缴费详情" 页面
                         PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mFeeOrgCode, mFeeOrgName, false);
@@ -360,7 +360,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             }
         } else {
             // 全部未结算，跳转到 "缴费详情" 页面
-            PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgCode, false);
+            PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
         }
     }
 
