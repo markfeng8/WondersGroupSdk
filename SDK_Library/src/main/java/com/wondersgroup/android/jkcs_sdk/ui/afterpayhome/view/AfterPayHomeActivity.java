@@ -34,6 +34,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
@@ -422,7 +423,11 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 BrightnessManager.lightoff(this);
                 mSelectHospitalWindow.setBeanList(mHospitalBeanList);
                 mSelectHospitalWindow.show();
+            } else {
+                WToastUtil.show("未查询到门诊账单！");
             }
+        } else {
+            LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
         }
     }
 
