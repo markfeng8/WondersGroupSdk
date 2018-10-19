@@ -14,7 +14,8 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    public static final String HOST = "http://122.225.124.34:39008";
+    //public static final String HOST = "http://122.225.124.34:39008";
+    public static final String HOST = "http://122.225.118.58:9008";
 
     // 签约状态查询
     public static final String XY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0002";
@@ -38,7 +39,8 @@ public class RequestUrl {
     public static final String YD0009 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0009";
     public static final String YD0010 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0010";
 
-    public static final String SDKTOBILL = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/sdktobill";
+    // 统一支付回调地址
+    public static final String SDKTOBILL = (isTestEnv() ? "test/" : "") + "huzh_credit/sdk/sdktobill";
 
     private static boolean isTestEnv() {
         boolean isTestEnv = false;

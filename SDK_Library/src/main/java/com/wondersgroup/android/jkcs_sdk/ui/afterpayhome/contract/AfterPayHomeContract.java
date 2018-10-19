@@ -27,10 +27,9 @@ public interface AfterPayHomeContract {
 
         void getHospitalList(OnHospitalListListener listener);
 
-        void getFeeRecord(String feeState, String startDate, String endDate,
-                          String pageNumber, String pageSize, OnFeeRecordListener listener);
+        void requestYd0008(OnFeeRecordListener listener);
 
-        void getFeeDetail(String tradeNo, OnFeeDetailListener listener);
+        void requestYd0009(String tradeNo, OnFeeDetailListener listener);
     }
 
     interface IView {
@@ -44,9 +43,9 @@ public interface AfterPayHomeContract {
 
         void onHospitalListResult(HospitalEntity body);
 
-        void onFeeRecordResult(FeeRecordEntity entity);
+        void onYd0008Result(FeeRecordEntity entity);
 
-        void onFeeDetailResult(FeeBillEntity entity);
+        void onYd0009Result(FeeBillEntity entity);
     }
 
     interface IPresenter {
@@ -58,9 +57,8 @@ public interface AfterPayHomeContract {
 
         void getHospitalList();
 
-        void getFeeRecord(String feeState, String startDate, String endDate,
-                          String pageNumber, String pageSize);
+        void requestYd0008();
 
-        void getFeeDetail(String tradeNo);
+        void requestYd0009(String tradeNo);
     }
 }

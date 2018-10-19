@@ -56,7 +56,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,7 +87,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,7 +149,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <View
                 android:layout_width="match_parent"
@@ -192,7 +192,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,7 +224,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -255,7 +255,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
             <TextView
                 android:id="@+id/tvLookRule"
@@ -270,7 +270,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/wonders_rgb_color_eeeeee" />
+                android:background="@color/wonders_rgb_color_e0e0e0" />
 
         </LinearLayout>
 

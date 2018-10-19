@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:
+ * Function:医后付首页数据的 Model 类
  */
 public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
@@ -271,8 +271,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void getFeeRecord(String feeState, String startDate, String endDate, String pageNumber,
-                             String pageSize, OnFeeRecordListener listener) {
+    public void requestYd0008(OnFeeRecordListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0008);
@@ -284,11 +283,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.ID_NO, mIdNum);
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.CARD_NO, mCardNum);
-        map.put(MapKey.FEE_STATE, feeState);
-        map.put(MapKey.START_DATE, startDate);
-        map.put(MapKey.END_DATE, endDate);
-        map.put(MapKey.PAGE_NUMBER, pageNumber);
-        map.put(MapKey.PAGE_SIZE, pageSize);
+        map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
+        map.put(MapKey.START_DATE, "2018-01-01");
+        map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
+        map.put(MapKey.PAGE_NUMBER, "1");
+        map.put(MapKey.PAGE_SIZE, "100");
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
@@ -331,7 +330,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void getFeeDetail(String tradeNo, OnFeeDetailListener listener) {
+    public void requestYd0009(String tradeNo, OnFeeDetailListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0009);

@@ -24,14 +24,28 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/wonders_rgb_color_f8f8f8"
-        android:padding="@dimen/wonders_padding_10dp"
+        android:lineSpacingExtra="4dp"
+        android:paddingStart="@dimen/wonders_padding_16dp"
+        android:paddingTop="@dimen/wonders_padding_8dp"
+        android:paddingEnd="@dimen/wonders_padding_8dp"
+        android:paddingBottom="@dimen/wonders_padding_8dp"
         android:text="@string/wonders_group_text_pay_notice"
         android:textColor="@color/wonders_rgb_color_979797"
         android:textSize="@dimen/wonders_text_size_12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <include layout="@layout/wonders_group_pay_detail_bottom" />
 

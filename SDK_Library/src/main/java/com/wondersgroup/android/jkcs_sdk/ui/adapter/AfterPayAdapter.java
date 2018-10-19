@@ -20,7 +20,6 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -191,7 +190,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     if (yd0008Size <= 0) {
                         ((AfterPayHomeActivity) mContext).getHospitalList();
                     } else {
-                        //WToastUtil.show("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
                         WToastUtil.showLong("您有当前还有未处理的订单！请在未完成订单进行处理！");
                     }
                 } else {
@@ -207,7 +205,8 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             /*
              * 点击医后付首页顶部的 "点击缴纳"
              */
-            llToPayFee.setOnClickListener(v -> toPaymentPager(true));
+            //llToPayFee.setOnClickListener(v -> toPaymentPager(true));
+            llToPayFee.setOnClickListener(v -> requestYd0008(true));
 
             /*
              * 去开通医后付
@@ -234,49 +233,17 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             /*
              * 点击医后付页面中间的 "继续支付"
              */
-            tvPayInfo.setOnClickListener(v -> toPaymentPager(false));
+            //tvPayInfo.setOnClickListener(v -> toPaymentPager(false));
+            tvPayInfo.setOnClickListener(v -> requestYd0008(false));
         }
 
         /**
-         * 发起支付，跳转到缴费详情页面 & 医保支付页面
+         * 查询全部 00 未完成订单(YD0008)
          *
-         * @param isYd0003Click 是否是顶部 yd0003 点击的支付，如果是就用 orgCode & orgName
-         *                      否则用 feeOrgCode & feeOrgName
+         * @param isYd0003Click 是否是点击医后付首页顶部 yd0003 的欠费
          */
-        private void toPaymentPager(boolean isYd0003Click) {
-            // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-            if ("01".equals(mobPayStatus)) {
-                if (!TextUtils.isEmpty(feeState)) {
-                    switch (feeState) {
-                        case "00": // 全部未结算
-                            if (isYd0003Click) {
-                                // 全部未结算，跳转到 "缴费详情" 页面
-                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-                            } else {
-                                // 全部未结算，跳转到 "缴费详情" 页面
-                                PaymentDetailsActivity.actionStart(mContext, feeOrgCode, feeOrgName, false);
-                            }
-                            break;
-                        case "01": // 个人已结算，医保未结算
-                            // 医保未结算，跳转到医保结算页面
-                            ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
-                                    feeTotals, feeCashTotal, feeYbTotal);
-                            break;
-                        case "02": // 全部已结算，跳转到已完成订单页面
-                            FeeRecordActivity.actionStart(mContext);
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    // 全部未结算，跳转到 "缴费详情" 页面
-                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
-                }
-
-            } else {
-                WToastUtil.show("您未开通医保移动支付，请先开通！");
-            }
+        private void requestYd0008(boolean isYd0003Click) {
+            ((AfterPayHomeActivity) mContext).requestYd0008(false, isYd0003Click);
         }
 
         @SuppressLint("SetTextI18n")

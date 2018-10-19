@@ -36,7 +36,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
             mModel.getFeeRecord(feeState, startDate, endDate, pageNumber, pageSize, new OnFeeRecordListener() {
                 @Override
                 public void onSuccess(FeeRecordEntity entity) {
-                    LogUtil.i(TAG, "getFeeRecord() -> onSuccess()");
+                    LogUtil.i(TAG, "requestYd0008() -> onSuccess()");
                     dismissLoading();
                     if (isNonNull()) {
                         mViewRef.get().onFeeRecordResult(entity);
@@ -45,7 +45,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
 
                 @Override
                 public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "getFeeRecord() -> onFailed()===" + errCodeDes);
+                    LogUtil.e(TAG, "requestYd0008() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                 }
@@ -65,7 +65,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
             mModel.getFeeDetail(tradeNo, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "getFeeDetail() -> onSuccess()");
+                    LogUtil.i(TAG, "requestYd0009() -> onSuccess()");
                     dismissLoading();
                     if (isNonNull()) {
                         mViewRef.get().onFeeDetailResult(entity);
@@ -74,7 +74,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
 
                 @Override
                 public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "getFeeDetail() -> onFailed()===" + errCodeDes);
+                    LogUtil.e(TAG, "requestYd0009() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                 }
