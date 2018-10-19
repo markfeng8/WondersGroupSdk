@@ -45,6 +45,11 @@
             android:textSize="@dimen/wonders_text_size_14sp" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <TextView
         android:id="@+id/tvOrderNum"
         android:layout_width="match_parent"
@@ -57,4 +62,8 @@
         android:textColor="@color/wonders_rgb_color_666666"
         android:textSize="@dimen/wonders_text_size_12sp" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
 </LinearLayout>

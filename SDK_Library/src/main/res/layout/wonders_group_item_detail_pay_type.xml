@@ -10,6 +10,11 @@
         android:layout_height="8dp"
         android:background="@color/wonders_rgb_color_f2f2f2" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
     <LinearLayout
         android:id="@+id/llYiBaoPayLayout"
         android:layout_width="match_parent"
@@ -53,8 +58,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/wonders_rgb_color_eeeeee" />
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <LinearLayout
         android:id="@+id/llPayType"
@@ -88,8 +93,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/wonders_rgb_color_eeeeee" />
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
         android:id="@+id/plTotalMoney"

@@ -3,7 +3,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -211,30 +210,17 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     private void initListener() {
-        tvPayMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
-                if (Double.parseDouble(mFeeCashTotal) == 0) {
-                    openYiBaoKeyBoard();
-                } else {
-                    // 获取支付所需的参数
-                    mPresenter.getPayParam(mOrgCode);
-                }
+        tvPayMoney.setOnClickListener(v -> {
+            // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
+            if (Double.parseDouble(mFeeCashTotal) == 0) {
+                openYiBaoKeyBoard();
+            } else {
+                // 获取支付所需的参数
+                mPresenter.getPayParam(mOrgCode);
             }
         });
-        countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                tvPayMoney.setEnabled(false);
-            }
-        });
-        titleBar.setOnBackListener(new TitleBarLayout.OnBackClickListener() {
-            @Override
-            public void onClick() {
-                showAlertDialog();
-            }
-        });
+        countDownView.setOnCountdownEndListener(cv -> tvPayMoney.setEnabled(false));
+        titleBar.setOnBackListener(() -> showAlertDialog());
     }
 
     private void showAlertDialog() {
@@ -242,12 +228,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         new AlertDialog.Builder(this)
                 .setTitle("温馨提示")
                 .setMessage(getString(R.string.wonders_group_personal_pay_back_notice2))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PaymentDetailsActivity.this.finish();
-                    }
-                })
+                .setPositiveButton("确定", (dialog, which) -> PaymentDetailsActivity.this.finish())
                 .setNegativeButton("取消", null)
                 .show();
     }
@@ -255,8 +236,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
-        CheckOut.setNetworkWay("");
-        // 设置自定义支付地址
+        //CheckOut.setNetworkWay("");
+        // 设置统一支付回调地址
         CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
 
         Long i = 0L;
@@ -542,35 +523,29 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
      * 查询医保移动支付状态
      */
     public void getMobilePayState() {
-        AuthCall.queryOpenStatus(PaymentDetailsActivity.this, MakeArgsFactory.getOpenStatusArgs(), new AuthCall.CallBackListener() {
-            @Override
-            public void callBack(String result) {
-                if (!TextUtils.isEmpty(result)) {
-                    LogUtil.i(TAG, "result===" + result);
-                    OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
-                    int isYbPay = statusBean.getIsYbPay();
-                    if (isYbPay == 1) { // 已开通
-                        getYiBaoToken();
-                    } else { // 未开通
-                        WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
-                    }
+        AuthCall.queryOpenStatus(PaymentDetailsActivity.this, MakeArgsFactory.getOpenStatusArgs(), result -> {
+            if (!TextUtils.isEmpty(result)) {
+                LogUtil.i(TAG, "result===" + result);
+                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
+                int isYbPay = statusBean.getIsYbPay();
+                if (isYbPay == 1) { // 已开通
+                    getYiBaoToken();
+                } else { // 未开通
+                    WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
                 }
             }
         });
     }
 
     private void getYiBaoToken() {
-        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getTokenArgs(), new AuthCall.CallBackListener() {
-            @Override
-            public void callBack(String result) {
-                LogUtil.i(TAG, "result===" + result);
-                if (!TextUtils.isEmpty(result)) {
-                    GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
-                    String siCardCode = bean.getSiCardCode();
-                    LogUtil.i(TAG, "siCardCode===" + siCardCode);
-                    if (siCardCode != null) {
-                        tryToSettle(siCardCode);
-                    }
+        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getTokenArgs(), result -> {
+            LogUtil.i(TAG, "result===" + result);
+            if (!TextUtils.isEmpty(result)) {
+                GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
+                String siCardCode = bean.getSiCardCode();
+                LogUtil.i(TAG, "siCardCode===" + siCardCode);
+                if (siCardCode != null) {
+                    tryToSettle(siCardCode);
                 }
             }
         });
