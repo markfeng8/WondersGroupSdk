@@ -145,55 +145,50 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     }
 
     @Override
-    public void getFeeRecord(String feeState, String startDate, String endDate,
-                             String pageNumber, String pageSize) {
-        if (!TextUtils.isEmpty(feeState)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
+    public void requestYd0008() {
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            showLoading();
+        }
+
+        mModel.requestYd0008(new OnFeeRecordListener() {
+            @Override
+            public void onSuccess(FeeRecordEntity entity) {
+                LogUtil.i(TAG, "requestYd0008() -> onSuccess()");
+                dismissLoading();
+                if (isNonNull()) {
+                    mViewRef.get().onYd0008Result(entity);
+                }
             }
 
-            mModel.getFeeRecord(feeState, startDate, endDate, pageNumber, pageSize, new OnFeeRecordListener() {
-                @Override
-                public void onSuccess(FeeRecordEntity entity) {
-                    LogUtil.i(TAG, "getFeeRecord() -> onSuccess()");
-                    dismissLoading();
-                    if (isNonNull()) {
-                        mViewRef.get().onFeeRecordResult(entity);
-                    }
-                }
-
-                @Override
-                public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "getFeeRecord() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
-                    WToastUtil.show(errCodeDes);
-                }
-            });
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
-        }
+            @Override
+            public void onFailed(String errCodeDes) {
+                LogUtil.e(TAG, "requestYd0008() -> onFailed()===" + errCodeDes);
+                dismissLoading();
+                WToastUtil.show(errCodeDes);
+            }
+        });
     }
 
     @Override
-    public void getFeeDetail(String tradeNo) {
+    public void requestYd0009(String tradeNo) {
         if (!TextUtils.isEmpty(tradeNo)) {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 showLoading();
             }
 
-            mModel.getFeeDetail(tradeNo, new OnFeeDetailListener() {
+            mModel.requestYd0009(tradeNo, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "getFeeDetail() -> onSuccess()");
+                    LogUtil.i(TAG, "requestYd0009() -> onSuccess()");
                     dismissLoading();
                     if (isNonNull()) {
-                        mViewRef.get().onFeeDetailResult(entity);
+                        mViewRef.get().onYd0009Result(entity);
                     }
                 }
 
                 @Override
                 public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "getFeeDetail() -> onFailed()===" + errCodeDes);
+                    LogUtil.e(TAG, "requestYd0009() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                 }

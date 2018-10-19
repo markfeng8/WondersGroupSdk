@@ -17,6 +17,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
@@ -33,6 +34,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
@@ -254,8 +256,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
         CheckOut.setNetworkWay("");
-        // TODO 设置自定义支付地址
-        //CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
+        // 设置自定义支付地址
+        CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
 
         Long i = 0L;
 
@@ -268,14 +270,18 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             return;
         }
 
-        WDPay.reqPayAsync(PaymentDetailsActivity.this,
-                appId, apiKey,
-                getWdPayType(), subMerNo,
-                mOrgName, // 订单标题
-                "药品费", i, // 订单金额(分)
-                payPlatTradeNo, // 订单流水号
-                "药品费", null, // 扩展参数(可以null)
-                bcCallback);
+        if ((mPayType == 2) && (!AppInfoUtil.isWeChatAppInstalled(this))) {
+            WToastUtil.show("您没有安装微信客户端，请先安装微信客户端！");
+        } else {
+            WDPay.reqPayAsync(PaymentDetailsActivity.this,
+                    appId, apiKey,
+                    getWdPayType(), subMerNo,
+                    mOrgName, // 订单标题
+                    "药品费", i, // 订单金额(分)
+                    payPlatTradeNo, // 订单流水号
+                    "药品费", null, // 扩展参数(可以null)
+                    bcCallback);
+        }
     }
 
     public boolean isNumeric(String s) {
