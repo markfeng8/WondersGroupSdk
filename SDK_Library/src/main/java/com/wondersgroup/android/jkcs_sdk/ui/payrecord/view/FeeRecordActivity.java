@@ -34,11 +34,6 @@ public class FeeRecordActivity extends AppCompatActivity {
         findViews();
         initData();
         initFragment();
-        initListener();
-    }
-
-    private void initListener() {
-
     }
 
     private void findViews() {

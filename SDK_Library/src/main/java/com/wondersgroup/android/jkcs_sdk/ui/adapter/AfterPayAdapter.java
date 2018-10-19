@@ -249,7 +249,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if ("01".equals(mobPayStatus)) {
                 if (!TextUtils.isEmpty(feeState)) {
                     switch (feeState) {
-                        case "00":
+                        case "00": // 全部未结算
                             if (isYd0003Click) {
                                 // 全部未结算，跳转到 "缴费详情" 页面
                                 PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
@@ -258,10 +258,13 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 PaymentDetailsActivity.actionStart(mContext, feeOrgCode, feeOrgName, false);
                             }
                             break;
-                        case "01":
+                        case "01": // 个人已结算，医保未结算
                             // 医保未结算，跳转到医保结算页面
                             ((AfterPayHomeActivity) mContext).requestYd0009(feeOrgCode, feeOrgName,
                                     feeTotals, feeCashTotal, feeYbTotal);
+                            break;
+                        case "02": // 全部已结算，跳转到已完成订单页面
+                            FeeRecordActivity.actionStart(mContext);
                             break;
                         default:
                             break;
