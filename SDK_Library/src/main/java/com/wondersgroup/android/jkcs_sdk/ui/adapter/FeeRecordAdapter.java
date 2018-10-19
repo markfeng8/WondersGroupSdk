@@ -104,6 +104,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             llHospitalItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO: 2018/10/19 点击时的展开布局的 bug
                     int visibility = llHideLayout.getVisibility();
                     boolean visible = visibility == View.VISIBLE;
                     llHideLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
