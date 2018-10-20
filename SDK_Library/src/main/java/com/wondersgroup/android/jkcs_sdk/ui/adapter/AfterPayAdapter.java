@@ -181,19 +181,34 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void initListener() {
             /*
-             * 选择医院
+             * 点击选择医院列表
              */
             tvSelectHospital.setOnClickListener(v -> {
-                String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
-                if (TextUtils.isEmpty(feeTotal)) {
-                    // 点击选择医院时先判断是否有欠费再判断yd0008；
-                    if (yd0008Size <= 0) {
-                        ((AfterPayHomeActivity) mContext).getHospitalList();
+                // 1.选择医院需要先判断医保移动支付状态是否开通
+                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                if ("01".equals(mobPayStatus)) {
+                    // 2.如果开通了医保移动支付，继续判断医后付签约状态
+                    String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
+                    if ("01".equals(signingStatus)) {
+                        // 3.如果医后付也开通了，继续判断是否有待缴费记录
+                        String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
+                        if (TextUtils.isEmpty(feeTotal)) {
+                            // 4.如果没有待缴费记录，再判断 yd0008 是否有未完成订单
+                            if (yd0008Size <= 0) {
+                                // 5.如果没有未完成订单，才弹出医院列表
+                                ((AfterPayHomeActivity) mContext).getHospitalList();
+                            } else {
+                                WToastUtil.showLong("您有当前还有未处理的订单！请在未完成订单进行处理！");
+                            }
+                        } else {
+                            WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
+                        }
                     } else {
-                        WToastUtil.showLong("您有当前还有未处理的订单！请在未完成订单进行处理！");
+                        WToastUtil.show("您未开通医后付，请先开通医后付！");
                     }
+
                 } else {
-                    WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
+                    WToastUtil.show("您未开通医保移动支付，请先开通！");
                 }
             });
 
@@ -208,9 +223,17 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             llToPayFee.setOnClickListener(v -> requestYd0008(true));
 
             /*
-             * 去开通医后付
+             * 去开通医后付(前提是开通医保移动支付)
              */
-            tvAfterPayState.setOnClickListener(v -> OpenAfterPayActivity.actionStart(mContext));
+            tvAfterPayState.setOnClickListener(v -> {
+                // 选择医院需要先判断医保移动支付状态是否开通
+                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                if ("01".equals(mobPayStatus)) {
+                    OpenAfterPayActivity.actionStart(mContext);
+                } else {
+                    WToastUtil.show("您未开通医保移动支付，请先开通！");
+                }
+            });
 
             /*
              * 去开通医保移动支付
