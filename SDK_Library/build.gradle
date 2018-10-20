@@ -63,8 +63,19 @@ dependencies {
     api files('libs/alipaySdk-20160120.jar')
 }
 
-// 自定义 task，复制并重命名文件
-task copyAndRenameFile(type: Copy) {
+/**
+ * 自定义生成 aar 包的 task
+ */
+task makeAar(type: Copy) {
+    // 先删除两个旧的 aar 包的目录
+    doFirst {
+        File file1 = new File('../SDK_Library/build/aar/')
+        file1.deleteDir()
+        File file2 = new File('../SDK_Library/build/outputs/aar/')
+        file2.deleteDir()
+    }
+
+    // 复制并重命名文件
     from '../SDK_Library/build/outputs/aar/'
     into '../SDK_Library/build/aar/'
     // 使用闭包映射文件名
@@ -73,9 +84,14 @@ task copyAndRenameFile(type: Copy) {
     }
 }
 
-// copyAndRenameFile task 依赖 assemble
-copyAndRenameFile.dependsOn(assemble)
+/**
+ * makeAar task 依赖 assemble
+ */
+makeAar.dependsOn(assemble)
 
+/**
+ * 获取当前的 UTC 时间
+ */
 static def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
@@ -84,7 +100,7 @@ static def releaseTime() {
  * 打开Terminal输入命令:
  * ./gradlew assemble
  * 生成 aar 包(打包前修改versionCode & versionName)
- * ./gradlew copyAndRenameFile
+ * ./gradlew makeAar
  * 查看 app 依赖库关系：
  * ./gradlew dependencies app:dependencies
  * 合并dev分支，请注意--no-ff参数，表示禁用Fast forward
