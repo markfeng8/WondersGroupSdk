@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMrZhao;
     @BindView(R.id.tvMrZhong)
     TextView tvMrZhong;
+    @BindView(R.id.tvMrTang)
+    TextView tvMrTang;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private PersonBean mPersonShen;
     private PersonBean mPersonZhao;
     private PersonBean mPersonZhong;
+    private PersonBean mPersonTang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,10 +161,20 @@ public class MainActivity extends AppCompatActivity {
         mPersonZhong.setCardType("0");
         mPersonZhong.setCardNum("A03111112");
         mPersonZhong.setAddress("ShangHai");
+
+        /*唐其儿*/
+        mPersonTang = new PersonBean();
+        mPersonTang.setName("唐其儿");
+        mPersonTang.setPhone("13588259873");
+        mPersonTang.setIdType("01");
+        mPersonTang.setIdNum("330501198908158673");
+        mPersonTang.setCardType("0");
+        mPersonTang.setCardNum("A05300523");
+        mPersonTang.setAddress("ShangHai");
     }
 
     @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
-            R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong})
+            R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -190,6 +203,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrZhong:
                 setPersonInfo(mPersonZhong);
+                break;
+            case R.id.tvMrTang:
+                setPersonInfo(mPersonTang);
                 break;
         }
     }

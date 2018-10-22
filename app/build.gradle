@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 37
-        versionName "2.2.6"
+        versionCode 38
+        versionName "2.2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构

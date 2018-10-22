@@ -211,13 +211,18 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void initListener() {
         tvPayMoney.setOnClickListener(v -> {
-            // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
-            if (Double.parseDouble(mFeeCashTotal) == 0) {
-                openYiBaoKeyBoard();
+            if (!TextUtils.isEmpty(mFeeCashTotal)) {
+                // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
+                if (Double.parseDouble(mFeeCashTotal) == 0) {
+                    openYiBaoKeyBoard();
+                } else {
+                    // 获取支付所需的参数
+                    mPresenter.getPayParam(mOrgCode);
+                }
             } else {
-                // 获取支付所需的参数
-                mPresenter.getPayParam(mOrgCode);
+                LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
             }
+
         });
         countDownView.setOnCountdownEndListener(cv -> tvPayMoney.setEnabled(false));
         titleBar.setOnBackListener(() -> showAlertDialog());
