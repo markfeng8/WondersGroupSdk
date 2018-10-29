@@ -56,6 +56,24 @@
             android:textOn="" />
     </LinearLayout>
 
+    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+        android:id="@+id/plTotalMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+        android:id="@+id/plPersonalPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+        android:id="@+id/plYiBaoPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -95,22 +113,4 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
-
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
-        android:id="@+id/plTotalMoney"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
-        android:id="@+id/plPersonalPay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
-        android:id="@+id/plYiBaoPay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 </LinearLayout>
