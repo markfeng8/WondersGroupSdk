@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:
+ * Function:医后付首页的 Presenter
  */
 public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
         extends MvpBasePresenter<T> implements AfterPayHomeContract.IPresenter {
@@ -85,16 +85,16 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     }
 
     @Override
-    public void getUnclearedBill(HashMap<String, String> map) {
+    public void requestYd0003(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 showLoading();
             }
 
-            mModel.getUnclearedBill(map, new OnFeeDetailListener() {
+            mModel.requestYd0003(map, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "getUnclearedBill() -> onSuccess()");
+                    LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
                     dismissLoading();
                     if (isNonNull()) {
                         mViewRef.get().feeBillResult(entity);
@@ -103,7 +103,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
                 @Override
                 public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "getUnclearedBill() -> onFailed()===" + errCodeDes);
+                    LogUtil.e(TAG, "requestYd0003() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                     if (isNonNull()) {

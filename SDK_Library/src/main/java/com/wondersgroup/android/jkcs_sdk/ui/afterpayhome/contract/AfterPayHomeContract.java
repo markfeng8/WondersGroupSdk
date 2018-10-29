@@ -23,7 +23,7 @@ public interface AfterPayHomeContract {
 
         void uploadMobilePayState(String status, OnMobilePayStateListener listener);
 
-        void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener);
+        void requestYd0003(HashMap<String, String> map, OnFeeDetailListener listener);
 
         void getHospitalList(OnHospitalListListener listener);
 
@@ -53,7 +53,7 @@ public interface AfterPayHomeContract {
 
         void uploadMobilePayState(String status);
 
-        void getUnclearedBill(HashMap<String, String> map);
+        void requestYd0003(HashMap<String, String> map);
 
         void getHospitalList();
 

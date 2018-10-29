@@ -35,7 +35,9 @@ import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 
 import java.util.HashMap;
 
-// 个人账户支付页面
+/**
+ * 个人账户支付页面
+ */
 public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IView,
         PersonalPayPresenter<PersonalPayContract.IView>> implements PersonalPayContract.IView {
 

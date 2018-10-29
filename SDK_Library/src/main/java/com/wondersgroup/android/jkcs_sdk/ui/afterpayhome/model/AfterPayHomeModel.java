@@ -166,7 +166,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener) {
+    public void requestYd0003(HashMap<String, String> map, OnFeeDetailListener listener) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

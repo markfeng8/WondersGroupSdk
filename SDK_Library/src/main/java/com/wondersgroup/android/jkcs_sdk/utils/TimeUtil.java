@@ -76,6 +76,22 @@ public class TimeUtil {
     }
 
     /**
+     * 返回当前时间的毫秒数
+     */
+    public static String getCurrentMillis() {
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+    /**
+     * 判断传入的时间是否超过当前时间 30 min
+     */
+    public static boolean isOver30min(String time) {
+        long millis = Long.parseLong(time);
+        long curTime = System.currentTimeMillis();
+        return (curTime - millis) > (30 * 60 * 1000);
+    }
+
+    /**
      * 返回如下格式的当天时间
      *
      * @return 2018-08-03

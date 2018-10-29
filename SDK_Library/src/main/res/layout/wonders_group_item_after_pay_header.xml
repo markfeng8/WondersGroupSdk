@@ -89,8 +89,6 @@
             android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
 
-    <include layout="@layout/wonders_group_need_payment" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

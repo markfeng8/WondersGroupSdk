@@ -27,4 +27,6 @@ public class SpKey {
     public static final String SDK_DEBUG = "sdkDebug"; // sdk 是否时调试模式
     public static final String SDK_ENV = "sdkEnv"; // sdk 环境
     public static final String YD0008_SIZE = "yd0008Size";
+    public static final String YIBAO_TOKEN = "yiBaoToken"; // 医保 token
+    public static final String TOKEN_TIME = "tokenTime";// 医保 token 时间
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivi
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
@@ -34,9 +32,9 @@ import java.util.List;
  * Created by x-sir on 2018/8/24 :)
  * Function:医后付首页数据的 Adapter
  */
-public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = AfterPayAdapter.class.getSimpleName();
+    private static final String TAG = AfterPayHomeAdapter.class.getSimpleName();
     /**
      * 头部信息类型
      */
@@ -60,7 +58,7 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private List<Object> mItemList;
 
-    public AfterPayAdapter(Context context, List<Object> itemList) {
+    public AfterPayHomeAdapter(Context context, List<Object> itemList) {
         this.mContext = context;
         this.mItemList = itemList;
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -142,7 +140,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class HeaderViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout llSettings;
         private LinearLayout llPayRecord;
-        private LinearLayout llCenterMessage;
         private TextView tvHospitalName;
         private TextView tvSelectHospital;
         private TextView tvTreatName;
@@ -150,7 +147,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView tvAfterPayState;
         private TextView tvMobilePayState;
         private TextView tvToPay;
-        private TextView tvPayInfo;
         private LinearLayout llToPayFee;
         private String orgCode;
         private String orgName;
@@ -166,7 +162,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
             llPayRecord = (LinearLayout) itemView.findViewById(R.id.llPayRecord);
-            llCenterMessage = (LinearLayout) itemView.findViewById(R.id.llCenterMessage);
             tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
             tvSelectHospital = (TextView) itemView.findViewById(R.id.tvSelectHospital);
             tvTreatName = (TextView) itemView.findViewById(R.id.tvTreatName);
@@ -174,88 +169,90 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvAfterPayState = (TextView) itemView.findViewById(R.id.tvAfterPayState);
             tvMobilePayState = (TextView) itemView.findViewById(R.id.tvMobilePayState);
             tvToPay = (TextView) itemView.findViewById(R.id.tvToPay);
-            tvPayInfo = (TextView) itemView.findViewById(R.id.tvPayInfo);
             llToPayFee = (LinearLayout) itemView.findViewById(R.id.llToPayFee);
             initListener();
         }
 
         private void initListener() {
             /*
-             * 点击选择医院列表
+             * 点击选择医院
              */
-            tvSelectHospital.setOnClickListener(v -> {
-                // 1.选择医院需要先判断医保移动支付状态是否开通
-                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                if ("01".equals(mobPayStatus)) {
-                    // 2.如果开通了医保移动支付，继续判断医后付签约状态
-                    String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
-                    if ("01".equals(signingStatus)) {
-                        // 3.如果医后付也开通了，继续判断是否有待缴费记录
-                        String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
-                        if (TextUtils.isEmpty(feeTotal)) {
-                            // 4.如果没有待缴费记录，再判断 yd0008 是否有未完成订单
-                            if (yd0008Size <= 0) {
-                                // 5.如果没有未完成订单，才弹出医院列表
-                                ((AfterPayHomeActivity) mContext).getHospitalList();
-                            } else {
-                                WToastUtil.showLong("您有当前还有未处理的订单！请在未完成订单进行处理！");
-                            }
-                        } else {
-                            WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
-                        }
-                    } else {
-                        WToastUtil.show("您未开通医后付，请先开通医后付！");
-                    }
-
-                } else {
-                    WToastUtil.show("您未开通医保移动支付，请先开通！");
-                }
-            });
-
+            tvSelectHospital.setOnClickListener(v -> getHospitalList());
             /*
-             * 缴费记录
+             * 点击缴费记录
              */
             llPayRecord.setOnClickListener(v -> FeeRecordActivity.actionStart(mContext));
-
             /*
              * 点击医后付首页顶部的 "点击缴纳"
              */
             llToPayFee.setOnClickListener(v -> requestYd0008(true));
-
             /*
-             * 去开通医后付(前提是开通医保移动支付)
+             * 点击去开通医后付(前提是开通医保移动支付)
              */
-            tvAfterPayState.setOnClickListener(v -> {
-                // 选择医院需要先判断医保移动支付状态是否开通
-                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                if ("01".equals(mobPayStatus)) {
-                    OpenAfterPayActivity.actionStart(mContext);
-                } else {
-                    WToastUtil.show("您未开通医保移动支付，请先开通！");
-                }
-            });
-
+            tvAfterPayState.setOnClickListener(v -> openAfterPay());
             /*
              * 去开通医保移动支付
              */
             tvMobilePayState.setOnClickListener(v -> openMobilePay());
-
             /*
-             * 跳转到 "设置" 页面
+             * 点击跳转到 "设置" 页面
              */
-            llSettings.setOnClickListener(v -> {
-                String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
-                if ("01".equals(signingStatus)) {
-                    SettingsActivity.actionStart(mContext);
-                } else {
-                    WToastUtil.show("您未开通医后付，请先开通医后付！");
-                }
-            });
+            llSettings.setOnClickListener(v -> jumpToSetting());
+        }
 
+        private void jumpToSetting() {
+            String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
+            if ("01".equals(signingStatus)) {
+                SettingsActivity.actionStart(mContext);
+            } else {
+                WToastUtil.show("您未开通医后付，请先开通医后付！");
+            }
+        }
+
+        /**
+         * 开通医后付（需要先判断医保移动支付状态是否开通）
+         */
+        private void openAfterPay() {
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            if ("01".equals(mobPayStatus)) {
+                OpenAfterPayActivity.actionStart(mContext);
+            } else {
+                WToastUtil.show("您未开通医保移动支付，请先开通！");
+            }
+        }
+
+        /**
+         * 获取医院列表
+         */
+        private void getHospitalList() {
             /*
-             * 点击医后付页面中间的 "继续支付"
+             * 1.选择医院需要先判断医保移动支付状态是否开通
              */
-            tvPayInfo.setOnClickListener(v -> requestYd0008(false));
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            if (!"01".equals(mobPayStatus)) {
+                WToastUtil.show("您未开通医保移动支付，请先开通！");
+                return;
+            }
+            /*
+             * 2.如果开通了医保移动支付，继续判断医后付签约状态
+             */
+            String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
+            if (!"01".equals(signingStatus)) {
+                WToastUtil.show("您未开通医后付，请先开通医后付！");
+                return;
+            }
+            /*
+             * 3.如果医后付也开通了，继续判断是否有待缴费记录
+             */
+            String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
+            if (!TextUtils.isEmpty(feeTotal)) {
+                WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
+                return;
+            }
+            /*
+             * 4.弹出医院列表
+             */
+            ((AfterPayHomeActivity) mContext).getHospitalList();
         }
 
         /**
@@ -295,25 +292,6 @@ public class AfterPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 feeOrgName = afterHeaderBean.getFeeOrgName();
                 feeOrgCode = afterHeaderBean.getFeeOrgCode();
                 yd0008Size = afterHeaderBean.getYd0008Size();
-
-                if (!TextUtils.isEmpty(feeState)) {
-                    String html = "";
-                    // 代码中使用 html 不需要拼接 <![CDATA[ 标签，xml 中需要拼接
-                    String head = "<font size=\"40\" color=\"#333333\">";
-                    String tail = "</font><font size=\"40\" color=\"#007edf\">继续支付！</font>";
-                    if ("00".equals(feeState)) {
-                        html = head + "您有一笔未完成的订单" + feeOrgName + "，总金额" + feeTotals + "元，请" + tail;
-                    } else if ("01".equals(feeState)) {
-                        html = head + "您有一笔未完成的订单" + feeOrgName + "，总金额" + feeTotals + "元，还需支付医保" + feeYbTotal + "元，请" + tail;
-                    }
-                    llCenterMessage.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(html)) {
-                        LogUtil.i(TAG, "html===" + html);
-                        tvPayInfo.setText(Html.fromHtml(html));
-                    }
-                } else {
-                    llCenterMessage.setVisibility(View.GONE);
-                }
 
                 tvTreatName.setText(name);
                 if (!TextUtils.isEmpty(hospitalName)) {

@@ -43,7 +43,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
             mModel.getUnclearedBill(map, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "getUnclearedBill() -> onSuccess()");
+                    LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
                     if (isNonNull()) {
                         mViewRef.get().feeBillResult(entity);
                     }
@@ -51,7 +51,7 @@ public class DetailsPresenter<T extends DetailsContract.IView>
 
                 @Override
                 public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "getUnclearedBill() -> onFailed()===" + errCodeDes);
+                    LogUtil.e(TAG, "requestYd0003() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                 }

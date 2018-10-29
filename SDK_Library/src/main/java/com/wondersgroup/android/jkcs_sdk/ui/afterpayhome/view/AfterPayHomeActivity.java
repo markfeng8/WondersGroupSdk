@@ -23,7 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayAdapter;
+import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
@@ -62,7 +62,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private SelectHospitalWindow mSelectHospitalWindow;
     private AfterHeaderBean mHeaderBean;
     private List<Object> mItemList = new ArrayList<>();
-    private AfterPayAdapter mAdapter;
+    private AfterPayHomeAdapter mAdapter;
     private HashMap<String, String> mPassParamMap;
     private boolean mAfterPayOpenSuccess;
     private String mOrgName;
@@ -190,7 +190,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void setAdapter() {
         if (mItemList != null && mItemList.size() > 0) {
-            mAdapter = new AfterPayAdapter(this, mItemList);
+            mAdapter = new AfterPayHomeAdapter(this, mItemList);
             recyclerView.setAdapter(mAdapter);
             // 设置布局管理器
             LinearLayoutManager linearLayoutManager =
@@ -403,7 +403,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             map.put(MapKey.ORG_CODE, mOrgCode);
             map.put(MapKey.PAGE_NUMBER, mPageNumber);
             map.put(MapKey.PAGE_SIZE, mPageSize);
-            mPresenter.getUnclearedBill(map);
+            mPresenter.requestYd0003(map);
         }
     };
 

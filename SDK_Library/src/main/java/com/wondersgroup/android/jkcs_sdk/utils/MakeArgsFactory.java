@@ -41,7 +41,7 @@ public class MakeArgsFactory {
     }
 
     /**
-     * 获取试结算时弹出键盘的参数
+     * 获取医保结算时弹出键盘的参数
      *
      * @return
      */

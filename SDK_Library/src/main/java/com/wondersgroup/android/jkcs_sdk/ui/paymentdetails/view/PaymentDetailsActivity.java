@@ -210,19 +210,33 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     private void initListener() {
+        /*
+         * 设置点击缴费的监听回调
+         */
         tvPayMoney.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(mFeeCashTotal)) {
-                // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
-                if (Double.parseDouble(mFeeCashTotal) == 0) {
-                    openYiBaoKeyBoard();
-                } else {
-                    // 获取支付所需的参数
-                    mPresenter.getPayParam(mOrgCode);
+
+                String yiBaoToken = SpUtil.getInstance().getString(SpKey.YIBAO_TOKEN, "");
+                String tokenTime = SpUtil.getInstance().getString(SpKey.TOKEN_TIME, "");
+
+                // 判断医保 token 和 保存的 token 是否在有效期内，如果在就使用之前的获取到的，如果没有那就获取
+                if (!TextUtils.isEmpty(yiBaoToken) && !TextUtils.isEmpty(tokenTime) && !TimeUtil.isOver30min(tokenTime)) {
+
+                    // TODO: 2018/10/29 直接发起结算
+
+                }else {
+                    // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
+                    if (Double.parseDouble(mFeeCashTotal) == 0) {
+                        openYiBaoKeyBoard();
+                    } else {
+                        // 获取支付所需的参数
+                        mPresenter.getPayParam(mOrgCode);
+                    }
                 }
+
             } else {
                 LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
             }
-
         });
         countDownView.setOnCountdownEndListener(cv -> tvPayMoney.setEnabled(false));
         titleBar.setOnBackListener(() -> showAlertDialog());
@@ -241,7 +255,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     private void toPayMoney(String appId, String subMerNo, String apiKey) {
         CheckOut.setIsPrint(true);
-        //CheckOut.setNetworkWay("");
         // 设置统一支付回调地址
         CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
 
@@ -580,6 +593,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         mPresenter.tryToSettle(siCardCode, mOrgCode, map);
     }
 
+    /**
+     * 打开医保键盘获取 token
+     * 如果是第一次需要弹出医保键盘获取 token，获取之后，如果在没退出页面，则此 token 30 min 内有效，
+     * 如果退出页面，则需要再次弹出键盘获取 token
+     */
     private void openYiBaoKeyBoard() {
         AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(),
                 result -> {
@@ -590,6 +608,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                             String code = keyboardBean.getCode();
                             if ("0".equals(code)) {
                                 String token = keyboardBean.getToken();
+                                SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, token);
+                                SpUtil.getInstance().save(SpKey.TOKEN_TIME, TimeUtil.getCurrentMillis());
                                 // 携带 token 发起正式结算
                                 mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
                             } else {
