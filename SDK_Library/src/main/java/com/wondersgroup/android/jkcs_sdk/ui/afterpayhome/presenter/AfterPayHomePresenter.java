@@ -7,11 +7,9 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
@@ -97,7 +95,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                     LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
                     dismissLoading();
                     if (isNonNull()) {
-                        mViewRef.get().feeBillResult(entity);
+                        mViewRef.get().onYd0003Result(entity);
                     }
                 }
 
@@ -107,7 +105,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                     if (isNonNull()) {
-                        mViewRef.get().feeBillResult(null);
+                        mViewRef.get().onYd0003Result(null);
                     }
                 }
             });
@@ -142,60 +140,6 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
             }
         });
-    }
-
-    @Override
-    public void requestYd0008() {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
-        mModel.requestYd0008(new OnFeeRecordListener() {
-            @Override
-            public void onSuccess(FeeRecordEntity entity) {
-                LogUtil.i(TAG, "requestYd0008() -> onSuccess()");
-                dismissLoading();
-                if (isNonNull()) {
-                    mViewRef.get().onYd0008Result(entity);
-                }
-            }
-
-            @Override
-            public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "requestYd0008() -> onFailed()===" + errCodeDes);
-                dismissLoading();
-                WToastUtil.show(errCodeDes);
-            }
-        });
-    }
-
-    @Override
-    public void requestYd0009(String tradeNo) {
-        if (!TextUtils.isEmpty(tradeNo)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
-            mModel.requestYd0009(tradeNo, new OnFeeDetailListener() {
-                @Override
-                public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "requestYd0009() -> onSuccess()");
-                    dismissLoading();
-                    if (isNonNull()) {
-                        mViewRef.get().onYd0009Result(entity);
-                    }
-                }
-
-                @Override
-                public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "requestYd0009() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
-                    WToastUtil.show(errCodeDes);
-                }
-            });
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
-        }
     }
 
     private void showLoading() {

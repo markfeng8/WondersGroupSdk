@@ -185,7 +185,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             /*
              * 点击医后付首页顶部的 "点击缴纳"
              */
-            llToPayFee.setOnClickListener(v -> requestYd0008(true));
+            llToPayFee.setOnClickListener(v -> requestYd0003());
             /*
              * 点击去开通医后付(前提是开通医保移动支付)
              */
@@ -256,21 +256,15 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         /**
-         * 查询全部 00 未完成订单(YD0008)
-         *
-         * @param isYd0003Click 是否是点击医后付首页顶部 yd0003 的欠费
+         * 点击医后付首页顶部，发起 yd0003 请求
+         * 需要先判断医保移动支付状态是否开通
          */
-        private void requestYd0008(boolean isYd0003Click) {
-            if (isYd0003Click) {
-                // 如果是顶部点击缴费，需要先判断医保移动支付状态是否开通
-                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                if ("01".equals(mobPayStatus)) {
-                    ((AfterPayHomeActivity) mContext).requestYd0008(false, isYd0003Click);
-                } else {
-                    WToastUtil.show("您未开通医保移动支付，请先开通！");
-                }
+        private void requestYd0003() {
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            if ("01".equals(mobPayStatus)) {
+                ((AfterPayHomeActivity) mContext).requestYd0003();
             } else {
-                ((AfterPayHomeActivity) mContext).requestYd0008(false, isYd0003Click);
+                WToastUtil.show("您未开通医保移动支付，请先开通！");
             }
         }
 

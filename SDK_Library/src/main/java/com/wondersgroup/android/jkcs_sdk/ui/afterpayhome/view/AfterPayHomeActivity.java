@@ -19,7 +19,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
@@ -27,12 +26,9 @@ import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
-import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
@@ -67,19 +63,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private boolean mAfterPayOpenSuccess;
     private String mOrgName;
     private String mOrgCode;
-    private int mYd0008Size = -1;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
-    private String mPayPlatTradeNo;
-    private String mFeeState;
-    private String mFeeOrgCode;
-    private String mFeeOrgName;
-    private String mFeeTotals;
-    private String mFeeCashTotal;
-    private String mFeeYbTotal;
-    private boolean mIsOnlyRefreshPage;
-    private boolean mIsYd0003Click;
+
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -112,7 +99,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
          * 回到主页面刷新状态
          */
         refreshAfterPayState();
-        requestYd0008(true, false);
         getMobilePayState();
 
         // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
@@ -154,26 +140,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
         initHeaderData();
         getIntentAndFindAfterPayState();
-
-        /*
-         * 查询全部 00 未完成订单(YD0008)
-         */
-        requestYd0008(true, false);
     }
 
-    /**
-     * 查询全部 00 未完成订单(YD0008)
-     *
-     * @param isOnlyRefreshPage 是否只是仅仅刷新页面？
-     *                          true : 只是仅仅刷新页面
-     *                          false : 点击医后付首页缴费 & 中间欠费按钮时（yd0008 -> yd0009 -> 发起正式结算）
-     * @param isYd0003Click     是否是点击医后付首页顶部 yd0003 的欠费
-     */
-    public void requestYd0008(boolean isOnlyRefreshPage, boolean isYd0003Click) {
-        this.mIsOnlyRefreshPage = isOnlyRefreshPage;
-        this.mIsYd0003Click = isYd0003Click;
-        mPresenter.requestYd0008();
-    }
 
     private void initHeaderData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
@@ -269,7 +237,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     @Override
-    public void feeBillResult(FeeBillEntity entity) {
+    public void onYd0003Result(FeeBillEntity entity) {
         if (entity != null) {
             llNeedPay.setVisibility(View.VISIBLE);
             String feeTotal = entity.getFee_total();
@@ -287,82 +255,15 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
-    @Override
-    public void onYd0008Result(FeeRecordEntity entity) {
-        mYd0008Size = -1;
-        if (entity != null) {
-            List<FeeRecordEntity.DetailsBean> details = entity.getDetails();
-            if (details != null && details.size() > 0) {
-                mYd0008Size = details.size();
-                FeeRecordEntity.DetailsBean detailsBean = details.get(0);
-                mFeeState = detailsBean.getFee_state();
-                mFeeTotals = detailsBean.getFee_total();
-                mFeeCashTotal = detailsBean.getFee_cash_total();
-                mFeeYbTotal = detailsBean.getFee_yb_total();
-                mFeeOrgName = detailsBean.getOrg_name();
-                mFeeOrgCode = detailsBean.getOrg_code();
-                mPayPlatTradeNo = detailsBean.getPayplat_tradno();
-
-                if (mIsOnlyRefreshPage) {
-                    mHeaderBean.setFeeState(mFeeState);
-                    mHeaderBean.setFeeTotals(mFeeTotals);
-                    mHeaderBean.setFeeCashTotal(mFeeCashTotal);
-                    mHeaderBean.setFeeYbTotal(mFeeYbTotal);
-                    mHeaderBean.setFeeOrgName(mFeeOrgName);
-                    mHeaderBean.setFeeOrgCode(mFeeOrgCode);
-                    mHeaderBean.setYd0008Size(mYd0008Size);
-                } else {
-                    parseFeeState();
-                }
-
-            } else {
-                LogUtil.e(TAG, "没有查询到未完成订单(YD0008)记录！");
-                if (mIsOnlyRefreshPage) {
-                    mHeaderBean.setFeeState(null);
-                    mHeaderBean.setYd0008Size(-1);
-                } else {
-                    // 全部未结算，跳转到 "缴费详情" 页面
-                    PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
-                }
-            }
-
-            if (mIsOnlyRefreshPage) {
-                // 添加数据并刷新适配器
-                mItemList.set(0, mHeaderBean);
-                refreshAdapter();
-            }
-
-        } else {
-            LogUtil.w(TAG, "onYd0008Result() -> entity is null!");
-        }
-    }
-
-    private void parseFeeState() {
-        if (!TextUtils.isEmpty(mFeeState)) {
-            switch (mFeeState) {
-                case "00": // 全部未结算
-                    if (mIsYd0003Click) {
-                        // 全部未结算，跳转到 "缴费详情" 页面
-                        PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
-                    } else {
-                        // 全部未结算，跳转到 "缴费详情" 页面
-                        PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mFeeOrgCode, mFeeOrgName, false);
-                    }
-                    break;
-                case "01": // 个人已结算，医保未结算
-                    // 医保未结算，跳转到医保结算页面
-                    requestYd0009();
-                    break;
-                case "02": // 全部已结算，跳转到已完成订单页面
-                    FeeRecordActivity.actionStart(AfterPayHomeActivity.this);
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            // 全部未结算，跳转到 "缴费详情" 页面
-            PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
-        }
+    /**
+     * 请求 yd0003 接口
+     */
+    public void requestYd0003() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.ORG_CODE, mOrgCode);
+        map.put(MapKey.PAGE_NUMBER, mPageNumber);
+        map.put(MapKey.PAGE_SIZE, mPageSize);
+        mPresenter.requestYd0003(map);
     }
 
     @Override
@@ -398,12 +299,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             }
             mItemList.add(mHeaderBean); // 选择医院后添加数据
             refreshAdapter();
-
-            HashMap<String, String> map = new HashMap<>();
-            map.put(MapKey.ORG_CODE, mOrgCode);
-            map.put(MapKey.PAGE_NUMBER, mPageNumber);
-            map.put(MapKey.PAGE_SIZE, mPageSize);
-            mPresenter.requestYd0003(map);
+            requestYd0003();
         }
     };
 
@@ -428,32 +324,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             }
         } else {
             LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
-        }
-    }
-
-    /**
-     * yd0009 的响应（当点击医后付首页的缴费和继续支付时，如果是个人已支付，医保未支付的情况下，
-     * 携带 yd0009 返回来的 details 跳转到医保支付页面，携带医保的 token 去发起正式结算）
-     *
-     * @param entity
-     */
-    @Override
-    public void onYd0009Result(FeeBillEntity entity) {
-        if (entity != null) {
-            List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-
-            LogUtil.i(TAG, "mFeeOrgName===" + mFeeOrgName + ",mFeeOrgCode===" + mFeeOrgCode +
-                    ",mFeeTotals===" + mFeeTotals + ",mFeeCashTotal===" + mFeeCashTotal +
-                    ",mFeeYbTotal===" + mFeeYbTotal);
-
-            /*
-             * 传递参数过去，发起正式结算，此种情况是个人已经支付完成，医保未支付完成
-             */
-            PersonalPayActivity.actionStart(AfterPayHomeActivity.this, false,
-                    false, mFeeOrgName, mFeeOrgCode, mFeeTotals, mFeeCashTotal,
-                    mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
-        } else {
-            LogUtil.w(TAG, "onYd0009Result() -> entity is null!");
         }
     }
 
@@ -485,14 +355,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     public void getHospitalList() {
         mPresenter.getHospitalList();
-    }
-
-    public void requestYd0009() {
-        if (!TextUtils.isEmpty(mPayPlatTradeNo)) {
-            mPresenter.requestYd0009(mPayPlatTradeNo);
-        } else {
-            LogUtil.e(TAG, "request yd0009 failed, because mPayPlatTradeNo is null!");
-        }
     }
 
     @Override

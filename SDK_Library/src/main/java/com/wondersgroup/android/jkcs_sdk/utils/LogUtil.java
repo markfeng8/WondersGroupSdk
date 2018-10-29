@@ -2,6 +2,8 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
+
 
 /**
  * Created by x-sir on 2018-07-31 :)
@@ -73,6 +75,42 @@ public class LogUtil {
     public static void d(String tag, String msg) {
         if (IS_NEED_PRINT_LOG) {
             Log.d(getTag(tag), msg);
+        }
+    }
+
+    public static void iLogging(String tag, String msg) {
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).i(msg);
+        }
+    }
+
+    public static void wLogging(String tag, String msg) {
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).w(msg);
+        }
+    }
+
+    public static void eLogging(String tag, String msg) {
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).e(msg);
+        }
+    }
+
+    public static void vLogging(String tag, String msg) {
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).v(msg);
+        }
+    }
+
+    public static void dLogging(String tag, String msg) {
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).d(msg);
+        }
+    }
+
+    public static void json(String tag, String msg) {
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).json(msg);
         }
     }
 
