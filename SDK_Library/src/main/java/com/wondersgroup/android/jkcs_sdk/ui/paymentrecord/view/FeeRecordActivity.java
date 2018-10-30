@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.MyFragmentPagerAdapter;
+import com.wondersgroup.android.jkcs_sdk.adapter.MyFragmentPagerAdapter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 import java.util.ArrayList;

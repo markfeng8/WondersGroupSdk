@@ -23,7 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
+import com.wondersgroup.android.jkcs_sdk.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;

@@ -12,7 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
+import com.wondersgroup.android.jkcs_sdk.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
