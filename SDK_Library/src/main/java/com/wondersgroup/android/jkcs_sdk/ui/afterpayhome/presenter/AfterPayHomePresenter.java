@@ -1,6 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter;
 
-import android.text.TextUtils;
+import android.app.Activity;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
@@ -11,13 +11,13 @@ import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -59,26 +59,6 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
             });
         } else {
             throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
-        }
-    }
-
-    @Override
-    public void uploadMobilePayState(String status) {
-        if (!TextUtils.isEmpty(status)) {
-            mModel.uploadMobilePayState(status, new OnMobilePayStateListener() {
-                @Override
-                public void onSuccess() {
-                    LogUtil.i(TAG, "移动医保状态上报成功~");
-                }
-
-                @Override
-                public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "移动医保状态上报失败~");
-                    WToastUtil.show(errCodeDes);
-                }
-            });
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
         }
     }
 
@@ -140,6 +120,21 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
             }
         });
+    }
+
+    @Override
+    public void queryYiBaoOpenStatus(Activity activity) {
+        if (activity != null) {
+            WeakReference<Activity> weakReference = new WeakReference<>(activity);
+            mModel.queryYiBaoOpenStatus(weakReference, status -> {
+                if (isNonNull()) {
+                    mViewRef.get().onYiBaoOpenStatusResult(status);
+                }
+            });
+
+        } else {
+            LogUtil.e(TAG, "activity is null!");
+        }
     }
 
     private void showLoading() {

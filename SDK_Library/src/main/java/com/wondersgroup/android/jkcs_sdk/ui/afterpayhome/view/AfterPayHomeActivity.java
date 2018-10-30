@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
-import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
@@ -20,7 +19,6 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
@@ -28,7 +26,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomeP
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.DividerItemDecoration;
@@ -40,7 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 医后付首页
+ * Created by x-sir on 2018/8/10 :)
+ * Function:医后付首页
  */
 public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.IView,
         AfterPayHomePresenter<AfterPayHomeContract.IView>> implements AfterPayHomeContract.IView {
@@ -51,8 +49,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private TextView tvPayMoney;
     private View activityView;
     private LinearLayout llNeedPay;
-    private String mPageNumber = "1"; // 页数
-    private String mPageSize = "100"; // 每页的条数
     private String mNotice = "温馨提示";
     private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
@@ -60,13 +56,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private List<Object> mItemList = new ArrayList<>();
     private AfterPayHomeAdapter mAdapter;
     private HashMap<String, String> mPassParamMap;
-    private boolean mAfterPayOpenSuccess;
     private String mOrgName;
     private String mOrgCode;
+    private boolean mAfterPayOpenSuccess;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
-
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -119,14 +114,11 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
-        tvPayMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AfterPayHomeActivity.this, PaymentDetailsActivity.class);
-                intent.putExtra(IntentExtra.ORG_CODE, mOrgCode);
-                intent.putExtra(IntentExtra.ORG_NAME, mOrgName);
-                startActivity(intent);
-            }
+        tvPayMoney.setOnClickListener(v -> {
+            Intent intent = new Intent(AfterPayHomeActivity.this, PaymentDetailsActivity.class);
+            intent.putExtra(IntentExtra.ORG_CODE, mOrgCode);
+            intent.putExtra(IntentExtra.ORG_NAME, mOrgName);
+            startActivity(intent);
         });
     }
 
@@ -192,9 +184,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void findViews() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
-        tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
+        recyclerView = findViewById(R.id.recyclerView);
+        tvMoneyNum = findViewById(R.id.tvMoneyNum);
+        tvPayMoney = findViewById(R.id.tvPayMoney);
         llNeedPay = findViewById(R.id.llNeedPay);
         activityView = findViewById(R.id.activity_after_pay_home);
     }
@@ -259,10 +251,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 请求 yd0003 接口
      */
     public void requestYd0003() {
+        String pageNumber = "1"; // 页数
+        String pageSize = "100"; // 每页的条数
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, mOrgCode);
-        map.put(MapKey.PAGE_NUMBER, mPageNumber);
-        map.put(MapKey.PAGE_SIZE, mPageSize);
+        map.put(MapKey.PAGE_NUMBER, pageNumber);
+        map.put(MapKey.PAGE_SIZE, pageSize);
         mPresenter.requestYd0003(map);
     }
 
@@ -327,30 +321,18 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    @Override
+    public void onYiBaoOpenStatusResult(String status) {
+        mHeaderBean.setMobPayStatus(status);
+        mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
+        refreshAdapter();
+    }
+
     /**
-     * 查询医保移动支付状态
+     * 查询医保移动支付开通状态
      */
     private void getMobilePayState() {
-        AuthCall.queryOpenStatus(AfterPayHomeActivity.this, MakeArgsFactory.getOpenStatusArgs(), result -> {
-            String mobPayStatus = "00";
-            if (!TextUtils.isEmpty(result)) {
-                LogUtil.i(TAG, "result===" + result);
-                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
-                int isYbPay = statusBean.getIsYbPay();
-                if (isYbPay == 1) { // 已开通
-                    mobPayStatus = "01";
-                    mPresenter.uploadMobilePayState(mobPayStatus);
-                } else { // 未开通
-                    mobPayStatus = "00";
-                }
-            }
-
-            SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
-            mHeaderBean.setMobPayStatus(mobPayStatus);
-
-            mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
-            refreshAdapter();
-        });
+        mPresenter.queryYiBaoOpenStatus(AfterPayHomeActivity.this);
     }
 
     public void getHospitalList() {

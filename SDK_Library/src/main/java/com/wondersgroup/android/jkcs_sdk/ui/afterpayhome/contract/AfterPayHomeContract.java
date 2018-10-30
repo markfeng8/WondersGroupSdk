@@ -1,13 +1,16 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract;
 
+import android.app.Activity;
+
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoMobStatusListener;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -19,11 +22,11 @@ public interface AfterPayHomeContract {
     interface IModel {
         void getAfterPayState(HashMap<String, String> map, OnAfterPayStateListener listener);
 
-        void uploadMobilePayState(String status, OnMobilePayStateListener listener);
-
         void requestYd0003(HashMap<String, String> map, OnFeeDetailListener listener);
 
         void getHospitalList(OnHospitalListListener listener);
+
+        void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoMobStatusListener listener);
     }
 
     interface IView {
@@ -36,15 +39,17 @@ public interface AfterPayHomeContract {
         void dismissLoading();
 
         void onHospitalListResult(HospitalEntity body);
+
+        void onYiBaoOpenStatusResult(String status);
     }
 
     interface IPresenter {
         void getAfterPayState(HashMap<String, String> map);
 
-        void uploadMobilePayState(String status);
-
         void requestYd0003(HashMap<String, String> map);
 
         void getHospitalList();
+
+        void queryYiBaoOpenStatus(Activity activity);
     }
 }
