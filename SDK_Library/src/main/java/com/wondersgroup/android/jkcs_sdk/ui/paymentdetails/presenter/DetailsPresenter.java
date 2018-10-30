@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter;
 
+import android.app.Activity;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
@@ -21,6 +22,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -203,6 +205,21 @@ public class DetailsPresenter<T extends DetailsContract.IView>
             });
         } else {
             throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+        }
+    }
+
+    @Override
+    public void getYiBaoToken(Activity activity) {
+        if (activity != null) {
+            WeakReference<Activity> weakReference = new WeakReference<>(activity);
+            mModel.getYiBaoToken(weakReference, token -> {
+                if (isNonNull()) {
+                    mViewRef.get().onYiBaoTokenResult(token);
+                }
+            });
+
+        } else {
+            LogUtil.e(TAG, "activity is null!");
         }
     }
 

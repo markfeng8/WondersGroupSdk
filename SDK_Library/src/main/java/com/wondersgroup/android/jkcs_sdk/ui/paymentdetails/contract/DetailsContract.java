@@ -1,16 +1,20 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract;
 
+import android.app.Activity;
+
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -31,6 +35,8 @@ public interface DetailsContract {
         void getPayParam(String orgCode, OnPayParamListener listener);
 
         void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
+
+        void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
     }
 
     interface IView {
@@ -49,6 +55,8 @@ public interface DetailsContract {
         void showLoading();
 
         void dismissLoading();
+
+        void onYiBaoTokenResult(String token);
     }
 
     interface IPresenter {
@@ -63,5 +71,7 @@ public interface DetailsContract {
         void getPayParam(String orgCode);
 
         void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map);
+
+        void getYiBaoToken(Activity activity);
     }
 }

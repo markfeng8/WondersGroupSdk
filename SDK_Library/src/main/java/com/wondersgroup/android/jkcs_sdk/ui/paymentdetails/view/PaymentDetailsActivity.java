@@ -23,7 +23,6 @@ import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
-import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -40,7 +39,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
@@ -58,7 +56,8 @@ import cn.wd.checkout.api.WDReqParams;
 import cn.wd.checkout.api.WDResult;
 
 /**
- * 缴费详情页面
+ * Created by x-sir on 2018/9/9 :)
+ * Function:缴费详情页面
  */
 public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IView,
         DetailsPresenter<DetailsContract.IView>> implements DetailsContract.IView {
@@ -207,36 +206,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         setAdapter();
     }
 
+    /**
+     * 设置点击事件的监听回调
+     */
     private void initListener() {
-        /*
-         * 设置点击缴费的监听回调
-         */
-        tvPayMoney.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(mFeeCashTotal)) {
-
-                String yiBaoToken = SpUtil.getInstance().getString(SpKey.YIBAO_TOKEN, "");
-                String tokenTime = SpUtil.getInstance().getString(SpKey.TOKEN_TIME, "");
-
-                // 判断医保 token 和 保存的 token 是否在有效期内，如果在就使用之前的获取到的，如果没有那就获取
-                if (!TextUtils.isEmpty(yiBaoToken) && !TextUtils.isEmpty(tokenTime) && !TimeUtil.isOver30min(tokenTime)) {
-
-                    // TODO: 2018/10/29 直接发起结算
-
-                }else {
-                    // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
-                    if (Double.parseDouble(mFeeCashTotal) == 0) {
-                        openYiBaoKeyBoard();
-                    } else {
-                        // 获取支付所需的参数
-                        mPresenter.getPayParam(mOrgCode);
-                    }
-                }
-
-            } else {
-                LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
-            }
-        });
-        titleBar.setOnBackListener(() -> showAlertDialog());
+        tvPayMoney.setOnClickListener(v -> mPresenter.getYiBaoToken(PaymentDetailsActivity.this));
+        titleBar.setOnBackListener(this::showAlertDialog);
     }
 
     private void showAlertDialog() {
@@ -509,6 +484,31 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
     }
 
+    /**
+     * 获取医保 token 的回调
+     *
+     * @param token 医保 token
+     */
+    @Override
+    public void onYiBaoTokenResult(String token) {
+        LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
+        if (!TextUtils.isEmpty(mFeeCashTotal)) {
+            /*
+             * 如果个人支付为 0，携带 token，直接调用正式结算接口发起正式结算，如果不为 0，
+             * 那就先个人支付(统一支付)，再进行医保支付
+             */
+            if (Double.parseDouble(mFeeCashTotal) == 0) {
+                // 携带 token 发起正式结算
+                mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+            } else {
+                // 进行现金部分结算，先获取统一支付所需的参数
+                mPresenter.getPayParam(mOrgCode);
+            }
+        } else {
+            LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
+        }
+    }
+
     public void refreshAdapter() {
         if (mAdapter != null) {
             mAdapter.setmItemList(mItemList);
@@ -583,34 +583,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     /**
-     * 打开医保键盘获取 token
-     * 如果是第一次需要弹出医保键盘获取 token，获取之后，如果在没退出页面，则此 token 30 min 内有效，
-     * 如果退出页面，则需要再次弹出键盘获取 token
-     */
-    private void openYiBaoKeyBoard() {
-        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(),
-                result -> {
-                    LogUtil.i(TAG, "result===" + result);
-                    if (!TextUtils.isEmpty(result)) {
-                        KeyboardBean keyboardBean = new Gson().fromJson(result, KeyboardBean.class);
-                        if (keyboardBean != null) {
-                            String code = keyboardBean.getCode();
-                            if ("0".equals(code)) {
-                                String token = keyboardBean.getToken();
-                                SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, token);
-                                SpUtil.getInstance().save(SpKey.TOKEN_TIME, TimeUtil.getCurrentMillis());
-                                // 携带 token 发起正式结算
-                                mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
-                            } else {
-                                String msg = keyboardBean.getMsg();
-                                WToastUtil.show(String.valueOf(msg));
-                            }
-                        }
-                    }
-                });
-    }
-
-    /**
      * 页面跳转的 action
      *
      * @param context  上下文
@@ -641,5 +613,4 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             mLoading.dispose();
         }
     }
-
 }
