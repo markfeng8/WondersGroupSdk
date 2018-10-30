@@ -150,13 +150,6 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private LinearLayout llToPayFee;
         private String orgCode;
         private String orgName;
-        private String feeState;
-        private String feeTotals;
-        private String feeCashTotal;
-        private String feeYbTotal;
-        private String feeOrgName;
-        private String feeOrgCode;
-        private int yd0008Size;
 
         HeaderViewHolder(View itemView) {
             super(itemView);
@@ -278,14 +271,6 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
-                // yd0008
-                feeState = afterHeaderBean.getFeeState();
-                feeTotals = afterHeaderBean.getFeeTotals();
-                feeCashTotal = afterHeaderBean.getFeeCashTotal();
-                feeYbTotal = afterHeaderBean.getFeeYbTotal();
-                feeOrgName = afterHeaderBean.getFeeOrgName();
-                feeOrgCode = afterHeaderBean.getFeeOrgCode();
-                yd0008Size = afterHeaderBean.getYd0008Size();
 
                 tvTreatName.setText(name);
                 if (!TextUtils.isEmpty(hospitalName)) {

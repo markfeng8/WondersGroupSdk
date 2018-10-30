@@ -63,7 +63,7 @@ public class TimeUtil {
         Date lockOrderTime = null;
         try {
             lockOrderTime = sdf5.parse(lockStartTime);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

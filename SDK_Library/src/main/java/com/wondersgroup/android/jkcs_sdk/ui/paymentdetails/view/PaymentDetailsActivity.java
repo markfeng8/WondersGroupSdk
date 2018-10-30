@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.iwgang.countdownview.CountdownView;
 import cn.wd.checkout.api.CheckOut;
 import cn.wd.checkout.api.WDCallBack;
 import cn.wd.checkout.api.WDPay;
@@ -69,7 +68,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private TextView tvPayName;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
-    private CountdownView countDownView;
     private View activityView;
     private TitleBarLayout titleBar;
     private String mOrgCode;
@@ -238,7 +236,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
             }
         });
-        countDownView.setOnCountdownEndListener(cv -> tvPayMoney.setEnabled(false));
         titleBar.setOnBackListener(() -> showAlertDialog());
     }
 
@@ -309,7 +306,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
         tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
-        countDownView = findViewById(R.id.countDownView);
     }
 
     private void setAdapter() {
@@ -382,13 +378,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
             SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockStartTime);
             SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
-
-            long countDownMillis = TimeUtil.getCountDownMillis(lockStartTime);
-            // 如果倒计时结束了或者为0，就不让点击"立即支付"
-            if (countDownMillis <= 0) {
-                tvPayMoney.setEnabled(false);
-            }
-            countDownView.start(countDownMillis);
 
             // 锁单成功后刷新订单号
             mHeadBean.setOrderNum(payPlatTradeNo);
