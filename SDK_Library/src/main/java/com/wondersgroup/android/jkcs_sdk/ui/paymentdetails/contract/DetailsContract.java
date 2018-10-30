@@ -12,6 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoOpenStatusListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
 
 import java.lang.ref.WeakReference;
@@ -37,6 +38,10 @@ public interface DetailsContract {
         void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
 
         void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
+
+        void getTryToSettleToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
+
+        void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoOpenStatusListener listener);
     }
 
     interface IView {
@@ -57,6 +62,12 @@ public interface DetailsContract {
         void dismissLoading();
 
         void onYiBaoTokenResult(String token);
+
+        void onTryToSettleTokenResult(String token);
+
+        void onYiBaoOpenSuccess();
+
+        void onCashPaySuccess();
     }
 
     interface IPresenter {
@@ -73,5 +84,12 @@ public interface DetailsContract {
         void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map);
 
         void getYiBaoToken(Activity activity);
+
+        void getTryToSettleToken(Activity activity);
+
+        void queryYiBaoOpenStatus(Activity activity);
+
+        void toSettleCashPay(Activity activity, String appId, String subMerNo, String apiKey, String orgName,
+                             String tradeNo, int payType, String amount);
     }
 }

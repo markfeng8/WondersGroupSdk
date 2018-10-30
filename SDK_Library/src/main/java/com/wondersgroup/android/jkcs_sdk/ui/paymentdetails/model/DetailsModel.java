@@ -11,8 +11,10 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
 import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
@@ -21,6 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoOpenStatusListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
@@ -441,6 +444,46 @@ public class DetailsModel implements DetailsContract.IModel {
                         }
                     });
         }
+    }
+
+    @Override
+    public void getTryToSettleToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener) {
+        Activity activity = weakReference.get();
+        if (activity == null) {
+            return;
+        }
+
+        AuthCall.getToken(activity, MakeArgsFactory.getTokenArgs(), result -> {
+            LogUtil.i(TAG, "result===" + result);
+            if (!TextUtils.isEmpty(result)) {
+                GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
+                String siCardCode = bean.getSiCardCode();
+                LogUtil.i(TAG, "siCardCode===" + siCardCode);
+                if (listener != null) {
+                    listener.onResult(siCardCode);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoOpenStatusListener listener) {
+        Activity activity = weakReference.get();
+        if (activity == null) {
+            return;
+        }
+
+        AuthCall.queryOpenStatus(activity, MakeArgsFactory.getOpenStatusArgs(), result -> {
+            if (!TextUtils.isEmpty(result)) {
+                LogUtil.i(TAG, "result===" + result);
+                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
+                int isYbPay = statusBean.getIsYbPay();
+
+                if (listener != null) {
+                    listener.onResult(isYbPay);
+                }
+            }
+        });
     }
 
 }
