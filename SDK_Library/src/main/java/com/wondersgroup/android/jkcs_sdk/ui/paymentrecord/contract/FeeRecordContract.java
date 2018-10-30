@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract;
+package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;

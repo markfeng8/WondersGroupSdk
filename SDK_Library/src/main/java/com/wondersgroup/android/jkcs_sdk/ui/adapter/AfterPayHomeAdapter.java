@@ -19,7 +19,8 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
@@ -255,7 +256,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private void requestYd0003() {
             String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
             if ("01".equals(mobPayStatus)) {
-                ((AfterPayHomeActivity) mContext).requestYd0003();
+                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
             } else {
                 WToastUtil.show("您未开通医保移动支付，请先开通！");
             }

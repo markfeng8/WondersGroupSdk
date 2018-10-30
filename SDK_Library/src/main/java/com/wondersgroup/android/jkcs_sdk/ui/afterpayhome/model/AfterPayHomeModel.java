@@ -166,7 +166,13 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void requestYd0003(HashMap<String, String> map, OnFeeDetailListener listener) {
+    public void requestYd0003(String orgCode, OnFeeDetailListener listener) {
+        String pageNumber = "1"; // 页数
+        String pageSize = "100"; // 每页的条数
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.ORG_CODE, orgCode);
+        map.put(MapKey.PAGE_NUMBER, pageNumber);
+        map.put(MapKey.PAGE_SIZE, pageSize);
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

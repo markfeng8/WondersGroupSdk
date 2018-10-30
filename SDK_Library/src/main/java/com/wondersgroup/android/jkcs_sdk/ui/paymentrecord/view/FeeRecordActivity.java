@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.payrecord.view;
+package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view;
 
 import android.content.Context;
 import android.content.Intent;

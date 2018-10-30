@@ -22,7 +22,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableObjectHashMap;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.view.FeeRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.contract.PersonalPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.presenter.PersonalPayPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;

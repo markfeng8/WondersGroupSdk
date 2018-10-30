@@ -10,7 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -27,11 +27,11 @@ import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:开通医后付页面的 Model 类
  */
-public class AfterPayModel implements AfterPayContract.IModel {
+public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
 
-    private static final String TAG = AfterPayModel.class.getSimpleName();
+    private static final String TAG = OpenAfterPayModel.class.getSimpleName();
     private String mName;
     private String mIdType;
     private String mIdNum;
@@ -40,7 +40,7 @@ public class AfterPayModel implements AfterPayContract.IModel {
     private String mPhone;
     private String mHomeAddress;
 
-    public AfterPayModel() {
+    public OpenAfterPayModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
         mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");

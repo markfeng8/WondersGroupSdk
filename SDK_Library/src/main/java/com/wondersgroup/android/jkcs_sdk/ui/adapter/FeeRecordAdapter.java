@@ -85,13 +85,13 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         MyViewHolder(View itemView) {
             super(itemView);
-            tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
-            tvFeeDate = (TextView) itemView.findViewById(R.id.tvFeeDate);
-            tvTradeNo = (TextView) itemView.findViewById(R.id.tvTradeNo);
-            tvPayMoney = (TextView) itemView.findViewById(R.id.tvPayMoney);
-            llHideLayout = (LinearLayout) itemView.findViewById(R.id.llHideLayout);
-            llHospitalItem = (LinearLayout) itemView.findViewById(R.id.llHospitalItem);
-            ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
+            tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
+            tvFeeDate = itemView.findViewById(R.id.tvFeeDate);
+            tvTradeNo = itemView.findViewById(R.id.tvTradeNo);
+            tvPayMoney = itemView.findViewById(R.id.tvPayMoney);
+            llHideLayout = itemView.findViewById(R.id.llHideLayout);
+            llHospitalItem = itemView.findViewById(R.id.llHospitalItem);
+            ivArrow = itemView.findViewById(R.id.ivArrow);
             initListener();
             setVisibility();
         }
@@ -101,64 +101,58 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         private void initListener() {
-            llHospitalItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO: 2018/10/19 点击时的展开布局的 bug
-                    int visibility = llHideLayout.getVisibility();
-                    boolean visible = visibility == View.VISIBLE;
-                    llHideLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
-                    ivArrow.setImageResource(visible ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
-                    if (!visible) {
-                        // 当里面为空的时候才去请求，请求过一次就不用再次请求了
-                        if (llHideLayout.getChildCount() == 0) {
-                            mBaseFragment.getFeeDetails(payPlatTradeNo, position, false);
-                        }
+            llHospitalItem.setOnClickListener(v -> {
+                // TODO: 2018/10/19 点击时的展开布局的 bug
+                int visibility = llHideLayout.getVisibility();
+                boolean visible = visibility == View.VISIBLE;
+                llHideLayout.setVisibility(visible ? View.GONE : View.VISIBLE);
+                ivArrow.setImageResource(visible ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
+                if (!visible) {
+                    // 当里面为空的时候才去请求，请求过一次就不用再次请求了
+                    if (llHideLayout.getChildCount() == 0) {
+                        mBaseFragment.getFeeDetails(payPlatTradeNo, position, false);
                     }
                 }
             });
-            tvPayMoney.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
-                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-                    if ("01".equals(mobPayStatus)) {
+            tvPayMoney.setOnClickListener(view -> {
+                // 需要判断医保移动支付状态是否开通，如果没开通就提示去开通
+                String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                if ("01".equals(mobPayStatus)) {
 
-                        String orgCode = detailsBean.getOrg_code();
-                        String orgName = detailsBean.getOrg_name();
-                        String feeState = detailsBean.getFee_state();
+                    String orgCode = detailsBean.getOrg_code();
+                    String orgName = detailsBean.getOrg_name();
+                    String feeState = detailsBean.getFee_state();
 
-                        if (!TextUtils.isEmpty(feeState)) {
-                            // 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
-                            // 00 全部未结算 01 医保未结算、自费已结(作保留）
-                            switch (feeState) {
-                                case "00":
-                                    PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
-                                    break;
-                                case "01":
-                                    // 当里面为空的时候才去请求，请求过一次就不用再次请求了
-                                    if (llHideLayout.getChildCount() == 0) {
-                                        mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
-                                    } else {
-                                        String feeTotal = detailsBean.getFee_total();
-                                        String feeCashTotal = detailsBean.getFee_cash_total();
-                                        String feeYbTotal = detailsBean.getFee_yb_total();
-                                        // 传递参数过去
-                                        PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode,
-                                                feeTotal, feeCashTotal, feeYbTotal, SettleUtil.getOfficialSettleParam(feeDetail));
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        } else {
-                            // 全部未结算，跳转到 "缴费详情" 页面
-                            PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                    if (!TextUtils.isEmpty(feeState)) {
+                        // 判断是否是全部未结算还是医保未结算跳转不同的处理逻辑
+                        // 00 全部未结算 01 医保未结算、自费已结(作保留）
+                        switch (feeState) {
+                            case "00":
+                                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, true);
+                                break;
+                            case "01":
+                                // 当里面为空的时候才去请求，请求过一次就不用再次请求了
+                                if (llHideLayout.getChildCount() == 0) {
+                                    mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
+                                } else {
+                                    String feeTotal = detailsBean.getFee_total();
+                                    String feeCashTotal = detailsBean.getFee_cash_total();
+                                    String feeYbTotal = detailsBean.getFee_yb_total();
+                                    // 传递参数过去
+                                    PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode,
+                                            feeTotal, feeCashTotal, feeYbTotal, SettleUtil.getOfficialSettleParam(feeDetail));
+                                }
+                                break;
+                            default:
+                                break;
                         }
-
                     } else {
-                        WToastUtil.show("您未开通医保移动支付，请先开通！");
+                        // 全部未结算，跳转到 "缴费详情" 页面
+                        PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
                     }
+
+                } else {
+                    WToastUtil.show("您未开通医保移动支付，请先开通！");
                 }
             });
         }

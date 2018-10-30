@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.payrecord.view;
+package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +13,8 @@ import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.FeeRecordAdapter;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter.FeeRecordPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;

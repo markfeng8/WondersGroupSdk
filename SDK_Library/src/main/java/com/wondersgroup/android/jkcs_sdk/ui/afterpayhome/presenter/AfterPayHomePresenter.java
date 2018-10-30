@@ -1,6 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
@@ -63,13 +64,13 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     }
 
     @Override
-    public void requestYd0003(HashMap<String, String> map) {
-        if (map != null && !map.isEmpty()) {
+    public void requestYd0003(String orgCode) {
+        if (!TextUtils.isEmpty(orgCode)) {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 showLoading();
             }
 
-            mModel.requestYd0003(map, new OnFeeDetailListener() {
+            mModel.requestYd0003(orgCode, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
@@ -90,7 +91,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
         }
     }
 

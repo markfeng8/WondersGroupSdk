@@ -17,8 +17,8 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.DetailsModel;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.PaymentDetailsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
@@ -36,25 +36,25 @@ import cn.wd.checkout.api.WDPayResult;
  * Created by x-sir on 2018/9/9 :)
  * Function:缴费详情页面的 Presenter
  */
-public class DetailsPresenter<T extends DetailsContract.IView>
-        extends MvpBasePresenter<T> implements DetailsContract.IPresenter {
+public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
+        extends MvpBasePresenter<T> implements PaymentDetailsContract.IPresenter {
 
-    private static final String TAG = "DetailsPresenter";
-    private DetailsContract.IModel mModel = new DetailsModel();
+    private static final String TAG = "PaymentDetailsPresenter";
+    private PaymentDetailsContract.IModel mModel = new PaymentDetailsModel();
 
     @Override
-    public void getUnclearedBill(HashMap<String, String> map) {
-        if (map != null && !map.isEmpty()) {
+    public void requestYd0003(String orgCode) {
+        if (!TextUtils.isEmpty(orgCode)) {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 showLoading();
             }
 
-            mModel.getUnclearedBill(map, new OnFeeDetailListener() {
+            mModel.requestYd0003(orgCode, new OnFeeDetailListener() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
                     if (isNonNull()) {
-                        mViewRef.get().feeBillResult(entity);
+                        mViewRef.get().onYd0003Result(entity);
                     }
                 }
 

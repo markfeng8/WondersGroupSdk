@@ -24,8 +24,8 @@ import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -46,8 +46,8 @@ import cn.wd.checkout.api.WDPay;
  * Created by x-sir on 2018/9/9 :)
  * Function:缴费详情页面
  */
-public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IView,
-        DetailsPresenter<DetailsContract.IView>> implements DetailsContract.IView {
+public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContract.IView,
+        PaymentDetailsPresenter<PaymentDetailsContract.IView>> implements PaymentDetailsContract.IView {
 
     private static final String TAG = "PaymentDetailsActivity";
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
@@ -84,8 +84,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private List<FeeBillEntity.DetailsBean> details;
 
     @Override
-    protected DetailsPresenter<DetailsContract.IView> createPresenter() {
-        return new DetailsPresenter<>();
+    protected PaymentDetailsPresenter<PaymentDetailsContract.IView> createPresenter() {
+        return new PaymentDetailsPresenter<>();
     }
 
     @Override
@@ -113,14 +113,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
         }
 
-        String pageNumber = "1"; // 页数
-        String pageSize = "100"; // 每页的条数
-        HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.ORG_CODE, mOrgCode);
-        map.put(MapKey.PAGE_NUMBER, pageNumber);
-        map.put(MapKey.PAGE_SIZE, pageSize);
         // 获取未结清账单详情
-        mPresenter.getUnclearedBill(map);
+        mPresenter.requestYd0003(mOrgCode);
 
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
@@ -178,7 +172,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     }
 
     @Override
-    public void feeBillResult(FeeBillEntity entity) {
+    public void onYd0003Result(FeeBillEntity entity) {
         if (entity != null) {
             String feeTotal = entity.getFee_total();
             List<HashMap<String, String>> detailsList = new ArrayList<>();

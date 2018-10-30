@@ -13,7 +13,6 @@ import com.epsoft.hzauthsdk.all.AuthCall;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
@@ -115,10 +114,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void initListener() {
         tvPayMoney.setOnClickListener(v -> {
-            Intent intent = new Intent(AfterPayHomeActivity.this, PaymentDetailsActivity.class);
-            intent.putExtra(IntentExtra.ORG_CODE, mOrgCode);
-            intent.putExtra(IntentExtra.ORG_NAME, mOrgName);
-            startActivity(intent);
+            PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
         });
     }
 
@@ -251,13 +247,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 请求 yd0003 接口
      */
     public void requestYd0003() {
-        String pageNumber = "1"; // 页数
-        String pageSize = "100"; // 每页的条数
-        HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.ORG_CODE, mOrgCode);
-        map.put(MapKey.PAGE_NUMBER, pageNumber);
-        map.put(MapKey.PAGE_SIZE, pageSize);
-        mPresenter.requestYd0003(map);
+        mPresenter.requestYd0003(mOrgCode);
     }
 
     @Override

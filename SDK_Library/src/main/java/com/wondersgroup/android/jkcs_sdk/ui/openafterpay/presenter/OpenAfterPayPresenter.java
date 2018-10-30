@@ -8,22 +8,22 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model.AfterPayModel;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model.OpenAfterPayModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:开通医后付
+ * Function:开通医后付页面的 Presenter
  */
-public class AfterPayPresenter<T extends AfterPayContract.IView>
-        extends MvpBasePresenter<T> implements AfterPayContract.IPresenter {
+public class OpenAfterPayPresenter<T extends OpenAfterPayContract.IView>
+        extends MvpBasePresenter<T> implements OpenAfterPayContract.IPresenter {
 
-    private static final String TAG = "AfterPayPresenter";
-    private AfterPayContract.IModel mModel = new AfterPayModel();
+    private static final String TAG = "OpenAfterPayPresenter";
+    private OpenAfterPayContract.IModel mModel = new OpenAfterPayModel();
 
-    public AfterPayPresenter() {
+    public OpenAfterPayPresenter() {
     }
 
     @Override

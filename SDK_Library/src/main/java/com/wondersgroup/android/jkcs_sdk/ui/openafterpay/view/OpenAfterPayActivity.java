@@ -14,8 +14,8 @@ import android.widget.ToggleButton;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.AfterPayContract;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.AfterPayPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
+import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.OpenAfterPayPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -25,8 +25,8 @@ import cn.iwgang.countdownview.CountdownView;
 /**
  * 开通医后付页面
  */
-public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView,
-        AfterPayPresenter<AfterPayContract.IView>> implements AfterPayContract.IView {
+public class OpenAfterPayActivity extends MvpBaseActivity<OpenAfterPayContract.IView,
+        OpenAfterPayPresenter<OpenAfterPayContract.IView>> implements OpenAfterPayContract.IView {
 
     private EditText etPhone;
     private EditText etSmsCode;
@@ -41,8 +41,8 @@ public class OpenAfterPayActivity extends MvpBaseActivity<AfterPayContract.IView
     private static final String TAG = "OpenAfterPayActivity";
 
     @Override
-    protected AfterPayPresenter<AfterPayContract.IView> createPresenter() {
-        return new AfterPayPresenter<>();
+    protected OpenAfterPayPresenter<OpenAfterPayContract.IView> createPresenter() {
+        return new OpenAfterPayPresenter<>();
     }
 
     @Override

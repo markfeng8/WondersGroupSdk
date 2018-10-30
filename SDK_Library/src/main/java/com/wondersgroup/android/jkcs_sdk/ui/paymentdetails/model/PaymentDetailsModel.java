@@ -32,7 +32,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.net.service.LockOrderService;
 import com.wondersgroup.android.jkcs_sdk.net.service.OrderDetailsService;
 import com.wondersgroup.android.jkcs_sdk.net.service.SettleService;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
@@ -52,16 +52,16 @@ import retrofit2.Response;
  * Created by x-sir on 2018/9/9 :)
  * Function:缴费详情页面的 Model 类
  */
-public class DetailsModel implements DetailsContract.IModel {
+public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 
-    private static final String TAG = "DetailsModel";
+    private static final String TAG = "PaymentDetailsModel";
     private String mName;
     private String mIdType;
     private String mIdNum;
     private String mCardType;
     private String mCardNum;
 
-    public DetailsModel() {
+    public PaymentDetailsModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
         mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
@@ -70,7 +70,13 @@ public class DetailsModel implements DetailsContract.IModel {
     }
 
     @Override
-    public void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener) {
+    public void requestYd0003(String orgCode, OnFeeDetailListener listener) {
+        String pageNumber = "1"; // 页数
+        String pageSize = "100"; // 每页的条数
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.ORG_CODE, orgCode);
+        map.put(MapKey.PAGE_NUMBER, pageNumber);
+        map.put(MapKey.PAGE_SIZE, pageSize);
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

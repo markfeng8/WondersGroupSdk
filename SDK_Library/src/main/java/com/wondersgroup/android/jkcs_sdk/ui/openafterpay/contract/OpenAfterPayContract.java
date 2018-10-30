@@ -5,9 +5,9 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:开通医后付页面的契约类
  */
-public interface AfterPayContract {
+public interface OpenAfterPayContract {
     interface IModel {
         void sendSmsCode(String phone, OnSmsSendListener listener);
 

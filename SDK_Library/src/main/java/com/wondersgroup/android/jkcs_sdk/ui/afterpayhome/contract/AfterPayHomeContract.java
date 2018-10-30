@@ -22,7 +22,7 @@ public interface AfterPayHomeContract {
     interface IModel {
         void getAfterPayState(HashMap<String, String> map, OnAfterPayStateListener listener);
 
-        void requestYd0003(HashMap<String, String> map, OnFeeDetailListener listener);
+        void requestYd0003(String orgCode, OnFeeDetailListener listener);
 
         void getHospitalList(OnHospitalListListener listener);
 
@@ -46,7 +46,7 @@ public interface AfterPayHomeContract {
     interface IPresenter {
         void getAfterPayState(HashMap<String, String> map);
 
-        void requestYd0003(HashMap<String, String> map);
+        void requestYd0003(String orgCode);
 
         void getHospitalList();
 

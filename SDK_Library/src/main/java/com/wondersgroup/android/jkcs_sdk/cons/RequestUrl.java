@@ -14,8 +14,7 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    //public static final String HOST = "http://122.225.124.34:39008";
-    public static final String HOST = "http://122.225.118.58:9008";
+    public static final String HOST = isTestEnv() ? "http://122.225.124.34:39008" : "http://122.225.118.58:9008";
 
     // 签约状态查询
     public static final String XY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0002";

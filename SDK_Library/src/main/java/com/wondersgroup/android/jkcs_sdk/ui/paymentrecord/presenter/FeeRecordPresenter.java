@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.payrecord.presenter;
+package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter;
 
 import android.text.TextUtils;
 
@@ -9,8 +9,8 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.model.FeeRecordModel;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.model.FeeRecordModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;

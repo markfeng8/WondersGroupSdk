@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.ui.payrecord.model;
+package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.model;
 
 import android.text.TextUtils;
 
@@ -14,7 +14,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeRecordService;
-import com.wondersgroup.android.jkcs_sdk.ui.payrecord.contract.FeeRecordContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
