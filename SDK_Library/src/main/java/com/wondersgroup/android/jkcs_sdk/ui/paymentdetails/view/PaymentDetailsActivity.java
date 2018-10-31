@@ -82,6 +82,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
     private List<FeeBillEntity.DetailsBean> details;
+    private String mYiBaoToken;
 
     @Override
     protected PaymentDetailsPresenter<PaymentDetailsContract.IView> createPresenter() {
@@ -357,18 +358,19 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     /**
-     * 获取医保 token 的回调
+     * 获取医保 mYiBaoToken 的回调
      */
     @Override
     public void onYiBaoTokenResult(String token) {
-        LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
+        this.mYiBaoToken = token;
+        LogUtil.i(TAG, "onYiBaoTokenResult() -> mYiBaoToken===" + token);
         if (!TextUtils.isEmpty(mFeeCashTotal)) {
             /*
-             * 如果个人支付为 0，携带 token，直接调用正式结算接口发起正式结算，如果不为 0，
+             * 如果个人支付为 0，携带 mYiBaoToken，直接调用正式结算接口发起正式结算，如果不为 0，
              * 那就先个人支付(统一支付)，再进行医保支付
              */
             if (Double.parseDouble(mFeeCashTotal) == 0) {
-                // 携带 token 发起正式结算
+                // 携带 mYiBaoToken 发起正式结算
                 mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
             } else {
                 // 进行现金部分结算，先获取统一支付所需的参数
@@ -381,10 +383,21 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void onCashPaySuccess() {
-        // 传递参数过去，false 代表还没有全部支付完成
-        PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
-                false, true, mOrgName, mOrgCode, mFeeTotal,
-                mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+        // 现金部分结算成功，继续支付医保部分（如果有）
+        if (!TextUtils.isEmpty(mFeeYbTotal)) {
+            // 如果医保部分为0，说明已经全部结算完成
+            if (Double.parseDouble(mFeeYbTotal) == 0) {
+                // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
+                        mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+
+            } else {
+                // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
+                mPresenter.sendOfficialPay(mYiBaoToken, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+            }
+        } else {
+            LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
+        }
     }
 
     @Override
@@ -463,7 +476,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         if (mLoading != null) {
             mLoading.dispose();
         }
-        // 页面销毁将保存的 token 和 token time 清空
+        // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
     }
