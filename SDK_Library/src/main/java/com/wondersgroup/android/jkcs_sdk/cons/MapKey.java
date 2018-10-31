@@ -19,12 +19,19 @@ public class MapKey {
     public static final String ORG_CODE = "org_code";// 医院代码
     public static final String TRAN_CODE = "tran_code";
     public static final String TIMESTAMP = "timestamp";
+    /**
+     * 调用状态 1 保存token 2 正式结算
+     */
+    public static final String TO_STATE = "to_state";
     public static final String START_DATE = "startdate";
     public static final String END_DATE = "enddate";
     public static final String PAGE_NUMBER = "pagenumber";
     public static final String PAGE_SIZE = "pagesize";
-    public static final String FEE_STATE = "fee_state"; // 00全部未结算 01医保已结算、自费未结（作保留查询）02 全部已结算（仅当天查询，作保留）
     public static final String FEE_TOTAL = "fee_total";
+    /**
+     * 00 全部未结算 01 医保已结算、自费未结（作保留查询）02 全部已结算（仅当天查询，作保留）
+     */
+    public static final String FEE_STATE = "fee_state";
     public static final String TOTAL_COUNT = "total_count";
     public static final String TOKEN = "token";
     public static final String ADVICE_DATE_TIME = "advice_datetime";
@@ -34,8 +41,10 @@ public class MapKey {
     public static final String FEE_ORDER = "fee_order";
     public static final String ORDER_NO = "order_no";
     public static final String ORDER_NAME = "order_name";
-    public static final String IDEN_CODE = "iden_code"; // 验证码
-    public static final String IDEN_CLASS = "iden_class"; // 通知类别
+    // 通知类别
+    public static final String IDEN_CLASS = "iden_class";
+    // 验证码
+    public static final String IDEN_CODE = "iden_code";
     public static final String REG_ORG_CODE = "reg_org_code";
     public static final String REG_ORG_NAME = "reg_org_name";
     public static final String HOME_ADDRESS = "home_address";

@@ -345,7 +345,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
+    public void sendOfficialPay(String toState, String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
         LogUtil.i(TAG, "adviceDateTime===" + adviceDateTime + ",payPlatTradeNo===" + payPlatTradeNo);
@@ -356,6 +356,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         map.put(MapKey.ORG_CODE, orgCode);
+        map.put(MapKey.TO_STATE, toState);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
         // 如果现金支付为 0时，锁单号固定传 0，如果不为0，就传真是锁单号

@@ -35,7 +35,7 @@ public interface PaymentDetailsContract {
 
         void getPayParam(String orgCode, OnPayParamListener listener);
 
-        void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
+        void sendOfficialPay(String toState, String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
 
         void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
 
@@ -81,7 +81,7 @@ public interface PaymentDetailsContract {
 
         void getPayParam(String orgCode);
 
-        void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map);
+        void sendOfficialPay(String toState, String token, String orgCode, HashMap<String, Object> map);
 
         void getYiBaoToken(Activity activity);
 

@@ -317,9 +317,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             String feeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
-            // 跳转过去，显示全部支付完成 true 代表全部支付完成
-            PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
-                    mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+            // 如果全部金额不为 null，说明时发起正式结算的回调，否则是上传 token 的回调
+            if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
+                // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
+                        mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+            }
         }
     }
 
@@ -364,13 +367,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         this.mYiBaoToken = token;
         LogUtil.i(TAG, "onYiBaoTokenResult() -> mYiBaoToken===" + token);
         if (!TextUtils.isEmpty(mFeeCashTotal)) {
+            // 发起正式结算保存 token
+            mPresenter.sendOfficialPay("1", token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
             /*
              * 如果个人支付为 0，携带 mYiBaoToken，直接调用正式结算接口发起正式结算，如果不为 0，
              * 那就先个人支付(统一支付)，再进行医保支付
              */
             if (Double.parseDouble(mFeeCashTotal) == 0) {
                 // 携带 mYiBaoToken 发起正式结算
-                mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+                mPresenter.sendOfficialPay("2", token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
             } else {
                 // 进行现金部分结算，先获取统一支付所需的参数
                 mPresenter.getPayParam(mOrgCode);
@@ -392,7 +397,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
             } else {
                 // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
-                mPresenter.sendOfficialPay(mYiBaoToken, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+                mPresenter.sendOfficialPay("2", mYiBaoToken, mOrgCode, SettleUtil.getOfficialSettleParam(details));
             }
         } else {
             LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");

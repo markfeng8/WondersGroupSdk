@@ -187,13 +187,13 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
     }
 
     @Override
-    public void sendOfficialPay(String token, String orgCode, HashMap<String, Object> map) {
+    public void sendOfficialPay(String toState, String token, String orgCode, HashMap<String, Object> map) {
         if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(orgCode)) {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 showLoading();
             }
 
-            mModel.sendOfficialPay(token, orgCode, map, new OnSettleListener() {
+            mModel.sendOfficialPay(toState, token, orgCode, map, new OnSettleListener() {
                 @Override
                 public void onSuccess(SettleEntity body) {
                     LogUtil.i(TAG, "sendOfficialPay() -> onSuccess()");
