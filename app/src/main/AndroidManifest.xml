@@ -80,6 +80,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!-- WondersGroup common pay pages. -->
 
         <!-- WXPay sdk begin -->
