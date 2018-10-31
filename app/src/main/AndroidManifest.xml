@@ -54,31 +54,31 @@
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayrules.AfterPayRuleActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- WondersGroup common pay pages. -->
 

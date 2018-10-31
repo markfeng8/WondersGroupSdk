@@ -144,7 +144,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     private void showAlertDialog() {
-        // R.style.AlertDialog
         new AlertDialog.Builder(this)
                 .setTitle("温馨提示")
                 .setMessage(getString(R.string.wonders_group_personal_pay_back_notice2))
