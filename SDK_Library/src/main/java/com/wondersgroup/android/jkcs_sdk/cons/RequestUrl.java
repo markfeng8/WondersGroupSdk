@@ -6,7 +6,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 /**
- * Company:WondersGroup
  * Created by x-sir on 2018/8/1 :)
  * Function:request url constants.
  */
@@ -26,9 +25,10 @@ public class RequestUrl {
     public static final String XY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0006";
     // 获取医院列表
     public static final String XY0008 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0008";
+
     // 移动支付开通状态
-    public static final String YD0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0002";
     public static final String YD0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0001";
+    public static final String YD0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0002";
     public static final String YD0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0003";
     public static final String YD0004 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0004";
     public static final String YD0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0005";
@@ -37,6 +37,15 @@ public class RequestUrl {
     public static final String YD0008 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0008";
     public static final String YD0009 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0009";
     public static final String YD0010 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0010";
+
+    // 住院部分接口
+    public static final String ZY0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0001";
+    public static final String ZY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0002";
+    public static final String ZY0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0003";
+    public static final String ZY0004 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0004";
+    public static final String ZY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0005";
+    public static final String ZY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0006";
+    public static final String ZY0007 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0007";
 
     // 统一支付回调地址
     public static final String SDKTOBILL = (isTestEnv() ? "test/" : "") + "huzh_credit/sdk/sdktobill";

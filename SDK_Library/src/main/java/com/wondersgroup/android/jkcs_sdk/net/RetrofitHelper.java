@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:Retrofit 2.x 网络请求的封装类
  */
 public class RetrofitHelper {
 

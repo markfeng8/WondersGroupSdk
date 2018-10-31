@@ -2,9 +2,8 @@ package com.wondersgroup.android.jkcs_sdk.cons;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:
+ * Function:页面跳转的 Intent name 的常量
  */
-
 public class IntentExtra {
 
     public static final String SERIALIZABLE_MAP = "SerializableHashMap";

@@ -2,7 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.cons;
 
 /**
  * Created by x-sir on 2018/8/2 :)
- * Function:
+ * Function:Map collection's key name constants.
  */
 public class MapKey {
 
