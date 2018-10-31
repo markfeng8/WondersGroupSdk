@@ -20,7 +20,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayrules.AfterPayRuleActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
@@ -33,7 +32,8 @@ import java.util.HashMap;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * 设置页面
+ * Created by x-sir on 2018/8/1 :)
+ * Function:设置页面
  */
 public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         SettingsPresenter<SettingsContract.IView>> implements SettingsContract.IView {

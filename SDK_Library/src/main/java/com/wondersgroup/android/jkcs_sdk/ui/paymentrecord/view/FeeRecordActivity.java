@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 支付记录页面
+ * Created by x-sir on 2018/8/9 :)
+ * Function:支付记录页面
  */
 public class FeeRecordActivity extends AppCompatActivity {
 

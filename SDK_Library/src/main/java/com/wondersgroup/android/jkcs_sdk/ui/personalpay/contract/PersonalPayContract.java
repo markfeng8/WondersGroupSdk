@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/9/17 :)
- * Function:
+ * Function:个人支付页面的契约类
  */
 public interface PersonalPayContract {
 

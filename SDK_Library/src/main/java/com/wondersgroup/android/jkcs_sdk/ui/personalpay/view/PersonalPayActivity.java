@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,7 +35,8 @@ import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 import java.util.HashMap;
 
 /**
- * 个人账户支付页面
+ * Created by x-sir on 2018/9/17 :)
+ * Function:个人账户支付页面
  */
 public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IView,
         PersonalPayPresenter<PersonalPayContract.IView>> implements PersonalPayContract.IView {
@@ -138,14 +138,14 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
 
     private void findViews() {
         titleBar = findViewById(R.id.titleBar);
-        tvTongChouPay = (TextView) findViewById(R.id.tvTongChouPay);
-        tvTotalPay = (TextView) findViewById(R.id.tvTotalPay);
-        tvPersonalPay = (TextView) findViewById(R.id.tvPersonalPay);
-        tvYiBaoPay = (TextView) findViewById(R.id.tvYiBaoPay);
-        tvCompleteTotal = (TextView) findViewById(R.id.tvCompleteTotal);
-        tvCompletePersonal = (TextView) findViewById(R.id.tvCompletePersonal);
-        tvCompleteYiBao = (TextView) findViewById(R.id.tvCompleteYiBao);
-        btnConfirmPay = (Button) findViewById(R.id.btnConfirmPay);
+        tvTongChouPay = findViewById(R.id.tvTongChouPay);
+        tvTotalPay = findViewById(R.id.tvTotalPay);
+        tvPersonalPay = findViewById(R.id.tvPersonalPay);
+        tvYiBaoPay = findViewById(R.id.tvYiBaoPay);
+        tvCompleteTotal = findViewById(R.id.tvCompleteTotal);
+        tvCompletePersonal = findViewById(R.id.tvCompletePersonal);
+        tvCompleteYiBao = findViewById(R.id.tvCompleteYiBao);
+        btnConfirmPay = findViewById(R.id.btnConfirmPay);
         activityView = findViewById(R.id.activityView);
         tvPayDetails = findViewById(R.id.tvPayDetails);
         llPaySuccess = findViewById(R.id.llPaySuccess);
@@ -155,25 +155,12 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
     }
 
     private void initListener() {
-        btnConfirmPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openYiBaoKeyBoard();
-            }
+        btnConfirmPay.setOnClickListener(v -> openYiBaoKeyBoard());
+        tvPayDetails.setOnClickListener(v -> {
+            FeeRecordActivity.actionStart(PersonalPayActivity.this);
+            finish();
         });
-        tvPayDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(PersonalPayActivity.this, FeeRecordActivity.class));
-                finish();
-            }
-        });
-        titleBar.setOnBackListener(new TitleBarLayout.OnBackClickListener() {
-            @Override
-            public void onClick() {
-                showAlertDialog();
-            }
-        });
+        titleBar.setOnBackListener(this::showAlertDialog);
     }
 
     private void showAlertDialog() {
@@ -181,12 +168,7 @@ public class PersonalPayActivity extends MvpBaseActivity<PersonalPayContract.IVi
         new AlertDialog.Builder(this)
                 .setTitle("温馨提示")
                 .setMessage(getString(R.string.wonders_group_personal_pay_back_notice))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PersonalPayActivity.this.finish();
-                    }
-                })
+                .setPositiveButton("确定", (dialog, which) -> PersonalPayActivity.this.finish())
                 .setNegativeButton("取消", null)
                 .show();
     }

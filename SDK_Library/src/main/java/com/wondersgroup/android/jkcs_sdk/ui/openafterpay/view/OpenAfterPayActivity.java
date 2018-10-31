@@ -23,7 +23,8 @@ import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * 开通医后付页面
+ * Created by x-sir on 2018/8/1 :)
+ * Function:开通医后付页面
  */
 public class OpenAfterPayActivity extends MvpBaseActivity<OpenAfterPayContract.IView,
         OpenAfterPayPresenter<OpenAfterPayContract.IView>> implements OpenAfterPayContract.IView {

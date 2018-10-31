@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/9/17 :)
- * Function:
+ * Function:个人支付的 Model
  */
 public class PersonalPayModel implements PersonalPayContract.IModel {
 
@@ -84,7 +84,7 @@ public class PersonalPayModel implements PersonalPayContract.IModel {
                     @Override
                     public void onFailure(Call<SettleEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        if(!TextUtils.isEmpty(error)) {
+                        if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
                             if (listener != null) {
                                 listener.onFailed(error);

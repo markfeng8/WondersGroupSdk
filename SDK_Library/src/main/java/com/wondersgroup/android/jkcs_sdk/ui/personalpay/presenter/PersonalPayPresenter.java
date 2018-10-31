@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/9/17 :)
- * Function:
+ * Function:个人支付的 Presenter
  */
 public class PersonalPayPresenter<T extends PersonalPayContract.IView>
         extends MvpBasePresenter<T> implements PersonalPayContract.IPresenter {
