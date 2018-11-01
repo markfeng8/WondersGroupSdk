@@ -4,53 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/wonders_group_after_pay_card" />
+    <include layout="@layout/wonders_group_self_pay_card" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/wonders_margin_16dp"
-        android:background="@color/wonders_rgb_color_e0e0e0" />
-
-    <LinearLayout
-        android:id="@+id/llSettings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/wonders_rgb_color_ffffff"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/wonders_padding_10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/wonders_margin_8dp"
-            android:drawableStart="@drawable/wonders_group_setting"
-            android:drawablePadding="@dimen/wonders_padding_4dp"
-            android:gravity="center"
-            android:text="@string/wonders_settings"
-            android:textColor="@color/wonders_rgb_color_333333"
-            android:textSize="@dimen/wonders_text_size_14sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/wonders_margin_10dp"
-            android:drawableEnd="@drawable/wonders_group_right_arrow"
-            android:drawablePadding="@dimen/wonders_padding_10dp"
-            android:text="@string/wonders_pass_update"
-            android:textColor="@color/wonders_rgb_color_b4b4b4"
-            android:textSize="@dimen/wonders_text_size_12sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <LinearLayout
