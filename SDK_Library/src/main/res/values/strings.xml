@@ -28,6 +28,7 @@
     <string name="wonders_to_pay_fee1">您有医后付欠费</string>
     <string name="wonders_to_pay_fee2">元，</string>
     <string name="wonders_settings">设置</string>
+    <string name="wonders_day_detailed_list">日清单列表</string>
     <string name="wonders_pay_fee"><u>点击缴纳</u>!</string>
     <string name="wonders_pay_records">查看未完成/已完成门诊订单</string>
     <string name="wonders_pass_update">修改手机号/取消医后付/查看协议</string>

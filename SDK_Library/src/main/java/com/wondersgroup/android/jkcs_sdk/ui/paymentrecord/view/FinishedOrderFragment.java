@@ -91,26 +91,15 @@ public class FinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.IVi
     }
 
     private void initListener() {
-        tvStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isStartTime = true;
-                showDate();
-            }
+        tvStartDate.setOnClickListener(v -> {
+            isStartTime = true;
+            showDate();
         });
-        tvEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isStartTime = false;
-                showDate();
-            }
+        tvEndDate.setOnClickListener(v -> {
+            isStartTime = false;
+            showDate();
         });
-        tvQuery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFeeState();
-            }
-        });
+        tvQuery.setOnClickListener(v -> getFeeState());
     }
 
     /**

@@ -297,6 +297,14 @@
         </HorizontalScrollView>
 
         <TextView
+            android:id="@+id/tvDayDetailed"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="日清单列表页面" />
+
+        <TextView
             android:id="@+id/tvVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
