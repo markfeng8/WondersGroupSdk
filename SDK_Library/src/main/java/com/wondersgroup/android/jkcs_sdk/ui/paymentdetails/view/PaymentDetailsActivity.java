@@ -368,14 +368,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         LogUtil.i(TAG, "onYiBaoTokenResult() -> mYiBaoToken===" + token);
         if (!TextUtils.isEmpty(mFeeCashTotal)) {
             // 发起正式结算保存 token
-            mPresenter.sendOfficialPay("1", token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+            sendOfficialPay(false, "1");
             /*
              * 如果个人支付为 0，携带 mYiBaoToken，直接调用正式结算接口发起正式结算，如果不为 0，
              * 那就先个人支付(统一支付)，再进行医保支付
              */
             if (Double.parseDouble(mFeeCashTotal) == 0) {
                 // 携带 mYiBaoToken 发起正式结算
-                mPresenter.sendOfficialPay("2", token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+                sendOfficialPay(true, "2");
             } else {
                 // 进行现金部分结算，先获取统一支付所需的参数
                 mPresenter.getPayParam(mOrgCode);
@@ -397,7 +397,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
             } else {
                 // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
-                mPresenter.sendOfficialPay("2", mYiBaoToken, mOrgCode, SettleUtil.getOfficialSettleParam(details));
+                sendOfficialPay(false, "2");
             }
         } else {
             LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
@@ -415,25 +415,21 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     /**
+     * 发起正式结算
+     *
+     * @param isPureYiBao 是否是纯医保
+     * @param toState     1 保存 token 2 正式结算
+     */
+    private void sendOfficialPay(boolean isPureYiBao, String toState) {
+        mPresenter.sendOfficialPay(isPureYiBao, toState, mYiBaoToken, mOrgCode,
+                SettleUtil.getOfficialSettleParam(details));
+    }
+
+    /**
      * 发起试结算请求
      */
     private void tryToSettle(String siCardCode) {
-        HashMap<String, Object> map = new HashMap<>();
-        List<HashMap<String, String>> detailsList = new ArrayList<>();
-        for (int i = 0; i < details.size(); i++) {
-            FeeBillEntity.DetailsBean detailsBean = details.get(i);
-            HashMap<String, String> detailItem = new HashMap<>();
-            detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-            detailItem.put(MapKey.ORDER_NO, payPlatTradeNo);
-            detailsList.add(detailItem);
-        }
-
-        if (detailsList.size() > 0) {
-            map.put(MapKey.DETAILS, detailsList);
-        }
-
-        // 发起试结算
-        mPresenter.tryToSettle(siCardCode, mOrgCode, map);
+        mPresenter.tryToSettle(siCardCode, mOrgCode, SettleUtil.getTryToSettleParam(payPlatTradeNo, details));
     }
 
     public void refreshAdapter() {
