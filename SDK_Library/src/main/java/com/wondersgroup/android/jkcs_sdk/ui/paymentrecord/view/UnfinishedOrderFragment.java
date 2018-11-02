@@ -61,7 +61,7 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
     public void initData() {
         super.initData();
         initSomeData();
-        getFeeState();
+        //getFeeState();
         initListener();
     }
 
