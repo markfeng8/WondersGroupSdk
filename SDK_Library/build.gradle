@@ -101,7 +101,7 @@ static def releaseTime() {
  * 打开Terminal输入命令:
  * ./gradlew assemble
  * 生成 aar 包(打包前修改versionCode & versionName)
- * ./gradlew makeAar
+ * ./gradlew makeAar （替换 wxpi 包名）
  * 查看 app 依赖库关系：
  * ./gradlew dependencies app:dependencies
  * 合并dev分支，请注意--no-ff参数，表示禁用Fast forward
