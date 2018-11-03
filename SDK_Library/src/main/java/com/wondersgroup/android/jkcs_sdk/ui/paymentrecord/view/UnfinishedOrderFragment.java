@@ -6,17 +6,16 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
-import com.wondersgroup.android.jkcs_sdk.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
@@ -159,8 +158,8 @@ public class UnfinishedOrderFragment extends MvpBaseFragment<FeeRecordContract.I
                  * 传递参数过去
                  * 此时还是未完成订单的状态，所以 isComplete 传 false
                  */
-                PersonalPayActivity.actionStart(mContext, false, true, orgName, orgCode, feeTotal, feeCashTotal,
-                        feeYbTotal, SettleUtil.getOfficialSettleParam(details));
+                PaymentResultActivity.actionStart(mContext, false, true, orgName, orgCode, feeTotal, feeCashTotal,
+                        feeYbTotal);
             } else {
                 // 如果是展开详情，直接刷新适配器即可
                 mItemList.get(mPosition).setFeeDetail(details);

@@ -8,21 +8,21 @@
     android:background="@color/wonders_rgb_color_ffffff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".ui.personalpay.view.PersonalPayActivity">
+    tools:context=".ui.paymentresult.view.PaymentResultActivity">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:text="@string/wonders_personal_pay"
+        app:text="@string/wonders_payment_result"
         app:textColor="@color/wonders_rgb_color_ffffff"
         app:textSize="@dimen/wonders_text_size_16sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
 
-    <include layout="@layout/wonders_group_personal_payment_result" />
+    <!--<include layout="@layout/wonders_group_personal_payment_result" />-->
 
     <include layout="@layout/wonders_group_payment_success" />
 
-    <!--<include layout="@layout/wonders_group_payment_failed" />-->
+    <include layout="@layout/wonders_group_payment_failed" />
 
 </LinearLayout>

@@ -26,7 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.adapter.DetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
@@ -312,6 +312,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void onOfficialSettleResult(SettleEntity body) {
+        // 正式结算成功~
         if (body != null) {
             String feeTotal = body.getFee_total();
             String feeCashTotal = body.getFee_cash_total();
@@ -320,10 +321,21 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             // 如果全部金额不为 null，说明时发起正式结算的回调，否则是上传 token 的回调
             if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
                 // 跳转过去，显示全部支付完成 true 代表全部支付完成
-                PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
-                        mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+                jumpToPaymentResultPage(true);
             }
+        } else { // 正式结算失败！
+            jumpToPaymentResultPage(false);
         }
+    }
+
+    /**
+     * 跳转到支付结果界面
+     *
+     * @param isSuccess true 正式结算成功，false 正式结算失败
+     */
+    private void jumpToPaymentResultPage(boolean isSuccess) {
+        PaymentResultActivity.actionStart(PaymentDetailsActivity.this, isSuccess, true,
+                mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal);
     }
 
     public void showSelectPayTypeWindow(DetailsAdapter.OnCheckedCallback onCheckedCallback) {
@@ -392,8 +404,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             // 如果医保部分为0，说明已经全部结算完成
             if (Double.parseDouble(mFeeYbTotal) == 0) {
                 // 跳转过去，显示全部支付完成 true 代表全部支付完成
-                PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
-                        mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+                jumpToPaymentResultPage(true);
 
             } else {
                 // 进行医保部分结算，携带 mYiBaoToken 发起正式结算

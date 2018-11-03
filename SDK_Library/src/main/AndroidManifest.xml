@@ -29,7 +29,7 @@
             android:name="com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity"

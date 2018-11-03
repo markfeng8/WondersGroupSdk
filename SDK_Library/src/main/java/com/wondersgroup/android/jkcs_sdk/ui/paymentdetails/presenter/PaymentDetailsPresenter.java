@@ -208,6 +208,10 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                     LogUtil.e(TAG, "sendOfficialPay() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
+                    if (isNonNull()) {
+                        // 传 null 表示正式结算失败！
+                        mViewRef.get().onOfficialSettleResult(null);
+                    }
                 }
             });
         } else {

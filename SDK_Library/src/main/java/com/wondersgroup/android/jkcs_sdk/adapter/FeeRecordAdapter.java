@@ -27,8 +27,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.FeeRecordLayout;
@@ -147,8 +146,8 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     String feeCashTotal = detailsBean.getFee_cash_total();
                                     String feeYbTotal = detailsBean.getFee_yb_total();
                                     // 传递参数过去
-                                    PersonalPayActivity.actionStart(mContext, true, true, orgName, orgCode,
-                                            feeTotal, feeCashTotal, feeYbTotal, SettleUtil.getOfficialSettleParam(feeDetail));
+                                    PaymentResultActivity.actionStart(mContext, true, true, orgName, orgCode,
+                                            feeTotal, feeCashTotal, feeYbTotal);
                                 }
                                 break;
                             default:
