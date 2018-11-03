@@ -23,8 +23,8 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
-import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
@@ -68,8 +68,6 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     /**
      * 设置并刷新数据
-     *
-     * @param itemList
      */
     public void setItemList(List<Object> itemList) {
         this.mItemList = itemList;
@@ -150,11 +148,11 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         HeaderViewHolder(View itemView) {
             super(itemView);
-            llPayRecord = (LinearLayout) itemView.findViewById(R.id.llPayRecord);
-            tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
-            tvSelectHospital = (TextView) itemView.findViewById(R.id.tvSelectHospital);
-            tvName = (TextView) itemView.findViewById(R.id.tvName);
-            tvIcNum = (TextView) itemView.findViewById(R.id.tvIcNum);
+            llPayRecord = itemView.findViewById(R.id.llPayRecord);
+            tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
+            tvSelectHospital = itemView.findViewById(R.id.tvSelectHospital);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvIcNum = itemView.findViewById(R.id.tvIcNum);
             initListener();
         }
 
@@ -174,22 +172,6 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
          */
         private void getHospitalList() {
             /*
-             * 1.选择医院需要先判断医保移动支付状态是否开通
-             */
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-            if (!"01".equals(mobPayStatus)) {
-                WToastUtil.show("您未开通医保移动支付，请先开通！");
-                return;
-            }
-            /*
-             * 2.如果开通了医保移动支付，继续判断医后付签约状态
-             */
-            String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
-            if (!"01".equals(signingStatus)) {
-                WToastUtil.show("您未开通医后付，请先开通医后付！");
-                return;
-            }
-            /*
              * 3.如果医后付也开通了，继续判断是否有待缴费记录
              */
             String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
@@ -200,7 +182,7 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             /*
              * 4.弹出医院列表
              */
-            ((AfterPayHomeActivity) mContext).getHospitalList();
+            ((SelfPayFeeActivity) mContext).getHospitalList();
         }
 
         @SuppressLint("SetTextI18n")
@@ -211,6 +193,9 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
+                tvName.setText(name);
+                tvIcNum.setText(icNum);
+                tvHospitalName.setText(hospitalName);
             }
         }
     }

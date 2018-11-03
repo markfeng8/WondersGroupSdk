@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/9/18 :)
- * Function:
+ * Function:缴费记录(门诊订单)页面数据的 Model
  */
 public class FeeRecordModel implements FeeRecordContract.IModel {
 
@@ -37,7 +37,7 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
     private String mName;
     private String mIdType;
     private String mIdNum;
-    private String mCardType;
+    private String mCardType; // 包含社保卡和自费卡
     private String mCardNum;
 
     public FeeRecordModel() {

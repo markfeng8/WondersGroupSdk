@@ -359,7 +359,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TO_STATE, toState);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
-        // 如果现金支付为 0时，锁单号固定传 0，如果不为0，就传真是锁单号
+        // 如果现金支付为 0时，锁单号固定传 0，如果不为0，就传真实锁单号
         map.put(MapKey.PAY_PLAT_TRADE_NO, isPureYiBao ? "0" : payPlatTradeNo);
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 

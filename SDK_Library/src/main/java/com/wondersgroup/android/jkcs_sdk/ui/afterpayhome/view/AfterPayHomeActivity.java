@@ -113,9 +113,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
-        tvPayMoney.setOnClickListener(v -> {
-            PaymentDetailsActivity.actionStart(AfterPayHomeActivity.this, mOrgCode, mOrgName, false);
-        });
+        tvPayMoney.setOnClickListener(v -> PaymentDetailsActivity.actionStart(
+                AfterPayHomeActivity.this, mOrgCode, mOrgName, false));
     }
 
     private void initData() {

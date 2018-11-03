@@ -8,18 +8,32 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract;
 
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+
 /**
  * Created by x-sir on 2018/10/31 :)
- * Function:
+ * Function:资费卡页面接口的契约类
  */
 public interface SelfPayFeeContract {
 
     interface IModel {
+
     }
 
     interface IView {
+        void showLoading();
+
+        void dismissLoading();
+
+        void onHospitalListResult(HospitalEntity body);
+
+        void onYd0003Result(FeeBillEntity entity);
     }
 
     interface IPresenter {
+        void getHospitalList();
+
+        void requestYd0003(String orgCode);
     }
 }

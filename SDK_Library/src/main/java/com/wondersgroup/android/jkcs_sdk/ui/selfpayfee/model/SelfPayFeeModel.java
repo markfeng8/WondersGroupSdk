@@ -16,5 +16,8 @@ import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract.SelfPayFeeContra
  */
 public class SelfPayFeeModel implements SelfPayFeeContract.IModel {
 
+    private static final String TAG = "SelfPayFeeModel";
 
+    public SelfPayFeeModel() {
+    }
 }
