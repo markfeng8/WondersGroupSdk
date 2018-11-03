@@ -13,8 +13,8 @@
 
     <com.wondersgroup.android.jkcs_sdk.widget.ArcView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:arcHeight="80dp"
+        android:layout_height="80dp"
+        app:arcHeight="32dp"
         app:bgColor="@color/wonders_rgb_color_1e90ff" />
 
     <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/wonders_margin_8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/wonders_margin_16dp"
             android:orientation="horizontal">
 
             <TextView
