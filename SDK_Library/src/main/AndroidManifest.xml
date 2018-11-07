@@ -49,13 +49,14 @@
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospital.view.InHospitalActivity"
+            android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->
         <activity
             android:name="cn.wd.checkout.api.WDWechatPaymentActivity"
-            android:launchMode="singleTask" />
-        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
-
+            android:launchMode="singleTask" /> <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
         <!-- 注意此处应该是接入 app 的全类名 + .wxapi.WXPayEntryActivity，打包时请注意 -->
         <!-- 健康湖州包名 io.dcloud.H5E20CCC5 -->
         <!-- demo 包名 com.wondersgroup.android.healthcity_sdk -->
@@ -65,6 +66,7 @@
             android:targetActivity="cn.wd.checkout.api.WDWechatPaymentActivity" />
         <!-- WXPay sdk end -->
 
+
         <!-- alipay sdk begin -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -73,6 +75,7 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- alipay sdk end -->
+
 
         <!-- 银联支付 -->
         <uses-library
@@ -97,23 +100,26 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name="cn.wd.checkout.api.WDVertifyActivity"
             android:label="@string/title_activity_vertify"
             android:launchMode="singleTask">
-            <!--要想在别的App上能成功调起App，必须添加intent过滤器-->
+
+            <!-- 要想在别的App上能成功调起App，必须添加intent过滤器 -->
             <intent-filter>
-                <!--协议部分，随便设置-->
+
+                <!-- 协议部分，随便设置 -->
                 <data
                     android:host="cash.wdepay.cn"
                     android:path="/vertify"
                     android:port="88888"
                     android:scheme="wdepay"
                     tools:ignore="AppLinkUrlError" />
-                <!--下面这几行也必须得设置-->
+                <!-- 下面这几行也必须得设置 -->
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
