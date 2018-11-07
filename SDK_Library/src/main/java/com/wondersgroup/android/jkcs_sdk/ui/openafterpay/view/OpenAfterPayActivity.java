@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -85,19 +84,11 @@ public class OpenAfterPayActivity extends MvpBaseActivity<OpenAfterPayContract.I
                 WToastUtil.show("请先勾选同意！");
             }
         });
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isAgreeRule = isChecked;
-            }
-        });
+        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> isAgreeRule = isChecked);
         btnBackToHome.setOnClickListener(v -> finish());
-        countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                countDownView.setVisibility(View.GONE);
-                btnGetSmsCode.setVisibility(View.VISIBLE);
-            }
+        countDownView.setOnCountdownEndListener(cv -> {
+            countDownView.setVisibility(View.GONE);
+            btnGetSmsCode.setVisibility(View.VISIBLE);
         });
     }
 

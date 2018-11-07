@@ -14,7 +14,7 @@ public class SpKey {
     public static final String SIGN_DATE = "SignDate";
     public static final String NOTICE_PHONE = "noticePhone"; // 通知手机号
     public static final String FEE_TOTAL = "feeTotal";
-    public static final String CARD_TYPE = "cardType"; // 就诊卡类型 0：社保卡
+    public static final String CARD_TYPE = "cardType"; // 就诊卡类型 0：社保卡 2：自费卡
     public static final String CARD_NUM = "cardNum";
     public static final String YIBAO_ENABLE = "yiBaoEnable"; // 是否允许医保支付
     public static final String LOCK_START_TIME = "lockStartTime"; // 锁单时间
