@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.inhospital.view.InHospitalActivity">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
@@ -13,5 +14,7 @@
         app:textColor="@color/wonders_rgb_color_ffffff"
         app:textSize="@dimen/wonders_text_size_16sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
+
+    <include layout="@layout/wonders_group_in_hospital_layout"/>
 
 </LinearLayout>

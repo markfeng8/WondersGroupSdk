@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llInHosDetail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:text="住院ID："
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvInHosId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:gravity="center"
+            android:text="213829"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:text="入院病区："
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvInHosArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:gravity="center"
+            android:text="呼吸一区"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:text="入院日期："
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvInHosDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:gravity="center"
+            android:text="2018-09-20"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:text="住院预交金："
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvInHosPrepayFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:gravity="center"
+            android:text="2900.18元"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:text="住院总费用："
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvInHosFeeTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:gravity="center"
+            android:text="2900.18元"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:columnCount="3"
+    app:rowCount="2">
+
+    <TextView
+        android:id="@+id/tvChongZhi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/wonders_group_hospital"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="预交金充值"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/tvLeaveHos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/wonders_group_hospital"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="出院结算"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/tvDayDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/wonders_group_hospital"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="日清单查询"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/tvChongZhiRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/wonders_group_hospital"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="充值记录"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/tvInHosRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/wonders_group_hospital"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="住院记录查询"
+        app:layout_columnWeight="1" />
+
+</android.support.v7.widget.GridLayout>

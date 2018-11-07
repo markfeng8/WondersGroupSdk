@@ -61,7 +61,7 @@
         <!-- 健康湖州包名 io.dcloud.H5E20CCC5 -->
         <!-- demo 包名 com.wondersgroup.android.healthcity_sdk -->
         <activity-alias
-            android:name="com.wondersgroup.android.healthcity_sdk.wxapi.WXPayEntryActivity"
+            android:name="io.dcloud.H5E20CCC5.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="cn.wd.checkout.api.WDWechatPaymentActivity" />
         <!-- WXPay sdk end -->
