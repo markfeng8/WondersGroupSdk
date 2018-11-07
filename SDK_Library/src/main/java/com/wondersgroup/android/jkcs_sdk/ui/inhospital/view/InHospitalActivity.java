@@ -8,10 +8,14 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospital.view;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospital.contract.InHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospital.presenter.InHospitalPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -30,5 +34,14 @@ public class InHospitalActivity extends MvpBaseActivity<InHospitalContract.IView
     @Override
     protected void bindView() {
         setContentView(R.layout.activity_in_hospital);
+    }
+
+    public static void actionStart(Context context) {
+        if (context != null) {
+            Intent intent = new Intent(context, InHospitalActivity.class);
+            context.startActivity(intent);
+        } else {
+            LogUtil.e(TAG, "context is null!");
+        }
     }
 }
