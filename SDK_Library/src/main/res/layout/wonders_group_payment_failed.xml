@@ -13,8 +13,8 @@
         android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:drawableStart="@drawable/wonders_group_mark"
         android:drawablePadding="@dimen/wonders_padding_10dp"
-        android:gravity="center"
-        android:text="结算失败！"
+        android:gravity="center_vertical"
+        android:text="医保结算失败。现金支付部分将在30分钟内，原路退回，请留意查看！"
         android:textColor="@color/wonders_rgb_color_58c78f"
         android:textSize="@dimen/wonders_text_size_16sp" />
 

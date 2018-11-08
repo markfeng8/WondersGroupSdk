@@ -52,6 +52,9 @@
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospital.view.InHospitalActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity"
+            android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->
         <activity
@@ -61,11 +64,10 @@
         <!-- 健康湖州包名 io.dcloud.H5E20CCC5 -->
         <!-- demo 包名 com.wondersgroup.android.healthcity_sdk -->
         <activity-alias
-            android:name="io.dcloud.H5E20CCC5.wxapi.WXPayEntryActivity"
+            android:name="com.wondersgroup.android.healthcity_sdk.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="cn.wd.checkout.api.WDWechatPaymentActivity" />
         <!-- WXPay sdk end -->
-
 
         <!-- alipay sdk begin -->
         <activity
