@@ -8,8 +8,8 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:color="@color/wonders_rgb_color_4395ff" android:state_focused="true" />
-    <item android:color="@color/wonders_rgb_color_4395ff" android:state_pressed="true" />
+    <item android:color="@color/wonders_rgb_color_268cff" android:state_focused="true" />
+    <item android:color="@color/wonders_rgb_color_268cff" android:state_pressed="true" />
     <item android:color="@color/wonders_rgb_color_333333" />
 
 </selector>

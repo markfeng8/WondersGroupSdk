@@ -39,13 +39,13 @@ public class RequestUrl {
     public static final String YD0010 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0010";
 
     // 住院部分接口
-    public static final String ZY0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0001";
-    public static final String ZY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0002";
-    public static final String ZY0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0003";
-    public static final String ZY0004 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0004";
-    public static final String ZY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0005";
-    public static final String ZY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0006";
-    public static final String ZY0007 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/zy0007";
+    public static final String CY0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0001";
+    public static final String CY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0002";
+    public static final String CY0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0003";
+    public static final String CY0004 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0004";
+    public static final String CY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0005";
+    public static final String CY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0006";
+    public static final String CY0007 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0007";
 
     // 统一支付回调地址
     public static final String SDKTOBILL = (isTestEnv() ? "test/" : "") + "huzh_credit/sdk/sdktobill";

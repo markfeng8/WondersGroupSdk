@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/wonders_margin_16dp"
                     android:text="湖州市中心医院"
-                    android:textColor="@color/wonders_rgb_color_666666"
+                    android:textColor="@color/wonders_rgb_color_969696"
                     android:textSize="@dimen/wonders_text_size_16sp" />
             </LinearLayout>
 
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:text="当前预交金余额"
-                    android:textColor="@color/wonders_rgb_color_666666"
+                    android:textColor="@color/wonders_rgb_color_969696"
                     android:textSize="@dimen/wonders_text_size_16sp" />
 
                 <TextView
@@ -71,7 +71,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/wonders_rgb_color_e0e0e0"
+            android:background="@color/wonders_rgb_color_f0f0f0"
             android:padding="@dimen/wonders_padding_8dp"
             android:text="请选择充值金额"
             android:textColor="@color/wonders_rgb_color_999999"
@@ -82,10 +82,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/wonders_rgb_color_e0e0e0"
+            android:layout_marginTop="@dimen/wonders_margin_8dp"
+            android:background="@color/wonders_rgb_color_f0f0f0"
             android:padding="@dimen/wonders_padding_8dp"
             android:text="请选择预交金充值方式"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
             android:textColor="@color/wonders_rgb_color_999999"
             android:textSize="@dimen/wonders_text_size_14sp" />
 
