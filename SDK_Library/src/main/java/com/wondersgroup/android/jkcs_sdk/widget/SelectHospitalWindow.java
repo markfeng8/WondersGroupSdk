@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.HospitalAdapter;
+import com.wondersgroup.android.jkcs_sdk.adapter.HospitalAdapter;
 
 import java.lang.ref.WeakReference;
 import java.util.List;

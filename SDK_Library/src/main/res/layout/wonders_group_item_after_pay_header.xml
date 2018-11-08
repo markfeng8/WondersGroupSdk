@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/wonders_group_afterpay_state_card" />
+    <include layout="@layout/wonders_group_after_pay_card" />
 
     <View
         android:layout_width="match_parent"
@@ -88,8 +88,6 @@
             android:textColor="@color/wonders_rgb_color_b4b4b4"
             android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
-
-    <include layout="@layout/wonders_group_need_payment" />
 
     <View
         android:layout_width="match_parent"

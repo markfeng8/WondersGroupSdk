@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 
-// 医后付协议页面
+/**
+ * Created by x-sir on 2018/8/1 :)
+ * Function:医后付协议页面
+ */
 public class AfterPayRuleActivity extends AppCompatActivity {
 
     @Override

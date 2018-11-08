@@ -3,21 +3,26 @@
     android:id="@+id/llPayFailed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
     android:orientation="vertical"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_10dp"
-        android:drawablePadding="@dimen/wonders_padding_10dp"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:drawableStart="@drawable/wonders_group_mark"
-        android:gravity="center"
-        android:text="结算失败！"
+        android:drawablePadding="@dimen/wonders_padding_10dp"
+        android:gravity="center_vertical"
+        android:text="医保结算失败。现金支付部分将在30分钟内，原路退回，请留意查看！"
         android:textColor="@color/wonders_rgb_color_58c78f"
         android:textSize="@dimen/wonders_text_size_16sp" />
 
-    <include layout="@layout/wonders_group_payment_result_common" />
+    <LinearLayout
+        android:id="@+id/llContainer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
     <TextView
         android:layout_width="match_parent"
@@ -30,13 +35,13 @@
         android:textSize="@dimen/wonders_text_size_12sp" />
 
     <Button
-        android:id="@+id/btnRepay"
+        android:id="@+id/btnBackToHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/wonders_margin_10dp"
         android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:background="@drawable/wonders_group_blue_shape"
-        android:text="重新支付"
+        android:text="回到首页"
         android:textColor="@color/wonders_rgb_color_ffffff"
         android:textSize="16sp" />
 

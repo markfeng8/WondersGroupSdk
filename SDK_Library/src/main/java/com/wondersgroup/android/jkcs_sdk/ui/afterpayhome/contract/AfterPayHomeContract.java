@@ -1,15 +1,16 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract;
 
+import android.app.Activity;
+
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnMobilePayStateListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoMobStatusListener;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -21,21 +22,17 @@ public interface AfterPayHomeContract {
     interface IModel {
         void getAfterPayState(HashMap<String, String> map, OnAfterPayStateListener listener);
 
-        void uploadMobilePayState(String status, OnMobilePayStateListener listener);
-
-        void getUnclearedBill(HashMap<String, String> map, OnFeeDetailListener listener);
+        void requestYd0003(String orgCode, OnFeeDetailListener listener);
 
         void getHospitalList(OnHospitalListListener listener);
 
-        void requestYd0008(OnFeeRecordListener listener);
-
-        void requestYd0009(String tradeNo, OnFeeDetailListener listener);
+        void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoMobStatusListener listener);
     }
 
     interface IView {
         void afterPayResult(AfterPayStateEntity entity);
 
-        void feeBillResult(FeeBillEntity entity);
+        void onYd0003Result(FeeBillEntity entity);
 
         void showLoading();
 
@@ -43,22 +40,16 @@ public interface AfterPayHomeContract {
 
         void onHospitalListResult(HospitalEntity body);
 
-        void onYd0008Result(FeeRecordEntity entity);
-
-        void onYd0009Result(FeeBillEntity entity);
+        void onYiBaoOpenStatusResult(String status);
     }
 
     interface IPresenter {
         void getAfterPayState(HashMap<String, String> map);
 
-        void uploadMobilePayState(String status);
-
-        void getUnclearedBill(HashMap<String, String> map);
+        void requestYd0003(String orgCode);
 
         void getHospitalList();
 
-        void requestYd0008();
-
-        void requestYd0009(String tradeNo);
+        void queryYiBaoOpenStatus(Activity activity);
     }
 }

@@ -12,6 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
 
 import java.util.HashMap;
 
@@ -86,20 +87,32 @@ public class WondersGroup {
         map.put(MapKey.CARD_NO, cardNum);
         // 家庭地址
         map.put(MapKey.HOME_ADDRESS, homeAddress);
-        startActivityWithParam(context, map, AfterPayHomeActivity.class);
+
+        savePassValues(map);
+
+        switch (cardType) {
+            case "0": // 0：社保卡
+                startActivityWithParam(context, map, AfterPayHomeActivity.class);
+                break;
+            case "2": // 2：自费卡
+                startActivityWithParam(context, map, SelfPayFeeActivity.class);
+                break;
+            default:
+                WToastUtil.show("非法的就诊卡类型！");
+                break;
+        }
     }
 
     /**
      * jump to activity with HashMap parameters.
      *
-     * @param context
-     * @param param
-     * @param clazz
+     * @param context 上下文
+     * @param param   map collection
+     * @param clazz   Activity Simple name
      */
     private static void startActivityWithParam(Context context, HashMap<String, String> param, Class<?> clazz) {
         if (context != null) {
             if (param != null && !param.isEmpty()) {
-                savePassValues(param);
                 // 传递数据
                 SerializableHashMap sMap = new SerializableHashMap();
                 sMap.setMap(param); // 将map数据添加到封装的sMap中

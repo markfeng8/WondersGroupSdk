@@ -10,38 +10,28 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
-import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
-import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.ui.adapter.DetailsAdapter;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.DetailsContract;
-import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.DetailsPresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.personalpay.view.PersonalPayActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.AppInfoUtil;
+import com.wondersgroup.android.jkcs_sdk.adapter.DetailsAdapter;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
@@ -50,32 +40,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.iwgang.countdownview.CountdownView;
-import cn.wd.checkout.api.CheckOut;
-import cn.wd.checkout.api.WDCallBack;
 import cn.wd.checkout.api.WDPay;
-import cn.wd.checkout.api.WDPayResult;
-import cn.wd.checkout.api.WDReqParams;
-import cn.wd.checkout.api.WDResult;
 
 /**
- * 缴费详情页面
+ * Created by x-sir on 2018/9/9 :)
+ * Function:缴费详情页面
  */
-public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IView,
-        DetailsPresenter<DetailsContract.IView>> implements DetailsContract.IView {
+public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContract.IView,
+        PaymentDetailsPresenter<PaymentDetailsContract.IView>> implements PaymentDetailsContract.IView {
 
     private static final String TAG = "PaymentDetailsActivity";
     private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
     private TextView tvPayName;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
-    private CountdownView countDownView;
     private View activityView;
     private TitleBarLayout titleBar;
     private String mOrgCode;
     private String mOrgName;
-    private String mPageNumber = "1"; // 页数
-    private String mPageSize = "100"; // 每页的条数
     private DetailHeadBean mHeadBean;
     private List<Object> mItemList = new ArrayList<>();
     private DetailsAdapter mAdapter;
@@ -100,63 +82,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
     private List<FeeBillEntity.DetailsBean> details;
-
-    // 支付结果返回入口
-    private WDCallBack bcCallback = new WDCallBack() {
-        @Override
-        public void done(final WDResult bcResult) {
-            final WDPayResult bcPayResult = (WDPayResult) bcResult;
-            PaymentDetailsActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String result = bcPayResult.getResult();
-                    LogUtil.i(TAG, "done result=" + result);
-
-                    switch (result) {
-                        case WDPayResult.RESULT_SUCCESS:
-                            WToastUtil.show("支付成功~");
-                            // 传递参数过去，false 代表还没有全部支付完成
-                            PersonalPayActivity.actionStart(PaymentDetailsActivity.this,
-                                    false, true, mOrgName, mOrgCode, mFeeTotal,
-                                    mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
-                            break;
-                        case WDPayResult.RESULT_CANCEL:
-                            WToastUtil.show("用户取消支付");
-                            break;
-                        case WDPayResult.RESULT_FAIL:
-                            String info = "支付失败, 原因: " + bcPayResult.getErrMsg() + ", " + bcPayResult.getDetailInfo();
-                            WToastUtil.show(info);
-                            break;
-                        case WDPayResult.FAIL_UNKNOWN_WAY:
-                            WToastUtil.show("未知支付渠道");
-                            break;
-                        case WDPayResult.FAIL_WEIXIN_VERSION_ERROR:
-                            WToastUtil.show("针对微信 支付版本错误（版本不支持）");
-                            break;
-                        case WDPayResult.FAIL_EXCEPTION:
-                            WToastUtil.show("支付过程中的Exception");
-                            break;
-                        case WDPayResult.FAIL_ERR_FROM_CHANNEL:
-                            WToastUtil.show("从第三方app支付渠道返回的错误信息，原因: " + bcPayResult.getErrMsg());
-                            break;
-                        case WDPayResult.FAIL_INVALID_PARAMS:
-                            WToastUtil.show("参数不合法造成的支付失败");
-                            break;
-                        case WDPayResult.RESULT_PAYING_UNCONFIRMED:
-                            WToastUtil.show("表示支付中，未获取确认信息");
-                            break;
-                        default:
-                            WToastUtil.show("invalid return");
-                            break;
-                    }
-                }
-            });
-        }
-    };
+    private String mYiBaoToken;
 
     @Override
-    protected DetailsPresenter<DetailsContract.IView> createPresenter() {
-        return new DetailsPresenter<>();
+    protected PaymentDetailsPresenter<PaymentDetailsContract.IView> createPresenter() {
+        return new PaymentDetailsPresenter<>();
     }
 
     @Override
@@ -184,12 +114,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
         }
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.ORG_CODE, mOrgCode);
-        map.put(MapKey.PAGE_NUMBER, mPageNumber);
-        map.put(MapKey.PAGE_SIZE, mPageSize);
         // 获取未结清账单详情
-        mPresenter.getUnclearedBill(map);
+        mPresenter.requestYd0003(mOrgCode);
 
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
@@ -209,27 +135,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         setAdapter();
     }
 
+    /**
+     * 设置点击事件的监听回调
+     */
     private void initListener() {
-        tvPayMoney.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(mFeeCashTotal)) {
-                // 如果个人支付为 0，直接调用医保键盘结算，如果不为 0，那就先个人支付(统一支付)，再医保支付
-                if (Double.parseDouble(mFeeCashTotal) == 0) {
-                    openYiBaoKeyBoard();
-                } else {
-                    // 获取支付所需的参数
-                    mPresenter.getPayParam(mOrgCode);
-                }
-            } else {
-                LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
-            }
-
-        });
-        countDownView.setOnCountdownEndListener(cv -> tvPayMoney.setEnabled(false));
-        titleBar.setOnBackListener(() -> showAlertDialog());
+        tvPayMoney.setOnClickListener(v -> mPresenter.getYiBaoToken(PaymentDetailsActivity.this));
+        titleBar.setOnBackListener(this::showAlertDialog);
     }
 
     private void showAlertDialog() {
-        // R.style.AlertDialog
         new AlertDialog.Builder(this)
                 .setTitle("温馨提示")
                 .setMessage(getString(R.string.wonders_group_personal_pay_back_notice2))
@@ -238,81 +152,27 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
                 .show();
     }
 
-
-    private void toPayMoney(String appId, String subMerNo, String apiKey) {
-        CheckOut.setIsPrint(true);
-        //CheckOut.setNetworkWay("");
-        // 设置统一支付回调地址
-        CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
-
-        Long i = 0L;
-
-        long formatCents = (long) (Double.parseDouble(mFeeCashTotal) * 100);
-
-        if (isNumeric(String.valueOf(formatCents))) {
-            i = Long.parseLong(String.valueOf(formatCents));
-        } else {
-            WToastUtil.show("请输入正确的交易金额（单位：分）");
-            return;
-        }
-
-        if ((mPayType == 2) && (!AppInfoUtil.isWeChatAppInstalled(this))) {
-            WToastUtil.show("您没有安装微信客户端，请先安装微信客户端！");
-        } else {
-            WDPay.reqPayAsync(PaymentDetailsActivity.this,
-                    appId, apiKey,
-                    getWdPayType(), subMerNo,
-                    mOrgName, // 订单标题
-                    "药品费", i, // 订单金额(分)
-                    payPlatTradeNo, // 订单流水号
-                    "药品费", null, // 扩展参数(可以null)
-                    bcCallback);
-        }
-    }
-
-    public boolean isNumeric(String s) {
-        return s != null && !"".equals(s.trim()) && s.matches("^[0-9]+(.[0-9]{1,2})?$");
-    }
-
-    /**
-     * 获取万达统一支付的支付类型
-     */
-    private WDReqParams.WDChannelTypes getWdPayType() {
-        WDReqParams.WDChannelTypes wdChannelTypes = null;
-        if (mPayType == 1) {
-            wdChannelTypes = WDReqParams.WDChannelTypes.alipay;
-        } else if (mPayType == 2) {
-            wdChannelTypes = WDReqParams.WDChannelTypes.wepay;
-        } else if (mPayType == 3) {
-            wdChannelTypes = WDReqParams.WDChannelTypes.uppaydirect_appand;
-        }
-        return wdChannelTypes;
-    }
-
     private void findViews() {
         titleBar = findViewById(R.id.titleBar);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        tvPayName = (TextView) findViewById(R.id.tvPayName);
-        tvMoneyNum = (TextView) findViewById(R.id.tvMoneyNum);
-        tvPayMoney = (TextView) findViewById(R.id.tvPayMoney);
+        recyclerView = findViewById(R.id.recyclerView);
+        tvPayName = findViewById(R.id.tvPayName);
+        tvMoneyNum = findViewById(R.id.tvMoneyNum);
+        tvPayMoney = findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
-        countDownView = findViewById(R.id.countDownView);
     }
 
     private void setAdapter() {
         if (mItemList != null && mItemList.size() > 0) {
             mAdapter = new DetailsAdapter(this, mItemList);
             recyclerView.setAdapter(mAdapter);
-            // 设置布局管理器
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
-            //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         }
     }
 
     @Override
-    public void feeBillResult(FeeBillEntity entity) {
+    public void onYd0003Result(FeeBillEntity entity) {
         if (entity != null) {
             String feeTotal = entity.getFee_total();
             List<HashMap<String, String>> detailsList = new ArrayList<>();
@@ -350,8 +210,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     /**
      * 获取 List 的组合数据
-     *
-     * @param details
      */
     private void getCombineListData(List<FeeBillEntity.DetailsBean> details) {
         for (int i = 0; i < details.size(); i++) {
@@ -369,28 +227,17 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
             SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockStartTime);
             SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
-
-            long countDownMillis = TimeUtil.getCountDownMillis(lockStartTime);
-            // 如果倒计时结束了或者为0，就不让点击"立即支付"
-            if (countDownMillis <= 0) {
-                tvPayMoney.setEnabled(false);
-            }
-            countDownView.start(countDownMillis);
-
             // 锁单成功后刷新订单号
             mHeadBean.setOrderNum(payPlatTradeNo);
             mItemList.set(0, mHeadBean);
             refreshAdapter();
-
             // 进行医保移动状态查询并发起试结算
-            getMobilePayState();
+            mPresenter.queryYiBaoOpenStatus(PaymentDetailsActivity.this);
         }
     }
 
     /**
      * 订单明细列表结果回调
-     *
-     * @param entity
      */
     @Override
     public void onOrderDetailsResult(OrderDetailsEntity entity) {
@@ -456,22 +303,39 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
             String version = body.getVersion();
             String subMerNo = body.getSubmerno();
             String apiKey = body.getApikey();
-            toPayMoney(appId, subMerNo, apiKey);
+            LogUtil.i(TAG, "appId===" + appId + ",version===" + version + ",subMerNo===" + subMerNo + ",apiKey===" + apiKey);
+            // 发起万达统一支付，支付现金部分
+            mPresenter.toSettleCashPay(PaymentDetailsActivity.this, appId, subMerNo, apiKey,
+                    mOrgName, payPlatTradeNo, mPayType, mFeeCashTotal);
         }
     }
 
     @Override
     public void onOfficialSettleResult(SettleEntity body) {
+        // 正式结算成功~
         if (body != null) {
             String feeTotal = body.getFee_total();
             String feeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
-
-            // 跳转过去，显示全部支付完成 true 代表全部支付完成
-            PersonalPayActivity.actionStart(PaymentDetailsActivity.this, true, true,
-                    mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal, SettleUtil.getOfficialSettleParam(details));
+            // 如果全部金额不为 null，说明时发起正式结算的回调，否则是上传 token 的回调
+            if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
+                // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                jumpToPaymentResultPage(true);
+            }
+        } else { // 正式结算失败！
+            jumpToPaymentResultPage(false);
         }
+    }
+
+    /**
+     * 跳转到支付结果界面
+     *
+     * @param isSuccess true 正式结算成功，false 正式结算失败
+     */
+    private void jumpToPaymentResultPage(boolean isSuccess) {
+        PaymentResultActivity.actionStart(PaymentDetailsActivity.this, isSuccess, true,
+                mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal);
     }
 
     public void showSelectPayTypeWindow(DetailsAdapter.OnCheckedCallback onCheckedCallback) {
@@ -507,6 +371,78 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         }
     }
 
+    /**
+     * 获取医保 mYiBaoToken 的回调
+     */
+    @Override
+    public void onYiBaoTokenResult(String token) {
+        this.mYiBaoToken = token;
+        LogUtil.i(TAG, "onYiBaoTokenResult() -> mYiBaoToken===" + token);
+        if (!TextUtils.isEmpty(mFeeCashTotal)) {
+            // 发起正式结算保存 token
+            sendOfficialPay(false, "1");
+            /*
+             * 如果个人支付为 0，携带 mYiBaoToken，直接调用正式结算接口发起正式结算，如果不为 0，
+             * 那就先个人支付(统一支付)，再进行医保支付
+             */
+            if (Double.parseDouble(mFeeCashTotal) == 0) {
+                // 携带 mYiBaoToken 发起正式结算
+                sendOfficialPay(true, "2");
+            } else {
+                // 进行现金部分结算，先获取统一支付所需的参数
+                mPresenter.getPayParam(mOrgCode);
+            }
+        } else {
+            LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
+        }
+    }
+
+    @Override
+    public void onCashPaySuccess() {
+        // 现金部分结算成功，继续支付医保部分（如果有）
+        if (!TextUtils.isEmpty(mFeeYbTotal)) {
+            // 如果医保部分为0，说明已经全部结算完成
+            if (Double.parseDouble(mFeeYbTotal) == 0) {
+                // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                jumpToPaymentResultPage(true);
+
+            } else {
+                // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
+                sendOfficialPay(false, "2");
+            }
+        } else {
+            LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
+        }
+    }
+
+    @Override
+    public void onYiBaoOpenSuccess() {
+        mPresenter.getTryToSettleToken(PaymentDetailsActivity.this);
+    }
+
+    @Override
+    public void onTryToSettleTokenResult(String token) {
+        tryToSettle(token);
+    }
+
+    /**
+     * 发起正式结算
+     *
+     * @param isPureYiBao 是否是纯医保
+     * @param toState     1 保存 token 2 正式结算
+     */
+    private void sendOfficialPay(boolean isPureYiBao, String toState) {
+        mPresenter.sendOfficialPay(isPureYiBao, toState, mYiBaoToken, mOrgCode,
+                SettleUtil.getOfficialSettleParam(details));
+    }
+
+    /**
+     * 发起试结算请求
+     */
+    private void tryToSettle(String siCardCode) {
+        mPresenter.tryToSettle(siCardCode, mOrgCode, SettleUtil.getTryToSettleParam(payPlatTradeNo, details));
+    }
+
     public void refreshAdapter() {
         if (mAdapter != null) {
             mAdapter.setmItemList(mItemList);
@@ -515,90 +451,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
 
     /**
      * 获取账单明细
-     *
-     * @param hisOrderNo
-     * @param position
      */
     public void getOrderDetails(String hisOrderNo, int position) {
         mClickItemPos = position;
         mPresenter.getOrderDetails(hisOrderNo, mOrgCode);
-    }
-
-    /**
-     * 查询医保移动支付状态
-     */
-    public void getMobilePayState() {
-        AuthCall.queryOpenStatus(PaymentDetailsActivity.this, MakeArgsFactory.getOpenStatusArgs(), result -> {
-            if (!TextUtils.isEmpty(result)) {
-                LogUtil.i(TAG, "result===" + result);
-                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
-                int isYbPay = statusBean.getIsYbPay();
-                if (isYbPay == 1) { // 已开通
-                    getYiBaoToken();
-                } else { // 未开通
-                    WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
-                }
-            }
-        });
-    }
-
-    private void getYiBaoToken() {
-        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getTokenArgs(), result -> {
-            LogUtil.i(TAG, "result===" + result);
-            if (!TextUtils.isEmpty(result)) {
-                GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
-                String siCardCode = bean.getSiCardCode();
-                LogUtil.i(TAG, "siCardCode===" + siCardCode);
-                if (siCardCode != null) {
-                    tryToSettle(siCardCode);
-                }
-            }
-        });
-    }
-
-    /**
-     * 发起试结算请求
-     *
-     * @param siCardCode
-     */
-    private void tryToSettle(String siCardCode) {
-        HashMap<String, Object> map = new HashMap<>();
-        List<HashMap<String, String>> detailsList = new ArrayList<>();
-        for (int i = 0; i < details.size(); i++) {
-            FeeBillEntity.DetailsBean detailsBean = details.get(i);
-            HashMap<String, String> detailItem = new HashMap<>();
-            detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-            detailItem.put(MapKey.ORDER_NO, payPlatTradeNo);
-            detailsList.add(detailItem);
-        }
-
-        if (detailsList.size() > 0) {
-            map.put(MapKey.DETAILS, detailsList);
-        }
-
-        // 发起试结算
-        mPresenter.tryToSettle(siCardCode, mOrgCode, map);
-    }
-
-    private void openYiBaoKeyBoard() {
-        AuthCall.getToken(PaymentDetailsActivity.this, MakeArgsFactory.getKeyboardArgs(),
-                result -> {
-                    LogUtil.i(TAG, "result===" + result);
-                    if (!TextUtils.isEmpty(result)) {
-                        KeyboardBean keyboardBean = new Gson().fromJson(result, KeyboardBean.class);
-                        if (keyboardBean != null) {
-                            String code = keyboardBean.getCode();
-                            if ("0".equals(code)) {
-                                String token = keyboardBean.getToken();
-                                // 携带 token 发起正式结算
-                                mPresenter.sendOfficialPay(token, mOrgCode, SettleUtil.getOfficialSettleParam(details));
-                            } else {
-                                String msg = keyboardBean.getMsg();
-                                WToastUtil.show(String.valueOf(msg));
-                            }
-                        }
-                    }
-                });
     }
 
     /**
@@ -631,6 +487,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<DetailsContract.IVie
         if (mLoading != null) {
             mLoading.dispose();
         }
+        // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
+        SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
+        SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
     }
-
 }

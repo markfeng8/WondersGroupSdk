@@ -24,16 +24,19 @@
     <color name="wonders_rgb_color_828282">#828282</color>
     <color name="wonders_rgb_color_bdbdbd">#BDBDBD</color>
     <color name="wonders_rgb_color_e0e0e0">#E0E0E0</color>
+    <color name="wonders_rgb_color_f0f0f0">#F0F0F0</color>
     <color name="wonders_rgb_color_f2f2f2">#F2F2F2</color>
     <color name="wonders_rgb_color_f8f8f8">#F8F8F8</color>
     <color name="wonders_rgb_color_00f6ff">#00F6FF</color>
     <color name="wonders_rgb_color_21d3c9">#21D3C9</color>
     <color name="wonders_rgb_color_d321d2">#D321D2</color>
+    <color name="wonders_rgb_color_d8d8d8">#D8D8D8</color>
     <color name="wonders_rgb_color_f76b1c">#F76B1C</color>
     <color name="wonders_rgb_color_b5eb45">#B5EB45</color>
     <color name="wonders_rgb_color_007edf">#007EDF</color>
     <color name="wonders_rgb_color_eeeeee">#EEEEEE</color>
     <color name="wonders_rgb_color_999999">#999999</color>
+    <color name="wonders_rgb_color_f7f7f8">#f7f7f8</color>
     <color name="wonders_rgb_color_1e90ff">#1E90FF</color>
     <color name="wonders_rgb_color_b0b0b0">#B0B0B0</color>
     <color name="wonders_rgb_color_3a5fcd">#3A5FCD</color>
@@ -52,6 +55,7 @@
     <color name="wonders_rgb_color_c4c5c6">#C4C5C6</color>
     <color name="wonders_rgb_color_2f3132">#2F3132</color>
     <color name="wonders_rgb_color_4395ff">#4395FF</color>
+    <color name="wonders_rgb_color_268cff">#268CFF</color>
     <color name="wonders_rgb_color_58c78f">#58C78F</color>
     <color name="wonders_rgb_color_0aae65">#0AAE65</color>
     <color name="wonders_rgb_color_04b6a1">#04B6A1</color>

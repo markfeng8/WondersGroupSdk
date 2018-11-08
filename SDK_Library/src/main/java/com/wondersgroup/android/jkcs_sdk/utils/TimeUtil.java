@@ -63,7 +63,7 @@ public class TimeUtil {
         Date lockOrderTime = null;
         try {
             lockOrderTime = sdf5.parse(lockStartTime);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -73,6 +73,22 @@ public class TimeUtil {
         }
 
         return reduceTime;
+    }
+
+    /**
+     * 返回当前时间的毫秒数
+     */
+    public static String getCurrentMillis() {
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+    /**
+     * 判断传入的时间是否超过当前时间 30 min
+     */
+    public static boolean isOver30min(String time) {
+        long millis = Long.parseLong(time);
+        long curTime = System.currentTimeMillis();
+        return (curTime - millis) > (30 * 60 * 1000);
     }
 
     /**

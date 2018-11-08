@@ -37,18 +37,22 @@ public class AppInfoUtil {
      * @return true安装, false未安装
      */
     public static boolean isWeChatAppInstalled(Context context) {
-        // 获取packageManager
-        final PackageManager packageManager = context.getPackageManager();
-        // 获取所有已安装程序的包信息
-        List<PackageInfo> pInfo = packageManager.getInstalledPackages(0);
-        if (pInfo != null) {
-            for (int i = 0; i < pInfo.size(); i++) {
-                String pn = pInfo.get(i).packageName;
-                if (pn.equalsIgnoreCase("com.tencent.mm")) {
-                    return true;
+        if (context != null) {
+            Context appContext = context.getApplicationContext();
+            // 获取packageManager
+            final PackageManager packageManager = appContext.getPackageManager();
+            // 获取所有已安装程序的包信息
+            List<PackageInfo> pInfo = packageManager.getInstalledPackages(0);
+            if (pInfo != null) {
+                for (int i = 0; i < pInfo.size(); i++) {
+                    String pn = pInfo.get(i).packageName;
+                    if (pn.equalsIgnoreCase("com.tencent.mm")) {
+                        return true;
+                    }
                 }
             }
         }
+
         return false;
     }
 }

@@ -28,6 +28,7 @@
     <string name="wonders_to_pay_fee1">您有医后付欠费</string>
     <string name="wonders_to_pay_fee2">元，</string>
     <string name="wonders_settings">设置</string>
+    <string name="wonders_day_detailed_list">日清单列表</string>
     <string name="wonders_pay_fee"><u>点击缴纳</u>!</string>
     <string name="wonders_pay_records">查看未完成/已完成门诊订单</string>
     <string name="wonders_pass_update">修改手机号/取消医后付/查看协议</string>
@@ -71,6 +72,9 @@
     <string name="wonders_ic_number">身份证号</string>
     <string name="wonders_finished_order">已完成订单</string>
     <string name="wonders_after_pay_home">医后付首页</string>
+    <string name="wonders_self_pay_home">自费卡首页</string>
+    <string name="wonders_in_hospital_service">住院服务</string>
+    <string name="wonders_payment_result">缴费结果</string>
     <string name="wonders_after_pay_rules">医后付协议</string>
     <string name="wonders_notification_phone">通知手机号</string>
     <string name="wonders_unfinished_order">未完成订单</string>
@@ -100,9 +104,8 @@
 </string>
     <string name="wonders_after_pay_home_notice">温馨提示：\n
         1.开通医后付，可在湖州五家市级医院享受“先看病后付费”服务。\n
-        2.开通移动支付，通过刷脸认证并设置移动支付密码后，享受在线医保支付服务。\n
-        3.订单需在30分钟内完成现金支付和医保支付两个步骤。30分钟内未全部完成，现金部分原路退回。</string>
+        2.开通移动支付，通过刷脸认证并设置移动支付密码后，享受在线医保支付服务。</string>
     <string name="wonders_group_select_pay_type">选择支付方式</string>
     <string name="wonders_group_personal_pay_back_notice">确定要放弃医保部分支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，现金部分将原路返回。</string>
-    <string name="wonders_group_personal_pay_back_notice2">确定要放弃支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，订单自动取消，现金部分将原路退回。</string>
+    <string name="wonders_group_personal_pay_back_notice2">确定要放弃支付吗？</string>
 </resources>

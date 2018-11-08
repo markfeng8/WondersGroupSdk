@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
  * Created by xpf on 2018/8/1 :)
  * Function:Activity的基类
  */
-
 public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends AppCompatActivity {
 
     public T mPresenter;

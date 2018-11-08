@@ -7,14 +7,14 @@ package com.wondersgroup.android.jkcs_sdk.cons;
 public class SpKey {
 
     public static final String NAME = "name";
-    public static final String PHONE = "phone";
+    public static final String PHONE = "phone"; // 平台上的手机号
     public static final String PASS_PHONE = "passPhone"; // 传过来的手机号
     public static final String ID_TYPE = "idType"; // 证件类型 01：身份证
     public static final String ID_NUM = "idNum";
     public static final String SIGN_DATE = "SignDate";
     public static final String NOTICE_PHONE = "noticePhone"; // 通知手机号
     public static final String FEE_TOTAL = "feeTotal";
-    public static final String CARD_TYPE = "cardType"; // 就诊卡类型 0：社保卡
+    public static final String CARD_TYPE = "cardType"; // 就诊卡类型 0：社保卡 2：自费卡
     public static final String CARD_NUM = "cardNum";
     public static final String YIBAO_ENABLE = "yiBaoEnable"; // 是否允许医保支付
     public static final String LOCK_START_TIME = "lockStartTime"; // 锁单时间
@@ -26,5 +26,7 @@ public class SpKey {
     public static final String AFTER_PAY_OPEN_SUCCESS = "afterPayOpenSuccess";
     public static final String SDK_DEBUG = "sdkDebug"; // sdk 是否时调试模式
     public static final String SDK_ENV = "sdkEnv"; // sdk 环境
-    public static final String YD0008_SIZE = "yd0008Size";
+    public static final String HOSPITAL_JSON = "hospitalJson";
+    public static final String YIBAO_TOKEN = "yiBaoToken"; // 医保 token
+    public static final String TOKEN_TIME = "tokenTime";// 医保 token 时间
 }

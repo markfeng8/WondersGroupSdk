@@ -21,7 +21,16 @@ public class MakeArgsFactory {
      * @return
      */
     public static BusinessArgs getOpenArgs() {
-        String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
+        /*
+         * 1、未开通医后付的，取健康湖州传过来 2、已开通医后付，取平台
+         */
+        String phone;
+        String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
+        if ("01".equals(signingStatus)) {
+            phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
+        } else {
+            phone = SpUtil.getInstance().getString(SpKey.PASS_PHONE, "");
+        }
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
@@ -41,7 +50,7 @@ public class MakeArgsFactory {
     }
 
     /**
-     * 获取试结算时弹出键盘的参数
+     * 获取医保结算时弹出键盘的参数
      *
      * @return
      */
