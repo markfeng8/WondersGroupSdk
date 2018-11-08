@@ -60,5 +60,5 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="@string/wonders_text_union_pay"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </RadioGroup>
