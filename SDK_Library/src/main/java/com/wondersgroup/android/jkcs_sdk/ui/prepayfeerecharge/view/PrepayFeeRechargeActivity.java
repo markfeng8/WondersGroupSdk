@@ -11,6 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -28,6 +29,7 @@ public class PrepayFeeRechargeActivity extends MvpBaseActivity<PrepayFeeRecharge
         PrepayFeeRechargePresenter<PrepayFeeRechargeContract.IView>> implements PrepayFeeRechargeContract.IView {
 
     private static final String TAG = "PrepayFeeRechargeActivity";
+    private ImageView ivBack;
     private RadioGroup rgPayType;
     private RadioButton rbAlipay;
     private RadioButton rbWeChatPay;
@@ -48,6 +50,7 @@ public class PrepayFeeRechargeActivity extends MvpBaseActivity<PrepayFeeRecharge
     }
 
     private void initListener() {
+        ivBack.setOnClickListener(view -> finish());
         rgPayType.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rbAlipay) {
                 mPayType = 1;
@@ -68,6 +71,7 @@ public class PrepayFeeRechargeActivity extends MvpBaseActivity<PrepayFeeRecharge
     }
 
     private void findViews() {
+        ivBack = findViewById(R.id.ivBack);
         rgPayType = findViewById(R.id.rgPayType);
         rbAlipay = findViewById(R.id.rbAlipay);
         rbWeChatPay = findViewById(R.id.rbWeChatPay);
