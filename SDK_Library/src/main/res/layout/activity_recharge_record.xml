@@ -7,9 +7,9 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
@@ -19,5 +19,11 @@
         app:textColor="@color/wonders_rgb_color_ffffff"
         app:textSize="@dimen/wonders_text_size_16sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

@@ -10,6 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -25,6 +26,7 @@ public class RechargeRecordActivity extends MvpBaseActivity<RechargeRecordContra
         RechargeRecordPresenter<RechargeRecordContract.IView>> implements RechargeRecordContract.IView {
 
     private static final String TAG = "RechargeRecordActivity";
+    private RecyclerView recyclerView;
 
     @Override
     protected RechargeRecordPresenter<RechargeRecordContract.IView> createPresenter() {
@@ -34,6 +36,11 @@ public class RechargeRecordActivity extends MvpBaseActivity<RechargeRecordContra
     @Override
     protected void bindView() {
         setContentView(R.layout.activity_recharge_record);
+        findViews();
+    }
+
+    private void findViews() {
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     public static void actionStart(Context context) {

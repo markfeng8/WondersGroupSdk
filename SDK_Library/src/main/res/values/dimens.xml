@@ -53,6 +53,7 @@
     <dimen name="wonders_margin_40dp">40dp</dimen>
     <dimen name="wonders_margin_48dp">48dp</dimen>
     <dimen name="wonders_margin_60dp">60dp</dimen>
+    <dimen name="wonders_margin_96dp">96dp</dimen>
     <dimen name="wonders_margin_100dp">100dp</dimen>
     <dimen name="wonders_margin_140dp">140dp</dimen>
     <dimen name="wonders_margin_160dp">160dp</dimen>

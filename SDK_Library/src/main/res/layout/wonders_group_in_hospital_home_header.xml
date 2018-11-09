@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/wonders_padding_8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_8dp">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="梁晓宁"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+
+        <TextView
+            android:id="@+id/tvHospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
+            android:text="湖州市中心医院"
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/wonders_padding_8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="身份证号："
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/ivIdNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
+            android:text="123456"
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+    </LinearLayout>
+</LinearLayout>

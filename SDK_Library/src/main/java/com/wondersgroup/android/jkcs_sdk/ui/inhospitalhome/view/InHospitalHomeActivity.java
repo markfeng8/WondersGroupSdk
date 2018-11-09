@@ -44,7 +44,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_in_hospital);
+        setContentView(R.layout.activity_in_hospital_home);
         findViews();
         initListener();
     }
