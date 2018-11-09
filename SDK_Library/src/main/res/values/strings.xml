@@ -74,6 +74,9 @@
     <string name="wonders_after_pay_home">医后付首页</string>
     <string name="wonders_self_pay_home">自费卡首页</string>
     <string name="wonders_in_hospital_service">住院服务</string>
+    <string name="wonders_in_hospital_record">历史住院记录</string>
+    <string name="wonders_leave_hospital_settle">出院结算</string>
+    <string name="wonders_recharge_record">充值记录</string>
     <string name="wonders_payment_result">缴费结果</string>
     <string name="wonders_after_pay_rules">医后付协议</string>
     <string name="wonders_notification_phone">通知手机号</string>

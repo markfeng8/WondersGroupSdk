@@ -18,7 +18,7 @@
         app:layout_columnWeight="1" />
 
     <TextView
-        android:id="@+id/tvChongZhiRecord"
+        android:id="@+id/tvRechargeRecord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/wonders_group_chongzhi_record"

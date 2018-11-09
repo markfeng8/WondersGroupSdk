@@ -6,15 +6,19 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.wondersgroup.android.jkcs_sdk.ui.inhospital.model;
-
-import com.wondersgroup.android.jkcs_sdk.ui.inhospital.contract.InHospitalContract;
+package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract;
 
 /**
- * Created by x-sir on 2018/11/7 :)
- * Function:住院页面的 Model
+ * Created by x-sir on 2018/11/9 :)
+ * Function:
  */
-public class InHospitalModel implements InHospitalContract.IModel {
+public interface LeaveHospitalContract {
+    interface IModel {
+    }
 
+    interface IView {
+    }
 
+    interface IPresenter {
+    }
 }

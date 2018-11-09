@@ -6,13 +6,13 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.wondersgroup.android.jkcs_sdk.ui.inhospital.contract;
+package com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract;
 
 /**
- * Created by x-sir on 2018/11/7 :)
- * Function:住院页面接口的契约类
+ * Created by x-sir on 2018/11/9 :)
+ * Function:
  */
-public interface InHospitalContract {
+public interface InHospitalRecordContract {
     interface IModel {
     }
 

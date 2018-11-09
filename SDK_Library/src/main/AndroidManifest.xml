@@ -50,10 +50,19 @@
             android:name="com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospital.view.InHospitalActivity"
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity"
             android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->

@@ -296,28 +296,12 @@
         </HorizontalScrollView>
 
         <TextView
-            android:id="@+id/tvDayDetailed"
-            android:padding="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="日清单列表页面" />
-
-        <TextView
             android:id="@+id/tvInHospital"
-            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="8dp"
             android:text="住院服务页面" />
-
-        <TextView
-            android:id="@+id/tvRecharge"
-            android:padding="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="预交金充值" />
 
         <TextView
             android:id="@+id/tvVersion"

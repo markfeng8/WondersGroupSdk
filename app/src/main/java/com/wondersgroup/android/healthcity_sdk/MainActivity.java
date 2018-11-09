@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.inhospital.view.InHospitalActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.WondersGroup;
 
 import butterknife.BindView;
@@ -58,12 +56,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMrTang;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
-    @BindView(R.id.tvDayDetailed)
-    TextView tvDayDetailed;
     @BindView(R.id.tvInHospital)
     TextView tvInHospital;
-    @BindView(R.id.tvRecharge)
-    TextView tvRecharge;
 
     private PersonBean mPersonWu;
     private PersonBean mPersonLu;
@@ -184,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
             R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang,
-            R.id.tvDayDetailed, R.id.tvInHospital, R.id.tvRecharge})
+            R.id.tvInHospital})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -217,14 +211,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tvMrTang:
                 setPersonInfo(mPersonTang);
                 break;
-            case R.id.tvDayDetailed:
-                DayDetailedListActivity.actionStart(this);
-                break;
             case R.id.tvInHospital:
-                InHospitalActivity.actionStart(this);
-                break;
-            case R.id.tvRecharge:
-                PrepayFeeRechargeActivity.actionStart(this);
+                InHospitalHomeActivity.actionStart(this);
                 break;
         }
     }

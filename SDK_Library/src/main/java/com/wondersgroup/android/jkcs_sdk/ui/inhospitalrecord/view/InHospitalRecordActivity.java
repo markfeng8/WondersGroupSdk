@@ -6,39 +6,39 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.wondersgroup.android.jkcs_sdk.ui.inhospital.view;
+package com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.inhospital.contract.InHospitalContract;
-import com.wondersgroup.android.jkcs_sdk.ui.inhospital.presenter.InHospitalPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract.InHospitalRecordContract;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.presenter.InHospitalRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
- * Created by x-sir on 2018/11/7 :)
- * Function:住院页面
+ * Created by x-sir on 2018/11/9 :)
+ * Function:
  */
-public class InHospitalActivity extends MvpBaseActivity<InHospitalContract.IView,
-        InHospitalPresenter<InHospitalContract.IView>> implements InHospitalContract.IView {
+public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordContract.IView,
+        InHospitalRecordPresenter<InHospitalRecordContract.IView>> implements InHospitalRecordContract.IView {
 
-    private static final String TAG = "InHospitalActivity";
+    private static final String TAG = "InHospitalRecordActivity";
 
     @Override
-    protected InHospitalPresenter<InHospitalContract.IView> createPresenter() {
-        return new InHospitalPresenter<>();
+    protected InHospitalRecordPresenter<InHospitalRecordContract.IView> createPresenter() {
+        return new InHospitalRecordPresenter<>();
     }
 
     @Override
     protected void bindView() {
-        setContentView(R.layout.activity_in_hospital);
+        setContentView(R.layout.activity_in_hospital_record);
     }
 
     public static void actionStart(Context context) {
         if (context != null) {
-            Intent intent = new Intent(context, InHospitalActivity.class);
+            Intent intent = new Intent(context, InHospitalRecordActivity.class);
             context.startActivity(intent);
         } else {
             LogUtil.e(TAG, "context is null!");
