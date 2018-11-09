@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llTitleBg"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:background="@color/wonders_rgb_color_1e90ff"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@drawable/wonders_group_gradient_shape"
+    android:fitsSystemWindows="true"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <ImageView
-        android:padding="@dimen/wonders_padding_8dp"
         android:id="@+id/ivBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/wonders_margin_8dp"
+        android:padding="@dimen/wonders_padding_8dp"
         android:src="@drawable/wonders_group_back_button" />
 
     <TextView

@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -75,28 +74,22 @@ public class TitleBarLayout extends LinearLayout {
         tvTitleName.setText(text);
         tvTitleName.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         tvTitleName.setTextColor(mTextColor);
-        llTitleBg.setBackgroundColor(mTitleBgColor);
+        //llTitleBg.setBackgroundColor(mTitleBgColor);
         ivMenu.setVisibility(mMenuVisible ? VISIBLE : INVISIBLE);
     }
 
     private void initListener() {
-        ivBack.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 如果监听器不为空就让其自己处理，为空就默认处理（销毁页面）
-                if (mOnBackListener != null) {
-                    mOnBackListener.onClick();
-                } else {
-                    ((Activity) getContext()).finish();
-                }
+        ivBack.setOnClickListener(v -> {
+            // 如果监听器不为空就让其自己处理，为空就默认处理（销毁页面）
+            if (mOnBackListener != null) {
+                mOnBackListener.onClick();
+            } else {
+                ((Activity) getContext()).finish();
             }
         });
-        ivMenu.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClick();
-                }
+        ivMenu.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onClick();
             }
         });
     }

@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.base;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 /**
  * Created by xpf on 2018/8/1 :)
@@ -18,6 +19,8 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
         mPresenter = createPresenter();
         mPresenter.attachView((V) this);
         bindView();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     /**
