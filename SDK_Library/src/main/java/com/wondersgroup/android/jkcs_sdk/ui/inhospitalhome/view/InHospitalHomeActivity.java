@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
@@ -22,6 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActi
 import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -31,6 +33,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         InHospitalHomePresenter<InHospitalHomeContract.IView>> implements InHospitalHomeContract.IView {
 
     private static final String TAG = "InHospitalHomeActivity";
+    private TextView tvName;
+    private TextView tvIdNum;
+    private TextView tvMobPayState;
     private TextView tvPrepayFee;
     private TextView tvRechargeRecord;
     private TextView tvDayDetail;
@@ -47,9 +52,20 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         setContentView(R.layout.activity_in_hospital_home);
         findViews();
         initListener();
+        initData();
+    }
+
+    private void initData() {
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        tvName.setText(name);
+        tvIdNum.setText(idNum);
     }
 
     private void findViews() {
+        tvName = findViewById(R.id.tvName);
+        tvIdNum = findViewById(R.id.tvIdNum);
+        tvMobPayState = findViewById(R.id.tvMobPayState);
         tvPrepayFee = findViewById(R.id.tvPrepayFee);
         tvRechargeRecord = findViewById(R.id.tvRechargeRecord);
         tvDayDetail = findViewById(R.id.tvDayDetail);

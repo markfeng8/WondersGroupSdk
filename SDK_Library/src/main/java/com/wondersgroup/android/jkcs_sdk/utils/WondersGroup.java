@@ -12,6 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
 
 import java.util.HashMap;
@@ -43,52 +44,48 @@ public class WondersGroup {
                                          @NonNull String cardNum,
                                          @NonNull String homeAddress) {
 
-        if (TextUtils.isEmpty(name)) {
-            WToastUtil.show("请输入姓名！");
+        if (checkParametersValidity(name, phone, idType, idNum, cardType, cardNum, homeAddress)) {
             return;
         }
-        if (TextUtils.isEmpty(phone) || phone.length() != 11) {
-            WToastUtil.show("手机号为空或非法！");
-            return;
-        }
-        if (TextUtils.isEmpty(idType) || idType.length() != 2) {
-            WToastUtil.show("证件类型为空或非法！");
-            return;
-        }
-        if (TextUtils.isEmpty(idNum) || idNum.length() != 18) {
-            WToastUtil.show("证件号码为空或非法！");
-            return;
-        }
-        if (TextUtils.isEmpty(cardType) || cardType.length() != 1) {
-            WToastUtil.show("就诊卡类型为空或非法！");
-            return;
-        }
-        if (TextUtils.isEmpty(cardNum) || cardNum.length() != 9) {
-            WToastUtil.show("就诊卡号为空或非法！");
-            return;
-        }
-        if (TextUtils.isEmpty(homeAddress)) {
-            WToastUtil.show("家庭地址为空或非法！");
-            return;
-        }
+        saveParametersValue(name, phone, idType, idNum, cardType, cardNum, homeAddress);
+        jumpToActivityWithHashMap(context, name, phone, idType, idNum, cardType, cardNum, homeAddress);
+    }
 
+    /**
+     * 跳转到住院页面首页
+     */
+    public static void startInHospitalHome(@NonNull Context context,
+                                           @NonNull String name,
+                                           @NonNull String phone,
+                                           @NonNull String idType,
+                                           @NonNull String idNum,
+                                           @NonNull String cardType,
+                                           @NonNull String cardNum,
+                                           @NonNull String homeAddress) {
+
+        if (checkParametersValidity(name, phone, idType, idNum, cardType, cardNum, homeAddress)) {
+            return;
+        }
+        saveParametersValue(name, phone, idType, idNum, cardType, cardNum, homeAddress);
+        InHospitalHomeActivity.actionStart(context);
+    }
+
+    private static void jumpToActivityWithHashMap(@NonNull Context context,
+                                                  @NonNull String name,
+                                                  @NonNull String phone,
+                                                  @NonNull String idType,
+                                                  @NonNull String idNum,
+                                                  @NonNull String cardType,
+                                                  @NonNull String cardNum,
+                                                  @NonNull String homeAddress) {
         HashMap<String, String> map = new HashMap<>();
-        // 姓名
         map.put(MapKey.NAME, name);
-        // 手机号
         map.put(MapKey.PHONE, phone);
-        // 证件类型
         map.put(MapKey.ID_TYPE, idType);
-        // 身份证号码
         map.put(MapKey.ID_NO, idNum);
-        // 就诊卡类型
         map.put(MapKey.CARD_TYPE, cardType);
-        // 社保卡号
         map.put(MapKey.CARD_NO, cardNum);
-        // 家庭地址
         map.put(MapKey.HOME_ADDRESS, homeAddress);
-
-        savePassValues(map);
 
         switch (cardType) {
             case "0": // 0：社保卡
@@ -101,6 +98,47 @@ public class WondersGroup {
                 WToastUtil.show("非法的就诊卡类型！");
                 break;
         }
+    }
+
+    /**
+     * 校验传递过来参数的合法性
+     */
+    private static boolean checkParametersValidity(@NonNull String name,
+                                                   @NonNull String phone,
+                                                   @NonNull String idType,
+                                                   @NonNull String idNum,
+                                                   @NonNull String cardType,
+                                                   @NonNull String cardNum,
+                                                   @NonNull String homeAddress) {
+        if (TextUtils.isEmpty(name)) {
+            WToastUtil.show("请输入姓名！");
+            return true;
+        }
+        if (TextUtils.isEmpty(phone) || phone.length() != 11) {
+            WToastUtil.show("手机号为空或非法！");
+            return true;
+        }
+        if (TextUtils.isEmpty(idType) || idType.length() != 2) {
+            WToastUtil.show("证件类型为空或非法！");
+            return true;
+        }
+        if (TextUtils.isEmpty(idNum) || idNum.length() != 18) {
+            WToastUtil.show("证件号码为空或非法！");
+            return true;
+        }
+        if (TextUtils.isEmpty(cardType) || cardType.length() != 1) {
+            WToastUtil.show("就诊卡类型为空或非法！");
+            return true;
+        }
+        if (TextUtils.isEmpty(cardNum) || cardNum.length() != 9) {
+            WToastUtil.show("就诊卡号为空或非法！");
+            return true;
+        }
+        if (TextUtils.isEmpty(homeAddress)) {
+            WToastUtil.show("家庭地址为空或非法！");
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -131,19 +169,10 @@ public class WondersGroup {
     }
 
     /**
-     * save passing values.
-     *
-     * @param param HashMap collection.
+     * save parameters value.
      */
-    private static void savePassValues(@NonNull HashMap<String, String> param) {
-        String name = param.get(MapKey.NAME);
-        String phone = param.get(MapKey.PHONE);
-        String idType = param.get(MapKey.ID_TYPE);
-        String idNum = param.get(MapKey.ID_NO);
-        String cardType = param.get(MapKey.CARD_TYPE);
-        String cardNum = param.get(MapKey.CARD_NO);
-        String homeAddress = param.get(MapKey.HOME_ADDRESS);
-
+    private static void saveParametersValue(String name, String phone, String idType, String idNum,
+                                            String cardType, String cardNum, String homeAddress) {
         SpUtil.getInstance().save(SpKey.NAME, name);
         SpUtil.getInstance().save(SpKey.PASS_PHONE, phone);
         SpUtil.getInstance().save(SpKey.ID_TYPE, idType);

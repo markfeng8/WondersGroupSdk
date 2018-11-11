@@ -191,15 +191,33 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnAfterPayHome"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@color/colorPrimary"
-            android:text="进入医后付首页"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAfterPayHome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="医后付首页"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnInHospitalHome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="住院服务首页"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -294,14 +312,6 @@
             </LinearLayout>
 
         </HorizontalScrollView>
-
-        <TextView
-            android:id="@+id/tvInHospital"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="住院服务页面" />
 
         <TextView
             android:id="@+id/tvVersion"
