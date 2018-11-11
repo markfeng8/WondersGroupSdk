@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayrules;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 
@@ -15,5 +16,7 @@ public class AfterPayRuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wonders_group_activity_after_pay_rule);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 }

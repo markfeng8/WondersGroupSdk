@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
 import com.wondersgroup.android.jkcs_sdk.adapter.MyFragmentPagerAdapter;
+import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class FeeRecordActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wonders_group_activity_pay_record);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         findViews();
         initData();
         initFragment();
