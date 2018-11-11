@@ -16,5 +16,9 @@ import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHo
  */
 public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
 
+    private static final String TAG = "InHospitalHomeModel";
 
+    public InHospitalHomeModel() {
+
+    }
 }

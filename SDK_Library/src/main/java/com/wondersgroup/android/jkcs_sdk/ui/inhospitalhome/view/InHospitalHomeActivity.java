@@ -12,7 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
 
+import com.epsoft.hzauthsdk.all.AuthCall;
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
@@ -23,7 +25,10 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActi
 import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
+import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -60,6 +65,10 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
         tvIdNum.setText(idNum);
+        /*
+         * 查询医保移动支付开通状态
+         */
+        mPresenter.queryYiBaoOpenStatus(this);
     }
 
     private void findViews() {
@@ -84,6 +93,43 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvLeaveHos.setOnClickListener(view -> LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this));
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> InHospitalRecordActivity.actionStart(InHospitalHomeActivity.this));
+        // 去开通医保移动支付
+        tvMobPayState.setOnClickListener(view -> openYiBaoMobPay());
+    }
+
+    /**
+     * 开通医保移动付
+     */
+    private void openYiBaoMobPay() {
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            AuthCall.businessProcess(InHospitalHomeActivity.this,
+                    MakeArgsFactory.getOpenArgs(), WToastUtil::show);
+        } else {
+            WToastUtil.show("网络连接错误，请检查您的网络连接！");
+        }
+    }
+
+    @Override
+    public void onYiBaoOpenStatusResult(String status) {
+        if ("00".equals(status)) { // 00 未签约
+            setMobilePayState(true);
+        } else if ("01".equals(status)) { // 01 已签约
+            setMobilePayState(false);
+        }
+    }
+
+    /**
+     * 设置医保移动付状态
+     */
+    private void setMobilePayState(boolean enable) {
+        if (enable) {
+            tvMobPayState.setText(getString(R.string.wonders_to_open_mobile_pay));
+            tvMobPayState.setEnabled(true);
+            tvMobPayState.setCompoundDrawables(null, null, null, null);
+        } else {
+            tvMobPayState.setText(getString(R.string.wonders_open_mobile_pay));
+            tvMobPayState.setEnabled(false);
+        }
     }
 
     public static void actionStart(Context context) {

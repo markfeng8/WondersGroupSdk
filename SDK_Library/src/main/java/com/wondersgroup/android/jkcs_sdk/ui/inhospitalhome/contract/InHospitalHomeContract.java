@@ -8,6 +8,8 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract;
 
+import android.app.Activity;
+
 /**
  * Created by x-sir on 2018/11/7 :)
  * Function:住院页面接口的契约类
@@ -17,8 +19,10 @@ public interface InHospitalHomeContract {
     }
 
     interface IView {
+        void onYiBaoOpenStatusResult(String status);
     }
 
     interface IPresenter {
+        void queryYiBaoOpenStatus(Activity activity);
     }
 }

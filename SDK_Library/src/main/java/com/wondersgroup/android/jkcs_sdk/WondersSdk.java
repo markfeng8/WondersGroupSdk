@@ -17,6 +17,8 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
  */
 public class WondersSdk {
 
+    private static final String TAG = "WondersSdk";
+
     private WondersSdk() {
     }
 
@@ -36,6 +38,8 @@ public class WondersSdk {
 
     private void initEpSoft(Context context) {
         AuthCall.initApplication((Application) context);
+        AuthCall.initSDK(context, "6151490102",
+                result -> LogUtil.e(TAG, "result===" + result));
     }
 
     private void initLog(boolean isDebug) {

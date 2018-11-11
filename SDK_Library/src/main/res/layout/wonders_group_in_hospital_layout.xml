@@ -45,7 +45,7 @@
                 android:layout_marginStart="@dimen/wonders_margin_8dp"
                 android:background="@drawable/wonders_group_open_state_selector"
                 android:drawableStart="@drawable/wonders_group_already_open"
-                android:enabled="true"
+                android:enabled="false"
                 android:gravity="center"
                 android:paddingStart="@dimen/wonders_padding_8dp"
                 android:paddingEnd="@dimen/wonders_padding_8dp"

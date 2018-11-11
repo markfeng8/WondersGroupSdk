@@ -195,7 +195,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             /*
              * 去开通医保移动支付
              */
-            tvMobilePayState.setOnClickListener(v -> openMobilePay());
+            tvMobilePayState.setOnClickListener(v -> openYiBaoMobPay());
             /*
              * 点击跳转到 "设置" 页面
              */
@@ -348,7 +348,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         /**
          * 开通医保移动付
          */
-        private void openMobilePay() {
+        private void openYiBaoMobPay() {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
                 AuthCall.businessProcess(mContext,
                         MakeArgsFactory.getOpenArgs(), WToastUtil::show);

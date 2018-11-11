@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -117,9 +116,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initData() {
-        AuthCall.initSDK(AfterPayHomeActivity.this, "6151490102",
-                result -> LogUtil.e(TAG, "result===" + result));
-
         mLoading = new LoadingView.Builder(this)
                 .setDropView(activityView)
                 .build();
