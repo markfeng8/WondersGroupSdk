@@ -7,8 +7,7 @@
     <com.wondersgroup.android.jkcs_sdk.widget.ArcView
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        app:arcHeight="80dp"
-        app:bgColor="@color/wonders_rgb_color_1e90ff" />
+        app:arcHeight="80dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
