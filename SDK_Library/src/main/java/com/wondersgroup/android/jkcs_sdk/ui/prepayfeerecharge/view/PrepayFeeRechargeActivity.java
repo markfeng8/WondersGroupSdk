@@ -11,9 +11,11 @@ package com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -29,6 +31,11 @@ public class PrepayFeeRechargeActivity extends MvpBaseActivity<PrepayFeeRecharge
         PrepayFeeRechargePresenter<PrepayFeeRechargeContract.IView>> implements PrepayFeeRechargeContract.IView {
 
     private static final String TAG = "PrepayFeeRechargeActivity";
+    private TextView tv600;
+    private TextView tv500;
+    private TextView tv1000;
+    private TextView tv2000;
+    private EditText etInput;
     private ImageView ivBack;
     private RadioGroup rgPayType;
     private RadioButton rbAlipay;

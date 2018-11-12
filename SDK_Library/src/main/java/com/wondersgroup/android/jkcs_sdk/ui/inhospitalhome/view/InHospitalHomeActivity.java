@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -93,11 +94,14 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         initData();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
-        tvIdNum.setText(idNum);
+        String start = idNum.substring(0, 6);
+        String end = idNum.substring(idNum.length() - 4, idNum.length());
+        tvIdNum.setText(start + "********" + end);
         /*
          * 查询医保移动支付开通状态
          */
