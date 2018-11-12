@@ -11,10 +11,13 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter;
 import android.app.Activity;
 
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -42,5 +45,33 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
         } else {
             LogUtil.e(TAG, "activity is null!");
         }
+    }
+
+    @Override
+    public void getHospitalList() {
+//        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+//            showLoading();
+//        }
+
+        mModel.getHospitalList(new OnHospitalListListener() {
+            @Override
+            public void onSuccess(HospitalEntity body) {
+                LogUtil.i(TAG, "get hospital list success~");
+                //dismissLoading();
+                if (isNonNull()) {
+                    mViewRef.get().onHospitalListResult(body);
+                }
+            }
+
+            @Override
+            public void onFailed(String errCodeDes) {
+                LogUtil.e(TAG, "get hospital list failed!");
+                //dismissLoading();
+                WToastUtil.show(errCodeDes);
+                if (isNonNull()) {
+                    mViewRef.get().onHospitalListResult(null);
+                }
+            }
+        });
     }
 }

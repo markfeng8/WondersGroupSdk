@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/activityView"
     tools:context=".ui.inhospitalhome.view.InHospitalHomeActivity">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
