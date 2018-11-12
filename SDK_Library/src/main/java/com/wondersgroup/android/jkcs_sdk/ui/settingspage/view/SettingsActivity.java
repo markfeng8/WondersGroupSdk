@@ -69,6 +69,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private String mPhone;
     private String mSignDate;
     private int mFlag = -1; // 标志是哪个弹窗， 1 为修改通知手机号，2 为解约医后付
+    private String mNoticePhone;
 
     @Override
     protected SettingsPresenter<SettingsContract.IView> createPresenter() {
@@ -97,6 +98,17 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     public void terminationSuccess() {
         SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, true);
         finish();
+    }
+
+    @Override
+    public void onUpdateSuccessResult() {
+        // 刷新显示手机号
+        if (mFlag == 1) {
+            if (!TextUtils.isEmpty(mNoticePhone)) {
+                tvPhone.setText(mNoticePhone);
+                SpUtil.getInstance().save(SpKey.PHONE, mNoticePhone);
+            }
+        }
     }
 
     private void initData() {
@@ -162,15 +174,15 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     }
 
     private void findViews() {
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvIcNum = (TextView) findViewById(R.id.tvIcNum);
-        tvSocialNum = (TextView) findViewById(R.id.tvSocialNum);
-        tvSignDate = (TextView) findViewById(R.id.tvSignDate);
-        tvPhone = (TextView) findViewById(R.id.tvPhone);
-        ivEditPhone = (ImageView) findViewById(R.id.ivEditPhone);
-        tvAfterPayState = (TextView) findViewById(R.id.tvAfterPayState);
-        tvMobilePayState = (TextView) findViewById(R.id.tvMobilePayState);
-        tvLookRule = (TextView) findViewById(R.id.tvLookRule);
+        tvName = findViewById(R.id.tvName);
+        tvIcNum = findViewById(R.id.tvIcNum);
+        tvSocialNum = findViewById(R.id.tvSocialNum);
+        tvSignDate = findViewById(R.id.tvSignDate);
+        tvPhone = findViewById(R.id.tvPhone);
+        ivEditPhone = findViewById(R.id.ivEditPhone);
+        tvAfterPayState = findViewById(R.id.tvAfterPayState);
+        tvMobilePayState = findViewById(R.id.tvMobilePayState);
+        tvLookRule = findViewById(R.id.tvLookRule);
         tvUpdatePayPwd = findViewById(R.id.tvUpdatePayPwd);
         tvTermination = findViewById(R.id.tvTermination);
     }
@@ -187,26 +199,26 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             popupWindow.setFocusable(true);
             popupWindow.setOutsideTouchable(true);
 
-            etPhone = (EditText) popupView.findViewById(R.id.etPhone);
-            llPhone = (LinearLayout) popupView.findViewById(R.id.llPhone);
-            etVerifyCode = (EditText) popupView.findViewById(R.id.etVerifyCode);
-            tvUpdateTitle = (TextView) popupView.findViewById(R.id.tvUpdateTitle);
-            tvOpen = (TextView) popupView.findViewById(R.id.tvOpen);
-            ivBackground = (ImageView) popupView.findViewById(R.id.ivBackground);
-            tvPhoneNum = (TextView) popupView.findViewById(R.id.tvPhoneNum);
-            tvOriginalPhone = (TextView) popupView.findViewById(R.id.tvOriginalPhone);
-            countDownView = (CountdownView) popupView.findViewById(R.id.countDownView);
-            tvGetSmsCode = (TextView) popupView.findViewById(R.id.tvGetSmsCode);
+            etPhone = popupView.findViewById(R.id.etPhone);
+            llPhone = popupView.findViewById(R.id.llPhone);
+            etVerifyCode = popupView.findViewById(R.id.etVerifyCode);
+            tvUpdateTitle = popupView.findViewById(R.id.tvUpdateTitle);
+            tvOpen = popupView.findViewById(R.id.tvOpen);
+            ivBackground = popupView.findViewById(R.id.ivBackground);
+            tvPhoneNum = popupView.findViewById(R.id.tvPhoneNum);
+            tvOriginalPhone = popupView.findViewById(R.id.tvOriginalPhone);
+            countDownView = popupView.findViewById(R.id.countDownView);
+            tvGetSmsCode = popupView.findViewById(R.id.tvGetSmsCode);
 
             // 获取验证码
             tvGetSmsCode.setOnClickListener(v -> {
                 if (mFlag == 1) {
-                    String phone = etPhone.getText().toString();
-                    if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+                    mNoticePhone = etPhone.getText().toString();
+                    if (!TextUtils.isEmpty(mNoticePhone) && mNoticePhone.length() == 11) {
                         tvGetSmsCode.setVisibility(View.GONE);
                         countDownView.setVisibility(View.VISIBLE);
                         countDownView.start(60000);
-                        mPresenter.sendVerifyCode(phone, OrgConfig.IDEN_CLASS2);
+                        mPresenter.sendVerifyCode(mNoticePhone, OrgConfig.IDEN_CLASS2);
                     } else {
                         WToastUtil.show("手机号为空或不正确！");
                     }
@@ -218,12 +230,9 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                 }
             });
 
-            countDownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-                @Override
-                public void onEnd(CountdownView cv) {
-                    countDownView.setVisibility(View.GONE);
-                    tvGetSmsCode.setVisibility(View.VISIBLE);
-                }
+            countDownView.setOnCountdownEndListener(cv -> {
+                countDownView.setVisibility(View.GONE);
+                tvGetSmsCode.setVisibility(View.VISIBLE);
             });
 
             // 关闭
@@ -240,7 +249,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                     param.put(MapKey.IDEN_CODE, verifyCode);
                     param.put(MapKey.ID_NO, mIdNo);
                     param.put(MapKey.CARD_NO, mCardNo);
-                    if (mFlag == 1) { // 开通
+                    if (mFlag == 1) { // 修改手机号
                         String phone = etPhone.getText().toString();
                         if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
                             param.put(MapKey.PHONE, phone);

@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:设置页面的契约类
  */
 public interface SettingsContract {
     interface IModel {
@@ -23,6 +23,8 @@ public interface SettingsContract {
         void dismissPopupWindow();
 
         void terminationSuccess();
+
+        void onUpdateSuccessResult();
     }
 
     interface IPresenter {

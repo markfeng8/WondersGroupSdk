@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:设置页面的 Model
  */
 public class SettingsModel implements SettingsContract.IModel {
 

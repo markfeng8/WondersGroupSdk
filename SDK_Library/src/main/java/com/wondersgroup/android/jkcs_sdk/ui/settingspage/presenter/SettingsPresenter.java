@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/8/1 :)
- * Function:
+ * Function:设置页面的 Presenter
  */
 public class SettingsPresenter<T extends SettingsContract.IView>
         extends MvpBasePresenter<T> implements SettingsContract.IPresenter {
@@ -36,8 +36,11 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 @Override
                 public void onSuccess() {
                     LogUtil.i(TAG, "sendOpenRequest() -> onSuccess()");
-                    WToastUtil.show("修改成功！");
                     dismissPopupWindow();
+                    WToastUtil.show("修改成功！");
+                    if (isNonNull()) {
+                        mViewRef.get().onUpdateSuccessResult();
+                    }
                 }
 
                 @Override
