@@ -203,7 +203,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
-                android:text="医后付首页"
+                android:text="医后付"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnSelfPayHome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="自费卡"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
 
@@ -214,7 +225,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
-                android:text="住院服务首页"
+                android:text="住院服务"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
         </LinearLayout>

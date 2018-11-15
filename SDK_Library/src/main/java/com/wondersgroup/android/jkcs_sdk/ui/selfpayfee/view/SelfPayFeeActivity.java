@@ -8,8 +8,8 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,12 +19,11 @@ import android.widget.TextView;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.SelfPayFeeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
-import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract.SelfPayFeeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.presenter.SelfPayFeePresenter;
@@ -36,7 +35,6 @@ import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -53,7 +51,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private LinearLayout llNeedPay;
     private RecyclerView recyclerView;
     private LoadingView mLoading;
-    private HashMap<String, String> mPassParamMap;
     private SelfPayFeeAdapter mSelfPayFeeAdapter;
     private List<Object> mItemList = new ArrayList<>();
     private String mOrgName;
@@ -73,7 +70,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     protected void bindView() {
         setContentView(R.layout.activity_self_pay_fee);
         findViews();
-        getIntentData();
         initData();
         initListener();
     }
@@ -104,21 +100,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private void initListener() {
         tvPayMoney.setOnClickListener(v -> PaymentDetailsActivity.actionStart(
                 SelfPayFeeActivity.this, mOrgCode, mOrgName, false));
-    }
-
-    private void getIntentData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                SerializableHashMap sMap = (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
-                if (sMap != null) {
-                    mPassParamMap = sMap.getMap();
-
-                    // TODO: 2018/10/31
-                }
-            }
-        }
     }
 
     @Override
@@ -243,6 +224,15 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     public void dismissLoading() {
         if (mLoading != null) {
             mLoading.dismiss();
+        }
+    }
+
+    public static void actionStart(Context context) {
+        if (context != null) {
+            Intent intent = new Intent(context, SelfPayFeeActivity.class);
+            context.startActivity(intent);
+        } else {
+            LogUtil.e(TAG, "context is null!");
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
+import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.utils.WondersGroup;
 
 import butterknife.BindView;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     EditText etHomeAddress;
     @BindView(R.id.btnAfterPayHome)
     Button btnAfterPayHome;
+    @BindView(R.id.btnSelfPayHome)
+    Button btnSelfPayHome;
     @BindView(R.id.btnInHospitalHome)
     Button btnInHospitalHome;
     @BindView(R.id.tvMrLu)
@@ -70,20 +73,12 @@ public class MainActivity extends AppCompatActivity {
     private PersonBean mPersonZhong;
     private PersonBean mPersonTang;
     private PersonBean mPersonQiu;
-    private String mName;
-    private String mPhone;
-    private String mIdType;
-    private String mIdNum;
-    private String mCardType;
-    private String mCardNum;
-    private String mHomeAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Window window = this.getWindow();
-        // 隐藏软键盘
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
         initData();
@@ -195,14 +190,11 @@ public class MainActivity extends AppCompatActivity {
         mPersonQiu.setAddress("ShangHai");
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
+    @OnClick({R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
             R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang,
-            R.id.tvMrQiu,R.id.btnInHospitalHome})
+            R.id.tvMrQiu, R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btnAfterPayHome:
-                startAfterPayHomePage();
-                break;
             case R.id.tvMrWu:
                 setPersonInfo(mPersonWu);
                 break;
@@ -233,8 +225,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tvMrQiu:
                 setPersonInfo(mPersonQiu);
                 break;
+            case R.id.btnAfterPayHome:
+                startBusiness(0);
+                break;
+            case R.id.btnSelfPayHome:
+                startBusiness(1);
+                break;
             case R.id.btnInHospitalHome:
-                startInHospitalHomePage();
+                startBusiness(2);
                 break;
         }
     }
@@ -250,57 +248,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 《 跳转到医后付首页 》
+     * 《 跳转到医后付首页、自费卡、住院页面 》
+     *
+     * @param flag 业务标志 0 医后付 1 自费卡 2 住院
+     *             注：flag 为 0 和 2 时 cardType 一定传 0(社保卡)，flag 为 1 时 cardType 传 2(自费卡)
      */
-    private void startAfterPayHomePage() {
-        getEditTextValues();
+    private void startBusiness(int flag) {
+        String name = etName.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        String idType = etIdType.getText().toString().trim();
+        String idNum = etIdNum.getText().toString().trim();
+        String cardType = etCardType.getText().toString().trim();
+        String cardNum = etCardNum.getText().toString().trim();
+        String homeAddress = etHomeAddress.getText().toString().trim();
 
-        /*
-         * 按顺序依次将所有需要传递的参数传入方法中(所有参数为必须！！！)
-         *
-         * @param context      上下文
-         * @param mName        姓名
-         * @param mPhone       手机号
-         * @param mIdType      证件类型(01：身份证)
-         * @param mIdNum       证件号码
-         * @param mCardType    就诊卡类型(0：社保卡 2：自费卡)
-         * @param mCardNum     就诊卡号
-         * @param mHomeAddress 家庭地址
-         */
-        WondersGroup.startAfterPayHome(MainActivity.this,
-                mName, mPhone, mIdType, mIdNum, mCardType, mCardNum, mHomeAddress);
-    }
+        // 设置需要传递的参数，所有参数都为必须！！！
+        UserBuilder userBuilder = new UserBuilder()
+                .setName(name) // 姓名
+                .setPhone(phone) // 手机号
+                .setIdType(idType) // 证件类型(01：身份证)
+                .setIdNum(idNum) // 证件号码
+                .setCardType(cardType) // 就诊卡类型(0：社保卡 2：自费卡)
+                .setCardNum(cardNum) // 就诊卡号
+                .setAddress(homeAddress); // 家庭地址
 
-    /**
-     * 《 跳转到住院服务首页 》
-     */
-    private void startInHospitalHomePage() {
-        getEditTextValues();
-
-        /*
-         * 按顺序依次将所有需要传递的参数传入方法中(所有参数为必须！！！)
-         *
-         * @param context      上下文
-         * @param mName        姓名
-         * @param mPhone       手机号
-         * @param mIdType      证件类型(01：身份证)
-         * @param mIdNum       证件号码
-         * @param mCardType    就诊卡类型(0：社保卡 2：自费卡)
-         * @param mCardNum     就诊卡号
-         * @param mHomeAddress 家庭地址
-         */
-        WondersGroup.startInHospitalHome(MainActivity.this,
-                mName, mPhone, mIdType, mIdNum, mCardType, mCardNum, mHomeAddress);
-    }
-
-    private void getEditTextValues() {
-        mName = etName.getText().toString().trim();
-        mPhone = etPhone.getText().toString().trim();
-        mIdType = etIdType.getText().toString().trim();
-        mIdNum = etIdNum.getText().toString().trim();
-        mCardType = etCardType.getText().toString().trim();
-        mCardNum = etCardNum.getText().toString().trim();
-        mHomeAddress = etHomeAddress.getText().toString().trim();
+        WondersGroup.startBusiness(MainActivity.this, userBuilder, flag);
     }
 
 }

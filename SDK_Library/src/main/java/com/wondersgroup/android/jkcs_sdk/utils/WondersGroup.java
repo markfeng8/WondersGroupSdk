@@ -1,16 +1,13 @@
 package com.wondersgroup.android.jkcs_sdk.utils;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
-import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.cons.ErrorCode;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
+import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
@@ -19,166 +16,106 @@ import java.util.HashMap;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:
+ * Function: WondersGroup 对外暴露的调用接口类
  */
 public class WondersGroup {
 
+
     /**
-     * jump to after pay home page.
+     * 对外暴露的开始调用业务的方法
      *
-     * @param context     上下文
-     * @param name        姓名
-     * @param phone       手机号
-     * @param idType      证件类型(01：身份证)
-     * @param idNum       证件号码
-     * @param cardType    就诊卡类型(0：社保卡 2：自费卡)
-     * @param cardNum     就诊卡号
-     * @param homeAddress 家庭地址
+     * @param context 上下文
+     * @param builder 用户信息的构建类
+     * @param flag    业务标志 0 医后付 1 自费卡 2 住院
      */
-    public static void startAfterPayHome(@NonNull Context context,
-                                         @NonNull String name,
-                                         @NonNull String phone,
-                                         @NonNull String idType,
-                                         @NonNull String idNum,
-                                         @NonNull String cardType,
-                                         @NonNull String cardNum,
-                                         @NonNull String homeAddress) {
+    public static void startBusiness(@NonNull Context context,
+                                     @NonNull UserBuilder builder, int flag) {
 
-        if (checkParametersValidity(name, phone, idType, idNum, cardType, cardNum, homeAddress)) {
+        if (checkParametersValidity(builder)) {
             return;
         }
-        saveParametersValue(name, phone, idType, idNum, cardType, cardNum, homeAddress);
-        jumpToActivityWithHashMap(context, name, phone, idType, idNum, cardType, cardNum, homeAddress);
-    }
 
-    /**
-     * 跳转到住院页面首页
-     */
-    public static void startInHospitalHome(@NonNull Context context,
-                                           @NonNull String name,
-                                           @NonNull String phone,
-                                           @NonNull String idType,
-                                           @NonNull String idNum,
-                                           @NonNull String cardType,
-                                           @NonNull String cardNum,
-                                           @NonNull String homeAddress) {
-
-        if (checkParametersValidity(name, phone, idType, idNum, cardType, cardNum, homeAddress)) {
-            return;
-        }
-        saveParametersValue(name, phone, idType, idNum, cardType, cardNum, homeAddress);
-        InHospitalHomeActivity.actionStart(context);
-    }
-
-    private static void jumpToActivityWithHashMap(@NonNull Context context,
-                                                  @NonNull String name,
-                                                  @NonNull String phone,
-                                                  @NonNull String idType,
-                                                  @NonNull String idNum,
-                                                  @NonNull String cardType,
-                                                  @NonNull String cardNum,
-                                                  @NonNull String homeAddress) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.NAME, name);
-        map.put(MapKey.PHONE, phone);
-        map.put(MapKey.ID_TYPE, idType);
-        map.put(MapKey.ID_NO, idNum);
-        map.put(MapKey.CARD_TYPE, cardType);
-        map.put(MapKey.CARD_NO, cardNum);
-        map.put(MapKey.HOME_ADDRESS, homeAddress);
-
-        switch (cardType) {
-            case "0": // 0：社保卡
-                startActivityWithParam(context, map, AfterPayHomeActivity.class);
+        switch (flag) {
+            case 0:
+                AfterPayHomeActivity.actionStart(context, getHashMapParam(builder));
                 break;
-            case "2": // 2：自费卡
-                startActivityWithParam(context, map, SelfPayFeeActivity.class);
+            case 1:
+                SelfPayFeeActivity.actionStart(context);
+                break;
+            case 2:
+                InHospitalHomeActivity.actionStart(context);
                 break;
             default:
-                WToastUtil.show("非法的就诊卡类型！");
+                WToastUtil.show("非法的业务类型！" + ErrorCode.ERROR1001);
                 break;
         }
+    }
+
+    private static HashMap<String, String> getHashMapParam(UserBuilder builder) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.NAME, builder.getName());
+        map.put(MapKey.PHONE, builder.getPhone());
+        map.put(MapKey.ID_TYPE, builder.getIdType());
+        map.put(MapKey.ID_NO, builder.getIdNum());
+        map.put(MapKey.CARD_TYPE, builder.getCardType());
+        map.put(MapKey.CARD_NO, builder.getCardNum());
+        map.put(MapKey.HOME_ADDRESS, builder.getAddress());
+        return map;
     }
 
     /**
      * 校验传递过来参数的合法性
      */
-    private static boolean checkParametersValidity(@NonNull String name,
-                                                   @NonNull String phone,
-                                                   @NonNull String idType,
-                                                   @NonNull String idNum,
-                                                   @NonNull String cardType,
-                                                   @NonNull String cardNum,
-                                                   @NonNull String homeAddress) {
-        if (TextUtils.isEmpty(name)) {
+    private static boolean checkParametersValidity(UserBuilder builder) {
+        if (builder == null) {
+            WToastUtil.show("UserBuilder object is null!");
+            return true;
+        }
+        if (TextUtils.isEmpty(builder.getName())) {
             WToastUtil.show("请输入姓名！");
             return true;
         }
-        if (TextUtils.isEmpty(phone) || phone.length() != 11) {
+        if (TextUtils.isEmpty(builder.getPhone()) || builder.getPhone().length() != 11) {
             WToastUtil.show("手机号为空或非法！");
             return true;
         }
-        if (TextUtils.isEmpty(idType) || idType.length() != 2) {
+        if (TextUtils.isEmpty(builder.getIdType()) || builder.getIdType().length() != 2) {
             WToastUtil.show("证件类型为空或非法！");
             return true;
         }
-        if (TextUtils.isEmpty(idNum) || idNum.length() != 18) {
+        if (TextUtils.isEmpty(builder.getIdNum()) || builder.getIdNum().length() != 18) {
             WToastUtil.show("证件号码为空或非法！");
             return true;
         }
-        if (TextUtils.isEmpty(cardType) || cardType.length() != 1) {
-            WToastUtil.show("就诊卡类型为空或非法！");
+        if (TextUtils.isEmpty(builder.getCardType()) || builder.getCardType().length() != 1
+                || !("0".equals(builder.getCardType()) || "2".equals(builder.getCardType()))) {
+            WToastUtil.show("就诊卡类型为空或非法！"+ ErrorCode.ERROR1002);
             return true;
         }
-        if (TextUtils.isEmpty(cardNum) || cardNum.length() != 9) {
+        if (TextUtils.isEmpty(builder.getCardNum()) || builder.getCardNum().length() != 9) {
             WToastUtil.show("就诊卡号为空或非法！");
             return true;
         }
-        if (TextUtils.isEmpty(homeAddress)) {
+        if (TextUtils.isEmpty(builder.getAddress())) {
             WToastUtil.show("家庭地址为空或非法！");
             return true;
         }
+
+        saveUserMessage(builder);
+
         return false;
     }
 
     /**
-     * jump to activity with HashMap parameters.
-     *
-     * @param context 上下文
-     * @param param   map collection
-     * @param clazz   Activity Simple name
+     * save user message.
      */
-    private static void startActivityWithParam(Context context, HashMap<String, String> param, Class<?> clazz) {
-        if (context != null) {
-            if (param != null && !param.isEmpty()) {
-                // 传递数据
-                SerializableHashMap sMap = new SerializableHashMap();
-                sMap.setMap(param); // 将map数据添加到封装的sMap中
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(IntentExtra.SERIALIZABLE_MAP, sMap);
-                Intent intent = new Intent(context, clazz);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            } else {
-                throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
-            }
-
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
-        }
-    }
-
-    /**
-     * save parameters value.
-     */
-    private static void saveParametersValue(String name, String phone, String idType, String idNum,
-                                            String cardType, String cardNum, String homeAddress) {
-        SpUtil.getInstance().save(SpKey.NAME, name);
-        SpUtil.getInstance().save(SpKey.PASS_PHONE, phone);
-        SpUtil.getInstance().save(SpKey.ID_TYPE, idType);
-        SpUtil.getInstance().save(SpKey.ID_NUM, idNum);
-        SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);
-        SpUtil.getInstance().save(SpKey.CARD_NUM, cardNum);
-        SpUtil.getInstance().save(SpKey.HOME_ADDRESS, homeAddress);
+    private static void saveUserMessage(UserBuilder builder) {
+        SpUtil.getInstance().save(SpKey.NAME, builder.getName());
+        SpUtil.getInstance().save(SpKey.PASS_PHONE, builder.getPhone());
+        SpUtil.getInstance().save(SpKey.ID_TYPE, builder.getIdType());
+        SpUtil.getInstance().save(SpKey.ID_NUM, builder.getIdNum());
+        SpUtil.getInstance().save(SpKey.CARD_TYPE, builder.getCardType());
+        SpUtil.getInstance().save(SpKey.CARD_NUM, builder.getCardNum());
+        SpUtil.getInstance().save(SpKey.HOME_ADDRESS, builder.getAddress());
     }
 }

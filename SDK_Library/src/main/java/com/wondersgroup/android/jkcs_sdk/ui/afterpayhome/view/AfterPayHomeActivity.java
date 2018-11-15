@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
@@ -321,6 +323,26 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     public void getHospitalList() {
         mPresenter.getHospitalList();
+    }
+
+    public static void actionStart(Context context, HashMap<String, String> param) {
+        if (context != null) {
+            if (param != null && !param.isEmpty()) {
+                // 传递数据
+                SerializableHashMap sMap = new SerializableHashMap();
+                sMap.setMap(param); // 将map数据添加到封装的sMap中
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IntentExtra.SERIALIZABLE_MAP, sMap);
+                Intent intent = new Intent(context, AfterPayHomeActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            } else {
+                throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            }
+
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
+        }
     }
 
     @Override
