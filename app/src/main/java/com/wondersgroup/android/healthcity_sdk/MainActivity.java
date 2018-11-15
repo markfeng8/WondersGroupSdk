@@ -251,7 +251,8 @@ public class MainActivity extends AppCompatActivity {
      * 《 跳转到医后付首页、自费卡、住院页面 》
      *
      * @param flag 业务标志 0 医后付 1 自费卡 2 住院
-     *             注：flag 为 0 和 2 时 cardType 一定传 0(社保卡)，flag 为 1 时 cardType 传 2(自费卡)
+     *             注：flag 为 0 和 2 时 cardType 一定传 0(社保卡)，
+     *             flag 为 1 时 cardType 传 2(自费卡)
      */
     private void startBusiness(int flag) {
         String name = etName.getText().toString().trim();
