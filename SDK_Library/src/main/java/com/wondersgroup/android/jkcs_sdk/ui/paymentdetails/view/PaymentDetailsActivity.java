@@ -139,7 +139,16 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 设置点击事件的监听回调
      */
     private void initListener() {
-        tvPayMoney.setOnClickListener(v -> mPresenter.getYiBaoToken(PaymentDetailsActivity.this));
+        tvPayMoney.setOnClickListener(v -> {
+            // 如果是门诊才需要获取医保 token，如果是自费卡不需要获取
+            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+            if ("0".equals(cardType)) {
+                mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
+            } else if ("2".equals(cardType)) {
+                // 直接进行现金部分自费结算，先获取统一支付所需的参数
+                mPresenter.getPayParam(mOrgCode);
+            }
+        });
         titleBar.setOnBackListener(this::showAlertDialog);
     }
 
@@ -174,7 +183,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     @Override
     public void onYd0003Result(FeeBillEntity entity) {
         if (entity != null) {
-            String feeTotal = entity.getFee_total();
+            // 初始化自费部分结算的金额
+            mFeeTotal = entity.getFee_total();
+            mFeeCashTotal = entity.getFee_total();
+            mFeeYbTotal = "0";
+
             List<HashMap<String, String>> detailsList = new ArrayList<>();
             details = entity.getDetails();
             // 转换为组合数据
@@ -186,7 +199,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             refreshAdapter();
 
             HashMap<String, Object> map = new HashMap<>();
-            map.put(MapKey.FEE_TOTAL, feeTotal);
+            map.put(MapKey.FEE_TOTAL, mFeeTotal);
             map.put(MapKey.ORG_CODE, mOrgCode);
 
             for (int i = 0; i < details.size(); i++) {
@@ -231,8 +244,34 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             mHeadBean.setOrderNum(payPlatTradeNo);
             mItemList.set(0, mHeadBean);
             refreshAdapter();
-            // 进行医保移动状态查询并发起试结算
-            mPresenter.queryYiBaoOpenStatus(PaymentDetailsActivity.this);
+
+            // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
+            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+            if ("0".equals(cardType)) {
+                // 进行医保移动状态查询并发起试结算
+                mPresenter.queryYiBaoOpenStatus(PaymentDetailsActivity.this);
+            } else {
+                // 显示需要结算的金额
+                tvPayName.setText("需现金支付：");
+                // 显示现金需要支付的金额
+                tvMoneyNum.setText(mFeeCashTotal);
+
+                if (mDetailPayBean == null) {
+                    mDetailPayBean = new DetailPayBean();
+                }
+                mDetailPayBean.setTotalPay(mFeeTotal);
+                mDetailPayBean.setPersonalPay(mFeeCashTotal);
+                mDetailPayBean.setYibaoPay(mFeeYbTotal);
+
+                // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+                if (mItemList.size() > 0) {
+                    mItemList.clear();
+                }
+                mItemList.add(mHeadBean); // 先添加头部数据
+                mItemList.addAll(mCombineList);// 再添加 List 数据
+                mItemList.add(mDetailPayBean); // 添加支付数据
+                refreshAdapter();
+            }
         }
     }
 
@@ -399,19 +438,27 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void onCashPaySuccess() {
-        // 现金部分结算成功，继续支付医保部分（如果有）
-        if (!TextUtils.isEmpty(mFeeYbTotal)) {
-            // 如果医保部分为0，说明已经全部结算完成
-            if (Double.parseDouble(mFeeYbTotal) == 0) {
-                // 跳转过去，显示全部支付完成 true 代表全部支付完成
-                jumpToPaymentResultPage(true);
+        // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("0".equals(cardType)) {
+            // 现金部分结算成功，继续支付医保部分（如果有）
+            if (!TextUtils.isEmpty(mFeeYbTotal)) {
+                // 如果医保部分为0，说明已经全部结算完成
+                if (Double.parseDouble(mFeeYbTotal) == 0) {
+                    // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                    jumpToPaymentResultPage(true);
 
+                } else {
+                    // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
+                    sendOfficialPay(false, "2");
+                }
             } else {
-                // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
-                sendOfficialPay(false, "2");
+                LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
             }
-        } else {
-            LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
+        } else if ("2".equals(cardType)) {
+            // 发起正式结算，token 传 0
+            mPresenter.sendOfficialPay(false, "2", "0", mOrgCode,
+                    SettleUtil.getOfficialSettleParam(details));
         }
     }
 
@@ -445,7 +492,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     public void refreshAdapter() {
         if (mAdapter != null) {
-            mAdapter.setmItemList(mItemList);
+            mAdapter.setItemList(mItemList);
         }
     }
 

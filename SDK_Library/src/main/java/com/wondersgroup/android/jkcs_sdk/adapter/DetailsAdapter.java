@@ -62,7 +62,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      *
      * @param itemList
      */
-    public void setmItemList(List<Object> itemList) {
+    public void setItemList(List<Object> itemList) {
         this.mItemList = itemList;
         notifyDataSetChanged(); // 刷新适配器
     }
@@ -130,7 +130,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return mCurrentType;
     }
 
-    // 1.Header 类型
+    /**
+     * 1.Header 类型
+     */
     class HeaderViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
         private TextView tvSocialNum;
@@ -139,10 +141,10 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         HeaderViewHolder(View itemView) {
             super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.tvName);
-            tvSocialNum = (TextView) itemView.findViewById(R.id.tvSocialNum);
-            tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
-            tvOrderNum = (TextView) itemView.findViewById(R.id.tvOrderNum);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvSocialNum = itemView.findViewById(R.id.tvSocialNum);
+            tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
+            tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
         }
 
         @SuppressLint("SetTextI18n")
@@ -167,7 +169,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    // 2.List 数据类型
+    /**
+     * 2.List 数据类型
+     */
     class ListViewHolder extends RecyclerView.ViewHolder {
         private TextView tvOrderName;
         private TextView tvMoney;
@@ -180,12 +184,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ListViewHolder(View itemView) {
             super(itemView);
-            tvOrderName = (TextView) itemView.findViewById(R.id.tvOrderName);
-            tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
-            tvOrderTime = (TextView) itemView.findViewById(R.id.tvOrderTime);
-            ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
-            llItem = (LinearLayout) itemView.findViewById(R.id.llItem);
-            llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
+            tvOrderName = itemView.findViewById(R.id.tvOrderName);
+            tvMoney = itemView.findViewById(R.id.tvMoney);
+            tvOrderTime = itemView.findViewById(R.id.tvOrderTime);
+            ivArrow = itemView.findViewById(R.id.ivArrow);
+            llItem = itemView.findViewById(R.id.llItem);
+            llDetails = itemView.findViewById(R.id.llDetails);
             initListener();
         }
 
@@ -256,7 +260,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    // 3.支付的数据类型
+    /**
+     * 3.支付的数据类型
+     */
     class PayViewHolder extends RecyclerView.ViewHolder {
         private PayItemLayout plTotalMoney;
         private PayItemLayout plPersonalPay;
@@ -271,21 +277,22 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         PayViewHolder(View itemView) {
             super(itemView);
-            plTotalMoney = (PayItemLayout) itemView.findViewById(R.id.plTotalMoney);
-            plPersonalPay = (PayItemLayout) itemView.findViewById(R.id.plPersonalPay);
-            plYiBaoPay = (PayItemLayout) itemView.findViewById(R.id.plYiBaoPay);
-            tvPayType = (TextView) itemView.findViewById(R.id.tvPayType);
-            llPayType = (LinearLayout) itemView.findViewById(R.id.llPayType);
-            llYiBaoPayLayout = (LinearLayout) itemView.findViewById(R.id.llYiBaoPayLayout);
-            tbYiBaoEnable = (ToggleButton) itemView.findViewById(R.id.tbYiBaoEnable);
+            plTotalMoney = itemView.findViewById(R.id.plTotalMoney);
+            plPersonalPay = itemView.findViewById(R.id.plPersonalPay);
+            plYiBaoPay = itemView.findViewById(R.id.plYiBaoPay);
+            tvPayType = itemView.findViewById(R.id.tvPayType);
+            llPayType = itemView.findViewById(R.id.llPayType);
+            llYiBaoPayLayout = itemView.findViewById(R.id.llYiBaoPayLayout);
+            tbYiBaoEnable = itemView.findViewById(R.id.tbYiBaoEnable);
             initData();
             initListener();
         }
 
         private void initData() {
             String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-            if (!"01".equals(mobPayStatus)) {
-                // 如果未开通医保移动支付就显示医保移动支付开关
+            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+            // 如果未开通医保移动支付并且不是自费卡，就显示医保移动支付开关
+            if (!"01".equals(mobPayStatus) && !"2".equals(cardType)) {
                 llYiBaoPayLayout.setVisibility(View.VISIBLE);
             }
         }
@@ -350,10 +357,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         llPayType.setVisibility(View.GONE);
                     }
                 }
-                if (!TextUtils.isEmpty(yiBaoPay)) {
-                    plYiBaoPay.setVisibility(View.VISIBLE);
-                    plYiBaoPay.setFeeName("医保部分：");
-                    plYiBaoPay.setFeeNum(yiBaoPay);
+
+                // 如果是门诊才需要显示医保金额，如果是自费卡不需要显示医保金额
+                String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+                if ("0".equals(cardType)) {
+                    if (!TextUtils.isEmpty(yiBaoPay)) {
+                        plYiBaoPay.setVisibility(View.VISIBLE);
+                        plYiBaoPay.setFeeName("医保部分：");
+                        plYiBaoPay.setFeeNum(yiBaoPay);
+                    }
                 }
             }
         }

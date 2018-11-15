@@ -88,6 +88,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
         mSelfPayHeaderBean = new SelfPayHeaderBean();
         mSelfPayHeaderBean.setName(name);
         mSelfPayHeaderBean.setIcNum(idNum);
+        mSelfPayHeaderBean.setHospitalName("湖州市");
         mItemList.add(mSelfPayHeaderBean);
         setAdapter();
     }
@@ -118,6 +119,25 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
                 }
             }
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        LogUtil.i(TAG, "onRestart()");
+        backRefreshPager();
+    }
+
+    private void backRefreshPager() {
+        // 回来就隐藏付款的布局
+        llNeedPay.setVisibility(View.GONE);
+        // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+        if (mItemList.size() > 0) {
+            mItemList.clear();
+        }
+        mSelfPayHeaderBean.setHospitalName("湖州市");
+        mItemList.add(mSelfPayHeaderBean); // 选择医院后添加数据
+        refreshAdapter();
     }
 
     private void setAdapter() {

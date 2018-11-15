@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/wonders_rgb_color_ffffff"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.paymentresult.view.PaymentResultActivity">
 
@@ -18,8 +17,6 @@
         app:textColor="@color/wonders_rgb_color_ffffff"
         app:textSize="@dimen/wonders_text_size_16sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
-
-    <!--<include layout="@layout/wonders_group_personal_payment_result" />-->
 
     <include layout="@layout/wonders_group_payment_success" />
 
