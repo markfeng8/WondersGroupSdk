@@ -56,14 +56,6 @@ public abstract class MvpBaseFragment<V, T extends MvpBasePresenter<V>> extends 
 
     }
 
-    /**
-     * 获取缴费账单的详情
-     * isOfficialPay 是否是发起正式结算标志，只有未完成订单中用到这个字段
-     */
-    public void getFeeDetails(String payPlatTradeNo, int position, boolean isOfficialPay) {
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.android.support:gridlayout-v7:27.1.0'
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
     // jar 包会自动打进 aar 包中
     api files('libs/libammsdk.jar')

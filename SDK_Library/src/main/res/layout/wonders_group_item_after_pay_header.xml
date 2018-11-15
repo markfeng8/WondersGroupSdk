@@ -69,7 +69,7 @@
             android:drawableStart="@drawable/wonders_group_record"
             android:drawablePadding="@dimen/wonders_padding_4dp"
             android:gravity="center"
-            android:text="@string/wonders_pay_money_record"
+            android:text="@string/wonders_menzhen_bill"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_14sp" />
 

@@ -30,11 +30,12 @@
     <string name="wonders_settings">设置</string>
     <string name="wonders_day_detailed_list">日清单列表</string>
     <string name="wonders_pay_fee"><u>点击缴纳</u>!</string>
-    <string name="wonders_pay_records">查看未完成/已完成门诊订单</string>
+    <string name="wonders_pay_records">查看已完成订单</string>
     <string name="wonders_pass_update">修改手机号/取消医后付/查看协议</string>
     <string name="wonders_mark_text"><![CDATA[<font size="40" color="#333333">您已成功支付湖州第三人民医院未缴纳费用1元，另89元支付失败，请</font><font size="40" color="#007edf">继续支付！</font>]]></string>
     <string name="wonders_mark_text2"><![CDATA[<font size="40" color="#333333">您有一笔未完成的订单湖州市中心医院，总金额48.60元，请</font> <font size="40" color="#007edf">继续支付！</font>]]></string>
-    <string name="wonders_pay_money_record">门诊订单</string>
+    <string name="wonders_pay_money_record">已完成订单</string>
+    <string name="wonders_menzhen_bill">门诊订单</string>
     <string name="wonders_not_pay_records">门诊在线缴费</string>
     <string name="wonders_huzhou_renmin_hospital">湖州人民医院</string>
     <string name="wonders_huzhou_city">湖州市</string>

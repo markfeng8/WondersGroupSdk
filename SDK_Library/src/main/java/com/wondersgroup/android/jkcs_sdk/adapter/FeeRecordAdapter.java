@@ -21,12 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.base.MvpBaseFragment;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -41,14 +41,12 @@ import java.util.List;
 public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private MvpBaseFragment mBaseFragment;
     private LayoutInflater mLayoutInflater;
     private List<CombineFeeRecord> mDetails;
     private boolean payViewVisibility;
 
-    public FeeRecordAdapter(Context context, MvpBaseFragment baseFragment, List<CombineFeeRecord> details, boolean visible) {
+    public FeeRecordAdapter(Context context, List<CombineFeeRecord> details, boolean visible) {
         this.mContext = context;
-        this.mBaseFragment = baseFragment;
         this.mDetails = details;
         this.payViewVisibility = visible;
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -117,7 +115,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (!visible) {
                     // 当里面为空的时候才去请求，请求过一次就不用再次请求了
                     if (llHideLayout.getChildCount() == 0) {
-                        mBaseFragment.getFeeDetails(payPlatTradeNo, position, false);
+                        ((FeeRecordActivity) mContext).getFeeDetails(payPlatTradeNo, position);
                     }
                 }
             });
@@ -140,7 +138,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             case "01":
                                 // 当里面为空的时候才去请求，请求过一次就不用再次请求了
                                 if (llHideLayout.getChildCount() == 0) {
-                                    mBaseFragment.getFeeDetails(payPlatTradeNo, position, true);
+                                    ((FeeRecordActivity) mContext).getFeeDetails(payPlatTradeNo, position);
                                 } else {
                                     String feeTotal = detailsBean.getFee_total();
                                     String feeCashTotal = detailsBean.getFee_cash_total();
