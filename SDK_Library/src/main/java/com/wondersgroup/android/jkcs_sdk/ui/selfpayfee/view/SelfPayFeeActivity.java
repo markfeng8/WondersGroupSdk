@@ -58,7 +58,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private List<Object> mItemList = new ArrayList<>();
     private String mOrgName;
     private String mOrgCode;
-    private String mNotice = "温馨提示";
     private SelfPayHeaderBean mSelfPayHeaderBean;
     private SelectHospitalWindow mSelectHospitalWindow;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
@@ -90,7 +89,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
         mSelfPayHeaderBean.setName(name);
         mSelfPayHeaderBean.setIcNum(idNum);
         mItemList.add(mSelfPayHeaderBean);
-        mItemList.add(mNotice);
         setAdapter();
     }
 
@@ -183,12 +181,9 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
             List<FeeBillEntity.DetailsBean> details = entity.getDetails();
             // 添加医院欠费信息数据(放到下标为 1 处)
             mItemList.addAll(1, details);
-            // 第二次添加数据
-            mItemList.add(mNotice);
             refreshAdapter();
         } else {
             llNeedPay.setVisibility(View.GONE);
-            mItemList.add(mNotice); // 第二次添加数据
             refreshAdapter();
         }
     }

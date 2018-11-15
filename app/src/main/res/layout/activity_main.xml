@@ -309,6 +309,15 @@
                     android:text="@string/person_tang"
                     android:textColor="@android:color/holo_blue_dark"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvMrQiu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/person_qiu"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16sp" />
             </LinearLayout>
 
         </HorizontalScrollView>
