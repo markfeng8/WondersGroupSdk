@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.List;
 
@@ -155,20 +151,9 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         /**
-         * 获取医院列表
+         * 获取医院列表（资费卡页面直接弹出不做任何判断）
          */
         private void getHospitalList() {
-            /*
-             * 3.如果医后付也开通了，继续判断是否有待缴费记录
-             */
-            String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
-            if (!TextUtils.isEmpty(feeTotal)) {
-                WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
-                return;
-            }
-            /*
-             * 4.弹出医院列表
-             */
             ((SelfPayFeeActivity) mContext).getHospitalList();
         }
 
