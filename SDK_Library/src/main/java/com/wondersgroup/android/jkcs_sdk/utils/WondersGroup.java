@@ -89,7 +89,7 @@ public class WondersGroup {
         }
         if (TextUtils.isEmpty(builder.getCardType()) || builder.getCardType().length() != 1
                 || !("0".equals(builder.getCardType()) || "2".equals(builder.getCardType()))) {
-            WToastUtil.show("就诊卡类型为空或非法！"+ ErrorCode.ERROR1002);
+            WToastUtil.show("就诊卡类型为空或非法！" + ErrorCode.ERROR1002);
             return true;
         }
         if (TextUtils.isEmpty(builder.getCardNum()) || builder.getCardNum().length() != 9) {
