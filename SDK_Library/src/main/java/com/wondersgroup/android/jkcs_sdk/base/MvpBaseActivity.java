@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.base;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
@@ -21,6 +22,10 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
         bindView();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
     }
 
     /**
