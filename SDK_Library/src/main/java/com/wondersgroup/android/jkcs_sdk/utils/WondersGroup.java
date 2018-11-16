@@ -20,7 +20,6 @@ import java.util.HashMap;
  */
 public class WondersGroup {
 
-
     /**
      * 对外暴露的开始调用业务的方法
      *
