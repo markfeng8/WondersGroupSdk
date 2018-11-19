@@ -101,7 +101,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="6dp"
         android:layout_marginTop="@dimen/wonders_margin_8dp"
         android:background="@color/wonders_rgb_color_f2f2f2" />
 

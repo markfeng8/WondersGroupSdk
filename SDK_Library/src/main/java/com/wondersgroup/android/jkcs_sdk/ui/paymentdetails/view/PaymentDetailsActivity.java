@@ -23,7 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.adapter.DetailsAdapter;
+import com.wondersgroup.android.jkcs_sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
@@ -60,14 +60,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private String mOrgName;
     private DetailHeadBean mHeadBean;
     private List<Object> mItemList = new ArrayList<>();
-    private DetailsAdapter mAdapter;
+    private PaymentDetailsAdapter mAdapter;
     private DetailPayBean mDetailPayBean;
     private LoadingView mLoading;
     private SelectPayTypeWindow mSelectPayTypeWindow;
     private int mClickItemPos = -1; // 记录点击的 Item 的位置
     private List<CombineDetailsBean> mCombineList = new ArrayList<>(); // 组合 Item 数据的集合
     private int mPayType = 1;
-    private DetailsAdapter.OnCheckedCallback mOnCheckedCallback;
+    private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
     private String mFeeTotal;
     private String mFeeCashTotal;
     private String mFeeYbTotal;
@@ -172,7 +172,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     private void setAdapter() {
         if (mItemList != null && mItemList.size() > 0) {
-            mAdapter = new DetailsAdapter(this, mItemList);
+            mAdapter = new PaymentDetailsAdapter(this, mItemList);
             recyclerView.setAdapter(mAdapter);
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -377,7 +377,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                 mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal);
     }
 
-    public void showSelectPayTypeWindow(DetailsAdapter.OnCheckedCallback onCheckedCallback) {
+    public void showSelectPayTypeWindow(PaymentDetailsAdapter.OnCheckedCallback onCheckedCallback) {
         mOnCheckedCallback = onCheckedCallback;
         BrightnessManager.lightoff(this);
         if (mSelectPayTypeWindow != null) {

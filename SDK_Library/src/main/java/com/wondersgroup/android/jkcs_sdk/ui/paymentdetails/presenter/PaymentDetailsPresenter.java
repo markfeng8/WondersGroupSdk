@@ -53,6 +53,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
+                    dismissLoading();
                     if (isNonNull()) {
                         mViewRef.get().onYd0003Result(entity);
                     }

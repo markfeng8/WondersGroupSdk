@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.contract.PaymentResultContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.presenter.PaymentResultPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.PayResultLayout;
@@ -36,6 +40,7 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private TextView tvCompleteTotal;
     private TextView tvCompletePersonal;
     private TextView tvCompleteYiBao;
+    private ImageView ivQrCode;
     private TitleBarLayout titleBar;
     private Button btnBackToHome;
     private LinearLayout llPaySuccess;
@@ -98,8 +103,17 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         if (mIsSuccess) {
             tvCompleteTotal.setText(mFeeTotal);
             tvCompletePersonal.setText(mFeeCashTotal);
-            tvCompleteYiBao.setText(mFeeYbTotal);
+            // 如果是门诊才需要显示医保金额，如果是自费卡不需要显示
+            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+            if ("2".equals(cardType)) {
+                tvCompleteYiBao.setVisibility(View.GONE);
+            } else {
+                tvCompleteYiBao.setText(mFeeYbTotal);
+            }
             llContainer1.addView(payResultLayout);
+            if (!TextUtils.isEmpty(payPlatTradeNo)) {
+                createQrCode(payPlatTradeNo);
+            }
         } else {
             llContainer2.addView(payResultLayout);
         }
@@ -117,6 +131,7 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         llPayFailed = findViewById(R.id.llPayFailed);
         llContainer1 = findViewById(R.id.llContainer1);
         llContainer2 = findViewById(R.id.llContainer2);
+        ivQrCode = findViewById(R.id.ivQrCode);
     }
 
     private void initListener() {
@@ -126,6 +141,13 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
             finish();
         });
         titleBar.setOnBackListener(this::showAlertDialog);
+    }
+
+    private void createQrCode(String payPlatTradeNo) {
+        Bitmap bitmap = QRCodeUtil.createQrCodeBitmap(payPlatTradeNo, 200, 200, null);
+        if (bitmap != null) {
+            ivQrCode.setImageBitmap(bitmap);
+        }
     }
 
     private void showAlertDialog() {

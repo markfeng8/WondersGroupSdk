@@ -10,7 +10,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/wonders_padding_16dp">
+        android:paddingStart="@dimen/wonders_padding_16dp"
+        android:paddingTop="@dimen/wonders_padding_8dp"
+        android:paddingEnd="@dimen/wonders_padding_16dp"
+        android:paddingBottom="@dimen/wonders_padding_8dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -49,25 +52,16 @@
                 android:textColor="@color/wonders_rgb_color_666666"
                 android:textSize="@dimen/wonders_text_size_12sp"
                 android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvFeeTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总金额：00元"
+                android:textColor="@color/wonders_rgb_color_666666"
+                android:textSize="@dimen/wonders_text_size_12sp"
+                android:visibility="gone" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvPayMoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/wonders_margin_10dp"
-            android:background="@drawable/wonders_group_pay_detail_selector"
-            android:enabled="true"
-            android:gravity="center"
-            android:text="继续支付"
-            android:textColor="@color/wonders_rgb_color_ffffff"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/ivArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/wonders_group_down_arrow" />
     </LinearLayout>
 
     <View
@@ -75,12 +69,9 @@
         android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
-    <LinearLayout
-        android:id="@+id/llHideLayout"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/wonders_rgb_color_c9c9c9"
-        android:orientation="vertical"
-        android:visibility="gone" />
+        android:layout_height="6dp"
+        android:background="@color/wonders_rgb_color_f8f8f8" />
 
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
-import com.wondersgroup.android.jkcs_sdk.entity.CombineFeeRecord;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
@@ -24,7 +22,6 @@ import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener.OnDateSetListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,8 +46,6 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     private FeeRecordAdapter mAdapter;
     private LoadingView mLoading;
     private List<FeeRecordEntity.DetailsBean> mDetails;
-    private int mPosition = -1;
-    private List<CombineFeeRecord> mItemList = new ArrayList<>();
 
     @Override
     protected FeeRecordPresenter<FeeRecordContract.IView> createPresenter() {
@@ -159,34 +154,13 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
                 LogUtil.e(TAG, "没有查询到【已完成订单】记录！");
             }
 
-            // 获取到数据和没有获取到数据都需要刷新适配器（刷新掉适配器中的旧数据）
-            combineListData();
             setAdapter();
-        }
-    }
-
-    /**
-     * 组装数据
-     */
-    private void combineListData() {
-        // 清除旧集合中的数据
-        if (mItemList != null && mItemList.size() > 0) {
-            mItemList.clear();
-        }
-        for (int i = 0; i < mDetails.size(); i++) {
-            CombineFeeRecord record = new CombineFeeRecord();
-            record.setRecordDetail(mDetails.get(i));
-            mItemList.add(record);
         }
     }
 
     @Override
     public void onFeeDetailResult(FeeBillEntity entity) {
-        if (entity != null) {
-            List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            mItemList.get(mPosition).setFeeDetail(details);
-            setAdapter();
-        }
+
     }
 
     @Override
@@ -205,20 +179,13 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
 
     private void setAdapter() {
         if (mAdapter == null) {
-            mAdapter = new FeeRecordAdapter(this, mItemList, false);
+            mAdapter = new FeeRecordAdapter(this, mDetails);
             recyclerView.setAdapter(mAdapter);
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
         } else {
-            mAdapter.setDetails(mItemList);
-        }
-    }
-
-    public void getFeeDetails(String payPlatTradeNo, int position) {
-        this.mPosition = position;
-        if (!TextUtils.isEmpty(payPlatTradeNo)) {
-            mPresenter.getFeeDetail(payPlatTradeNo);
+            mAdapter.setDetails(mDetails);
         }
     }
 

@@ -15,6 +15,8 @@ public class IntentExtra {
     public static final String FEE_TOTAL = "feeTotal";
     public static final String FEE_CASH_TOTAL = "feeCashTotal";
     public static final String FEE_YB_TOTAL = "feeYbTotal";
+    public static final String SHOP_ORDER_TIME = "shopOrderTime";
+    public static final String PAY_PLAT_TRADE_NO = "payPlatTradeNo";
     public static final int REQUEST_CODE = 1;
     public static final int RESULT_CODE = 2;
 }

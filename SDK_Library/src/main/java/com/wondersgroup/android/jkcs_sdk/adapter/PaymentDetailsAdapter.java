@@ -40,9 +40,9 @@ import java.util.List;
  * Created by x-sir on 2018/9/9 :)
  * Function:缴费详情的 Adapter
  */
-public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "DetailsAdapter";
+    private static final String TAG = "PaymentDetailsAdapter";
     private static final int TYPE_HEADER = 1;  // 头部信息类型
     private static final int TYPE_LIST = 2;    // 未缴清账单类型
     private static final int TYPE_PAY = 3;    // 支付视图类型
@@ -51,7 +51,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private LayoutInflater mLayoutInflater; // 初始化布局加载器
     private int mCurrentType = -1; // 当前Item的类型
 
-    public DetailsAdapter(Context context, List<Object> itemList) {
+    public PaymentDetailsAdapter(Context context, List<Object> itemList) {
         this.mContext = context;
         this.mItemList = itemList;
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -200,7 +200,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ivArrow.setImageResource(visible ? R.drawable.wonders_group_up_arrow : R.drawable.wonders_group_down_arrow);
                 int childCount = llDetails.getChildCount();
                 if (visible && childCount == 1) {
-                    ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
+                    if (mContext instanceof PaymentDetailsActivity) {
+                        ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
+                    }
                 }
             });
         }
