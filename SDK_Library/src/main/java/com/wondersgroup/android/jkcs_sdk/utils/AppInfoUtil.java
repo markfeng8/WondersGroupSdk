@@ -12,8 +12,6 @@ import java.util.List;
  */
 public class AppInfoUtil {
 
-    public static final String APPLICATION_ID = "android.support.v7.appcompat";
-
     /**
      * get package name.
      *
@@ -28,6 +26,7 @@ public class AppInfoUtil {
         } else {
             throw new RuntimeException("context is null!");
         }
+
         return packageName;
     }
 

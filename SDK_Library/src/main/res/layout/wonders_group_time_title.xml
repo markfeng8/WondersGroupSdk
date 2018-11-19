@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/wonders_padding_8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_8dp"
+        android:drawableStart="@drawable/wonders_group_pay_record_complete"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="@string/wonders_find_date"
+        android:textColor="@color/wonders_rgb_color_000000"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tvStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/wonders_group_down_arrow"
+        android:gravity="center"
+        android:text="2018-05-09"
+        android:textColor="@color/wonders_rgb_color_646464"
+        android:textSize="@dimen/wonders_text_size_14sp" />
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/wonders_margin_6dp"
+        android:layout_marginRight="@dimen/wonders_margin_6dp"
+        android:background="@color/wonders_rgb_color_333333" />
+
+    <TextView
+        android:id="@+id/tvEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/wonders_group_down_arrow"
+        android:gravity="center"
+        android:text="2018-06-09"
+        android:textColor="@color/wonders_rgb_color_646464"
+        android:textSize="@dimen/wonders_text_size_14sp" />
+
+    <TextView
+        android:id="@+id/tvQuery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginEnd="@dimen/wonders_margin_8dp"
+        android:background="@drawable/wonders_group_4dp_blue_shape"
+        android:gravity="center"
+        android:padding="@dimen/wonders_padding_4dp"
+        android:text="查询"
+        android:textColor="@color/wonders_rgb_color_ffffff"
+        android:textSize="@dimen/wonders_text_size_14sp" />
+</LinearLayout>

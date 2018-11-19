@@ -30,22 +30,31 @@ public class WondersGroup {
     public static void startBusiness(@NonNull Context context,
                                      @NonNull UserBuilder builder, int flag) {
 
-        if (checkParametersValidity(builder)) {
+        if (checkParametersValidity(builder, flag)) {
             return;
         }
 
+        String cardType = builder.getCardType();
         switch (flag) {
             case 0:
-                AfterPayHomeActivity.actionStart(context, getHashMapParam(builder));
+                if ("0".equals(cardType)) {
+                    AfterPayHomeActivity.actionStart(context, getHashMapParam(builder));
+                } else {
+                    WToastUtil.show("请传入正确的就诊卡类型！"+ ErrorCode.ERROR1003);
+                }
                 break;
             case 1:
-                SelfPayFeeActivity.actionStart(context);
+                if ("2".equals(cardType)) {
+                    SelfPayFeeActivity.actionStart(context);
+                } else {
+                    WToastUtil.show("请传入正确的就诊卡类型！"+ ErrorCode.ERROR1003);
+                }
                 break;
             case 2:
                 InHospitalHomeActivity.actionStart(context);
                 break;
             default:
-                WToastUtil.show("非法的业务类型！" + ErrorCode.ERROR1001);
+                WToastUtil.show("请传入正确的业务类型的flag!" + ErrorCode.ERROR1001);
                 break;
         }
     }
@@ -65,7 +74,7 @@ public class WondersGroup {
     /**
      * 校验传递过来参数的合法性
      */
-    private static boolean checkParametersValidity(UserBuilder builder) {
+    private static boolean checkParametersValidity(UserBuilder builder, int flag) {
         if (builder == null) {
             WToastUtil.show("UserBuilder object is null!");
             return true;
@@ -86,21 +95,26 @@ public class WondersGroup {
             WToastUtil.show("证件号码为空或非法！");
             return true;
         }
-        if (TextUtils.isEmpty(builder.getCardType()) || builder.getCardType().length() != 1
-                || !("0".equals(builder.getCardType()) || "2".equals(builder.getCardType()))) {
-            WToastUtil.show("就诊卡类型为空或非法！" + ErrorCode.ERROR1002);
-            return true;
+
+        // 如果是住院，不需要判断卡类型和卡号
+        if (flag != 2) {
+            if (TextUtils.isEmpty(builder.getCardType()) || builder.getCardType().length() != 1
+                    || !("0".equals(builder.getCardType()) || "2".equals(builder.getCardType()))) {
+                WToastUtil.show("就诊卡类型为空或非法！" + ErrorCode.ERROR1002);
+                return true;
+            }
+            if (TextUtils.isEmpty(builder.getCardNum()) || builder.getCardNum().length() != 9) {
+                WToastUtil.show("就诊卡号为空或非法！");
+                return true;
+            }
         }
-        if (TextUtils.isEmpty(builder.getCardNum()) || builder.getCardNum().length() != 9) {
-            WToastUtil.show("就诊卡号为空或非法！");
-            return true;
-        }
+
         if (TextUtils.isEmpty(builder.getAddress())) {
             WToastUtil.show("家庭地址为空或非法！");
             return true;
         }
 
-        saveUserMessage(builder);
+        saveUserMessage(builder, flag);
 
         return false;
     }
@@ -108,13 +122,27 @@ public class WondersGroup {
     /**
      * save user message.
      */
-    private static void saveUserMessage(UserBuilder builder) {
+    private static void saveUserMessage(UserBuilder builder, int flag) {
         SpUtil.getInstance().save(SpKey.NAME, builder.getName());
         SpUtil.getInstance().save(SpKey.PASS_PHONE, builder.getPhone());
         SpUtil.getInstance().save(SpKey.ID_TYPE, builder.getIdType());
         SpUtil.getInstance().save(SpKey.ID_NUM, builder.getIdNum());
-        SpUtil.getInstance().save(SpKey.CARD_TYPE, builder.getCardType());
-        SpUtil.getInstance().save(SpKey.CARD_NUM, builder.getCardNum());
+
+        // 如果是住院就不需要保存卡类型和卡号
+        if (flag != 2) {
+            String cardType = builder.getCardType();
+            SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);
+            if ("2".equals(cardType)) {
+                // 当为自费卡时，卡号固定传 9 个 0
+                SpUtil.getInstance().save(SpKey.CARD_NUM, "000000000");
+            } else {
+                SpUtil.getInstance().save(SpKey.CARD_NUM, builder.getCardNum());
+            }
+        } else {
+            SpUtil.getInstance().save(SpKey.CARD_TYPE, "");
+            SpUtil.getInstance().save(SpKey.CARD_NUM, "");
+        }
+
         SpUtil.getInstance().save(SpKey.HOME_ADDRESS, builder.getAddress());
     }
 }

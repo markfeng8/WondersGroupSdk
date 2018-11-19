@@ -22,6 +22,9 @@ public class ErrorCode {
      * 就诊卡类型为空或非法
      */
     public static final String ERROR1002 = "ERROR-1002";
+    /**
+     * 就诊卡类型和业务不匹配，门诊传 0，自费传 2
+     */
     public static final String ERROR1003 = "ERROR-1003";
     public static final String ERROR1004 = "ERROR-1004";
     public static final String ERROR1005 = "ERROR-1005";

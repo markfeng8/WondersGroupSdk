@@ -48,6 +48,7 @@ dependencies {
     // 以下为需要添加的依赖库
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.orhanobut:logger:2.1.1'
+    implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.mylhyl:zxingscanner:1.5.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'pub.devrel:easypermissions:1.1.1'
