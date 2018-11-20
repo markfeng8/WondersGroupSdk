@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,6 +78,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
                 payPlatTradeNo, mOrgName));
     }
 
+    @SuppressLint("SetTextI18n")
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .setDropView(activityView)
@@ -93,8 +95,8 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
             String feeYbTotal = intent.getStringExtra(IntentExtra.FEE_YB_TOTAL);
 
             tvHospitalName.setText(mOrgName);
-            tvFeeDate.setText(shopOrderTime);
-            tvTradeNo.setText(payPlatTradeNo);
+            tvFeeDate.setText("订单日期：" + shopOrderTime);
+            tvTradeNo.setText("订单号：" + payPlatTradeNo);
 
             plTotalMoney.setFeeName("总计金额：");
             plTotalMoney.setFeeNum(feeTotal);
@@ -103,8 +105,8 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
             plYiBaoPay.setFeeName("医保部分：");
             plYiBaoPay.setFeeNum(feeYbTotal);
 
-            // 获取账单记录列表
-            mPresenter.requestYd0003(mOrgCode);
+            // 获取账单记录详情
+            mPresenter.requestYd0009(payPlatTradeNo);
         }
     }
 
@@ -121,7 +123,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     }
 
     @Override
-    public void onYd0003Result(FeeBillEntity entity) {
+    public void onYd0009Result(FeeBillEntity entity) {
         if (entity != null) {
             details = entity.getDetails();
             // 转换为组合数据

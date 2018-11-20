@@ -5,9 +5,7 @@ import android.text.TextUtils;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.model.FeeRecordModel;
@@ -46,35 +44,6 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "requestYd0008() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
-                    WToastUtil.show(errCodeDes);
-                }
-            });
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
-        }
-    }
-
-    @Override
-    public void getFeeDetail(String tradeNo) {
-        if (!TextUtils.isEmpty(tradeNo)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
-            mModel.getFeeDetail(tradeNo, new OnFeeDetailListener() {
-                @Override
-                public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "requestYd0009() -> onSuccess()");
-                    dismissLoading();
-                    if (isNonNull()) {
-                        mViewRef.get().onFeeDetailResult(entity);
-                    }
-                }
-
-                @Override
-                public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "requestYd0009() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                 }

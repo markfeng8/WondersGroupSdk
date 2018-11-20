@@ -10,13 +10,17 @@ package com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 
 /**
  * Created by x-sir on 2018/11/19 :)
  * Function:
  */
 public interface RecordDetailContract {
+
     interface IModel {
+
+        void requestYd0009(String tradeNo, OnFeeDetailListener listener);
     }
 
     interface IView {
@@ -24,15 +28,15 @@ public interface RecordDetailContract {
 
         void dismissLoading();
 
-        void onYd0003Result(FeeBillEntity entity);
-
         void onOrderDetailsResult(OrderDetailsEntity entity);
+
+        void onYd0009Result(FeeBillEntity entity);
     }
 
     interface IPresenter {
 
-        void requestYd0003(String orgCode);
-
         void getOrderDetails(String hisOrderNo, String orgCode);
+
+        void requestYd0009(String tradeNo);
     }
 }

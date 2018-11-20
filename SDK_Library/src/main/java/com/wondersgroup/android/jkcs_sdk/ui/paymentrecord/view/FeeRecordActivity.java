@@ -11,7 +11,6 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.FeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPresenter;
@@ -156,11 +155,6 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
 
             setAdapter();
         }
-    }
-
-    @Override
-    public void onFeeDetailResult(FeeBillEntity entity) {
-
     }
 
     @Override

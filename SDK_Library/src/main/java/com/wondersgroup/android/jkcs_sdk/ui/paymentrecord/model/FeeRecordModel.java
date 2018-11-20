@@ -7,12 +7,9 @@ import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
-import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeRecordService;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -97,56 +94,6 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
 
                     @Override
                     public void onFailure(Call<FeeRecordEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
-                            }
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void getFeeDetail(String tradeNo, OnFeeDetailListener listener) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
-        map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0009);
-        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
-        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
-        map.put(MapKey.PAY_PLAT_TRADE_NO, tradeNo);
-        map.put(MapKey.SIGN, SignUtil.getSign(map));
-
-        RetrofitHelper
-                .getInstance()
-                .createService(FeeBillService.class)
-                .getBillInfo(RequestUrl.YD0009, map)
-                .enqueue(new Callback<FeeBillEntity>() {
-                    @Override
-                    public void onResponse(Call<FeeBillEntity> call, Response<FeeBillEntity> response) {
-                        FeeBillEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                if (listener != null) {
-                                    listener.onSuccess(body);
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
-                                    if (listener != null) {
-                                        listener.onFailed(errCodeDes);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<FeeBillEntity> call, Throwable t) {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);

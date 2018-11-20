@@ -37,35 +37,6 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
     private PaymentDetailsContract.IModel mPayModel = new PaymentDetailsModel();
 
     @Override
-    public void requestYd0003(String orgCode) {
-        if (!TextUtils.isEmpty(orgCode)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
-            mPayModel.requestYd0003(orgCode, new OnFeeDetailListener() {
-                @Override
-                public void onSuccess(FeeBillEntity entity) {
-                    LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
-                    dismissLoading();
-                    if (isNonNull()) {
-                        mViewRef.get().onYd0003Result(entity);
-                    }
-                }
-
-                @Override
-                public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "requestYd0003() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
-                    WToastUtil.show(errCodeDes);
-                }
-            });
-        } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
-        }
-    }
-
-    @Override
     public void getOrderDetails(String hisOrderNo, String orgCode) {
         if (!TextUtils.isEmpty(hisOrderNo)) {
             if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
@@ -85,6 +56,35 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "getOrderDetails() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
+                    WToastUtil.show(errCodeDes);
+                }
+            });
+        } else {
+            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+        }
+    }
+
+    @Override
+    public void requestYd0009(String tradeNo) {
+        if (!TextUtils.isEmpty(tradeNo)) {
+            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+                showLoading();
+            }
+
+            mModel.requestYd0009(tradeNo, new OnFeeDetailListener() {
+                @Override
+                public void onSuccess(FeeBillEntity entity) {
+                    LogUtil.i(TAG, "requestYd0009() -> onSuccess()");
+                    dismissLoading();
+                    if (isNonNull()) {
+                        mViewRef.get().onYd0009Result(entity);
+                    }
+                }
+
+                @Override
+                public void onFailed(String errCodeDes) {
+                    LogUtil.e(TAG, "requestYd0009() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
                 }

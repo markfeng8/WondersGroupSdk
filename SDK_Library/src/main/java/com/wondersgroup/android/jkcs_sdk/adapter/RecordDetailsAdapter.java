@@ -115,12 +115,17 @@ public class RecordDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 List<OrderDetailsEntity.DetailsBean> openDetails = combineDetails.getOpenDetails();
                 if (defaultDetails != null) {
                     String orderName = defaultDetails.getOrdername();
+                    String order_name = defaultDetails.getOrder_name();
                     String feeOrder = defaultDetails.getFee_order();
                     String orderTime = defaultDetails.getHis_order_time();
                     hisOrderNo = defaultDetails.getHis_order_no();
 
+                    // 后台返回的数据很垃圾，哪个 orderName 不为空就显示哪个！
                     if (!TextUtils.isEmpty(orderName)) {
                         tvOrderName.setText(orderName);
+                    }
+                    if (!TextUtils.isEmpty(order_name)) {
+                        tvOrderName.setText(order_name);
                     }
                     if (!TextUtils.isEmpty(feeOrder)) {
                         tvMoney.setText(feeOrder);
