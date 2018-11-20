@@ -17,6 +17,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
  */
 public class PayResultLayout extends LinearLayout {
 
+    private LinearLayout llSocialNum;
     private TextView tvTreatName;
     private TextView tvSocialNum;
     private TextView tvHospitalName;
@@ -38,6 +39,7 @@ public class PayResultLayout extends LinearLayout {
 
     private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.wonders_group_payment_result_common, this);
+        llSocialNum = findViewById(R.id.llSocialNum);
         tvTreatName = findViewById(R.id.tvTreatName);
         tvSocialNum = findViewById(R.id.tvSocialNum);
         tvHospitalName = findViewById(R.id.tvHospitalName);
@@ -57,7 +59,8 @@ public class PayResultLayout extends LinearLayout {
         if (!TextUtils.isEmpty(socialNum)) {
             tvSocialNum.setText(socialNum);
         } else {
-            tvSocialNum.setVisibility(View.GONE);
+            // 如果是 null 则不显示社保卡号项
+            llSocialNum.setVisibility(View.GONE);
         }
     }
 
