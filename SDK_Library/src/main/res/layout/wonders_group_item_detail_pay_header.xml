@@ -33,7 +33,7 @@
                 android:layout_marginTop="@dimen/wonders_margin_8dp"
                 android:text="A0486807X"
                 android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_14sp" />
+                android:textSize="@dimen/wonders_text_size_12sp" />
         </LinearLayout>
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="湖州市中心医院"
             android:textColor="@color/wonders_rgb_color_666666"
-            android:textSize="@dimen/wonders_text_size_14sp" />
+            android:textSize="@dimen/wonders_text_size_12sp" />
     </LinearLayout>
 
     <View

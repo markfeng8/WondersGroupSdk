@@ -54,6 +54,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private TextView tvPayName;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
+    private TextView tvNotice;
     private View activityView;
     private TitleBarLayout titleBar;
     private String mOrgCode;
@@ -107,6 +108,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                 .setListener(onLoadingListener)
                 .setCheckedListener(mCheckedListener)
                 .build();
+
+        // 如果是门诊才需要显示温馨提示，如果是自费卡不需要显示
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("0".equals(cardType)) {
+            tvNotice.setVisibility(View.VISIBLE);
+        } else if ("2".equals(cardType)) {
+            tvNotice.setVisibility(View.GONE);
+        }
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -168,6 +177,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         tvMoneyNum = findViewById(R.id.tvMoneyNum);
         tvPayMoney = findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
+        tvNotice = findViewById(R.id.tvNotice);
     }
 
     private void setAdapter() {

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,30 +48,40 @@ public class PayResultLayout extends LinearLayout {
     public void setTreatName(String name) {
         if (!TextUtils.isEmpty(name)) {
             tvTreatName.setText(name);
+        } else {
+            tvTreatName.setVisibility(View.GONE);
         }
     }
 
     public void setSocialNum(String socialNum) {
         if (!TextUtils.isEmpty(socialNum)) {
             tvSocialNum.setText(socialNum);
+        } else {
+            tvSocialNum.setVisibility(View.GONE);
         }
     }
 
     public void setHospitalName(String hospitalName) {
         if (!TextUtils.isEmpty(hospitalName)) {
             tvHospitalName.setText(hospitalName);
+        } else {
+            tvHospitalName.setVisibility(View.GONE);
         }
     }
 
     public void setBillDate(String billDate) {
         if (!TextUtils.isEmpty(billDate)) {
             tvBillDate.setText(billDate);
+        } else {
+            tvBillDate.setVisibility(View.GONE);
         }
     }
 
     public void setBillNo(String billNo) {
         if (!TextUtils.isEmpty(billNo)) {
             tvBillNo.setText(billNo);
+        } else {
+            tvBillNo.setVisibility(View.GONE);
         }
     }
 }

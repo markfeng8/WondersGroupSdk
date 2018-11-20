@@ -89,10 +89,11 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         String lockStartTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
 
         PayResultLayout payResultLayout = new PayResultLayout(this);
         payResultLayout.setTreatName(name);
-        payResultLayout.setSocialNum(cardNum);
+        payResultLayout.setSocialNum("2".equals(cardType) ? null : cardNum);
         payResultLayout.setHospitalName(mOrgName);
         payResultLayout.setBillDate(lockStartTime);
         payResultLayout.setBillNo(payPlatTradeNo);
@@ -104,7 +105,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
             tvCompleteTotal.setText(mFeeTotal);
             tvCompletePersonal.setText(mFeeCashTotal);
             // 如果是门诊才需要显示医保金额，如果是自费卡不需要显示
-            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
             if ("2".equals(cardType)) {
                 tvCompleteYiBao.setVisibility(View.GONE);
             } else {

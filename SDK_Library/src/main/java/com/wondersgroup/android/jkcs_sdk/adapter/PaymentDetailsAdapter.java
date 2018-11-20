@@ -158,8 +158,16 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 tvName.setText(name);
             }
             if (!TextUtils.isEmpty(socialNum)) {
-                tvSocialNum.setText("社保卡号：" + socialNum);
+                // 如果是门诊显示社保卡号，如果是自费卡显示身份证号
+                String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+                if ("0".equals(cardType)) {
+                    tvSocialNum.setText("社保卡号：" + socialNum);
+                } else if ("2".equals(cardType)) {
+                    String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+                    tvSocialNum.setText("身份证号：" + idNum);
+                }
             }
+
             if (!TextUtils.isEmpty(hospitalName)) {
                 tvHospitalName.setText(hospitalName);
             }

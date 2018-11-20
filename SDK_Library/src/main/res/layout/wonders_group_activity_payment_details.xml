@@ -30,6 +30,7 @@
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <TextView
+        android:id="@+id/tvNotice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/wonders_rgb_color_f8f8f8"
@@ -40,7 +41,8 @@
         android:paddingBottom="@dimen/wonders_padding_8dp"
         android:text="@string/wonders_group_text_pay_notice"
         android:textColor="@color/wonders_rgb_color_979797"
-        android:textSize="@dimen/wonders_text_size_12sp" />
+        android:textSize="@dimen/wonders_text_size_12sp"
+        android:visibility="visible" />
 
     <View
         android:layout_width="match_parent"
