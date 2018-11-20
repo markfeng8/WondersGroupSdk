@@ -47,6 +47,7 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private LinearLayout llPayFailed;
     private LinearLayout llContainer1;
     private LinearLayout llContainer2;
+    private LinearLayout llYiBaoLayout;
     private LoadingView mLoading;
     private String mOrgCode = "";
     private String mOrgName = "";
@@ -106,8 +107,9 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
             tvCompletePersonal.setText(mFeeCashTotal);
             // 如果是门诊才需要显示医保金额，如果是自费卡不需要显示
             if ("2".equals(cardType)) {
-                tvCompleteYiBao.setVisibility(View.GONE);
-            } else {
+                llYiBaoLayout.setVisibility(View.GONE);
+            } else if ("0".equals(cardType)) {
+                llYiBaoLayout.setVisibility(View.VISIBLE);
                 tvCompleteYiBao.setText(mFeeYbTotal);
             }
             llContainer1.addView(payResultLayout);
@@ -132,6 +134,7 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         llContainer1 = findViewById(R.id.llContainer1);
         llContainer2 = findViewById(R.id.llContainer2);
         ivQrCode = findViewById(R.id.ivQrCode);
+        llYiBaoLayout = findViewById(R.id.llYiBaoLayout);
     }
 
     private void initListener() {
