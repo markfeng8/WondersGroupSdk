@@ -1,11 +1,13 @@
 package com.wondersgroup.android.jkcs_sdk.widget;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -35,6 +37,7 @@ public class LoadingView {
     private WeakReference<Activity> mActivity;
     private OnLoadingListener mListener;
     private boolean isShowing = false;
+    private Dialog mLoadingDialog;
 
     private static final String DEFAULT_TEXT = "加载中..."; // default text
     private static final int DEFAULT_TEXT_SIZE = 12; // default text size
@@ -95,9 +98,9 @@ public class LoadingView {
     }
 
     /**
-     * Show loading.
+     * Show normal loading, can clickable.
      */
-    public void show() {
+    public void showLoadingNormal() {
         if (mLoadingView == null) {
             mLoadingView = getLoadingView();
         }
@@ -111,12 +114,50 @@ public class LoadingView {
     }
 
     /**
+     * Show loading dialog, can't clickable.
+     */
+    public void showLoadingDialog() {
+        if (mLoadingView == null) {
+            mLoadingView = getLoadingView();
+        }
+        if (mActivity.get() != null) {
+            if (mLoadingDialog == null) {
+                mLoadingDialog = new Dialog(mActivity.get(), R.style.loading_dialog_style);
+            }
+            mLoadingDialog.setCancelable(false);
+            mLoadingDialog.setContentView(mLoadingView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+
+            mLoadingDialog.dismiss();
+            mLoadingDialog.show();
+            isShowing = true;
+            mLoadingDialog.setOnKeyListener((dialog, keyCode, event) -> {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    mLoadingDialog.dismiss();
+                    return true;
+                }
+                return false;
+            });
+        }
+    }
+
+    /**
      * Cancel loading showing.
      */
-    public void dismiss() {
+    public void dismissLoadingNormal() {
         if (mActivity.get() != null) {
             FrameLayout rootContainer = mActivity.get().findViewById(android.R.id.content);
             rootContainer.removeView(mLoadingView);
+            isShowing = false;
+            if (mListener != null) {
+                mListener.onDismiss();
+            }
+        }
+    }
+
+    public void dismissLoadingDialog() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
             isShowing = false;
             if (mListener != null) {
                 mListener.onDismiss();
@@ -259,7 +300,7 @@ public class LoadingView {
         }
 
         /**
-         * set on popupWindow dismiss listener.
+         * set on popupWindow dismissLoadingDialog listener.
          *
          * @param listener
          * @return
@@ -308,7 +349,7 @@ public class LoadingView {
     }
 
     /**
-     * Define popupWindow dismiss listener.
+     * Define popupWindow dismissLoadingDialog listener.
      */
     interface OnLoadingListener {
         void onDismiss();

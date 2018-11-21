@@ -177,7 +177,7 @@ public class SelectHospitalWindow {
         }
 
         /**
-         * set on popupWindow dismiss listener.
+         * set on popupWindow dismissLoadingDialog listener.
          *
          * @param listener
          * @return
@@ -207,7 +207,7 @@ public class SelectHospitalWindow {
     }
 
     /**
-     * Define popupWindow dismiss listener.
+     * Define popupWindow dismissLoadingDialog listener.
      */
     public interface OnLoadingListener {
         void onDismiss();

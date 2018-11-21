@@ -248,14 +248,14 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     @Override
     public void showLoading() {
         if (mLoading != null) {
-            mLoading.show();
+            mLoading.showLoadingDialog();
         }
     }
 
     @Override
     public void dismissLoading() {
         if (mLoading != null) {
-            mLoading.dismiss();
+            mLoading.dismissLoadingDialog();
         }
     }
 

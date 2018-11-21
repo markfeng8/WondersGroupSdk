@@ -172,7 +172,7 @@ public class SelectPayTypeWindow {
         }
 
         /**
-         * set on popupWindow dismiss listener.
+         * set on popupWindow dismissLoadingDialog listener.
          *
          * @param listener
          * @return
@@ -202,7 +202,7 @@ public class SelectPayTypeWindow {
     }
 
     /**
-     * Define popupWindow dismiss listener.
+     * Define popupWindow dismissLoadingDialog listener.
      */
     public interface OnLoadingListener {
         void onDismiss();
