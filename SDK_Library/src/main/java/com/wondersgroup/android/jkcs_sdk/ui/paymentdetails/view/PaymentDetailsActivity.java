@@ -32,6 +32,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
@@ -148,13 +149,18 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      */
     private void initListener() {
         tvPayMoney.setOnClickListener(v -> {
-            // 如果是门诊才需要获取医保 token，如果是自费卡不需要获取
-            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-            if ("0".equals(cardType)) {
-                mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
-            } else if ("2".equals(cardType)) {
-                // 直接进行现金部分自费结算，先获取统一支付所需的参数
-                mPresenter.getPayParam(mOrgCode);
+            // 处理已经在结算中的再次点击
+            if (mLoading != null && mLoading.isShowing()) {
+                WToastUtil.show("正在处理中，请勿重复点击！");
+            } else {
+                // 如果是门诊才需要获取医保 token，如果是自费卡不需要获取
+                String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+                if ("0".equals(cardType)) {
+                    mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
+                } else if ("2".equals(cardType)) {
+                    // 直接进行现金部分自费结算，先获取统一支付所需的参数
+                    mPresenter.getPayParam(mOrgCode);
+                }
             }
         });
         titleBar.setOnBackListener(this::showAlertDialog);
