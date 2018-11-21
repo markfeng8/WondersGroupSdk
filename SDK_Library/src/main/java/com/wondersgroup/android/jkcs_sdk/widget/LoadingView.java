@@ -103,6 +103,8 @@ public class LoadingView {
         }
         if (mActivity.get() != null) {
             FrameLayout rootContainer = mActivity.get().findViewById(android.R.id.content);
+            // 先移除再添加，防止添加两次出现异常！
+            rootContainer.removeView(mLoadingView);
             rootContainer.addView(mLoadingView);
             isShowing = true;
         }
