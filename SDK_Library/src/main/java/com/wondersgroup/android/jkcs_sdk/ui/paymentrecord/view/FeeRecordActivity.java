@@ -79,7 +79,6 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
 
     private void initSomeData() {
         mLoading = new LoadingView.Builder(this)
-                .setDropView(activityView)
                 .build();
 
         mStartDate = TimeUtil.getBefore30Date();

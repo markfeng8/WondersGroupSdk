@@ -23,7 +23,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
-import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract.SelfPayFeeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.presenter.SelfPayFeePresenter;
@@ -76,7 +75,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
 
     private void initData() {
         mLoading = new LoadingView.Builder(this)
-                .setDropView(activityView)
                 .build();
 
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");

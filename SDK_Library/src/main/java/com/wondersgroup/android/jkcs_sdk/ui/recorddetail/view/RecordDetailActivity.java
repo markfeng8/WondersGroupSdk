@@ -81,7 +81,6 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     @SuppressLint("SetTextI18n")
     private void initData() {
         mLoading = new LoadingView.Builder(this)
-                .setDropView(activityView)
                 .build();
 
         Intent intent = getIntent();

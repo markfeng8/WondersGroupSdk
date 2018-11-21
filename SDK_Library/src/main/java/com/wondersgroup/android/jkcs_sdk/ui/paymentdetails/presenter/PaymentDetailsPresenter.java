@@ -287,14 +287,19 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
     @Override
     public void toSettleCashPay(Activity activity, String appId, String subMerNo, String apiKey,
                                 String orgName, String tradeNo, int payType, String amount) {
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            showLoading();
+        }
         if (TextUtils.isEmpty(amount)) {
             WToastUtil.show("非法的金额！");
+            dismissLoading();
             return;
         }
 
         WeakReference<Activity> weakReference = new WeakReference<>(activity);
         Activity context = weakReference.get();
         if (context == null) {
+            dismissLoading();
             return;
         }
 
@@ -310,11 +315,13 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
             i = Long.parseLong(String.valueOf(formatCents));
         } else {
             WToastUtil.show("请输入正确的交易金额（单位：分）");
+            dismissLoading();
             return;
         }
 
         if ((payType == 2) && (!AppInfoUtil.isWeChatAppInstalled(WondersApplication.getsContext()))) {
             WToastUtil.show("您没有安装微信客户端，请先安装微信客户端！");
+            dismissLoading();
         } else {
             String describe = "药品费";
             /*
@@ -324,6 +331,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                     subMerNo, orgName, describe, i, tradeNo, describe, null,
                     wdResult -> {
 
+                        dismissLoading();
                         final WDPayResult bcPayResult = (WDPayResult) wdResult;
                         context.runOnUiThread(() -> {
 

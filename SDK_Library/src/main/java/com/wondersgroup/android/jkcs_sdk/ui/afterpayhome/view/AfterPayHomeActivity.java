@@ -119,7 +119,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void initData() {
         mLoading = new LoadingView.Builder(this)
-                .setDropView(activityView)
                 .build();
 
         initHeaderData();

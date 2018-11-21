@@ -1,16 +1,14 @@
 package com.wondersgroup.android.jkcs_sdk.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,24 +18,23 @@ import java.lang.ref.WeakReference;
 
 /**
  * Created by x-sir on 2018/8/22 :)
- * Function:
+ * Function:封装一个全局通用的 Loading
  */
 public class LoadingView {
 
     private String mText;
     private int mTextSize;
-    private View mPopupView;
+    private View mLoadingView;
     private Context mContext;
     private String mTextColor;
     private int mCornerRadius;
     private int mLoadingWidth;
     private int mLoadingHeight;
     private int mTextMarginTop;
-    private boolean mIsFocusable;
     private String mLoadingBgColor;
-    private PopupWindow mPopupWindow;
-    private WeakReference<View> mView;
+    private WeakReference<Activity> mActivity;
     private OnLoadingListener mListener;
+    private boolean isShowing = false;
 
     private static final String DEFAULT_TEXT = "加载中..."; // default text
     private static final int DEFAULT_TEXT_SIZE = 12; // default text size
@@ -45,15 +42,14 @@ public class LoadingView {
     private static final String DEFAULT_TEXT_COLOR = "#FFFFFF"; // default text color
     private static final int DEFAULT_CORNER_RADIUS = 4; // default loading background radius size
     private static final String DEFAULT_LOADING_BG_COLOR = "#CC000000"; // default loading background color
+    private static final String TAG = "LoadingView";
 
     /**
      * Constructor.
-     *
-     * @param builder
      */
     LoadingView(Builder builder) {
         this.mText = builder.text;
-        this.mView = builder.view;
+        this.mActivity = builder.activity;
         this.mListener = builder.listener;
         this.mTextSize = builder.textSize;
         this.mTextColor = builder.textColor;
@@ -63,34 +59,12 @@ public class LoadingView {
         this.mLoadingWidth = builder.loadingWidth;
         this.mLoadingHeight = builder.loadingHeight;
         this.mTextMarginTop = builder.textMarginTop;
-        this.mIsFocusable = builder.isFocusable;
-        initView();
     }
 
-    /**
-     * Initialize view parameters.
-     */
-    private void initView() {
-        if (mPopupView == null) {
-            mPopupView = View.inflate(mContext, R.layout.wonders_group_loading_popupwindow, null);
-        }
-        if (mPopupWindow == null) {
-            mPopupWindow = new PopupWindow(mPopupView, WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.MATCH_PARENT);
-        }
-
-        mPopupWindow.setOnDismissListener(() -> {
-            if (mListener != null) {
-                mListener.onDismiss();
-            }
-        });
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        // 当 mIsFocusable 为 true 时，响应返回键消失，为 false 时响应 activity 返回操作，默认为 false
-        mPopupWindow.setFocusable(mIsFocusable);
-
-        LinearLayout llLoadingBg = (LinearLayout) mPopupView.findViewById(R.id.llLoadingBg);
-        TextView tvContent = (TextView) mPopupView.findViewById(R.id.tvContent);
-
+    private View getLoadingView() {
+        View loadingView = View.inflate(mContext, R.layout.wonders_group_loading_popupwindow, null);
+        LinearLayout llLoadingBg = loadingView.findViewById(R.id.llLoadingBg);
+        TextView tvContent = loadingView.findViewById(R.id.tvContent);
         RelativeLayout.LayoutParams rlParams = (RelativeLayout.LayoutParams) llLoadingBg.getLayoutParams();
         if (mLoadingWidth != -1 && mLoadingHeight != -1) {
             rlParams.width = dp2px(mLoadingWidth);
@@ -100,7 +74,6 @@ public class LoadingView {
             rlParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
         }
         llLoadingBg.setLayoutParams(rlParams);
-
         GradientDrawable mGroupDrawable = new GradientDrawable();
         /*设置 Drawable 的形状为矩形*/
         mGroupDrawable.setShape(GradientDrawable.RECTANGLE);
@@ -109,7 +82,6 @@ public class LoadingView {
         /*设置圆角大小*/
         mGroupDrawable.setCornerRadius(dp2px(mCornerRadius));
         llLoadingBg.setBackground(mGroupDrawable);
-
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvContent.getLayoutParams();
         params.topMargin = dp2px(mTextMarginTop);
         tvContent.setLayoutParams(params);
@@ -119,27 +91,34 @@ public class LoadingView {
         tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
         /*设置文本颜色*/
         tvContent.setTextColor(Color.parseColor(mTextColor));
+        return loadingView;
     }
 
     /**
-     * Show popupWindow.
+     * Show loading.
      */
     public void show() {
-        dismiss();
-        if (mPopupWindow != null) {
-            // 必须要 post runnable，如果在onCreate中调用则会抛：android.view.WindowManager$BadTokenException:
-            // Unable to add window -- token
-            mView.get().post(() -> mPopupWindow.showAtLocation(mView.get(),
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0));
+        if (mLoadingView == null) {
+            mLoadingView = getLoadingView();
+        }
+        if (mActivity.get() != null) {
+            FrameLayout rootContainer = mActivity.get().findViewById(android.R.id.content);
+            rootContainer.addView(mLoadingView);
+            isShowing = true;
         }
     }
 
     /**
-     * Cancel popupWindow showing.
+     * Cancel loading showing.
      */
     public void dismiss() {
-        if (mPopupWindow != null && mPopupWindow.isShowing()) {
-            mPopupWindow.dismiss();
+        if (mActivity.get() != null) {
+            FrameLayout rootContainer = mActivity.get().findViewById(android.R.id.content);
+            rootContainer.removeView(mLoadingView);
+            isShowing = false;
+            if (mListener != null) {
+                mListener.onDismiss();
+            }
         }
     }
 
@@ -147,29 +126,22 @@ public class LoadingView {
      * Invoke on Activity onDestroy() method.
      */
     public void dispose() {
-        if (mPopupWindow != null) {
-            if (mPopupWindow.isShowing()) {
-                mPopupWindow.dismiss();
-            }
-            mPopupWindow = null;
+        if (mLoadingView != null) {
+            mLoadingView.destroyDrawingCache();
+            mLoadingView = null;
         }
-        if (mPopupView != null) {
-            mPopupView.destroyDrawingCache();
-            mPopupView = null;
-        }
-        if (mView != null) {
-            mView.clear();
-            mView = null;
+        if (mActivity.get() != null) {
+            mActivity.clear();
         }
     }
 
     /**
-     * PopupWindow is or not showing.
+     * Loading is or not showing.
      *
      * @return
      */
     public boolean isShowing() {
-        return mPopupWindow != null && mPopupWindow.isShowing();
+        return isShowing;
     }
 
     /**
@@ -184,16 +156,16 @@ public class LoadingView {
         private int loadingWidth = -1;
         private int loadingHeight = -1;
         private int textMarginTop = -1;
-        private boolean isFocusable = false;
-        private WeakReference<View> view;
+        private WeakReference<Activity> activity;
         private OnLoadingListener listener;
         private Context applicationContext;
 
         /**
          * Constructor
          */
-        public Builder(Context context) {
-            this.applicationContext = context.getApplicationContext();
+        public Builder(Activity activity) {
+            this.activity = new WeakReference<>(activity);
+            this.applicationContext = activity.getApplicationContext();
         }
 
         /**
@@ -226,17 +198,6 @@ public class LoadingView {
          */
         public Builder setTextMarginTop(int textMarginTop) {
             this.textMarginTop = textMarginTop;
-            return this;
-        }
-
-        /**
-         * Set popupWindow's focusable.
-         *
-         * @param isFocusable
-         * @return
-         */
-        public Builder setFocusable(boolean isFocusable) {
-            this.isFocusable = isFocusable;
             return this;
         }
 
@@ -296,21 +257,6 @@ public class LoadingView {
         }
 
         /**
-         * Set location at parent view, because popupWindow must be dependency activity.
-         *
-         * @param view
-         * @return
-         */
-        public Builder setDropView(View view) {
-            if (view != null) {
-                this.view = new WeakReference<>(view);
-            } else {
-                throw new IllegalArgumentException("must be point parent view!");
-            }
-            return this;
-        }
-
-        /**
          * set on popupWindow dismiss listener.
          *
          * @param listener
@@ -340,7 +286,7 @@ public class LoadingView {
             if (cornerRadius == -1) {
                 cornerRadius = DEFAULT_CORNER_RADIUS;
             }
-            if (view == null) {
+            if (activity == null) {
                 throw new IllegalArgumentException("must be point parent view!");
             }
 

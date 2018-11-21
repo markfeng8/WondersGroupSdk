@@ -72,7 +72,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     @SuppressLint("SetTextI18n")
     private void initData() {
         mLoading = new LoadingView.Builder(this)
-                .setDropView(activityView)
                 .build();
 
         Intent intent = getIntent();

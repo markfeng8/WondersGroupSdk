@@ -100,7 +100,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     private void initData() {
         mLoading = new LoadingView.Builder(this)
-                .setDropView(activityView)
                 .build();
 
         mSelectPayTypeWindow = new SelectPayTypeWindow.Builder(this)
