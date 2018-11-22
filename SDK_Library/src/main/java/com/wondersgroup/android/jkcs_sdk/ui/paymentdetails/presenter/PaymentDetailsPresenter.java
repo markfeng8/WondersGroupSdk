@@ -309,7 +309,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
         CheckOut.setIsPrint(true);
         // 设置统一支付回调地址
         CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
-        // 初始化金额（0 分）
+        // 初始化金额（0分）
         Long i = 0L;
         // 格式化金额为分
         long formatCents = (long) (Double.parseDouble(amount) * 100);

@@ -75,7 +75,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private String mFeeYbTotal;
     private String payPlatTradeNo;
     private boolean tryToSettleIsSuccess = false;
-    private boolean isNeedToPay = true;
+    private boolean isNeedToPay = false; // 是否是试结算失败时需要去结算
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
         mPayType = type;
@@ -368,6 +368,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             if (isNeedToPay) {
                 mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
             }
+        } else {
+            tryToSettleIsSuccess = false;
         }
     }
 
@@ -477,17 +479,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         if ("0".equals(cardType)) {
-            // 现金部分结算成功，继续支付医保部分（如果有）
+            // 现金部分结算成功，继续支付医保部分(正式结算，不管医保是否为0)
             if (!TextUtils.isEmpty(mFeeYbTotal)) {
-                // 如果医保部分为0，说明已经全部结算完成
-                if (Double.parseDouble(mFeeYbTotal) == 0) {
-                    // 跳转过去，显示全部支付完成 true 代表全部支付完成
-                    jumpToPaymentResultPage(true);
-
-                } else {
-                    // 进行医保部分结算，携带 mYiBaoToken 发起正式结算
-                    sendOfficialPay(false, "2");
-                }
+                sendOfficialPay(false, "2");
             } else {
                 LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
             }
