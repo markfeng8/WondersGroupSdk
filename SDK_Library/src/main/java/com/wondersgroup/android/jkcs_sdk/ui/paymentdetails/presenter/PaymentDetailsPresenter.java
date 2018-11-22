@@ -210,11 +210,11 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "sendOfficialPay() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
                     WToastUtil.show(errCodeDes);
                     if (isNonNull()) {
                         // 处理后台异步结算中的状态
                         if (!"程序异步正式结算中".equals(errCodeDes)) {
+                            dismissLoading();
                             // 传 null 表示正式结算失败！
                             mViewRef.get().onOfficialSettleResult(null);
                         }
