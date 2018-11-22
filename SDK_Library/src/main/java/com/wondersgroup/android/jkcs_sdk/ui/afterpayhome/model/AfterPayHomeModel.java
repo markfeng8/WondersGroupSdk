@@ -82,21 +82,30 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                 .enqueue(new Callback<AfterPayStateEntity>() {
                     @Override
                     public void onResponse(Call<AfterPayStateEntity> call, Response<AfterPayStateEntity> response) {
-                        AfterPayStateEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                if (listener != null) {
-                                    listener.onSuccess(body);
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            AfterPayStateEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -137,19 +146,26 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                 .enqueue(new Callback<MobilePayEntity>() {
                     @Override
                     public void onResponse(Call<MobilePayEntity> call, Response<MobilePayEntity> response) {
-                        MobilePayEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                LogUtil.i(TAG, "移动医保状态上报成功~");
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
-                                    LogUtil.e(TAG, "移动医保状态上报失败~");
-                                    WToastUtil.show(errCodeDes);
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            MobilePayEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    LogUtil.i(TAG, "移动医保状态上报成功~");
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        LogUtil.e(TAG, "移动医保状态上报失败~");
+                                        WToastUtil.show(errCodeDes);
+                                    }
                                 }
                             }
+                        } else {
+                            LogUtil.e("服务器异常！");
                         }
                     }
 
@@ -195,21 +211,30 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                 .enqueue(new Callback<FeeBillEntity>() {
                     @Override
                     public void onResponse(Call<FeeBillEntity> call, Response<FeeBillEntity> response) {
-                        FeeBillEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                if (listener != null) {
-                                    listener.onSuccess(body);
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            FeeBillEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -256,26 +281,35 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                 .enqueue(new Callback<HospitalEntity>() {
                     @Override
                     public void onResponse(Call<HospitalEntity> call, Response<HospitalEntity> response) {
-                        HospitalEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            HospitalEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
 
-                                // 缓存到本地
-                                String hospitalJson = new Gson().toJson(body);
-                                SpUtil.getInstance().save(SpKey.HOSPITAL_JSON, hospitalJson);
+                                    // 缓存到本地
+                                    String hospitalJson = new Gson().toJson(body);
+                                    SpUtil.getInstance().save(SpKey.HOSPITAL_JSON, hospitalJson);
 
-                                if (listener != null) {
-                                    listener.onSuccess(body);
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }

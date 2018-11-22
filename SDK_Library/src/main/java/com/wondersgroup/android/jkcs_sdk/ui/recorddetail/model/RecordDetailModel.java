@@ -59,21 +59,30 @@ public class RecordDetailModel implements RecordDetailContract.IModel {
                 .enqueue(new Callback<FeeBillEntity>() {
                     @Override
                     public void onResponse(Call<FeeBillEntity> call, Response<FeeBillEntity> response) {
-                        FeeBillEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                if (listener != null) {
-                                    listener.onSuccess(body);
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            FeeBillEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }

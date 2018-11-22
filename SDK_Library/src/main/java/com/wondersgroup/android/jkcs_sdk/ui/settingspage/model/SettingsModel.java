@@ -59,21 +59,30 @@ public class SettingsModel implements SettingsContract.IModel {
                 .enqueue(new Callback<BaseEntity>() {
                     @Override
                     public void onResponse(Call<BaseEntity> call, Response<BaseEntity> response) {
-                        BaseEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                if (listener != null) {
-                                    listener.onSuccess();
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            BaseEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess();
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -81,7 +90,7 @@ public class SettingsModel implements SettingsContract.IModel {
                     @Override
                     public void onFailure(Call<BaseEntity> call, Throwable t) {
                         String error = t.getMessage();
-                        if(!TextUtils.isEmpty(error)) {
+                        if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
                             if (listener != null) {
                                 listener.onFailed(error);
@@ -111,22 +120,31 @@ public class SettingsModel implements SettingsContract.IModel {
                 .enqueue(new Callback<SmsEntity>() {
                     @Override
                     public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
-                        SmsEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                String idenCode = body.getIden_code();
-                                if (listener != null) {
-                                    listener.onSuccess();
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            SmsEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    String idenCode = body.getIden_code();
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess();
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -160,21 +178,30 @@ public class SettingsModel implements SettingsContract.IModel {
                 .enqueue(new Callback<BaseEntity>() {
                     @Override
                     public void onResponse(Call<BaseEntity> call, Response<BaseEntity> response) {
-                        BaseEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                if (listener != null) {
-                                    listener.onSuccess();
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            BaseEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess();
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }

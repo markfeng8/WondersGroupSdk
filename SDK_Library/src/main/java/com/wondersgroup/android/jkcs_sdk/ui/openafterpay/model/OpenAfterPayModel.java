@@ -8,11 +8,11 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
@@ -70,20 +70,29 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
                 .enqueue(new Callback<SmsEntity>() {
                     @Override
                     public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
-                        SmsEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                String idenCode = body.getIden_code();
-                                if (listener != null) {
-                                    listener.onSuccess();
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            SmsEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    String idenCode = body.getIden_code();
+                                    if (listener != null) {
+                                        listener.onSuccess();
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (listener != null) {
+                                        listener.onFailed(errCodeDes);
+                                    }
                                 }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (listener != null) {
-                                    listener.onFailed(errCodeDes);
-                                }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -127,22 +136,31 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
                 .enqueue(new Callback<SmsEntity>() {
                     @Override
                     public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
-                        SmsEntity body = response.body();
-                        if (body != null) {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
-                            if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                String idenCode = body.getIden_code();
-                                if (listener != null) {
-                                    listener.onSuccess();
-                                }
-                            } else {
-                                String errCodeDes = body.getErr_code_des();
-                                if (!TextUtils.isEmpty(errCodeDes)) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            SmsEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    String idenCode = body.getIden_code();
                                     if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                        listener.onSuccess();
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
                                     }
                                 }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
                             }
                         }
                     }
