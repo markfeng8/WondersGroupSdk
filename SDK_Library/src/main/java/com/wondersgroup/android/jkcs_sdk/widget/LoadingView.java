@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -131,13 +130,14 @@ public class LoadingView {
             mLoadingDialog.dismiss();
             mLoadingDialog.show();
             isShowing = true;
-            mLoadingDialog.setOnKeyListener((dialog, keyCode, event) -> {
+            // 处理加当载 Loading 时，返回键的行为
+            /*mLoadingDialog.setOnKeyListener((dialog, keyCode, event) -> {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     mLoadingDialog.dismiss();
                     return true;
                 }
                 return false;
-            });
+            });*/
         }
     }
 
