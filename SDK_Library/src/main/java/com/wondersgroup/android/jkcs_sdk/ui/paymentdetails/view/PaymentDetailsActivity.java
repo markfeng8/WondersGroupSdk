@@ -74,6 +74,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private String mFeeCashTotal;
     private String mFeeYbTotal;
     private String payPlatTradeNo;
+    private boolean tryToSettleIsSuccess = false;
+    private boolean isNeedToPay = true;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
         mPayType = type;
@@ -148,22 +150,35 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 设置点击事件的监听回调
      */
     private void initListener() {
-        tvPayMoney.setOnClickListener(v -> {
-            // 处理已经在结算中的再次点击
-            if (mLoading != null && mLoading.isShowing()) {
-                WToastUtil.show("正在处理中，请勿重复点击！");
-            } else {
-                // 如果是门诊才需要获取医保 token，如果是自费卡不需要获取
-                String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-                if ("0".equals(cardType)) {
-                    mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
-                } else if ("2".equals(cardType)) {
-                    // 直接进行现金部分自费结算，先获取统一支付所需的参数
-                    mPresenter.getPayParam(mOrgCode);
-                }
-            }
-        });
+        tvPayMoney.setOnClickListener(v -> toPayMoney());
         titleBar.setOnBackListener(this::showAlertDialog);
+    }
+
+    /**
+     * 点击立即付款时的处理
+     */
+    private void toPayMoney() {
+        // 判断是否已经在结算中，就提示，防止再次点击！
+        if (mLoading != null && mLoading.isShowing()) {
+            WToastUtil.show("正在处理中，请勿重复点击！");
+            return;
+        }
+
+        // 如果是门诊才需要获取医保 token，如果是自费卡不需要获取
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("0".equals(cardType)) {
+            // 判断试结算是否成功
+            if (tryToSettleIsSuccess) {
+                mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
+            } else {
+                isNeedToPay = true;
+                // 如果没成功，就先携带 token 再发起一次试结算，然后再进行支付
+                mPresenter.getTryToSettleToken(PaymentDetailsActivity.this);
+            }
+        } else if ("2".equals(cardType)) {
+            // 直接进行现金部分自费结算，先获取统一支付所需的参数
+            mPresenter.getPayParam(mOrgCode);
+        }
     }
 
     private void showAlertDialog() {
@@ -316,6 +331,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     @Override
     public void onTryToSettleResult(SettleEntity body) {
         if (body != null) {
+            tryToSettleIsSuccess = true;
             mFeeTotal = body.getFee_total();
             mFeeCashTotal = body.getFee_cash_total();
             mFeeYbTotal = body.getFee_yb_total();
@@ -347,6 +363,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             mItemList.addAll(mCombineList);// 再添加 List 数据
             mItemList.add(mDetailPayBean); // 添加支付数据
             refreshAdapter();
+
+            // 判断是否是试结算失败时，然后再次去支付的。
+            if (isNeedToPay) {
+                mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
+            }
         }
     }
 

@@ -122,6 +122,9 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                     LogUtil.e(TAG, "tryToSettle() -> onFailed()===" + errCodeDes);
                     dismissLoading();
                     WToastUtil.show(errCodeDes);
+                    if (isNonNull()) {
+                        mViewRef.get().onTryToSettleResult(null);
+                    }
                 }
             });
         } else {
