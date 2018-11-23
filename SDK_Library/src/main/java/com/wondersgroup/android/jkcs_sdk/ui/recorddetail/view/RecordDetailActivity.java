@@ -21,6 +21,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.RecordDetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -28,6 +29,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.qrcodepage.QrCodeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.presenter.RecordDetailPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout;
 
@@ -101,8 +103,14 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
             plTotalMoney.setFeeNum(feeTotal);
             plPersonalPay.setFeeName("现金部分：");
             plPersonalPay.setFeeNum(feeCashTotal);
-            plYiBaoPay.setFeeName("医保部分：");
-            plYiBaoPay.setFeeNum(feeYbTotal);
+            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+            if ("0".equals(cardType)) {
+                plYiBaoPay.setVisibility(View.VISIBLE);
+                plYiBaoPay.setFeeName("医保部分：");
+                plYiBaoPay.setFeeNum(feeYbTotal);
+            } else {
+                plYiBaoPay.setVisibility(View.GONE);
+            }
 
             // 获取账单记录详情
             mPresenter.requestYd0009(payPlatTradeNo);
