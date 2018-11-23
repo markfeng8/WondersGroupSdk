@@ -40,6 +40,8 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private TextView tvCompleteTotal;
     private TextView tvCompletePersonal;
     private TextView tvCompleteYiBao;
+    private TextView tvFailed1;
+    private TextView tvFailed2;
     private ImageView ivQrCode;
     private TitleBarLayout titleBar;
     private Button btnBackToHome;
@@ -117,6 +119,13 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
             }
         } else {
             llContainer2.addView(payResultLayout);
+            if ("2".equals(cardType)) {
+                tvFailed1.setText(getString(R.string.wonders_self_failed1));
+                tvFailed2.setText(getString(R.string.wonders_self_failed2));
+            } else if ("0".equals(cardType)) {
+                tvFailed1.setText(getString(R.string.wonders_settle_failed1));
+                tvFailed2.setText(getString(R.string.wonders_settle_failed2));
+            }
         }
     }
 
@@ -134,6 +143,8 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         llContainer2 = findViewById(R.id.llContainer2);
         ivQrCode = findViewById(R.id.ivQrCode);
         llYiBaoLayout = findViewById(R.id.llYiBaoLayout);
+        tvFailed1 = findViewById(R.id.tvFailed1);
+        tvFailed2 = findViewById(R.id.tvFailed2);
     }
 
     private void initListener() {

@@ -8,13 +8,14 @@
     android:visibility="visible">
 
     <TextView
+        android:id="@+id/tvFailed1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:drawableStart="@drawable/wonders_group_mark"
         android:drawablePadding="@dimen/wonders_padding_10dp"
         android:gravity="center_vertical"
-        android:text="医保结算失败。现金支付部分将在30分钟内，原路退回，请留意查看！"
+        android:text="@string/wonders_settle_failed1"
         android:textColor="@color/wonders_rgb_color_58c78f"
         android:textSize="@dimen/wonders_text_size_16sp" />
 
@@ -25,12 +26,13 @@
         android:orientation="vertical" />
 
     <TextView
+        android:id="@+id/tvFailed2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/wonders_margin_10dp"
         android:background="@color/wonders_rgb_color_f8f8f8"
         android:padding="@dimen/wonders_padding_10dp"
-        android:text="医保结算失败，您可返回订单重新支付。"
+        android:text="@string/wonders_settle_failed2"
         android:textColor="@color/wonders_rgb_color_979797"
         android:textSize="@dimen/wonders_text_size_12sp" />
 
