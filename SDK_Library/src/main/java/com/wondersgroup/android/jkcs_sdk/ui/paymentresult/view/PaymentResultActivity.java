@@ -2,7 +2,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,7 +24,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.PayResultLayout;
-import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 
 /**
  * Created by x-sir on 2018/9/17 :)
@@ -35,7 +33,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         PaymentResultPresenter<PaymentResultContract.IView>> implements PaymentResultContract.IView {
 
     private static final String TAG = "PaymentResultActivity";
-    private View activityView;
     private TextView tvPayDetails;
     private TextView tvCompleteTotal;
     private TextView tvCompletePersonal;
@@ -43,7 +40,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private TextView tvFailed1;
     private TextView tvFailed2;
     private ImageView ivQrCode;
-    private TitleBarLayout titleBar;
     private Button btnBackToHome;
     private LinearLayout llPaySuccess;
     private LinearLayout llPayFailed;
@@ -130,12 +126,10 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     }
 
     private void findViews() {
-        titleBar = findViewById(R.id.titleBar);
         tvCompleteTotal = findViewById(R.id.tvCompleteTotal);
         tvCompletePersonal = findViewById(R.id.tvCompletePersonal);
         tvCompleteYiBao = findViewById(R.id.tvCompleteYiBao);
         btnBackToHome = findViewById(R.id.btnBackToHome);
-        activityView = findViewById(R.id.activityView);
         tvPayDetails = findViewById(R.id.tvPayDetails);
         llPaySuccess = findViewById(R.id.llPaySuccess);
         llPayFailed = findViewById(R.id.llPayFailed);
@@ -153,7 +147,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
             FeeRecordActivity.actionStart(PaymentResultActivity.this);
             finish();
         });
-        titleBar.setOnBackListener(this::showAlertDialog);
     }
 
     private void createQrCode(String payPlatTradeNo) {
@@ -161,15 +154,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         if (bitmap != null) {
             ivQrCode.setImageBitmap(bitmap);
         }
-    }
-
-    private void showAlertDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("温馨提示")
-                .setMessage(getString(R.string.wonders_group_personal_pay_back_notice))
-                .setPositiveButton("确定", (dialog, which) -> PaymentResultActivity.this.finish())
-                .setNegativeButton("取消", null)
-                .show();
     }
 
     /**
