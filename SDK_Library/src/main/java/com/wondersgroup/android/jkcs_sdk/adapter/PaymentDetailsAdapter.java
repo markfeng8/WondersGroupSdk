@@ -58,13 +58,10 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     /**
-     * 设置并刷新数据
-     *
-     * @param itemList
+     * 刷新适配器
      */
-    public void setItemList(List<Object> itemList) {
-        this.mItemList = itemList;
-        notifyDataSetChanged(); // 刷新适配器
+    public void refreshAdapter() {
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -172,6 +169,7 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 tvHospitalName.setText(hospitalName);
             }
             if (!TextUtils.isEmpty(orderNum)) {
+                tvOrderNum.setVisibility(View.VISIBLE);
                 tvOrderNum.setText("订单编号：" + orderNum);
             }
         }
@@ -189,6 +187,8 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private LinearLayout llDetails;
         private String hisOrderNo;
         private int position;
+        boolean needVisibleDetails = false; // 是否需要显示详情
+        private List<OrderDetailsEntity.DetailsBean> spreadDetails;
 
         ListViewHolder(View itemView) {
             super(itemView);
@@ -201,18 +201,33 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             initListener();
         }
 
+        /**
+         * 设置展开详情的监听器
+         */
         private void initListener() {
-            llItem.setOnClickListener(v -> {
-                boolean visible = llDetails.getVisibility() == View.GONE;
-                llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
-                ivArrow.setImageResource(visible ? R.drawable.wonders_group_up_arrow : R.drawable.wonders_group_down_arrow);
-                int childCount = llDetails.getChildCount();
-                if (visible && childCount == 1) {
-                    if (mContext instanceof PaymentDetailsActivity) {
-                        ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
-                    }
+            llItem.setOnClickListener(v -> spreadDetails());
+        }
+
+        /**
+         * 展开订单详情
+         */
+        private void spreadDetails() {
+            // 1.先判断数据是否已经请求下来了，没有就先去请求
+            if (spreadDetails == null) {
+                if (mContext instanceof PaymentDetailsActivity) {
+                    needVisibleDetails = true;
+                    ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
                 }
-            });
+
+            } else { // 如果有数据就判断是显示还是隐藏
+                needVisibleDetails = false; // 有数据之后就不需要在装配数据了
+                // 1.先判断详情是否已经被展开
+                boolean visible = llDetails.getVisibility() == View.VISIBLE;
+                // 2.如果展开了就隐藏，如果没展开就展开并显示
+                llDetails.setVisibility((visible) ? View.GONE : View.VISIBLE);
+                // 3.根据是否展开设置箭头的方向
+                ivArrow.setImageResource(visible ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
+            }
         }
 
         @SuppressLint("SetTextI18n")
@@ -220,7 +235,8 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.position = position;
             if (combineDetails != null) {
                 FeeBillEntity.DetailsBean defaultDetails = combineDetails.getDefaultDetails();
-                List<OrderDetailsEntity.DetailsBean> openDetails = combineDetails.getOpenDetails();
+                spreadDetails = combineDetails.getOpenDetails();
+
                 if (defaultDetails != null) {
                     String orderName = defaultDetails.getOrdername();
                     String feeOrder = defaultDetails.getFee_order();
@@ -238,33 +254,43 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 }
 
-                if (openDetails != null) {
-                    if (openDetails.size() > 0) {
-                        // 先清除就布局中的 Item
-                        int count = llDetails.getChildCount();
-                        if (count > 1) {
-                            llDetails.removeViews(1, count - 1);
-                        }
-                        for (int i = 0; i < openDetails.size(); i++) {
-                            StringBuilder stringBuilder = new StringBuilder();
-                            OrderDetailsEntity.DetailsBean detailsBean = openDetails.get(i);
-                            String itemName = detailsBean.getItemname();
-                            String price = detailsBean.getPrice();
-                            String amount = detailsBean.getAmount();
-                            String unit = detailsBean.getUnit();
+                if (needVisibleDetails) {
+                    spreadDetailsLayout();
+                }
+            }
+        }
 
-                            stringBuilder
-                                    .append(price)
-                                    .append("*")
-                                    .append(amount)
-                                    .append(unit);
+        /**
+         * 装配展开详情的数据
+         */
+        private void spreadDetailsLayout() {
+            if (spreadDetails != null && spreadDetails.size() > 0) {
+                llDetails.setVisibility(View.VISIBLE);
+                ivArrow.setImageResource(R.drawable.wonders_group_up_arrow);
 
-                            FeeDetailLayout layout = new FeeDetailLayout(mContext);
-                            layout.setFeeName(itemName);
-                            layout.setFeeNum(stringBuilder.toString());
-                            llDetails.addView(layout);
-                        }
-                    }
+                // 先清除就布局中的 Item
+                int count = llDetails.getChildCount();
+                if (count > 0) {
+                    llDetails.removeAllViews();
+                }
+                for (int i = 0; i < spreadDetails.size(); i++) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    OrderDetailsEntity.DetailsBean detailsBean = spreadDetails.get(i);
+                    String itemName = detailsBean.getItemname();
+                    String price = detailsBean.getPrice();
+                    String amount = detailsBean.getAmount();
+                    String unit = detailsBean.getUnit();
+
+                    stringBuilder
+                            .append(price)
+                            .append("*")
+                            .append(amount)
+                            .append(unit);
+
+                    FeeDetailLayout layout = new FeeDetailLayout(mContext);
+                    layout.setFeeName(itemName);
+                    layout.setFeeNum(stringBuilder.toString());
+                    llDetails.addView(layout);
                 }
             }
         }

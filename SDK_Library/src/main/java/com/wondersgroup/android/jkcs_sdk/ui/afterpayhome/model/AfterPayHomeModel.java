@@ -254,18 +254,6 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     @Override
     public void getHospitalList(OnHospitalListListener listener) {
-        // 先从缓存中取，如果没有再去网上获取
-        String hospitalJson = SpUtil.getInstance().getString(SpKey.HOSPITAL_JSON, "");
-        if (!TextUtils.isEmpty(hospitalJson)) {
-            HospitalEntity entity = new Gson().fromJson(hospitalJson, HospitalEntity.class);
-            if (entity != null) {
-                if (listener != null) {
-                    listener.onSuccess(entity);
-                    return;
-                }
-            }
-        }
-
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
@@ -290,11 +278,6 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-
-                                    // 缓存到本地
-                                    String hospitalJson = new Gson().toJson(body);
-                                    SpUtil.getInstance().save(SpKey.HOSPITAL_JSON, hospitalJson);
-
                                     if (listener != null) {
                                         listener.onSuccess(body);
                                     }

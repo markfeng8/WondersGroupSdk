@@ -35,15 +35,15 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
 
     @Override
     public void getHospitalList() {
-//        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-//            showLoading();
-//        }
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            showLoading();
+        }
 
         mHospitalModel.getHospitalList(new OnHospitalListListener() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get hospital list success~");
-                //dismissLoading();
+                dismissLoading();
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(body);
                 }
@@ -52,7 +52,7 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "get hospital list failed!");
-                //dismissLoading();
+                dismissLoading();
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(null);

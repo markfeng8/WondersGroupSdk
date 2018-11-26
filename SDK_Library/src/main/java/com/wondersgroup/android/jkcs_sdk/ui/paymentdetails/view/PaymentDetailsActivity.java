@@ -51,7 +51,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         PaymentDetailsPresenter<PaymentDetailsContract.IView>> implements PaymentDetailsContract.IView {
 
     private static final String TAG = "PaymentDetailsActivity";
-    private RecyclerView recyclerView; // 使用分类型的 RecyclerView 来实现
+    private RecyclerView recyclerView;
     private TextView tvPayName;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
@@ -61,21 +61,30 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private String mOrgCode;
     private String mOrgName;
     private DetailHeadBean mHeadBean;
-    private List<Object> mItemList = new ArrayList<>();
     private PaymentDetailsAdapter mAdapter;
-    private DetailPayBean mDetailPayBean;
+    private List<Object> mItemList = new ArrayList<>();
+    private DetailPayBean mDetailPayBean = new DetailPayBean();
+    /**
+     * 组合 Item 数据的集合
+     */
+    private List<CombineDetailsBean> mCombineList = new ArrayList<>();
     private LoadingView mLoading;
     private SelectPayTypeWindow mSelectPayTypeWindow;
-    private int mClickItemPos = -1; // 记录点击的 Item 的位置
-    private List<CombineDetailsBean> mCombineList = new ArrayList<>(); // 组合 Item 数据的集合
     private int mPayType = 1;
-    private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
+    /**
+     * 记录点击的 Item 的位置
+     */
+    private int mClickItemPos = -1;
     private String mFeeTotal;
     private String mFeeCashTotal;
     private String mFeeYbTotal;
     private String payPlatTradeNo;
     private boolean tryToSettleIsSuccess = false;
-    private boolean isNeedToPay = false; // 是否是试结算失败时需要去结算
+    /**
+     * 是否是试结算失败时需要去结算
+     */
+    private boolean isNeedToPay = false;
+    private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
         mPayType = type;
@@ -136,11 +145,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         mHeadBean.setOrderNum(payPlatTradeNo);
         mHeadBean.setSocialNum(cardNum);
         mHeadBean.setHospitalName(mOrgName);
-
-        mDetailPayBean = new DetailPayBean();
-        mDetailPayBean.setTotalPay("");
-        mDetailPayBean.setPersonalPay("");
-        mDetailPayBean.setYibaoPay("");
 
         mItemList.add(mHeadBean);
         setAdapter();
@@ -272,7 +276,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
             // 锁单成功后刷新订单号
             mHeadBean.setOrderNum(payPlatTradeNo);
-            mItemList.set(0, mHeadBean);
             refreshAdapter();
 
             // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
@@ -286,9 +289,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                 // 显示现金需要支付的金额
                 tvMoneyNum.setText(mFeeCashTotal);
 
-                if (mDetailPayBean == null) {
-                    mDetailPayBean = new DetailPayBean();
-                }
                 mDetailPayBean.setTotalPay(mFeeTotal);
                 mDetailPayBean.setPersonalPay(mFeeCashTotal);
                 mDetailPayBean.setYibaoPay(mFeeYbTotal);
@@ -522,7 +522,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     public void refreshAdapter() {
         if (mAdapter != null) {
-            mAdapter.setItemList(mItemList);
+            mAdapter.refreshAdapter();
         }
     }
 
