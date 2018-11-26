@@ -51,7 +51,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private String mNotice = "温馨提示";
     private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
-    private AfterHeaderBean mHeaderBean;
+    private AfterHeaderBean mHeaderBean = new AfterHeaderBean();
     private List<Object> mItemList = new ArrayList<>();
     private AfterPayHomeAdapter mAdapter;
     private HashMap<String, String> mPassParamMap;
@@ -120,7 +120,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
-
         initHeaderData();
         getIntentAndFindAfterPayState();
     }
@@ -129,13 +128,11 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private void initHeaderData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        mHeaderBean = new AfterHeaderBean();
         mHeaderBean.setName(name);
         mHeaderBean.setSocialNum(socialNum);
 
         mItemList.add(mHeaderBean); // 第一次添加数据
         mItemList.add(mNotice); // 第二次添加数据
-
         setAdapter();
     }
 
@@ -153,7 +150,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     public void refreshAdapter() {
         if (mAdapter != null) {
-            mAdapter.setItemList(mItemList);
+            mAdapter.refreshAdapter();
         }
     }
 
@@ -208,8 +205,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             mHeaderBean.setSigningStatus(signingStatus);
             mHeaderBean.setPaymentStatus(paymentStatus);
             mHeaderBean.setFeeTotal(feeTotal);
-
-            mItemList.set(0, mHeaderBean); // 第二次添加数据(放到下标为0处)
             refreshAdapter();
 
             // 重置医后付开通标志

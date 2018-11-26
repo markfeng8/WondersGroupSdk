@@ -53,7 +53,6 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     private PayItemLayout plYiBaoPay;
     private RecyclerView recyclerView;
     private LoadingView mLoading;
-    private View activityView;
     private int mClickItemPos = -1; // 记录点击的 Item 的位置
     private RecordDetailsAdapter mAdapter;
     private List<FeeBillEntity.DetailsBean> details;
@@ -126,7 +125,6 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
         plPersonalPay = findViewById(R.id.plPersonalPay);
         plYiBaoPay = findViewById(R.id.plYiBaoPay);
         recyclerView = findViewById(R.id.recyclerView);
-        activityView = findViewById(R.id.activityView);
     }
 
     @Override
@@ -177,7 +175,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
 
     private void refreshAdapter() {
         if (mAdapter != null) {
-            mAdapter.setItemList(mItemList);
+            mAdapter.refreshAdapter();
         }
     }
 

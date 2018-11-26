@@ -74,13 +74,10 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /**
-     * 设置并刷新数据
-     *
-     * @param itemList
+     * 刷新适配器
      */
-    public void setItemList(List<Object> itemList) {
-        this.mItemList = itemList;
-        notifyDataSetChanged(); // 刷新适配器
+    public void refreshAdapter() {
+        notifyDataSetChanged();
     }
 
     @NonNull

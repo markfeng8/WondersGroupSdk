@@ -47,11 +47,10 @@ public class RecordDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     /**
-     * 设置并刷新数据
+     * 刷新适配器
      */
-    public void setItemList(List<CombineDetailsBean> itemList) {
-        this.mItemList = itemList;
-        notifyDataSetChanged(); // 刷新适配器
+    public void refreshAdapter() {
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -99,7 +98,7 @@ public class RecordDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 llDetails.setVisibility((visible) ? View.VISIBLE : View.GONE);
                 ivArrow.setImageResource(visible ? R.drawable.wonders_group_up_arrow : R.drawable.wonders_group_down_arrow);
                 int childCount = llDetails.getChildCount();
-                if (visible && childCount == 1) {
+                if (visible && childCount == 0) {
                     if (mContext instanceof RecordDetailActivity) {
                         ((RecordDetailActivity) mContext).getOrderDetails(hisOrderNo, position);
                     }
