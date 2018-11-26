@@ -47,7 +47,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private LinearLayout llContainer2;
     private LinearLayout llYiBaoLayout;
     private LoadingView mLoading;
-    private String mOrgCode = "";
     private String mOrgName = "";
     private String mFeeTotal = "";
     private String mFeeCashTotal = "";
@@ -75,7 +74,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         Intent intent = getIntent();
         if (intent != null) {
             mIsSuccess = intent.getBooleanExtra(IntentExtra.IS_SUCCESS, false);
-            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
             mFeeTotal = intent.getStringExtra(IntentExtra.FEE_TOTAL);
             mFeeCashTotal = intent.getStringExtra(IntentExtra.FEE_CASH_TOTAL);
@@ -163,18 +161,16 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
      * @param isSuccess    是否支付成功
      * @param isFinish     是否需要销毁跳转前的页面
      * @param orgName      机构名称
-     * @param orgCode      机构编码
      * @param feeTotal     缴费总额
      * @param feeCashTotal 现金部分金额
      * @param feeYbTotal   医保部分金额
      */
     public static void actionStart(Context context, boolean isSuccess, boolean isFinish, String orgName,
-                                   String orgCode, String feeTotal, String feeCashTotal, String feeYbTotal) {
+                                   String feeTotal, String feeCashTotal, String feeYbTotal) {
         if (context != null) {
             Intent intent = new Intent(context, PaymentResultActivity.class);
             intent.putExtra(IntentExtra.IS_SUCCESS, isSuccess);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
             intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
             intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);

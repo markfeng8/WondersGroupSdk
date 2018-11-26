@@ -412,7 +412,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      */
     private void jumpToPaymentResultPage(boolean isSuccess) {
         PaymentResultActivity.actionStart(PaymentDetailsActivity.this, isSuccess, true,
-                mOrgName, mOrgCode, mFeeTotal, mFeeCashTotal, mFeeYbTotal);
+                mOrgName, mFeeTotal, mFeeCashTotal, mFeeYbTotal);
     }
 
     public void showSelectPayTypeWindow(PaymentDetailsAdapter.OnCheckedCallback onCheckedCallback) {

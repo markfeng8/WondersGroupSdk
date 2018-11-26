@@ -13,20 +13,22 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    public static final String HOST = isTestEnv() ? "http://122.225.124.34:39008" : "http://122.225.118.58:9008";
+    public static final String HOST = isTestEnv() ? "http://122.225.124.34:39008" : "http://115.238.228.2:7001";
 
-    // 签约状态查询
+    /**
+     * 门诊部分接口
+     */
     public static final String XY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0002";
     public static final String XY0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0001";
     public static final String XY0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0003";
     public static final String XY0004 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0004";
     public static final String XY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0005";
-    // 获取验证码
     public static final String XY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0006";
-    // 获取医院列表
     public static final String XY0008 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0008";
 
-    // 移动支付开通状态
+    /**
+     * 账单部分接口
+     */
     public static final String YD0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0001";
     public static final String YD0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0002";
     public static final String YD0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0003";
@@ -38,7 +40,9 @@ public class RequestUrl {
     public static final String YD0009 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0009";
     public static final String YD0010 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0010";
 
-    // 住院部分接口
+    /**
+     * 住院部分接口
+     */
     public static final String CY0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0001";
     public static final String CY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0002";
     public static final String CY0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0003";
@@ -47,8 +51,10 @@ public class RequestUrl {
     public static final String CY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0006";
     public static final String CY0007 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0007";
 
-    // 统一支付回调地址
-    public static final String SDKTOBILL = (isTestEnv() ? "test/" : "") + "huzh_credit/sdk/sdktobill";
+    /**
+     * 统一支付回调地址
+     */
+    public static final String SDK_TO_BILL = (isTestEnv() ? "test/" : "") + "huzh_credit/sdk/sdktobill";
 
     private static boolean isTestEnv() {
         boolean isTestEnv = false;

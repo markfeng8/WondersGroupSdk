@@ -311,7 +311,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
 
         CheckOut.setIsPrint(true);
         // 设置统一支付回调地址
-        CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDKTOBILL);
+        CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDK_TO_BILL);
         // 初始化金额（0分）
         Long i = 0L;
         // 格式化金额为分
@@ -362,7 +362,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                                     WToastUtil.show("未知支付渠道");
                                     break;
                                 case WDPayResult.FAIL_WEIXIN_VERSION_ERROR:
-                                    WToastUtil.show("针对微信 支付版本错误（版本不支持）");
+                                    WToastUtil.show("针对微信支付版本错误（版本不支持）");
                                     break;
                                 case WDPayResult.FAIL_EXCEPTION:
                                     WToastUtil.show("支付过程中的Exception");
