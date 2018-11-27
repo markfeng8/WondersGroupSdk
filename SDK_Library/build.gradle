@@ -20,6 +20,19 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 注意此处应该是接入 app 的 applicationId + .wxapi.WXPayEntryActivity，打包时请注意
+            manifestPlaceholders = [
+                    applicationId: "io.dcloud.H5E20CCC5"
+                    //applicationId: "com.wondersgroup.android.healthcity_sdk"
+            ]
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [
+                    applicationId: "io.dcloud.H5E20CCC5"
+                    //applicationId: "com.wondersgroup.android.healthcity_sdk"
+            ]
         }
     }
 
@@ -31,7 +44,6 @@ android {
     }
 
     lintOptions {
-        //checkReleaseBuilds false
         abortOnError false
     }
 }

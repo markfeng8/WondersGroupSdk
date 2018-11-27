@@ -74,12 +74,9 @@
         <!-- WXPay sdk begin -->
         <activity
             android:name="cn.wd.checkout.api.WDWechatPaymentActivity"
-            android:launchMode="singleTask" /> <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
-        <!-- 注意此处应该是接入 app 的全类名 + .wxapi.WXPayEntryActivity，打包时请注意 -->
-        <!-- 健康湖州包名 io.dcloud.H5E20CCC5 -->
-        <!-- demo 包名 com.wondersgroup.android.healthcity_sdk -->
+            android:launchMode="singleTask" />
         <activity-alias
-            android:name="com.wondersgroup.android.healthcity_sdk.wxapi.WXPayEntryActivity"
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="cn.wd.checkout.api.WDWechatPaymentActivity" />
         <!-- WXPay sdk end -->
