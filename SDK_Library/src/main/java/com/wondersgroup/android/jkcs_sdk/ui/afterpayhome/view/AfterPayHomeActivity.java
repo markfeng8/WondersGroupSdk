@@ -48,11 +48,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private TextView tvPayMoney;
     private View activityView;
     private LinearLayout llNeedPay;
-    private String mNotice = "温馨提示";
     private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
-    private AfterHeaderBean mHeaderBean = new AfterHeaderBean();
-    private List<Object> mItemList = new ArrayList<>();
     private AfterPayHomeAdapter mAdapter;
     private HashMap<String, String> mPassParamMap;
     private String mOrgName;
@@ -61,6 +58,22 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
+    /**
+     * 头部数据类型
+     */
+    private AfterHeaderBean mHeaderBean = new AfterHeaderBean();
+    /**
+     * 中间的门诊账单的数据类型
+     */
+    private List<FeeBillEntity.DetailsBean> mFeeBillList = new ArrayList<>();
+    /**
+     * 尾部温馨提示的数据类型
+     */
+    private String mNotice = "温馨提示";
+    /**
+     * 装所有数据的 List 集合
+     */
+    private List<Object> mItemList = new ArrayList<>();
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -86,22 +99,18 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         backRefreshPager();
     }
 
+    /**
+     * 返回到主页面刷新所有数据
+     */
     private void backRefreshPager() {
         // 回来就隐藏付款的布局
         llNeedPay.setVisibility(View.GONE);
-        /*
-         * 回到主页面刷新状态
-         */
+        // 刷新医后付&医保移动支付状态
         refreshAfterPayState();
         getMobilePayState();
-
         // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
-        if (mItemList.size() > 0) {
-            mItemList.clear();
-        }
         mHeaderBean.setHospitalName("湖州市");
-        mItemList.add(mHeaderBean); // 选择医院后添加数据
-        mItemList.add(mNotice);
+        mItemList.removeAll(mFeeBillList);
         refreshAdapter();
     }
 
@@ -124,15 +133,17 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         getIntentAndFindAfterPayState();
     }
 
-
     private void initHeaderData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         mHeaderBean.setName(name);
         mHeaderBean.setSocialNum(socialNum);
-
-        mItemList.add(mHeaderBean); // 第一次添加数据
-        mItemList.add(mNotice); // 第二次添加数据
+        // 第一次添加头部数据
+        mItemList.add(mHeaderBean);
+        // 第二次添加门诊账单数据
+        mItemList.addAll(mFeeBillList);
+        // 第三次添加尾部数据
+        mItemList.add(mNotice);
         setAdapter();
     }
 
@@ -216,21 +227,18 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onYd0003Result(FeeBillEntity entity) {
+        // 先移除旧的门诊账单数据
+        mItemList.removeAll(mFeeBillList);
         if (entity != null) {
             llNeedPay.setVisibility(View.VISIBLE);
             String feeTotal = entity.getFee_total();
             tvMoneyNum.setText(feeTotal);
-            List<FeeBillEntity.DetailsBean> details = entity.getDetails();
-            // 添加医院欠费信息数据(放到下标为 1 处)
-            mItemList.addAll(1, details);
-            // 第二次添加数据
-            mItemList.add(mNotice);
-            refreshAdapter();
+            mFeeBillList = entity.getDetails();
+            mItemList.addAll(1, mFeeBillList);
         } else {
             llNeedPay.setVisibility(View.GONE);
-            mItemList.add(mNotice); // 第二次添加数据
-            refreshAdapter();
         }
+        refreshAdapter();
     }
 
     /**
@@ -262,17 +270,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 if (bean != null) {
                     mOrgCode = bean.getOrg_code();
                     mOrgName = bean.getOrg_name();
+                    mHeaderBean.setHospitalName(mOrgName);
                 }
             }
 
-            mHeaderBean.setHospitalName(mOrgName);
-
-            // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
-            if (mItemList.size() > 0) {
-                mItemList.clear();
-            }
-            mItemList.add(mHeaderBean); // 选择医院后添加数据
-            refreshAdapter();
             requestYd0003();
         }
     };
@@ -304,7 +305,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     @Override
     public void onYiBaoOpenStatusResult(String status) {
         mHeaderBean.setMobPayStatus(status);
-        mItemList.set(0, mHeaderBean); // 第三次添加数据(放到下标为0处)
         refreshAdapter();
     }
 
