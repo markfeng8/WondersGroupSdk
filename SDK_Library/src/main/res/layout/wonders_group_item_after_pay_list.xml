@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/wonders_rgb_color_ffffff"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="@dimen/wonders_padding_16dp">
+    android:gravity="center_vertical">
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tvFeeName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:layout_marginBottom="8dp"
+        android:text="药品费"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toTopOf="@id/tvTimestamp"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvDepartment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="外科 普通门诊"
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvFeeName"
+        app:layout_constraintLeft_toRightOf="@id/tvFeeName" />
 
-            <TextView
-                android:id="@+id/tvFeeName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="药品费"
-                android:textColor="@color/wonders_rgb_color_333333"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-
-            <TextView
-                android:id="@+id/tvDepartment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_16dp"
-                android:text="外科 普通门诊"
-                android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_14sp"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTimestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
-            android:text="2018-08-23 09:55:36"
-            android:textColor="@color/wonders_rgb_color_c9c9c9"
-            android:textSize="@dimen/wonders_text_size_12sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:text="2018-08-23 09:55:36"
+        android:textColor="@color/wonders_rgb_color_c9c9c9"
+        android:textSize="@dimen/wonders_text_size_12sp"
+        app:layout_constraintLeft_toLeftOf="@id/tvFeeName"
+        app:layout_constraintTop_toBottomOf="@id/tvFeeName" />
 
     <TextView
         android:id="@+id/tvMoney"
@@ -53,13 +52,28 @@
         android:text="156.88"
         android:textColor="@color/wonders_rgb_color_00a861"
         android:textSize="@dimen/wonders_text_size_14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/textView8"
+        app:layout_constraintRight_toLeftOf="@id/textView8" />
 
     <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_24dp"
         android:text="元"
         android:textColor="@color/wonders_rgb_color_666666"
-        android:textSize="@dimen/wonders_text_size_12sp" />
+        android:textSize="@dimen/wonders_text_size_12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTimestamp" />
+
+</android.support.constraint.ConstraintLayout>
