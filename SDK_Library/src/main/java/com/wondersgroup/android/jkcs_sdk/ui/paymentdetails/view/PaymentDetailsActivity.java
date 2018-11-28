@@ -56,6 +56,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
     private TextView tvNotice;
+    private TextView tvTextYuan;
     private View activityView;
     private TitleBarLayout titleBar;
     private String mOrgCode;
@@ -202,6 +203,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         tvPayMoney = findViewById(R.id.tvPayMoney);
         activityView = findViewById(R.id.activityView);
         tvNotice = findViewById(R.id.tvNotice);
+        tvTextYuan = findViewById(R.id.tvTextYuan);
     }
 
     private void setAdapter() {
@@ -287,6 +289,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                 // 显示需要结算的金额
                 tvPayName.setText("需现金支付：");
                 // 显示现金需要支付的金额
+                tvTextYuan.setVisibility(View.VISIBLE);
                 tvMoneyNum.setText(mFeeCashTotal);
 
                 mDetailPayBean.setTotalPay(mFeeTotal);
@@ -338,6 +341,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal==="
                     + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
 
+            tvTextYuan.setVisibility(View.VISIBLE);
             // 判断如果个人支付为 0 时，显示医保支付金额
             if (Double.parseDouble(mFeeCashTotal) == 0) {
                 tvPayName.setText("需医保支付：");
@@ -430,6 +434,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         if (!TextUtils.isEmpty(amount)) {
             // 设置个人需要支付的金额
             mFeeCashTotal = amount;
+            tvTextYuan.setVisibility(View.VISIBLE);
             tvMoneyNum.setText(amount);
         }
     }

@@ -24,6 +24,8 @@
         android:textSize="@dimen/wonders_text_size_16sp" />
 
     <TextView
+        android:id="@+id/tvTextYuan"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wonders_text_yuan"
