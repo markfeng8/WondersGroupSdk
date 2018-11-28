@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:background="@color/wonders_rgb_color_f0f0f0" />
+
+    <TextView
+        android:id="@+id/tvInHosDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:drawableTop="@drawable/wonders_group_in_hospital_detail"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="住院清单"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tvEleInvoice"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+    <TextView
+        android:id="@+id/tvEleInvoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/wonders_group_electronic_invoice"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="电子发票"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvInHosDetail"
+        app:layout_constraintLeft_toRightOf="@id/tvInHosDetail"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintTop_toBottomOf="@id/tvInHosDetail" />
+
+</android.support.constraint.ConstraintLayout>

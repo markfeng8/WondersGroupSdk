@@ -28,7 +28,7 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private static final String TAG = "InHospitalRecordActivity";
     private TextView tvName;
     private TextView tvHospital;
-    private TextView ivIdNum;
+    private TextView tvIdNum;
     private TextView tvInHosId;
     private TextView tvInHosArea;
     private TextView tvInHosDate;
@@ -52,7 +52,7 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private void findViews() {
         tvName = findViewById(R.id.tvName);
         tvHospital = findViewById(R.id.tvHospital);
-        ivIdNum = findViewById(R.id.ivIdNum);
+        tvIdNum = findViewById(R.id.tvIdNum);
         tvInHosId = findViewById(R.id.tvInHosId);
         tvInHosArea = findViewById(R.id.tvInHosArea);
         tvInHosDate = findViewById(R.id.tvInHosDate);
