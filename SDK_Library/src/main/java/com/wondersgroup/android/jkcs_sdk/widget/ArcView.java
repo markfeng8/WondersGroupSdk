@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
  * Created by x-sir on 2018/8/10 :)
@@ -22,11 +23,35 @@ import com.wondersgroup.android.jkcs_sdk.R;
  */
 public class ArcView extends View {
 
+    private static final String TAG = "ArcView";
+    /**
+     * 整个 View 的宽度
+     */
     private int mWidth;
+    /**
+     * 整个 View 的高度
+     */
     private int mHeight;
-    private int mArcHeight; // 弧形高度
-    private int mBgColor; // 背景颜色
+    /**
+     * 弧形高度
+     */
+    private int mArcHeight;
+    /**
+     * 背景颜色
+     */
+    private int mBgColor;
+    /**
+     * 画笔
+     */
     private Paint mPaint;
+    /**
+     * 矩形框
+     */
+    private Rect mRect;
+    /**
+     * 绘制的路径
+     */
+    private Path mPath;
 
     public ArcView(Context context) {
         this(context, null);
@@ -42,34 +67,23 @@ public class ArcView extends View {
         mArcHeight = typedArray.getDimensionPixelSize(R.styleable.ArcView_arcHeight, 0);
         mBgColor = typedArray.getColor(R.styleable.ArcView_bgColor, Color.parseColor("#1E90FF"));
         typedArray.recycle();
-        mPaint = new Paint();
     }
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // 参数一为渐变起初点坐标 x 位置，参数二为 y 轴位置，参数三和四分辨对应渐变终点，最后参数为平铺方式，这里设置为镜像
-        LinearGradient lg = new LinearGradient(0, 0, mWidth, 0,
-                Color.parseColor("#4796FB"), Color.parseColor("#5AB4F9"),
-                Shader.TileMode.CLAMP);
-        // 刚才已经讲到 Gradient 是基于 Shader 类，所以我们通过 Paint 的 setShader 方法来设置这个渐变
-        mPaint.setShader(lg);
-        mPaint.setStyle(Paint.Style.FILL);
-        // 设置了 Shader 就不需要重复设置背景色了
-        //mPaint.setColor(mBgColor);
-        mPaint.setAntiAlias(true);
-        Rect rect = new Rect(0, 0, mWidth, mHeight - mArcHeight);
-        canvas.drawRect(rect, mPaint);
-        Path path = new Path();
-        path.moveTo(0, mHeight - mArcHeight);
-        path.quadTo(mWidth / 2, mHeight, mWidth, mHeight - mArcHeight);
-        canvas.drawPath(path, mPaint);
+        LogUtil.i(TAG, "onDraw()");
+        // 先绘制一个矩形框
+        canvas.drawRect(mRect, mPaint);
+        // 再根据计算的路径绘制弧形
+        canvas.drawPath(mPath, mPaint);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        LogUtil.i(TAG, "onMeasure()");
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
@@ -82,5 +96,31 @@ public class ArcView extends View {
             mHeight = heightSize;
         }
         setMeasuredDimension(mWidth, mHeight);
+
+        initPaint();
+
+        calculateShape();
+    }
+
+    private void initPaint() {
+        mPaint = new Paint();
+        // 参数一为渐变起初点坐标 x 位置，参数二为 y 轴位置，参数三和四分辨对应渐变终点，最后参数为平铺方式，这里设置为镜像
+        LinearGradient lg = new LinearGradient(0, 0, mWidth, 0,
+                Color.parseColor("#4796FB"), Color.parseColor("#5AB4F9"),
+                Shader.TileMode.CLAMP);
+        // 刚才已经讲到 Gradient 是基于 Shader 类，所以我们通过 Paint 的 setShader 方法来设置这个渐变
+        mPaint.setShader(lg);
+        mPaint.setStyle(Paint.Style.FILL);
+        // 设置了 Shader 就不需要重复设置背景色了
+        //mPaint.setColor(mBgColor);
+        mPaint.setAntiAlias(true);
+    }
+
+    private void calculateShape() {
+        mRect = new Rect(0, 0, mWidth, mHeight - mArcHeight);
+
+        mPath = new Path();
+        mPath.moveTo(0, mHeight - mArcHeight);
+        mPath.quadTo(mWidth / 2, mHeight, mWidth, mHeight - mArcHeight);
     }
 }
