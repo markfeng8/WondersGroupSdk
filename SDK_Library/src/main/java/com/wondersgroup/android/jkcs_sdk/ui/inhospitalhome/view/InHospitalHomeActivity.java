@@ -65,6 +65,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private TextView tvInHosDate;
     private TextView tvInHosPrepayFee;
     private TextView tvInHosFeeTotal;
+    private TextView tvPaymentType;
     private View activityView;
     private Group viewGroup;
     private String mOrgName;
@@ -90,8 +91,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             }
 
             tvHospitalName.setText(mOrgName);
-
-            // TODO: 2018/11/12 查询住院信息
+            mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
         }
     };
 
@@ -118,13 +118,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String start = idNum.substring(0, 6);
         String end = idNum.substring(idNum.length() - 4, idNum.length());
         tvIdNum.setText(start + "********" + end);
-
-        // TODO: 2018/11/29 如果是医保才去查询，自费不需要查询
-        /*
-         * 查询医保移动支付开通状态
-         */
-        //mPresenter.queryYiBaoOpenStatus(this);
-
         mPresenter.requestCy0001(HUZHOU_CENTER_HOS_ORG_CODE, OrgConfig.IN_STATE0);
     }
 
@@ -147,6 +140,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvInHosDate = findViewById(R.id.tvInHosDate);
         tvInHosPrepayFee = findViewById(R.id.tvInHosPrepayFee);
         tvInHosFeeTotal = findViewById(R.id.tvInHosFeeTotal);
+        tvPaymentType = findViewById(R.id.tvPaymentType);
     }
 
     private void initListener() {
@@ -216,6 +210,15 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                     tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
                     tvInHosPrepayFee.setText(detailsBean.getYjkze() + "元");
                     tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
+                    String cardType = detailsBean.getCard_type();
+
+                    if ("0".equals(cardType)) {
+                        tvPaymentType.setText("医保");
+                        // 如果是医保才去查询，自费不需要查询
+                        mPresenter.queryYiBaoOpenStatus(this);
+                    } else if ("2".equals(cardType)) {
+                        tvPaymentType.setText("自费");
+                    }
                 }
             }
         } else {
@@ -241,6 +244,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      * 设置医保移动付状态
      */
     private void setMobilePayState(boolean enable) {
+        tvMobPayState.setVisibility(View.VISIBLE);
         if (enable) {
             tvMobPayState.setText(getString(R.string.wonders_to_open_mobile_pay));
             tvMobPayState.setEnabled(true);

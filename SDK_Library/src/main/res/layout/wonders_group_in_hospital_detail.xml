@@ -158,7 +158,7 @@
         android:id="@+id/viewGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:constraint_referenced_ids="textView9,tvInHosId,textView10,tvInHosArea,textView11,
         tvInHosDate,textView12,tvInHosPrepayFee,textView13,tvInHosFeeTotal" />
 
@@ -169,11 +169,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:gravity="center"
-        android:text="暂未住院信息！"
+        android:text="暂无住院信息！"
         android:textColor="@color/wonders_rgb_color_666666"
         android:textSize="@dimen/wonders_text_size_16sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/viewBottomLine"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

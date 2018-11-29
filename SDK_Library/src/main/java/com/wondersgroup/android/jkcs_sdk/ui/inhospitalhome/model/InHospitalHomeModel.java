@@ -10,7 +10,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.model;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
@@ -76,30 +75,23 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
                         int code = response.code();
                         boolean successful = response.isSuccessful();
                         if (code == 200 && successful) {
-
-                            String json = "{\"return_msg\":\"响应成功\",\"result_code\":\"SUCCESS\",\"return_code\":\"SUCCESS\",\"details\":[{\"id_type\":\"01\",\"fee_total\":\"1374.44\",\"fee_cash_total\":\"0\",\"card_no\":\"0003\",\"org_code\":\"47117169033050211A5201\",\"jzlsh\":\"160407\",\"rysj\":\"2018-11-27 13:40:00\",\"ksmc\":\"十二病区\",\"fee_yb_total\":\"0\",\"yjkze\":\"0\",\"card_type\":\"2\",\"in_state\":\"00\",\"id_no\":\"330501198804146213\",\"cysj\":\"\",\"name\":\"测试\",\"cwh\":\"1258\"}]}";
-
-                            Cy0001Entity entity = new Gson().fromJson(json, Cy0001Entity.class);
-                            if (listener != null) {
-                                listener.onSuccess(entity);
+                            Cy0001Entity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    if (listener != null) {
+                                        listener.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
+                                    }
+                                }
                             }
-//                            Cy0001Entity body = response.body();
-//                            if (body != null) {
-//                                String returnCode = body.getReturn_code();
-//                                String resultCode = body.getResult_code();
-//                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-//                                    if (listener != null) {
-//                                        listener.onSuccess(body);
-//                                    }
-//                                } else {
-//                                    String errCodeDes = body.getErr_code_des();
-//                                    if (!TextUtils.isEmpty(errCodeDes)) {
-//                                        if (listener != null) {
-//                                            listener.onFailed(errCodeDes);
-//                                        }
-//                                    }
-//                                }
-//                            }
                         } else {
                             LogUtil.e("服务器异常！");
                         }
