@@ -10,7 +10,9 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract;
 
 import android.app.Activity;
 
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -18,17 +20,26 @@ import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
  */
 public interface InHospitalHomeContract {
     interface IModel {
+        void requestCy0001(String orgCode, String inState,OnCy0001RequestListener listener);
     }
 
     interface IView {
+        void showLoading();
+
+        void dismissLoading();
+
         void onYiBaoOpenStatusResult(String status);
 
         void onHospitalListResult(HospitalEntity body);
+
+        void onCy0001Result(Cy0001Entity entity);
     }
 
     interface IPresenter {
         void queryYiBaoOpenStatus(Activity activity);
-        
+
         void getHospitalList();
+
+        void requestCy0001(String orgCode, String inState);
     }
 }

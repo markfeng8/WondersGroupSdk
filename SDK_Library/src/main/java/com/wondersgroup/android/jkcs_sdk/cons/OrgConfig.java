@@ -20,4 +20,18 @@ public class OrgConfig {
     public static final String SIGN_ORG_NAME = "签约机构名称";
     public static final String HOME_ADDRESS = "ShangHai";
     public static final String HEALTH_CARE_STATUS = "1";
+
+    /**
+     * 0在院（包含预出院）
+     */
+    public static final String IN_STATE0 = "0";
+    /**
+     * 已出院
+     */
+    public static final String IN_STATE1 = "1";
+    /**
+     * 全部
+     */
+    public static final String IN_STATE2 = "2";
+
 }

@@ -19,6 +19,7 @@ public class MapKey {
     public static final String ORG_CODE = "org_code";// 医院代码
     public static final String TRAN_CODE = "tran_code";
     public static final String TIMESTAMP = "timestamp";
+    public static final String IN_STATE = "in_state";
     /**
      * 调用状态 1 保存token 2 正式结算
      */

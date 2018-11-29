@@ -11,6 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.Group;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,7 +19,9 @@ import com.epsoft.hzauthsdk.all.AuthCall;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
@@ -33,6 +36,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
+import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 
 import java.util.List;
@@ -55,13 +59,23 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private TextView tvDayDetail;
     private TextView tvLeaveHos;
     private TextView tvInHosRecord;
+    private TextView tvNoDetail;
+    private TextView tvInHosId;
+    private TextView tvInHosArea;
+    private TextView tvInHosDate;
+    private TextView tvInHosPrepayFee;
+    private TextView tvInHosFeeTotal;
     private View activityView;
+    private Group viewGroup;
     private String mOrgName;
     private String mOrgCode;
+    private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(InHospitalHomeActivity.this);
+
+    private static final String HUZHOU_CENTER_HOS_ORG_CODE = "47117170333050211A1001";
 
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
         @Override
@@ -96,6 +110,8 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     @SuppressLint("SetTextI18n")
     private void initData() {
+        mLoading = new LoadingView.Builder(this)
+                .build();
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
@@ -107,7 +123,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         /*
          * 查询医保移动支付开通状态
          */
-        mPresenter.queryYiBaoOpenStatus(this);
+        //mPresenter.queryYiBaoOpenStatus(this);
+
+        mPresenter.requestCy0001(HUZHOU_CENTER_HOS_ORG_CODE, OrgConfig.IN_STATE0);
     }
 
     private void findViews() {
@@ -122,6 +140,13 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvLeaveHos = findViewById(R.id.tvLeaveHos);
         tvInHosRecord = findViewById(R.id.tvInHosRecord);
         activityView = findViewById(R.id.activityView);
+        viewGroup = findViewById(R.id.viewGroup);
+        tvNoDetail = findViewById(R.id.tvNoDetail);
+        tvInHosId = findViewById(R.id.tvInHosId);
+        tvInHosArea = findViewById(R.id.tvInHosArea);
+        tvInHosDate = findViewById(R.id.tvInHosDate);
+        tvInHosPrepayFee = findViewById(R.id.tvInHosPrepayFee);
+        tvInHosFeeTotal = findViewById(R.id.tvInHosFeeTotal);
     }
 
     private void initListener() {
@@ -177,6 +202,32 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onCy0001Result(Cy0001Entity entity) {
+        if (entity != null) {
+            List<Cy0001Entity.DetailsBean> details = entity.getDetails();
+            if (details != null && details.size() > 0) {
+                setViewVisibility(true);
+                Cy0001Entity.DetailsBean detailsBean = details.get(0);
+                if (detailsBean != null) {
+                    tvInHosId.setText(detailsBean.getJzlsh());
+                    tvInHosArea.setText(detailsBean.getKsmc());
+                    tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
+                    tvInHosPrepayFee.setText(detailsBean.getYjkze() + "元");
+                    tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
+                }
+            }
+        } else {
+            setViewVisibility(false);
+        }
+    }
+
+    private void setViewVisibility(boolean hasDetail) {
+        viewGroup.setVisibility(hasDetail ? View.VISIBLE : View.GONE);
+        tvNoDetail.setVisibility(hasDetail ? View.GONE : View.VISIBLE);
+    }
+
     @Override
     public void onYiBaoOpenStatusResult(String status) {
         if ("00".equals(status)) { // 00 未签约
@@ -200,12 +251,34 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         }
     }
 
+    @Override
+    public void showLoading() {
+        if (mLoading != null) {
+            mLoading.showLoadingDialog();
+        }
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (mLoading != null) {
+            mLoading.dismissLoadingDialog();
+        }
+    }
+
     public static void actionStart(Context context) {
         if (context != null) {
             Intent intent = new Intent(context, InHospitalHomeActivity.class);
             context.startActivity(intent);
         } else {
             LogUtil.e(TAG, "context is null!");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLoading != null) {
+            mLoading.dispose();
         }
     }
 }

@@ -25,11 +25,11 @@ public class TranCode {
     public static final String TRAN_YD0009 = "yd0009";
     public static final String TRAN_YD0010 = "yd0010";
 
-    public static final String TRAN_ZY0001 = "zy0001";
-    public static final String TRAN_ZY0002 = "zy0002";
-    public static final String TRAN_ZY0003 = "zy0003";
-    public static final String TRAN_ZY0004 = "zy0004";
-    public static final String TRAN_ZY0005 = "zy0005";
-    public static final String TRAN_ZY0006 = "zy0006";
-    public static final String TRAN_ZY0007 = "zy0007";
+    public static final String TRAN_CY0001 = "cy0001";
+    public static final String TRAN_CY0002 = "cy0002";
+    public static final String TRAN_CY0003 = "cy0003";
+    public static final String TRAN_CY0004 = "cy0004";
+    public static final String TRAN_CY0005 = "cy0005";
+    public static final String TRAN_CY0006 = "cy0006";
+    public static final String TRAN_CY0007 = "cy0007";
 }
