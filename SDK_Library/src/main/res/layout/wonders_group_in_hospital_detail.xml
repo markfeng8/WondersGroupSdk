@@ -1,147 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlInHosDetail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/wonders_margin_16dp"
-    android:layout_marginBottom="@dimen/wonders_margin_16dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_16dp"
-                android:text="住院ID："
-                android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-
-            <TextView
-                android:id="@+id/tvInHosId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_8dp"
-                android:gravity="center"
-                android:text="213829"
-                android:textColor="@color/wonders_rgb_color_333333"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_16dp"
-                android:text="入院病区："
-                android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-
-            <TextView
-                android:id="@+id/tvInHosArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_8dp"
-                android:gravity="center"
-                android:text="呼吸一区"
-                android:textColor="@color/wonders_rgb_color_333333"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_16dp"
-                android:text="入院日期："
-                android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-
-            <TextView
-                android:id="@+id/tvInHosDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_8dp"
-                android:gravity="center"
-                android:text="2018-09-20"
-                android:textColor="@color/wonders_rgb_color_333333"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_16dp"
-                android:text="住院预交金："
-                android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-
-            <TextView
-                android:id="@+id/tvInHosPrepayFee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_8dp"
-                android:gravity="center"
-                android:text="2900.18元"
-                android:textColor="@color/wonders_rgb_color_0aae65"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wonders_margin_8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_16dp"
-                android:text="住院总费用："
-                android:textColor="@color/wonders_rgb_color_666666"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-
-            <TextView
-                android:id="@+id/tvInHosFeeTotal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/wonders_margin_8dp"
-                android:gravity="center"
-                android:text="2900.18元"
-                android:textColor="@color/wonders_rgb_color_0aae65"
-                android:textSize="@dimen/wonders_text_size_16sp" />
-        </LinearLayout>
-
-    </LinearLayout>
+    android:layout_marginTop="@dimen/wonders_margin_8dp">
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/wonders_group_in_hospital_home_pic" />
+        android:layout_marginBottom="@dimen/wonders_margin_16dp"
+        android:src="@drawable/wonders_group_in_hospital_home_pic"
+        app:layout_constraintBottom_toBottomOf="@+id/viewBottomLine"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="住院ID："
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toTopOf="@id/textView10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvInHosId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        android:text="213829"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/textView9"
+        app:layout_constraintStart_toEndOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="入院病区："
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toTopOf="@id/textView11"
+        app:layout_constraintStart_toStartOf="@id/textView9"
+        app:layout_constraintTop_toBottomOf="@id/textView9" />
+
+    <TextView
+        android:id="@+id/tvInHosArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="呼吸一区"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/textView10"
+        app:layout_constraintStart_toEndOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="入院日期："
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toTopOf="@id/textView12"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@id/textView10" />
+
+    <TextView
+        android:id="@+id/tvInHosDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
+        android:text="2018-09-20"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/tvInHosArea"
+        app:layout_constraintTop_toBottomOf="@+id/tvInHosArea" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="住院预交金："
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toTopOf="@id/textView13"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@id/textView11" />
+
+    <TextView
+        android:id="@+id/tvInHosPrepayFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:gravity="center"
+        android:text="2900.18元"
+        android:textColor="@color/wonders_rgb_color_0aae65"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/textView12"
+        app:layout_constraintStart_toEndOf="@id/textView12" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="住院总费用："
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewBottomLine"
+        app:layout_constraintStart_toStartOf="@id/textView9"
+        app:layout_constraintTop_toBottomOf="@id/textView12" />
+
+    <TextView
+        android:id="@+id/tvInHosFeeTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        android:text="2900.18元"
+        android:textColor="@color/wonders_rgb_color_0aae65"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView13"
+        app:layout_constraintStart_toEndOf="@+id/textView13" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="textView13,imageView2" />
+
+    <View
+        android:id="@+id/viewBottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+    <android.support.constraint.Group
+        android:id="@+id/viewGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="textView9,tvInHosId,textView10,tvInHosArea,textView11,
+        tvInHosDate,textView12,tvInHosPrepayFee,textView13,tvInHosFeeTotal" />
+
+    <TextView
+        android:id="@+id/tvNoDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:gravity="center"
+        android:text="暂未住院信息！"
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

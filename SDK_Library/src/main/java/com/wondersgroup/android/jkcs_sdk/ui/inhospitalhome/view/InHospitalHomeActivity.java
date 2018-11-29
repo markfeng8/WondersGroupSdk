@@ -102,6 +102,8 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String start = idNum.substring(0, 6);
         String end = idNum.substring(idNum.length() - 4, idNum.length());
         tvIdNum.setText(start + "********" + end);
+
+        // TODO: 2018/11/29 如果是医保才去查询，自费不需要查询
         /*
          * 查询医保移动支付开通状态
          */
