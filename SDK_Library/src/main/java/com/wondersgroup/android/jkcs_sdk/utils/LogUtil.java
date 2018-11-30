@@ -2,7 +2,11 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 
 import android.util.Log;
 
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.wondersgroup.android.jkcs_sdk.BuildConfig;
+
+import java.util.Collection;
 
 
 /**
@@ -13,6 +17,7 @@ public class LogUtil {
 
     private static final String DEFAULT_TAG = "Wonders=SDK=log=";
     private static boolean IS_NEED_PRINT_LOG = false; // default
+    private static boolean isNotSet = false;
 
     public static void setIsNeedPrintLog(boolean isNeedPrintLog) {
         IS_NEED_PRINT_LOG = isNeedPrintLog;
@@ -79,42 +84,80 @@ public class LogUtil {
     }
 
     public static void iLogging(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Logger.t(tag).i(msg);
         }
     }
 
     public static void wLogging(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Logger.t(tag).w(msg);
         }
     }
 
     public static void eLogging(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Logger.t(tag).e(msg);
         }
     }
 
     public static void vLogging(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Logger.t(tag).v(msg);
         }
     }
 
     public static void dLogging(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Logger.t(tag).d(msg);
         }
     }
 
     public static void json(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Logger.t(tag).json(msg);
         }
     }
 
+    /**
+     * 打印 xml
+     */
+    public static void xml(String tag, String msg) {
+        setAdapter();
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).xml(msg);
+        }
+    }
+
+    /**
+     * 打印集合：MAP、SET、LIST、ARRAY
+     */
+    public static void collection(String tag, Collection<?> collection) {
+        setAdapter();
+        if (IS_NEED_PRINT_LOG) {
+            Logger.t(tag).d(collection);
+        }
+    }
+
     private static String getTag(String tag) {
         return DEFAULT_TAG + tag;
+    }
+
+    private static void setAdapter() {
+        if (!isNotSet) {
+            Logger.addLogAdapter(new AndroidLogAdapter() {
+                @Override
+                public boolean isLoggable(int priority, String tag) {
+                    return BuildConfig.DEBUG;
+                }
+            });
+            isNotSet = true;
+        }
     }
 }
