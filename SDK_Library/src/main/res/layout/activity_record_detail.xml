@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/llQrCode"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -53,7 +53,40 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/wonders_margin_4dp"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <LinearLayout
+        android:id="@+id/llELeInvoice"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:layout_weight="1"
+            android:text="电子发票"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wonders_group_ele_invoice" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_4dp"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
+            android:src="@drawable/wonders_group_right_arrow" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
     <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout

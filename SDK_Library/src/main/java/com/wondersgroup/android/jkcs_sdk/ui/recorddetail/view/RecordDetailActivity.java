@@ -25,6 +25,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.qrcodepage.QrCodeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.presenter.RecordDetailPresenter;
@@ -48,6 +49,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     private TextView tvFeeDate;
     private TextView tvTradeNo;
     private LinearLayout llQrCode;
+    private LinearLayout llELeInvoice;
     private PayItemLayout plTotalMoney;
     private PayItemLayout plPersonalPay;
     private PayItemLayout plYiBaoPay;
@@ -77,6 +79,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     private void initListener() {
         llQrCode.setOnClickListener(view -> QrCodeActivity.actionStart(RecordDetailActivity.this,
                 payPlatTradeNo, mOrgName));
+        llELeInvoice.setOnClickListener(view -> EleInvoiceActivity.actionStart(RecordDetailActivity.this, payPlatTradeNo));
     }
 
     @SuppressLint("SetTextI18n")
@@ -125,6 +128,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
         plPersonalPay = findViewById(R.id.plPersonalPay);
         plYiBaoPay = findViewById(R.id.plYiBaoPay);
         recyclerView = findViewById(R.id.recyclerView);
+        llELeInvoice = findViewById(R.id.llELeInvoice);
     }
 
     @Override

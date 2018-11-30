@@ -56,6 +56,7 @@
     <string name="wonders_look_detail">查看详情</string>
     <string name="wonders_pay_detail">缴费详情</string>
     <string name="wonders_pay_bill_detail">订单详情</string>
+    <string name="wonders_my_ele_invoice">我的发票</string>
     <string name="wonders_bill_qrcode">订单二维码</string>
     <string name="wonders_order_time">订单时间：2018-02-28 09:55:35</string>
     <string name="wonders_total_fee">共4件 合计：196.21元</string>
