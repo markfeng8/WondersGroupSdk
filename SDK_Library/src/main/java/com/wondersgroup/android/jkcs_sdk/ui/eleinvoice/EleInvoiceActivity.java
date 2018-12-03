@@ -16,9 +16,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
@@ -33,6 +35,7 @@ public class EleInvoiceActivity extends AppCompatActivity {
     private static final String TAG = "EleInvoiceActivity";
     private static final String ELE_INVOICE_URL = "https://lp.axnecp.com/?zf=yhf%@";
     private WebView webView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +52,16 @@ public class EleInvoiceActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     private void initData() {
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                progressBar.setProgress(newProgress);
+                if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -70,6 +82,7 @@ public class EleInvoiceActivity extends AppCompatActivity {
 
     private void findViews() {
         webView = findViewById(R.id.webView);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     public static void actionStart(Context context, String payPlatTradeNo) {
