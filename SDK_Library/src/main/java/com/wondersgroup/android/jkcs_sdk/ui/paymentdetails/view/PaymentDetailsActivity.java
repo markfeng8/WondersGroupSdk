@@ -98,7 +98,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             mOnCheckedCallback.onSelected(mPayType);
         }
     };
-    private Handler mHandler = new Handler(getMainLooper());
+    private Handler mHandler;
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
     private List<FeeBillEntity.DetailsBean> details;
@@ -120,6 +120,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
+        mHandler = new Handler();
 
         mSelectPayTypeWindow = new SelectPayTypeWindow.Builder(this)
                 .setDropView(activityView)
