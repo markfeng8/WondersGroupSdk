@@ -399,7 +399,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             String feeCashTotal = body.getFee_cash_total();
             String feeYbTotal = body.getFee_yb_total();
             LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
-            // 如果全部金额不为 null，说明时发起正式结算的回调，否则是上传 token 的回调
+            // 如果全部金额不为 null，说明是发起正式结算的回调，否则是上传 token 的回调
             if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
                 // 跳转过去，显示全部支付完成 true 代表全部支付完成
                 jumpToPaymentResultPage(true);
