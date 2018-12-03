@@ -232,6 +232,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         if (entity != null) {
             llNeedPay.setVisibility(View.VISIBLE);
             String feeTotal = entity.getFee_total();
+            // 00 未结算 01 正在结算
+            String payState = entity.getPayState();
+            if ("01".equals(payState)) {
+                tvPayMoney.setText("支付中");
+                tvPayMoney.setEnabled(false);
+            }
             tvMoneyNum.setText(feeTotal);
             mFeeBillList = entity.getDetails();
             mItemList.addAll(1, mFeeBillList);

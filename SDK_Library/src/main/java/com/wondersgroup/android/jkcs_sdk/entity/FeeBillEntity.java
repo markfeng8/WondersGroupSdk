@@ -1,5 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -14,7 +16,17 @@ public class FeeBillEntity extends BaseEntity {
      */
 
     private String fee_total;
+    @SerializedName("pay_state")
+    private String payState;
     private List<DetailsBean> details;
+
+    public String getPayState() {
+        return payState;
+    }
+
+    public void setPayState(String payState) {
+        this.payState = payState;
+    }
 
     public String getFee_total() {
         return fee_total;

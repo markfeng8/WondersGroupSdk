@@ -127,7 +127,9 @@ public class LoadingView {
             mLoadingDialog.setContentView(mLoadingView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT));
 
-            mLoadingDialog.dismiss();
+            if (mLoadingDialog.isShowing()) {
+                mLoadingDialog.dismiss();
+            }
             mLoadingDialog.show();
             isShowing = true;
             // 处理加当载 Loading 时，返回键的行为

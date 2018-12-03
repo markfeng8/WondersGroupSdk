@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
@@ -23,7 +25,6 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
@@ -65,26 +66,30 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private PaymentDetailsAdapter mAdapter;
     private List<Object> mItemList = new ArrayList<>();
     private DetailPayBean mDetailPayBean = new DetailPayBean();
-    /**
-     * 组合 Item 数据的集合
-     */
-    private List<CombineDetailsBean> mCombineList = new ArrayList<>();
     private LoadingView mLoading;
     private SelectPayTypeWindow mSelectPayTypeWindow;
     private int mPayType = 1;
-    /**
-     * 记录点击的 Item 的位置
-     */
-    private int mClickItemPos = -1;
     private String mFeeTotal;
     private String mFeeCashTotal;
     private String mFeeYbTotal;
     private String payPlatTradeNo;
     private boolean tryToSettleIsSuccess = false;
     /**
+     * 记录点击的 Item 的位置
+     */
+    private int mClickItemPos = -1;
+    /**
      * 是否是试结算失败时需要去结算
      */
     private boolean isNeedToPay = false;
+    /**
+     * 组合 Item 数据的集合
+     */
+    private List<CombineDetailsBean> mCombineList = new ArrayList<>();
+    /**
+     * 正式结算次数
+     */
+    private int mOfficeSettleTimes = 0;
     private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
@@ -93,6 +98,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             mOnCheckedCallback.onSelected(mPayType);
         }
     };
+    private Handler mHandler = new Handler(getMainLooper());
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
     private List<FeeBillEntity.DetailsBean> details;
@@ -393,20 +399,57 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void onOfficialSettleResult(SettleEntity body) {
+        parseOfficialSettleResult(body);
+    }
+
+    /**
+     * 解析正式结算结果
+     */
+    private void parseOfficialSettleResult(SettleEntity body) {
         // 正式结算成功~
         if (body != null) {
-            String feeTotal = body.getFee_total();
-            String feeCashTotal = body.getFee_cash_total();
-            String feeYbTotal = body.getFee_yb_total();
-            LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
-            // 如果全部金额不为 null，说明是发起正式结算的回调，否则是上传 token 的回调
-            if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
-                // 跳转过去，显示全部支付完成 true 代表全部支付完成
-                jumpToPaymentResultPage(true);
+            String payState = body.getPayState();
+            if (!TextUtils.isEmpty(payState)) {
+                switch (payState) {
+                    case "1": // 1、后台正在异步结算（前台等待）
+                        // 重试 3 次，如果还是失败就返回首页
+                        if (mOfficeSettleTimes < 3) {
+                            mOfficeSettleTimes++;
+                            waitingAndOnceAgain();
+                        } else {
+                            dismissLoading();
+                            PaymentDetailsActivity.this.finish();
+                        }
+                        break;
+                    case "2": // 2、结算完成（返回成功页面）
+                        String feeTotal = body.getFee_total();
+                        String feeCashTotal = body.getFee_cash_total();
+                        String feeYbTotal = body.getFee_yb_total();
+                        LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+                        // 如果全部金额不为 null，说明是发起正式结算的回调，否则是上传 token 的回调
+                        if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
+                            // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                            jumpToPaymentResultPage(true);
+                        }
+                        break;
+                    case "3": // 3、结算失败（包括超时自动处理）
+                        jumpToPaymentResultPage(false);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                LogUtil.e(TAG, "payState is null!");
             }
+
         } else { // 正式结算失败！
             jumpToPaymentResultPage(false);
         }
+    }
+
+    private void waitingAndOnceAgain() {
+        showLoading();
+        mHandler.postDelayed(() -> sendOfficialPay(false, "2"), 5000);
     }
 
     /**
@@ -572,5 +615,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
+        mHandler.removeCallbacksAndMessages(null);
     }
 }
