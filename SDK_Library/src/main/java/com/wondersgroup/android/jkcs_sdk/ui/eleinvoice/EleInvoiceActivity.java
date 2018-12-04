@@ -33,7 +33,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 public class EleInvoiceActivity extends AppCompatActivity {
 
     private static final String TAG = "EleInvoiceActivity";
-    private static final String ELE_INVOICE_URL = "https://lp.axnecp.com/?zf=yhf%@";
+    private static final String ELE_INVOICE_URL = "https://lp.axnecp.com/huzwd?zf=yhf@";
     private WebView webView;
     private ProgressBar progressBar;
 
