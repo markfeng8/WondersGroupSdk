@@ -19,12 +19,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 
 /**
  * Created by x-sir on 2018/11/30 :)
@@ -36,6 +39,7 @@ public class EleInvoiceActivity extends AppCompatActivity {
     private static final String ELE_INVOICE_URL = "https://lp.axnecp.com/huzwd?zf=yhf@";
     private WebView webView;
     private ProgressBar progressBar;
+    private TitleBarLayout titleLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,11 +51,26 @@ public class EleInvoiceActivity extends AppCompatActivity {
         }
         findViews();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        titleLayout.setOnBackListener(() -> {
+            if (webView.canGoBack()) {
+                webView.goBack();
+            } else {
+                finish();
+            }
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initData() {
         webView.getSettings().setJavaScriptEnabled(true);
+        // 设置缓存模式
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        // 开启 DOM storage API 功能
+        webView.getSettings().setDomStorageEnabled(true);
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -60,6 +79,13 @@ public class EleInvoiceActivity extends AppCompatActivity {
                 if (newProgress == 100) {
                     progressBar.setVisibility(View.GONE);
                 }
+            }
+        });
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
         });
 
@@ -83,6 +109,7 @@ public class EleInvoiceActivity extends AppCompatActivity {
     private void findViews() {
         webView = findViewById(R.id.webView);
         progressBar = findViewById(R.id.progressBar);
+        titleLayout = findViewById(R.id.titleLayout);
     }
 
     public static void actionStart(Context context, String payPlatTradeNo) {
