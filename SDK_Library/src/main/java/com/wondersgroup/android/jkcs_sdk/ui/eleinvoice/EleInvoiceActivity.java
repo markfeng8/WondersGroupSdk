@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
@@ -120,5 +121,16 @@ public class EleInvoiceActivity extends AppCompatActivity {
         } else {
             LogUtil.e(TAG, "context is null!");
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (webView.canGoBack()) {
+                webView.goBack();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
