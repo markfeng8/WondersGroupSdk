@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMrTang;
     @BindView(R.id.tvMrQiu)
     TextView tvMrQiu;
+    @BindView(R.id.tvMrZym)
+    TextView tvMrZym;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private PersonBean mPersonZhong;
     private PersonBean mPersonTang;
     private PersonBean mPersonQiu;
+    private PersonBean mPersonZym;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,11 +191,21 @@ public class MainActivity extends AppCompatActivity {
         mPersonQiu.setCardType("2");
         mPersonQiu.setCardNum("006953059");
         mPersonQiu.setAddress("ShangHai");
+
+        /*三院资住院钟央毛*/
+        mPersonZym = new PersonBean();
+        mPersonZym.setName("钟央毛");
+        mPersonZym.setPhone("13588259873");
+        mPersonZym.setIdType("01");
+        mPersonZym.setIdNum("330511193603094218");
+        mPersonZym.setCardType("0");
+        mPersonZym.setCardNum("000000000");
+        mPersonZym.setAddress("ShangHai");
     }
 
     @OnClick({R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
             R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang,
-            R.id.tvMrQiu, R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+            R.id.tvMrQiu, R.id.tvMrZym, R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvMrWu:
@@ -224,6 +237,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrQiu:
                 setPersonInfo(mPersonQiu);
+                break;
+            case R.id.tvMrZym:
+                setPersonInfo(mPersonZym);
                 break;
             case R.id.btnAfterPayHome:
                 startBusiness(0);
