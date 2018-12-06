@@ -104,6 +104,18 @@ public class TimeUtil {
     }
 
     /**
+     * 返回如下格式的当天时间
+     *
+     * @return yyyy-MM-dd HH:mm:ss
+     */
+    public static String getCurrentDateTime() {
+        Date date = new Date(System.currentTimeMillis());
+        String format = sdf5.format(date);
+        LogUtil.i(TAG, "getCurrentDate()===" + format);
+        return format;
+    }
+
+    /**
      * 返回当前时间向前推 30 天
      *
      * @return 2018-08-03

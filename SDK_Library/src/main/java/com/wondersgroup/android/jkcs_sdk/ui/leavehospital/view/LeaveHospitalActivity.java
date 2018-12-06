@@ -17,9 +17,14 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -46,6 +51,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private RadioButton rbAlipay;
     private RadioButton rbWeChatPay;
     private RadioButton rbUnionPay;
+    private LoadingView mLoading;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -57,6 +63,16 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         setContentView(R.layout.activity_leave_hospital);
         findViews();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        tvToPay.setOnClickListener(v -> {
+
+        });
+        rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
+
+        });
     }
 
     private void findViews() {
@@ -80,19 +96,66 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private void initData() {
+        mLoading = new LoadingView.Builder(this)
+                .build();
+
         rbAlipay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_alipay)));
         rbWeChatPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_wechat_pay)));
         rbUnionPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_union_pay)));
         // 默认选中支付宝
         rgPayType.check(R.id.rbAlipay);
+
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        tvName.setText(name);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String orgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
+            String orgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+            tvHosName.setText(orgName);
+            mPresenter.requestCy0006(orgCode, "123456");
+        }
     }
 
-    public static void actionStart(Context context) {
+    public static void actionStart(Context context, String orgCode, String orgName) {
         if (context != null) {
             Intent intent = new Intent(context, LeaveHospitalActivity.class);
+            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+            intent.putExtra(IntentExtra.ORG_NAME, orgName);
             context.startActivity(intent);
         } else {
             LogUtil.e(TAG, "context is null!");
         }
+    }
+
+    @Override
+    public void showLoading() {
+        if (mLoading != null) {
+            mLoading.showLoadingDialog();
+        }
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (mLoading != null) {
+            mLoading.dismissLoadingDialog();
+        }
+    }
+
+    @Override
+    public void onCy0006Result(Cy0006Entity entity) {
+        String feeCashTotal = entity.getFeeCashTotal();
+        String feeNeedCashTotal = entity.getFeeNeedCashTotal();
+        String feePrepayTotal = entity.getFeePrepayTotal();
+        String feeTotal = entity.getFeeTotal();
+        String feeYbTotal = entity.getFeeYbTotal();
+        String payPlatTradeNo = entity.getPayPlatTradeNo();
+        String payStartTime = entity.getPayStartTime();
+
+        tvTotalFee.setText(feeTotal);
+        tvYiBaoFee.setText(feeYbTotal);
+        tvCashFee.setText(feeCashTotal);
+        tvPrepayFee.setText(feePrepayTotal);
+        tvNeedFee.setText(feeNeedCashTotal);
     }
 }

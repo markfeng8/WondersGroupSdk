@@ -76,6 +76,11 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(InHospitalHomeActivity.this);
 
+    /**
+     * 住院状态：00 在院 01 预出院 10 已出院
+     */
+    private String mInState;
+
     private static final String HUZHOU_CENTER_HOS_ORG_CODE = "47117170333050211A1001";
 
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
@@ -155,7 +160,13 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 日清单查询
         tvDayDetail.setOnClickListener(view -> DayDetailedListActivity.actionStart(InHospitalHomeActivity.this));
         // 出院结算
-        tvLeaveHos.setOnClickListener(view -> LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this));
+        tvLeaveHos.setOnClickListener(view -> {
+            if ("01".equals(mInState)) {
+                LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
+            } else {
+                WToastUtil.show("您当前不是预出院状态！");
+            }
+        });
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> InHospitalRecordActivity.actionStart(InHospitalHomeActivity.this));
     }
@@ -205,11 +216,13 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                 setViewVisibility(true);
                 Cy0001Entity.DetailsBean detailsBean = details.get(0);
                 if (detailsBean != null) {
-                    tvInHosId.setText(detailsBean.getJzlsh());
+                    String jzlsh = detailsBean.getJzlsh();
+                    tvInHosId.setText(jzlsh);
                     tvInHosArea.setText(detailsBean.getKsmc());
                     tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
                     tvInHosPrepayFee.setText(detailsBean.getYjkze() + "元");
                     tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
+                    mInState = detailsBean.getIn_state();
                     String cardType = detailsBean.getCard_type();
 
                     if ("0".equals(cardType)) {
@@ -219,6 +232,8 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                     } else if ("2".equals(cardType)) {
                         tvPaymentType.setText("自费");
                     }
+
+                    SpUtil.getInstance().save(SpKey.JZLSH, jzlsh);
                 }
             }
         } else {

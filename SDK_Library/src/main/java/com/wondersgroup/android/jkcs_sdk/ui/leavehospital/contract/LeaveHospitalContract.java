@@ -8,17 +8,27 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract;
 
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
+
 /**
  * Created by x-sir on 2018/11/9 :)
  * Function:
  */
 public interface LeaveHospitalContract {
     interface IModel {
+        void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener);
     }
 
     interface IView {
+        void showLoading();
+
+        void dismissLoading();
+
+        void onCy0006Result(Cy0006Entity entity);
     }
 
     interface IPresenter {
+        void requestCy0006(String orgCode, String token);
     }
 }

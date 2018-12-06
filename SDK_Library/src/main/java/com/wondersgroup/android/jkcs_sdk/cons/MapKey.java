@@ -26,6 +26,10 @@ public class MapKey {
     public static final String TO_STATE = "to_state";
     public static final String START_DATE = "startdate";
     public static final String END_DATE = "enddate";
+    /**
+     * 就诊流水号
+     */
+    public static final String JZLSH = "jzlsh";
     public static final String PAGE_NUMBER = "pagenumber";
     public static final String PAGE_SIZE = "pagesize";
     public static final String FEE_TOTAL = "fee_total";

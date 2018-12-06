@@ -28,4 +28,5 @@ public class SpKey {
     public static final String SDK_ENV = "sdkEnv"; // sdk 环境
     public static final String YIBAO_TOKEN = "yiBaoToken"; // 医保 token
     public static final String TOKEN_TIME = "tokenTime";// 医保 token 时间
+    public static final String JZLSH = "jzlsh";// 就诊流水号
 }
