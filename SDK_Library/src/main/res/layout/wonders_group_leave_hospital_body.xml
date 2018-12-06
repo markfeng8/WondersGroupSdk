@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_18dp"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:text="住院总费用"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTotalFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="4000元"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvTotal" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintTop_toBottomOf="@id/tvTotal" />
+
+    <TextView
+        android:id="@+id/tvYiBao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:text="医保部分总额"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        app:layout_constraintStart_toStartOf="@id/tvTotal"
+        app:layout_constraintTop_toBottomOf="@id/view1" />
+
+    <TextView
+        android:id="@+id/tvYiBaoFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="2500元"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvYiBao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvYiBao" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintTop_toBottomOf="@id/tvYiBao" />
+
+    <TextView
+        android:id="@+id/tvCash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:text="现金部分总额"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        app:layout_constraintStart_toStartOf="@id/tvYiBao"
+        app:layout_constraintTop_toBottomOf="@id/view2" />
+
+    <TextView
+        android:id="@+id/tvCashFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="1500元"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvCash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvCash" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintTop_toBottomOf="@id/tvCash" />
+
+    <TextView
+        android:id="@+id/tvPrepay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:text="预交金总额"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        app:layout_constraintStart_toStartOf="@id/tvCash"
+        app:layout_constraintTop_toBottomOf="@id/view3" />
+
+    <TextView
+        android:id="@+id/tvPrepayFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="1000元"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvPrepay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvPrepay" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintTop_toBottomOf="@id/tvPrepay" />
+
+    <TextView
+        android:id="@+id/tvNeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_16dp"
+        android:text="需补缴现金"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        app:layout_constraintStart_toStartOf="@id/tvPrepay"
+        app:layout_constraintTop_toBottomOf="@id/view4" />
+
+    <TextView
+        android:id="@+id/tvNeedFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="500"
+        android:textColor="@color/wonders_rgb_color_969696"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/yuan"
+        app:layout_constraintRight_toLeftOf="@id/yuan" />
+
+    <TextView
+        android:id="@+id/yuan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:text="元"
+        android:textColor="@color/wonders_rgb_color_00a861"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvNeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvNeed" />
+
+</android.support.constraint.ConstraintLayout>

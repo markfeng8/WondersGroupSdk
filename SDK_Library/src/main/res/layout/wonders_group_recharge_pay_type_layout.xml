@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/wonders_margin_10dp"
+    android:background="@color/wonders_rgb_color_ffffff"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -24,7 +25,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/wonders_rgb_color_e0e0e0" />
+        android:background="@color/wonders_rgb_color_f0f0f0" />
 
     <RadioButton
         android:id="@+id/rbWeChatPay"
@@ -44,7 +45,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/wonders_rgb_color_e0e0e0" />
+        android:background="@color/wonders_rgb_color_f0f0f0" />
 
     <RadioButton
         android:id="@+id/rbUnionPay"

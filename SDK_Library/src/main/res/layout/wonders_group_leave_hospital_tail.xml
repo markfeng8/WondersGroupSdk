@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/wonders_rgb_color_f0f0f0" />
+
+    <TextView
+        android:id="@+id/tvWillPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:text="待支付："
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvToPay"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvToPay" />
+
+    <TextView
+        android:id="@+id/tvWillPayFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥500"
+        android:textColor="@color/wonders_rgb_color_00a861"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvWillPay"
+        app:layout_constraintLeft_toRightOf="@id/tvWillPay" />
+
+    <TextView
+        android:id="@+id/tvToPay"
+        android:layout_width="150dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:background="@drawable/wonders_group_4dp_blue_shape"
+        android:gravity="center"
+        android:text="立即支付"
+        android:textColor="@color/wonders_rgb_color_ffffff"
+        android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view5" />
+
+</android.support.constraint.ConstraintLayout>

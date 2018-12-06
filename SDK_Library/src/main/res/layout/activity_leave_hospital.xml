@@ -7,9 +7,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/wonders_rgb_color_ffffff"
     android:orientation="vertical">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
@@ -19,5 +20,38 @@
         app:textColor="@color/wonders_rgb_color_ffffff"
         app:textSize="@dimen/wonders_text_size_16sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/wonders_group_leave_hospital_header" />
+
+            <include layout="@layout/wonders_group_leave_hospital_body" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wonders_margin_16dp"
+                android:background="@color/wonders_rgb_color_f0f0f0"
+                android:paddingStart="@dimen/wonders_margin_16dp"
+                android:paddingTop="@dimen/wonders_padding_8dp"
+                android:paddingBottom="@dimen/wonders_padding_8dp"
+                android:text="请选择预交金充值方式"
+                android:textColor="@color/wonders_rgb_color_999999"
+                android:textSize="@dimen/wonders_text_size_14sp" />
+
+            <include layout="@layout/wonders_group_recharge_pay_type_layout" />
+
+            <include layout="@layout/wonders_group_leave_hospital_tail" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
