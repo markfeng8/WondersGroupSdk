@@ -46,7 +46,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
 
             @Override
             public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "requestCy0006() -> failed!");
+                LogUtil.e(TAG, "requestCy0006() -> failed!" + errCodeDes);
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
             }

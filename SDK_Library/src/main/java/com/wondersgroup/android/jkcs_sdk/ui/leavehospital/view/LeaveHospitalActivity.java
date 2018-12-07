@@ -52,6 +52,10 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private RadioButton rbWeChatPay;
     private RadioButton rbUnionPay;
     private LoadingView mLoading;
+    /**
+     * 支付类型，默认为支付宝
+     */
+    private int mPayType = 1;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -71,7 +75,13 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
         });
         rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
-
+            if (checkedId == R.id.rbAlipay) {
+                mPayType = 1;
+            } else if (checkedId == R.id.rbWeChatPay) {
+                mPayType = 2;
+            } else if (checkedId == R.id.rbUnionPay) {
+                mPayType = 3;
+            }
         });
     }
 

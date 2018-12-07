@@ -79,7 +79,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     /**
      * 住院状态：00 在院 01 预出院 10 已出院
      */
-    private String mInState;
+    private String mInState = "";
 
     private static final String HUZHOU_CENTER_HOS_ORG_CODE = "47117170333050211A1001";
 
@@ -160,15 +160,18 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 日清单查询
         tvDayDetail.setOnClickListener(view -> DayDetailedListActivity.actionStart(InHospitalHomeActivity.this));
         // 出院结算
-        tvLeaveHos.setOnClickListener(view -> {
-            if ("01".equals(mInState)) {
-                LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
-            } else {
-                WToastUtil.show("您当前不是预出院状态！");
-            }
-        });
+        tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> InHospitalRecordActivity.actionStart(InHospitalHomeActivity.this));
+    }
+
+    private void leaveHospitalSettle() {
+        LogUtil.i(TAG, "mInState===" + mInState);
+        if ("01".equals(mInState)) {
+            LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
+        } else {
+            WToastUtil.show("您当前不是预出院状态！");
+        }
     }
 
     /**
