@@ -47,7 +47,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvAfterPayState;
     private TextView tvMobilePayState;
     private TextView tvLookRule;
-    private TextView tvUpdatePayPwd;
     private TextView tvTermination;
     private ImageView ivEditPhone;
     private ImageView ivBackground;
@@ -160,8 +159,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             showPopupWindow();
             BrightnessManager.lightoff(SettingsActivity.this);
         });
-        // 修改医保支付密码
-        tvUpdatePayPwd.setOnClickListener(v -> WToastUtil.show("暂未开通！"));
         // 解约医后付
         tvTermination.setOnClickListener(v -> {
             mFlag = 2;
@@ -183,7 +180,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvAfterPayState = findViewById(R.id.tvAfterPayState);
         tvMobilePayState = findViewById(R.id.tvMobilePayState);
         tvLookRule = findViewById(R.id.tvLookRule);
-        tvUpdatePayPwd = findViewById(R.id.tvUpdatePayPwd);
         tvTermination = findViewById(R.id.tvTermination);
     }
 
