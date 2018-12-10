@@ -52,7 +52,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private TextView tvName;
     private TextView tvIdNum;
     private TextView tvMobPayState;
-    private TextView tvSelectHospital;
     private TextView tvHospitalName;
     private TextView tvPrepayFee;
     private TextView tvRechargeRecord;
@@ -82,6 +81,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private String mInState = "";
 
     private static final String HUZHOU_CENTER_HOS_ORG_CODE = "47117170333050211A1001";
+    private static final String HUZHOU_CENTER_HOS_ORG_NAME = "湖州市中心医院";
 
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
         @Override
@@ -123,6 +123,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String start = idNum.substring(0, 6);
         String end = idNum.substring(idNum.length() - 4, idNum.length());
         tvIdNum.setText(start + "********" + end);
+        tvHospitalName.setText(HUZHOU_CENTER_HOS_ORG_NAME);
         mPresenter.requestCy0001(HUZHOU_CENTER_HOS_ORG_CODE, OrgConfig.IN_STATE0);
     }
 
@@ -130,7 +131,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvName = findViewById(R.id.tvName);
         tvIdNum = findViewById(R.id.tvIdNum);
         tvMobPayState = findViewById(R.id.tvMobPayState);
-        tvSelectHospital = findViewById(R.id.tvSelectHospital);
         tvHospitalName = findViewById(R.id.tvHospitalName);
         tvPrepayFee = findViewById(R.id.tvPrepayFee);
         tvRechargeRecord = findViewById(R.id.tvRechargeRecord);
@@ -152,7 +152,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 去开通医保移动支付
         tvMobPayState.setOnClickListener(view -> openYiBaoMobPay());
         // 选择医院
-        tvSelectHospital.setOnClickListener(view -> mPresenter.getHospitalList());
+        tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList());
         // 预交金充值
         tvPrepayFee.setOnClickListener(view -> PrepayFeeRechargeActivity.actionStart(InHospitalHomeActivity.this));
         // 充值记录

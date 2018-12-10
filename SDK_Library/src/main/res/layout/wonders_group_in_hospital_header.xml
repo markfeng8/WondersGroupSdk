@@ -84,27 +84,19 @@
 
     <TextView
         android:id="@+id/tvHospitalName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/wonders_group_hospital"
-        android:drawablePadding="@dimen/wonders_padding_10dp"
-        android:gravity="center"
-        android:text="@string/wonders_huzhou_city"
-        android:textColor="@color/wonders_rgb_color_333333"
-        app:layout_constraintLeft_toLeftOf="@id/tvName"
-        app:layout_constraintTop_toBottomOf="@id/view1" />
-
-    <TextView
-        android:id="@+id/tvSelectHospital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:drawableStart="@drawable/wonders_group_hospital"
         android:drawableEnd="@drawable/wonders_group_right_arrow"
         android:drawablePadding="@dimen/wonders_padding_10dp"
-        android:text="@string/wonders_select_hospital"
-        android:textColor="@color/wonders_rgb_color_c9c9c9"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvHospitalName"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:gravity="start|center"
+        android:text="@string/wonders_huzhou_city"
+        android:textColor="@color/wonders_rgb_color_333333"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view1" />
 
     <View
         android:layout_width="match_parent"
