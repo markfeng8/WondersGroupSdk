@@ -87,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="@dimen/wonders_margin_16dp"
         android:drawableStart="@drawable/wonders_group_hospital"
         android:drawableEnd="@drawable/wonders_group_right_arrow"
@@ -101,6 +102,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginTop="2dp"
         android:background="@color/wonders_rgb_color_e0e0e0"
         app:layout_constraintTop_toBottomOf="@id/tvHospitalName" />
 

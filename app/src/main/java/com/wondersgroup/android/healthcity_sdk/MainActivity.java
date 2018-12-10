@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMrQiu;
     @BindView(R.id.tvMrZym)
     TextView tvMrZym;
+    @BindView(R.id.tvMrCheng)
+    TextView tvMrCheng;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private PersonBean mPersonTang;
     private PersonBean mPersonQiu;
     private PersonBean mPersonZym;
+    private PersonBean mPersonCheng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         mPersonQiu.setCardNum("006953059");
         mPersonQiu.setAddress("ShangHai");
 
-        /*三院资住院钟央毛*/
+        /*三院住院钟央毛*/
         mPersonZym = new PersonBean();
         mPersonZym.setName("钟央毛");
         mPersonZym.setPhone("13588259873");
@@ -201,11 +204,21 @@ public class MainActivity extends AppCompatActivity {
         mPersonZym.setCardType("0");
         mPersonZym.setCardNum("000000000");
         mPersonZym.setAddress("ShangHai");
+
+        /*中心医院住院程华凤*/
+        mPersonCheng = new PersonBean();
+        mPersonCheng.setName("程华凤");
+        mPersonCheng.setPhone("13588259873");
+        mPersonCheng.setIdType("01");
+        mPersonCheng.setIdNum("330523196701243028");
+        mPersonCheng.setCardType("0");
+        mPersonCheng.setCardNum("000000000");
+        mPersonCheng.setAddress("ShangHai");
     }
 
-    @OnClick({R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan,
-            R.id.tvMrYang, R.id.tvMrShen, R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang,
-            R.id.tvMrQiu, R.id.tvMrZym, R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+    @OnClick({R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan, R.id.tvMrYang, R.id.tvMrShen,
+            R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang, R.id.tvMrQiu, R.id.tvMrZym, R.id.tvMrCheng,
+            R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvMrWu:
@@ -240,6 +253,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrZym:
                 setPersonInfo(mPersonZym);
+                break;
+            case R.id.tvMrCheng:
+                setPersonInfo(mPersonCheng);
                 break;
             case R.id.btnAfterPayHome:
                 startBusiness(0);

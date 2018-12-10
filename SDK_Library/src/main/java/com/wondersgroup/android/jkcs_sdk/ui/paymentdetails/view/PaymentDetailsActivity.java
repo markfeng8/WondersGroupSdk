@@ -610,9 +610,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         super.onDestroy();
         // 统一支付平台，调用结束
         WDPay.ReleasePayserver();
-        if (mLoading != null) {
-            mLoading.dispose();
-        }
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");

@@ -338,6 +338,15 @@
                     android:text="@string/person_zym"
                     android:textColor="@android:color/holo_blue_dark"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvMrCheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/person_chf"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16sp" />
             </LinearLayout>
 
         </HorizontalScrollView>
