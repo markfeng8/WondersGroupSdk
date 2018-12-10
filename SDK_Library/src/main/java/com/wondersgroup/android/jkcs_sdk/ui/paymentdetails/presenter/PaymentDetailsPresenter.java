@@ -26,6 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.PaymentUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import cn.wd.checkout.api.CheckOut;
@@ -309,14 +310,17 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
         CheckOut.setIsPrint(true);
         // 设置统一支付回调地址
         CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDK_TO_BILL);
-        // 初始化金额（0分）
-        Long i = 0L;
-        // 格式化金额为分
-        long formatCents = (long) (Double.parseDouble(amount) * 100);
 
-        if (isNumeric(String.valueOf(formatCents))) {
-            i = Long.parseLong(String.valueOf(formatCents));
-        } else {
+        long formatCents = 0L;
+        try {
+            BigDecimal original = new BigDecimal(amount);
+            BigDecimal hundred = new BigDecimal("100");
+            formatCents = original.multiply(hundred).longValueExact();
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+
+        if (!isNumeric(String.valueOf(formatCents))) {
             WToastUtil.show("请输入正确的交易金额（单位：分）");
             dismissLoading();
             return;
@@ -331,7 +335,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
              * 传入订单标题、订单金额(分)、订单流水号、扩展参数(可以null) 等
              */
             WDPay.reqPayAsync(context, appId, apiKey, PaymentUtil.getWdPayType(payType),
-                    subMerNo, orgName, describe, i, tradeNo, describe, null,
+                    subMerNo, orgName, describe, formatCents, tradeNo, describe, null,
                     wdResult -> {
 
                         dismissLoading();
