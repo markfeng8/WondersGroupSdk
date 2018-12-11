@@ -123,8 +123,10 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String start = idNum.substring(0, 6);
         String end = idNum.substring(idNum.length() - 4, idNum.length());
         tvIdNum.setText(start + "********" + end);
-        tvHospitalName.setText(HUZHOU_CENTER_HOS_ORG_NAME);
-        mPresenter.requestCy0001(HUZHOU_CENTER_HOS_ORG_CODE, OrgConfig.IN_STATE0);
+        mOrgName = HUZHOU_CENTER_HOS_ORG_NAME;
+        mOrgCode = HUZHOU_CENTER_HOS_ORG_CODE;
+        tvHospitalName.setText(mOrgName);
+        mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
     }
 
     private void findViews() {

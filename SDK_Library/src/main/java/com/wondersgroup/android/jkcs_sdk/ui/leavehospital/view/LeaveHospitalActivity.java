@@ -8,9 +8,12 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.text.Html;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -52,10 +55,11 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private RadioButton rbWeChatPay;
     private RadioButton rbUnionPay;
     private LoadingView mLoading;
+    private ConstraintLayout clBody;
     /**
      * 支付类型，默认为支付宝
      */
-    private int mPayType = 1;
+    private int mPaymentType = 1;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -76,11 +80,11 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         });
         rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbAlipay) {
-                mPayType = 1;
+                mPaymentType = 1;
             } else if (checkedId == R.id.rbWeChatPay) {
-                mPayType = 2;
+                mPaymentType = 2;
             } else if (checkedId == R.id.rbUnionPay) {
-                mPayType = 3;
+                mPaymentType = 3;
             }
         });
     }
@@ -103,6 +107,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         rbAlipay = findViewById(R.id.rbAlipay);
         rbWeChatPay = findViewById(R.id.rbWeChatPay);
         rbUnionPay = findViewById(R.id.rbUnionPay);
+        clBody = findViewById(R.id.clBody);
     }
 
     private void initData() {
@@ -152,6 +157,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCy0006Result(Cy0006Entity entity) {
         String feeCashTotal = entity.getFeeCashTotal();
@@ -162,10 +168,12 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         String payPlatTradeNo = entity.getPayPlatTradeNo();
         String payStartTime = entity.getPayStartTime();
 
-        tvTotalFee.setText(feeTotal);
-        tvYiBaoFee.setText(feeYbTotal);
-        tvCashFee.setText(feeCashTotal);
-        tvPrepayFee.setText(feePrepayTotal);
+        clBody.setVisibility(View.VISIBLE);
+        tvTotalFee.setText(feeTotal + "元");
+        tvYiBaoFee.setText(feeYbTotal + "元");
+        tvCashFee.setText(feeCashTotal + "元");
+        tvPrepayFee.setText(feePrepayTotal + "元");
         tvNeedFee.setText(feeNeedCashTotal);
+        tvWillPayFee.setText("￥" + feeNeedCashTotal);
     }
 }
