@@ -76,7 +76,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     private void initListener() {
         tvToPay.setOnClickListener(v -> {
-
+            toTryToSettle();
         });
         rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbAlipay) {
@@ -87,6 +87,10 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                 mPaymentType = 3;
             }
         });
+    }
+
+    private void toTryToSettle() {
+
     }
 
     private void findViews() {

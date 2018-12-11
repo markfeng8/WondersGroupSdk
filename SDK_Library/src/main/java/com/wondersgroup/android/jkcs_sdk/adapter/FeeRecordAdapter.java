@@ -11,11 +11,11 @@ package com.wondersgroup.android.jkcs_sdk.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -64,7 +64,7 @@ public class FeeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout llHospitalItem;
+        private ConstraintLayout llHospitalItem;
         private TextView tvHospitalName;
         private TextView tvFeeDate;
         private TextView tvTradeNo;

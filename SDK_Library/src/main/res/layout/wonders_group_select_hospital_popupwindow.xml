@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/wonders_rgb_color_e0e0e0"
+        android:background="@color/wonders_rgb_color_f0f0f0"
         android:gravity="center"
         android:padding="8dp"
         android:text="选择医院"
@@ -36,10 +36,9 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_weight="3"
-            android:divider="@color/wonders_rgb_color_c9c9c9"
-            android:dividerHeight="1dp"
+            android:divider="@color/wonders_rgb_color_e0e0e0"
+            android:dividerHeight="1px"
             android:scrollbars="none" />
-
     </LinearLayout>
 
 </LinearLayout>

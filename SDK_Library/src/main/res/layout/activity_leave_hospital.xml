@@ -23,7 +23,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:scrollbars="none">
 
         <LinearLayout
@@ -38,7 +39,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/wonders_margin_16dp"
+                android:layout_marginTop="@dimen/wonders_margin_8dp"
                 android:background="@color/wonders_rgb_color_f0f0f0"
                 android:paddingStart="@dimen/wonders_margin_16dp"
                 android:paddingTop="@dimen/wonders_padding_8dp"
@@ -49,9 +50,9 @@
 
             <include layout="@layout/wonders_group_recharge_pay_type_layout" />
 
-            <include layout="@layout/wonders_group_leave_hospital_tail" />
-
         </LinearLayout>
     </ScrollView>
+
+    <include layout="@layout/wonders_group_leave_hospital_tail" />
 
 </LinearLayout>

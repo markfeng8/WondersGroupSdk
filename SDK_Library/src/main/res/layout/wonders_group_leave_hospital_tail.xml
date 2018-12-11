@@ -33,7 +33,7 @@
         android:id="@+id/tvWillPayFee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="￥500"
+        android:text="￥0.00"
         android:textColor="@color/wonders_rgb_color_00a861"
         android:textSize="@dimen/wonders_text_size_16sp"
         android:textStyle="bold"
@@ -46,11 +46,13 @@
         android:layout_height="42dp"
         android:layout_marginTop="@dimen/wonders_margin_8dp"
         android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:layout_marginBottom="@dimen/wonders_margin_8dp"
         android:background="@drawable/wonders_group_4dp_blue_shape"
         android:gravity="center"
         android:text="立即支付"
         android:textColor="@color/wonders_rgb_color_ffffff"
         android:textSize="@dimen/wonders_text_size_16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view5" />
 
