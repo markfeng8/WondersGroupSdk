@@ -8,8 +8,14 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract;
 
+import android.app.Activity;
+
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoOpenStatusListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -18,6 +24,12 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
 public interface LeaveHospitalContract {
     interface IModel {
         void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener);
+
+        void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
+
+        void getTryToSettleToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
+
+        void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoOpenStatusListener listener);
     }
 
     interface IView {
@@ -26,9 +38,21 @@ public interface LeaveHospitalContract {
         void dismissLoading();
 
         void onCy0006Result(Cy0006Entity entity);
+
+        void onYiBaoTokenResult(String token);
+
+        void onTryToSettleTokenResult(String token);
+
+        void onYiBaoOpenSuccess();
     }
 
     interface IPresenter {
         void requestCy0006(String orgCode, String token);
+
+        void getYiBaoToken();
+
+        void getTryToSettleToken();
+
+        void queryYiBaoOpenStatus();
     }
 }

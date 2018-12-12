@@ -8,8 +8,10 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.model;
 
+import android.app.Activity;
 import android.text.TextUtils;
 
+import com.epsoft.hzauthsdk.all.AuthCall;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
@@ -17,16 +19,24 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.GetTokenBean;
+import com.wondersgroup.android.jkcs_sdk.entity.KeyboardBean;
+import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoOpenStatusListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0006Service;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -125,5 +135,85 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener) {
+        Activity activity = weakReference.get();
+        if (activity == null) {
+            return;
+        }
+
+        /*
+         * 点击 "立即支付" 结算时，先弹出键盘获取 token
+         * 如果是第一次需要弹出医保键盘获取 token，获取之后，如果在没退出页面，则此 token 30 min 内有效，
+         * 如果退出页面，则需要再次弹出键盘获取 token
+         */
+        AuthCall.getToken(activity, MakeArgsFactory.getKeyboardArgs(),
+                result -> {
+                    LogUtil.i(TAG, "result===" + result);
+                    if (!TextUtils.isEmpty(result)) {
+                        KeyboardBean keyboardBean = new Gson().fromJson(result, KeyboardBean.class);
+                        if (keyboardBean != null) {
+                            String code = keyboardBean.getCode();
+                            if ("0".equals(code)) {
+                                /*
+                                 * 获取 token 后，重新保存医保 token 和 token 时间
+                                 */
+                                String token = keyboardBean.getToken();
+                                SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, token);
+                                SpUtil.getInstance().save(SpKey.TOKEN_TIME, TimeUtil.getCurrentMillis());
+
+                                if (listener != null) {
+                                    listener.onResult(token);
+                                }
+
+                            } else {
+                                String msg = keyboardBean.getMsg();
+                                WToastUtil.show(String.valueOf(msg));
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getTryToSettleToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener) {
+        Activity activity = weakReference.get();
+        if (activity == null) {
+            return;
+        }
+
+        AuthCall.getToken(activity, MakeArgsFactory.getTokenArgs(), result -> {
+            LogUtil.i(TAG, "result===" + result);
+            if (!TextUtils.isEmpty(result)) {
+                GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
+                String siCardCode = bean.getSiCardCode();
+                LogUtil.i(TAG, "siCardCode===" + siCardCode);
+                if (listener != null) {
+                    listener.onResult(siCardCode);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoOpenStatusListener listener) {
+        Activity activity = weakReference.get();
+        if (activity == null) {
+            return;
+        }
+
+        AuthCall.queryOpenStatus(activity, MakeArgsFactory.getOpenStatusArgs(), result -> {
+            if (!TextUtils.isEmpty(result)) {
+                LogUtil.i(TAG, "result===" + result);
+                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
+                int isYbPay = statusBean.getIsYbPay();
+
+                if (listener != null) {
+                    listener.onResult(isYbPay);
+                }
+            }
+        });
     }
 }

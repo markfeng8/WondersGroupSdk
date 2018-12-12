@@ -60,6 +60,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
      * 支付类型，默认为支付宝
      */
     private int mPaymentType = 1;
+    private String mOrgCode;
+    private String mOrgName;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -72,25 +74,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         findViews();
         initData();
         initListener();
-    }
-
-    private void initListener() {
-        tvToPay.setOnClickListener(v -> {
-            toTryToSettle();
-        });
-        rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rbAlipay) {
-                mPaymentType = 1;
-            } else if (checkedId == R.id.rbWeChatPay) {
-                mPaymentType = 2;
-            } else if (checkedId == R.id.rbUnionPay) {
-                mPaymentType = 3;
-            }
-        });
-    }
-
-    private void toTryToSettle() {
-
     }
 
     private void findViews() {
@@ -129,11 +112,24 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
         Intent intent = getIntent();
         if (intent != null) {
-            String orgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
-            String orgName = intent.getStringExtra(IntentExtra.ORG_NAME);
-            tvHosName.setText(orgName);
-            mPresenter.requestCy0006(orgCode, "123456");
+            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
+            mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+            tvHosName.setText(mOrgName);
+            mPresenter.getTryToSettleToken();
         }
+    }
+
+    private void initListener() {
+        tvToPay.setOnClickListener(v -> mPresenter.getTryToSettleToken());
+        rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbAlipay) {
+                mPaymentType = 1;
+            } else if (checkedId == R.id.rbWeChatPay) {
+                mPaymentType = 2;
+            } else if (checkedId == R.id.rbUnionPay) {
+                mPaymentType = 3;
+            }
+        });
     }
 
     public static void actionStart(Context context, String orgCode, String orgName) {
@@ -179,5 +175,20 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         tvPrepayFee.setText(feePrepayTotal + "元");
         tvNeedFee.setText(feeNeedCashTotal);
         tvWillPayFee.setText("￥" + feeNeedCashTotal);
+    }
+
+    @Override
+    public void onYiBaoTokenResult(String token) {
+
+    }
+
+    @Override
+    public void onTryToSettleTokenResult(String token) {
+        mPresenter.requestCy0006(mOrgCode, token);
+    }
+
+    @Override
+    public void onYiBaoOpenSuccess() {
+
     }
 }

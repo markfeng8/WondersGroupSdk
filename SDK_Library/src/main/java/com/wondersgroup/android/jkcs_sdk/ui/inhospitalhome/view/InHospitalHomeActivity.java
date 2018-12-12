@@ -229,6 +229,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                     tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
                     mInState = detailsBean.getIn_state();
                     String cardType = detailsBean.getCard_type();
+                    SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);
 
                     if ("0".equals(cardType)) {
                         tvPaymentType.setText("医保");
