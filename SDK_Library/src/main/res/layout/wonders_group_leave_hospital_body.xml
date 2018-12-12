@@ -165,7 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="500"
-        android:textColor="@color/wonders_rgb_color_969696"
+        android:textColor="@color/wonders_rgb_color_00a861"
         android:textSize="@dimen/wonders_text_size_16sp"
         app:layout_constraintBaseline_toBaselineOf="@id/yuan"
         app:layout_constraintRight_toLeftOf="@id/yuan" />
@@ -176,7 +176,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/wonders_margin_16dp"
         android:text="元"
-        android:textColor="@color/wonders_rgb_color_00a861"
+        android:textColor="@color/wonders_rgb_color_969696"
         android:textSize="@dimen/wonders_text_size_16sp"
         app:layout_constraintBottom_toBottomOf="@id/tvNeed"
         app:layout_constraintEnd_toEndOf="parent"

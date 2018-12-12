@@ -40,14 +40,14 @@ public class WondersGroup {
                 if ("0".equals(cardType)) {
                     AfterPayHomeActivity.actionStart(context, getHashMapParam(builder));
                 } else {
-                    WToastUtil.show("请传入正确的就诊卡类型！"+ ErrorCode.ERROR1003);
+                    WToastUtil.show("请传入正确的就诊卡类型！" + ErrorCode.ERROR1003);
                 }
                 break;
             case 1:
                 if ("2".equals(cardType)) {
                     SelfPayFeeActivity.actionStart(context);
                 } else {
-                    WToastUtil.show("请传入正确的就诊卡类型！"+ ErrorCode.ERROR1003);
+                    WToastUtil.show("请传入正确的就诊卡类型！" + ErrorCode.ERROR1003);
                 }
                 break;
             case 2:
@@ -126,7 +126,7 @@ public class WondersGroup {
         SpUtil.getInstance().save(SpKey.NAME, builder.getName());
         SpUtil.getInstance().save(SpKey.PASS_PHONE, builder.getPhone());
         SpUtil.getInstance().save(SpKey.ID_TYPE, builder.getIdType());
-        SpUtil.getInstance().save(SpKey.ID_NUM, builder.getIdNum());
+        SpUtil.getInstance().save(SpKey.ID_NUM, builder.getIdNum().toUpperCase());
 
         // 如果是住院就不需要保存卡类型和卡号
         if (flag != 2) {
