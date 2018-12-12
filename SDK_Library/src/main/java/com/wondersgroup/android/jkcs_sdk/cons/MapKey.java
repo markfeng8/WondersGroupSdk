@@ -30,6 +30,19 @@ public class MapKey {
      * 就诊流水号
      */
     public static final String JZLSH = "jzlsh";
+    /**
+     * 需现金金额
+     */
+    public static final String XXJJE = "xxjje";
+    /**
+     * 支付渠道
+     */
+    public static final String PAYCHL = "pay_chl";
+    /**
+     * 支付客户端
+     */
+    public static final String PAY_CLIENT = "pay_client";
+    public static final String PAY_TRAN_DATE_TIME = "Pay_trandatetime";
     public static final String PAGE_NUMBER = "pagenumber";
     public static final String PAGE_SIZE = "pagesize";
     public static final String FEE_TOTAL = "fee_total";

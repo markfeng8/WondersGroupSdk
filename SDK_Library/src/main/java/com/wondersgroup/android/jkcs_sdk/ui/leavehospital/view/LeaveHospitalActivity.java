@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,10 +24,13 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 /**
@@ -62,6 +66,9 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private int mPaymentType = 1;
     private String mOrgCode;
     private String mOrgName;
+    private String mFeeNeedCashTotal;
+    private String mPayPlatTradeNo;
+    private String mYiBaoToken;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -120,7 +127,13 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private void initListener() {
-        tvToPay.setOnClickListener(v -> mPresenter.getTryToSettleToken());
+        tvToPay.setOnClickListener(v -> {
+            if (clBody.getVisibility() == View.VISIBLE) {
+                mPresenter.getYiBaoToken();
+            } else {
+                WToastUtil.show("试结算失败！");
+            }
+        });
         rgPayType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbAlipay) {
                 mPaymentType = 1;
@@ -161,25 +174,43 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onCy0006Result(Cy0006Entity entity) {
         String feeCashTotal = entity.getFeeCashTotal();
-        String feeNeedCashTotal = entity.getFeeNeedCashTotal();
+        mFeeNeedCashTotal = entity.getFeeNeedCashTotal();
         String feePrepayTotal = entity.getFeePrepayTotal();
         String feeTotal = entity.getFeeTotal();
         String feeYbTotal = entity.getFeeYbTotal();
-        String payPlatTradeNo = entity.getPayPlatTradeNo();
+        mPayPlatTradeNo = entity.getPayPlatTradeNo();
         String payStartTime = entity.getPayStartTime();
+
+        SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, mPayPlatTradeNo);
+        SpUtil.getInstance().save(SpKey.PAY_START_TIME, payStartTime);
 
         clBody.setVisibility(View.VISIBLE);
         tvTotalFee.setText(feeTotal + "元");
         tvYiBaoFee.setText(feeYbTotal + "元");
         tvCashFee.setText(feeCashTotal + "元");
         tvPrepayFee.setText(feePrepayTotal + "元");
-        tvNeedFee.setText(feeNeedCashTotal);
-        tvWillPayFee.setText("￥" + feeNeedCashTotal);
+        tvNeedFee.setText(mFeeNeedCashTotal);
+        tvWillPayFee.setText("￥" + mFeeNeedCashTotal);
     }
 
     @Override
     public void onYiBaoTokenResult(String token) {
+        mYiBaoToken = token;
+        if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Long.parseLong(mFeeNeedCashTotal) > 0) {
+            // 获取支付参数
+            mPresenter.getPayParam(mOrgCode);
+        } else {
+            WToastUtil.show("0元不需要支付了！");
 
+            // TODO: 2018/12/12 正式结算
+        }
+    }
+
+    @Override
+    public void onPayParamResult(PayParamEntity body) {
+        // 发起万达统一支付，支付现金部分
+        mPresenter.toSettleCashPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
+                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeNeedCashTotal);
     }
 
     @Override
@@ -188,7 +219,45 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     @Override
+    public void onCashPaySuccess() {
+        mPresenter.requestCy0007(mOrgCode, "01", mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
+    }
+
+    private String getPaymentChl() {
+        String channel = "";
+        switch (mPaymentType) {
+            case 1:
+                channel = "01";
+                break;
+            case 2:
+                channel = "02";
+                break;
+            case 3:
+                channel = "03";
+                break;
+            default:
+                channel = "99";
+                break;
+        }
+
+        return channel;
+    }
+
+    @Override
+    public void onCy0007Result(Cy0007Entity entity) {
+        // TODO: 2018/12/12 跳转到成功失败页面
+    }
+
+    @Override
     public void onYiBaoOpenSuccess() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
+        SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
+        SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
     }
 }
