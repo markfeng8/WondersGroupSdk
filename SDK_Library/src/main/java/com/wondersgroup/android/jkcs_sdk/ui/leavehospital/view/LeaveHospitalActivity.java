@@ -196,7 +196,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onYiBaoTokenResult(String token) {
         mYiBaoToken = token;
-        if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Long.parseLong(mFeeNeedCashTotal) > 0) {
+        if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
             // 获取支付参数
             mPresenter.getPayParam(mOrgCode);
         } else {

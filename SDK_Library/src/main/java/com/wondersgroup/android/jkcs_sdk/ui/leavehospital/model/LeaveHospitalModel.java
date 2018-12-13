@@ -92,23 +92,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                         int code = response.code();
                         boolean successful = response.isSuccessful();
                         if (code == 200 && successful) {
-
-                            String json = "{\n" +
-                                    "  \"result_code\" : \"SUCCESS\",\n" +
-                                    "  \"payplat_tradno\" : \"1276951cf68845ad8f8b97c29c333bb9\",\n" +
-                                    "  \"return_code\" : \"SUCCESS\",\n" +
-                                    "  \"pay_start_time\" : \"2018-11-10 14:51:07\",\n" +
-                                    "  \"return_msg\" : \"响应成功\",\n" +
-                                    "  \"fee_total\" : \"1021.00\",\n" +
-                                    "  \"fee_cash_total\" : \"860.20\",\n" +
-                                    "  \"yjkze\" : \"860.00\",\n" +
-                                    "  \"xxjje\" : \"0.20\",\n" +
-                                    "  \"fee_yb_total\" : \"160.80\"\n" +
-                                    "}";
-
-                            Cy0006Entity body = new Gson().fromJson(json, Cy0006Entity.class);
-
-                            //Cy0006Entity body = response.body();
+                            Cy0006Entity body = response.body();
                             if (body != null) {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();

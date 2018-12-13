@@ -50,15 +50,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     private String mName;
     private String mIdType;
     private String mIdNum;
-    private String mCardType;
-    private String mCardNum;
 
     public AfterPayHomeModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
         mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-        mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-        mCardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
     }
 
     @SuppressWarnings("RedundantCollectionOperation")
@@ -124,6 +120,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     private void uploadMobilePayState() {
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
         HashMap<String, String> param = new HashMap<>();
         param.put(MapKey.SID, ProduceUtil.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0002);
@@ -132,9 +131,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         param.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
         param.put(MapKey.NAME, mName);
         param.put(MapKey.ID_NO, mIdNum);
-        param.put(MapKey.CARD_NO, mCardNum);
+        param.put(MapKey.CARD_NO, cardNum);
         param.put(MapKey.ID_TYPE, mIdType);
-        param.put(MapKey.CARD_TYPE, mCardType);
+        param.put(MapKey.CARD_TYPE, cardType);
         param.put(MapKey.MOBILE_PAY_TIME, TimeUtil.getCurrentDate());
         param.put(MapKey.MOBILE_PAY_STATUS, "01");// 01 代表开通
         param.put(MapKey.SIGN, SignUtil.getSign(param));
@@ -183,6 +182,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     @Override
     public void requestYd0003(String orgCode, OnFeeDetailListener listener) {
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
         String pageNumber = "1"; // 页数
         String pageSize = "100"; // 每页的条数
         HashMap<String, String> map = new HashMap<>();
@@ -197,8 +199,8 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
         map.put(MapKey.ID_NO, mIdNum);
-        map.put(MapKey.CARD_TYPE, mCardType);
-        map.put(MapKey.CARD_NO, mCardNum);
+        map.put(MapKey.CARD_TYPE, cardType);
+        map.put(MapKey.CARD_NO, cardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
         map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
         map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
