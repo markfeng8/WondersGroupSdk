@@ -74,12 +74,12 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
     }
 
     @Override
-    public void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl) {
+    public void requestCy0007(boolean isPureYiBao, String orgCode, String toState, String token, String xxjje, String payChl) {
         if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
             showLoading();
         }
 
-        mModel.requestCy0007(orgCode, toState, token, xxjje, payChl, new OnCy0007RequestListener() {
+        mModel.requestCy0007(isPureYiBao, orgCode, toState, token, xxjje, payChl, new OnCy0007RequestListener() {
             @Override
             public void onSuccess(Cy0007Entity entity) {
                 LogUtil.i(TAG, "requestCy0006() -> success~");
@@ -94,6 +94,9 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
                 LogUtil.e(TAG, "requestCy0006() -> failed!" + errCodeDes);
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
+                if (isNonNull()) {
+                    mViewRef.get().onCy0007Result(null);
+                }
             }
         });
     }
@@ -129,17 +132,25 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
 
     @Override
     public void getYiBaoToken() {
-        if (isNonNull()) {
-            Activity activity = (Activity) mViewRef.get();
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.getYiBaoToken(weakReference, token -> {
-                if (isNonNull()) {
-                    mViewRef.get().onYiBaoTokenResult(token);
-                }
-            });
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        // 0 是社保卡，2 是自费卡
+        if ("0".equals(cardType)) {
+            if (isNonNull()) {
+                Activity activity = (Activity) mViewRef.get();
+                WeakReference<Activity> weakReference = new WeakReference<>(activity);
+                mModel.getYiBaoToken(weakReference, token -> {
+                    if (isNonNull()) {
+                        mViewRef.get().onYiBaoTokenResult(token);
+                    }
+                });
 
-        } else {
-            LogUtil.e(TAG, "activity is null!");
+            } else {
+                LogUtil.e(TAG, "activity is null!");
+            }
+        } else if ("2".equals(cardType)) {
+            if (isNonNull()) {
+                mViewRef.get().onYiBaoTokenResult("0");
+            }
         }
     }
 

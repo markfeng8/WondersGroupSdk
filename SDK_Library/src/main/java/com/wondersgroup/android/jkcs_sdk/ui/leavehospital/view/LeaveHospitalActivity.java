@@ -28,6 +28,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -69,6 +70,10 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private String mFeeNeedCashTotal;
     private String mPayPlatTradeNo;
     private String mYiBaoToken;
+    private String feeCashTotal;
+    private String feeYbTotal;
+    private String feeTotal;
+    private String feePrepayTotal;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -173,11 +178,11 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @SuppressLint("SetTextI18n")
     @Override
     public void onCy0006Result(Cy0006Entity entity) {
-        String feeCashTotal = entity.getFeeCashTotal();
+        feeCashTotal = entity.getFeeCashTotal();
         mFeeNeedCashTotal = entity.getFeeNeedCashTotal();
-        String feePrepayTotal = entity.getFeePrepayTotal();
-        String feeTotal = entity.getFeeTotal();
-        String feeYbTotal = entity.getFeeYbTotal();
+        feePrepayTotal = entity.getFeePrepayTotal();
+        feeTotal = entity.getFeeTotal();
+        feeYbTotal = entity.getFeeYbTotal();
         mPayPlatTradeNo = entity.getPayPlatTradeNo();
         String payStartTime = entity.getPayStartTime();
 
@@ -196,13 +201,13 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onYiBaoTokenResult(String token) {
         mYiBaoToken = token;
+        // 发起正式结算保存 token
+        requestCy0007(false, "1");
         if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
             // 获取支付参数
             mPresenter.getPayParam(mOrgCode);
         } else {
-            WToastUtil.show("0元不需要支付了！");
-
-            // TODO: 2018/12/12 正式结算
+            requestCy0007(true, "2");
         }
     }
 
@@ -220,7 +225,17 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void onCashPaySuccess() {
-        mPresenter.requestCy0007(mOrgCode, "01", mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
+        requestCy0007(false, "2");
+    }
+
+    /**
+     * 发起正式结算
+     *
+     * @param isPureYiBao 是否是纯医保
+     * @param toState     1 保存 token 2 正式结算
+     */
+    private void requestCy0007(boolean isPureYiBao, String toState) {
+        mPresenter.requestCy0007(isPureYiBao, mOrgCode, toState, mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
     }
 
     private String getPaymentChl() {
@@ -245,7 +260,16 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void onCy0007Result(Cy0007Entity entity) {
-        // TODO: 2018/12/12 跳转到成功失败页面
+        if (entity != null) {
+            jumpToLeaveHospitalResultPager(true);
+        } else {
+            jumpToLeaveHospitalResultPager(false);
+        }
+    }
+
+    private void jumpToLeaveHospitalResultPager(boolean isSuccess) {
+        LeaveHosResultActivity.actionStart(this, isSuccess, mOrgName, feeTotal,
+                feeCashTotal, feeYbTotal, feePrepayTotal, mFeeNeedCashTotal);
     }
 
     @Override

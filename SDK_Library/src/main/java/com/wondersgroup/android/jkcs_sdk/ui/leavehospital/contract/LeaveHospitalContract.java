@@ -29,7 +29,7 @@ public interface LeaveHospitalContract {
     interface IModel {
         void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener);
 
-        void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl, OnCy0007RequestListener listener);
+        void requestCy0007(boolean isPureYiBao,String orgCode, String toState, String token, String xxjje, String payChl, OnCy0007RequestListener listener);
 
         void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
 
@@ -63,7 +63,7 @@ public interface LeaveHospitalContract {
     interface IPresenter {
         void requestCy0006(String orgCode, String token);
 
-        void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl);
+        void requestCy0007(boolean isPureYiBao, String orgCode, String toState, String token, String xxjje, String payChl);
 
         void getYiBaoToken();
 
