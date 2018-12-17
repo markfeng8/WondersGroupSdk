@@ -96,7 +96,10 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        tvInHosHis.setOnClickListener(v -> InHospitalRecordActivity.actionStart(LeaveHosResultActivity.this));
+        tvInHosHis.setOnClickListener(v -> {
+            InHospitalRecordActivity.actionStart(LeaveHosResultActivity.this);
+            finish();
+        });
     }
 
     private void findViews() {

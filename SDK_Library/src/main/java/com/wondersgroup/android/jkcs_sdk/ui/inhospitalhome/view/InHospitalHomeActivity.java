@@ -123,9 +123,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
-        String start = idNum.substring(0, 6);
+        String start = idNum.substring(0, 10);
         String end = idNum.substring(idNum.length() - 4, idNum.length());
-        tvIdNum.setText(start + "********" + end);
+        tvIdNum.setText(start + "****" + end);
         mOrgName = HUZHOU_CENTER_HOS_ORG_NAME;
         mOrgCode = HUZHOU_CENTER_HOS_ORG_CODE;
         tvHospitalName.setText(mOrgName);
