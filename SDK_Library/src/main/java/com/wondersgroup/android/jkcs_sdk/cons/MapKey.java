@@ -37,12 +37,16 @@ public class MapKey {
     /**
      * 支付渠道
      */
-    public static final String PAYCHL = "pay_chl";
+    public static final String PAY_CHL = "pay_chl";
+    /**
+     * 第三方支付交易流水号
+     */
+    public static final String CHL_PAY_NO = "chl_pay_no";
     /**
      * 支付客户端
      */
     public static final String PAY_CLIENT = "pay_client";
-    public static final String PAY_TRAN_DATE_TIME = "Pay_trandatetime";
+    public static final String PAY_TRAN_DATE_TIME = "pay_trandatetime";
     public static final String PAGE_NUMBER = "pagenumber";
     public static final String PAGE_SIZE = "pagesize";
     public static final String FEE_TOTAL = "fee_total";
@@ -59,9 +63,13 @@ public class MapKey {
     public static final String FEE_ORDER = "fee_order";
     public static final String ORDER_NO = "order_no";
     public static final String ORDER_NAME = "order_name";
-    // 通知类别
+    /**
+     * 通知类别
+     */
     public static final String IDEN_CLASS = "iden_class";
-    // 验证码
+    /**
+     * 验证码
+     */
     public static final String IDEN_CODE = "iden_code";
     public static final String REG_ORG_CODE = "reg_org_code";
     public static final String REG_ORG_NAME = "reg_org_name";

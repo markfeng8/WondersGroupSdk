@@ -21,7 +21,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/12/6 :)
@@ -30,6 +29,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 public class LeaveHosResultActivity extends AppCompatActivity {
 
     private static final String TAG = "LeaveHosResultActivity";
+    private TextView tvResult;
     private TextView tvTreatName;
     private TextView tvSocialNum;
     private TextView tvHospitalName;
@@ -46,9 +46,12 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     private String mFeeTotal = "";
     private String mFeeCashTotal = "";
     private String mFeeYbTotal = "";
-    private boolean mIsSuccess = false; // 是否支付成功
     private String mFeePrepayTotal;
     private String mFeeNeedCashTotal;
+    /**
+     * 是否支付成功
+     */
+    private boolean mIsSuccess = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,20 +79,20 @@ public class LeaveHosResultActivity extends AppCompatActivity {
             mFeeNeedCashTotal = intent.getStringExtra(IntentExtra.FEE_NEEDCASH_TOTAL);
         }
 
-        if (mIsSuccess) {
-            tvTreatName.setText(name);
-            tvSocialNum.setText(cardNum);
-            tvHospitalName.setText(mOrgName);
-            tvBillDate.setText(payStartTime);
-            tvBillNo.setText(payPlatTradeNo);
-            tvInHosTotalFee.setText(mFeeTotal);
-            tvYiBaoFee.setText(mFeeYbTotal);
-            tvCashFee.setText(mFeeCashTotal);
-            tvPrepayFee.setText(mFeePrepayTotal);
-            tvWillFee.setText(mFeeNeedCashTotal);
-        } else {
-            WToastUtil.show("支付失败！");
+        if (!mIsSuccess) {
+            tvResult.setText(getString(R.string.wonders_self_failed1));
         }
+
+        tvTreatName.setText(name);
+        tvSocialNum.setText(cardNum);
+        tvHospitalName.setText(mOrgName);
+        tvBillDate.setText(payStartTime);
+        tvBillNo.setText(payPlatTradeNo);
+        tvInHosTotalFee.setText(mFeeTotal);
+        tvYiBaoFee.setText(mFeeYbTotal);
+        tvCashFee.setText(mFeeCashTotal);
+        tvPrepayFee.setText(mFeePrepayTotal);
+        tvWillFee.setText(mFeeNeedCashTotal);
     }
 
     private void initListener() {
@@ -97,6 +100,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     }
 
     private void findViews() {
+        tvResult = findViewById(R.id.tvResult);
         tvTreatName = findViewById(R.id.tvTreatName);
         tvSocialNum = findViewById(R.id.tvSocialNum);
         tvHospitalName = findViewById(R.id.tvHospitalName);
