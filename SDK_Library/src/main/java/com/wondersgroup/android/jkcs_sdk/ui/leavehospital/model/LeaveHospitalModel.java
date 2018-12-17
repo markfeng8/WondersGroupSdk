@@ -155,7 +155,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.PAY_PLAT_TRADE_NO, isPureYiBao ? "0" : payPlatTradeNo);
         param.put(MapKey.PAY_TRAN_DATE_TIME, payStartTime);
         param.put(MapKey.PAY_CHL, payChl);
-        param.put(MapKey.CHL_PAY_NO, "123456");
+        //param.put(MapKey.CHL_PAY_NO, "123456");
         param.put(MapKey.PAY_CLIENT, "01"); // 01 代表 Android APP
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
