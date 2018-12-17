@@ -49,6 +49,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
 
         HashMap<String, String> param = new HashMap<>();
         param.put(MapKey.SID, ProduceUtil.getSid());
@@ -60,6 +61,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
         param.put(MapKey.ID_NO, idNum);
+        param.put(MapKey.PHONE, phone);
         param.put(MapKey.IN_STATE, inState);
         param.put(MapKey.START_DATE, "2018-01-01");
         param.put(MapKey.END_DATE, TimeUtil.getCurrentDate());

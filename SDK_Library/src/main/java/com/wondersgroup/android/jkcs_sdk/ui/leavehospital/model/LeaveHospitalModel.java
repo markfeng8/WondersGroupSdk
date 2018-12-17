@@ -64,6 +64,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
     public void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener) {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String jzlsh = SpUtil.getInstance().getString(SpKey.JZLSH, "");
 
@@ -77,6 +78,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.JZLSH, jzlsh);
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
+        param.put(MapKey.CARD_TYPE, cardType);
         param.put(MapKey.ID_NO, idNum);
         param.put(MapKey.TOKEN, token);
         param.put(MapKey.ADVICE_DATE_TIME, TimeUtil.getCurrentDateTime());

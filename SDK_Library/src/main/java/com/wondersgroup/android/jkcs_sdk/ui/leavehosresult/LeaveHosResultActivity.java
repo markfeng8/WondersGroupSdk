@@ -10,9 +10,12 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehosresult;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -20,6 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 /**
@@ -41,6 +45,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     private TextView tvPrepayFee;
     private TextView tvWillFee;
     private TextView tvInHosHis;
+    private ImageView ivQrCode;
 
     private String mOrgName = "";
     private String mFeeTotal = "";
@@ -93,6 +98,17 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         tvCashFee.setText(mFeeCashTotal);
         tvPrepayFee.setText(mFeePrepayTotal);
         tvWillFee.setText(mFeeNeedCashTotal);
+
+        if (!TextUtils.isEmpty(payPlatTradeNo)) {
+            createQrCode(payPlatTradeNo);
+        }
+    }
+
+    private void createQrCode(String payPlatTradeNo) {
+        Bitmap bitmap = QRCodeUtil.createQrCodeBitmap(payPlatTradeNo, 200, 200, null);
+        if (bitmap != null) {
+            ivQrCode.setImageBitmap(bitmap);
+        }
     }
 
     private void initListener() {
@@ -115,6 +131,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         tvPrepayFee = findViewById(R.id.tvPrepayFee);
         tvWillFee = findViewById(R.id.tvWillFee);
         tvInHosHis = findViewById(R.id.tvInHosHis);
+        ivQrCode = findViewById(R.id.ivQrCode);
     }
 
     public static void actionStart(Context context, boolean isSuccess, String orgName, String feeTotal,

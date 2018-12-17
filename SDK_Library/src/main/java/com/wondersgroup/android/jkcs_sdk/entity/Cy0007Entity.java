@@ -8,10 +8,62 @@
 
 package com.wondersgroup.android.jkcs_sdk.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by x-sir on 2018/12/6 :)
  * Function:
  */
 public class Cy0007Entity extends BaseEntity {
 
+    @SerializedName("pay_state")
+    private String payState;
+    @SerializedName("fee_total")
+    private String feeTotal;
+    @SerializedName("fee_cash_total")
+    private String feeCashTotal;
+    @SerializedName("fee_yb_total")
+    private String feeYbTotal;
+    @SerializedName("his_tradno")
+    private String hisTradeNo;
+
+    public String getPayState() {
+        return payState;
+    }
+
+    public void setPayState(String payState) {
+        this.payState = payState;
+    }
+
+    public String getFeeTotal() {
+        return feeTotal;
+    }
+
+    public void setFeeTotal(String feeTotal) {
+        this.feeTotal = feeTotal;
+    }
+
+    public String getFeeCashTotal() {
+        return feeCashTotal;
+    }
+
+    public void setFeeCashTotal(String feeCashTotal) {
+        this.feeCashTotal = feeCashTotal;
+    }
+
+    public String getFeeYbTotal() {
+        return feeYbTotal;
+    }
+
+    public void setFeeYbTotal(String feeYbTotal) {
+        this.feeYbTotal = feeYbTotal;
+    }
+
+    public String getHisTradeNo() {
+        return hisTradeNo;
+    }
+
+    public void setHisTradeNo(String hisTradeNo) {
+        this.hisTradeNo = hisTradeNo;
+    }
 }
