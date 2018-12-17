@@ -120,13 +120,23 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         rgPayType.check(R.id.rbAlipay);
 
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         tvName.setText(name);
+        tvSocialNum.setText(cardNum);
 
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+            String inHosId = intent.getStringExtra(IntentExtra.IN_HOS_ID);
+            String inHosDate = intent.getStringExtra(IntentExtra.IN_HOS_DATE);
+            String inHosArea = intent.getStringExtra(IntentExtra.IN_HOS_AREA);
+
             tvHosName.setText(mOrgName);
+            tvInHosId.setText(inHosId);
+            tvInHosDate.setText(inHosDate);
+            tvInHosArea.setText(inHosArea);
+
             mPresenter.getTryToSettleToken();
         }
     }
@@ -150,11 +160,14 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         });
     }
 
-    public static void actionStart(Context context, String orgCode, String orgName) {
+    public static void actionStart(Context context, String orgCode, String orgName, String inHosId, String inHosDate, String inHosArea) {
         if (context != null) {
             Intent intent = new Intent(context, LeaveHospitalActivity.class);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
+            intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
+            intent.putExtra(IntentExtra.IN_HOS_DATE, inHosDate);
+            intent.putExtra(IntentExtra.IN_HOS_AREA, inHosArea);
             context.startActivity(intent);
         } else {
             LogUtil.e(TAG, "context is null!");

@@ -69,6 +69,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private Group viewGroup;
     private String mOrgName;
     private String mOrgCode;
+    private String mInHosId;
+    private String mInHosArea;
+    private String mInHosDate;
     private LoadingView mLoading;
     private SelectHospitalWindow mSelectHospitalWindow;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
@@ -170,7 +173,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private void leaveHospitalSettle() {
         LogUtil.i(TAG, "mInState===" + mInState);
         if ("01".equals(mInState)) {
-            LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
+            LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea);
         } else {
             WToastUtil.show("您当前不是预出院状态！");
         }
@@ -221,10 +224,12 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                 setViewVisibility(true);
                 Cy0001Entity.DetailsBean detailsBean = details.get(0);
                 if (detailsBean != null) {
-                    String jzlsh = detailsBean.getJzlsh();
-                    tvInHosId.setText(jzlsh);
-                    tvInHosArea.setText(detailsBean.getKsmc());
-                    tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
+                    mInHosId = detailsBean.getJzlsh();
+                    tvInHosId.setText(mInHosId);
+                    mInHosArea = detailsBean.getKsmc();
+                    tvInHosArea.setText(mInHosArea);
+                    mInHosDate = detailsBean.getRysj().substring(0, 10);
+                    tvInHosDate.setText(mInHosDate);
                     tvInHosPrepayFee.setText(detailsBean.getYjkze() + "元");
                     tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
                     mInState = detailsBean.getIn_state();
@@ -242,7 +247,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                         tvPaymentType.setText("自费");
                     }
 
-                    SpUtil.getInstance().save(SpKey.JZLSH, jzlsh);
+                    SpUtil.getInstance().save(SpKey.JZLSH, mInHosId);
                 }
             }
         } else {
