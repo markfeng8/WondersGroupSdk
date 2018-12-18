@@ -23,10 +23,10 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String[] NAME = {"吴振强", "陆晓明", "朱凯", "潘人伟", "杨旭成", "沈佳威", "赵岳寅", "钟瑜", "唐其儿", "邱晨飞", "钟央毛", "程华凤", "测试2", "严超"};
-    private static final String[] ID_NUM = {"330501199008213715", "330502197207121415", "330501199005222018", "330502196310210630", "330102197703011512", "330501198709151313", "330681198610031570", "330501198112238539", "330501198908158673", "330501199001262215", "330511193603094218", "330523196701243028", "330501198804146213", "330501198804146213"};
-    private static final String[] CARD_TYPE = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "2", "0", "0", "0", "0"};
-    private static final String[] CARD_NUM = {"A05111650", "A0109403X", "A0486807X", "A00305253", "A00997691", "A02418702", "A05401164", "A03111112", "A05300523", "006953059", "000000000", "000000000", "000000000", "000000000"};
+    private static final String[] NAME = {"吴振强", "陆晓明", "朱凯", "潘人伟", "杨旭成", "沈佳威", "赵岳寅", "钟瑜", "唐其儿", "邱晨飞", "钟央毛", "程华凤", "测试2", "严超", "闵丽明"};
+    private static final String[] ID_NUM = {"330501199008213715", "330502197207121415", "330501199005222018", "330502196310210630", "330102197703011512", "330501198709151313", "330681198610031570", "330501198112238539", "330501198908158673", "330501199001262215", "330511193603094218", "330523196701243028", "330501198804146213", "330501198804146213", "330511194908061024"};
+    private static final String[] CARD_TYPE = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "2", "0", "0", "0", "0", "0"};
+    private static final String[] CARD_NUM = {"A05111650", "A0109403X", "A0486807X", "A00305253", "A00997691", "A02418702", "A05401164", "A03111112", "A05300523", "006953059", "000000000", "000000000", "000000000", "000000000", "000000000"};
     /**
      * 证件类型 01 身份证
      */
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMrTest2;
     @BindView(R.id.tvMrYanChao)
     TextView tvMrYanChao;
+    @BindView(R.id.tvMrMinLm)
+    TextView tvMrMinLm;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
 
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan, R.id.tvMrYang, R.id.tvMrShen,
             R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang, R.id.tvMrQiu, R.id.tvMrZym, R.id.tvMrCheng,
-            R.id.tvMrTest2, R.id.tvMrYanChao, R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+            R.id.tvMrTest2, R.id.tvMrYanChao, R.id.tvMrMinLm, R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvMrWu:
@@ -170,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvMrYanChao:
                 setPersonInfo(mPersonList.get(13));
+                break;
+            case R.id.tvMrMinLm:
+                setPersonInfo(mPersonList.get(14));
                 break;
             case R.id.btnAfterPayHome:
                 startBusiness(0);

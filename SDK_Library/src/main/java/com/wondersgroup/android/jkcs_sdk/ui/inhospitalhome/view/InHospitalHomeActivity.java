@@ -24,9 +24,9 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity;
@@ -177,7 +177,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 出院结算
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
-        tvInHosRecord.setOnClickListener(view -> InHospitalRecordActivity.actionStart(InHospitalHomeActivity.this));
+        tvInHosRecord.setOnClickListener(view -> InHospitalHistory.actionStart(InHospitalHomeActivity.this));
     }
 
     private void leaveHospitalSettle() {

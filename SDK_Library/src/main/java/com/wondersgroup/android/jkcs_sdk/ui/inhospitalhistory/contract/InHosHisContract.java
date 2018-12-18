@@ -8,6 +8,9 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract;
 
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+
 /**
  * Created by x-sir on 2018/12/18 :)
  * Function:
@@ -17,8 +20,18 @@ public interface InHosHisContract {
     }
 
     interface IView {
+        void showLoading();
+
+        void dismissLoading();
+
+        void onHospitalListResult(HospitalEntity body);
+
+        void onCy0001Result(Cy0001Entity entity);
     }
 
     interface IPresenter {
+        void getHospitalList();
+
+        void requestCy0001(String orgCode, String inState);
     }
 }

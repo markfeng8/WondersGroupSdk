@@ -8,9 +8,21 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.presenter;
 
+import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
+import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract.InHosHisContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.model.InHosHisModel;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.model.InHospitalHomeModel;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/12/18 :)
@@ -21,4 +33,74 @@ public class InHosHisPresenter<T extends InHosHisContract.IView>
 
     private static final String TAG = "InHosHisPresenter";
     private InHosHisContract.IModel mModel = new InHosHisModel();
+    private InHospitalHomeContract.IModel mInHosModel = new InHospitalHomeModel();
+    private AfterPayHomeContract.IModel mAfterPayModel = new AfterPayHomeModel();
+
+    @Override
+    public void getHospitalList() {
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            showLoading();
+        }
+
+        mAfterPayModel.getHospitalList(new OnHospitalListListener() {
+            @Override
+            public void onSuccess(HospitalEntity body) {
+                LogUtil.i(TAG, "get hospital list success~");
+                dismissLoading();
+                if (isNonNull()) {
+                    mViewRef.get().onHospitalListResult(body);
+                }
+            }
+
+            @Override
+            public void onFailed(String errCodeDes) {
+                LogUtil.e(TAG, "get hospital list failed!");
+                dismissLoading();
+                WToastUtil.show(errCodeDes);
+                if (isNonNull()) {
+                    mViewRef.get().onHospitalListResult(null);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void requestCy0001(String orgCode, String inState) {
+        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
+            showLoading();
+        }
+
+        mInHosModel.requestCy0001(orgCode, inState, new OnCy0001RequestListener() {
+            @Override
+            public void onSuccess(Cy0001Entity entity) {
+                LogUtil.i(TAG, "requestCy0001() -> success~");
+                dismissLoading();
+                if (isNonNull()) {
+                    mViewRef.get().onCy0001Result(entity);
+                }
+            }
+
+            @Override
+            public void onFailed(String errCodeDes) {
+                LogUtil.e(TAG, "requestCy0001() -> failed!" + errCodeDes);
+                dismissLoading();
+                WToastUtil.show(errCodeDes);
+                if (isNonNull()) {
+                    mViewRef.get().onCy0001Result(null);
+                }
+            }
+        });
+    }
+
+    private void showLoading() {
+        if (isNonNull()) {
+            mViewRef.get().showLoading();
+        }
+    }
+
+    private void dismissLoading() {
+        if (isNonNull()) {
+            mViewRef.get().dismissLoading();
+        }
+    }
 }

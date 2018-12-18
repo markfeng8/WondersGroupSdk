@@ -18,9 +18,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        flatDir {
-            dirs 'libs', '../SDK_Library/libs'
-        }
+        maven { url "https://jitpack.io" }
+        flatDir { dirs 'libs', '../SDK_Library/libs' }
     }
 }
 
