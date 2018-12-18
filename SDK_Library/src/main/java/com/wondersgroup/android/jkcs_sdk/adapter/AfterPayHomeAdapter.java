@@ -159,16 +159,16 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         HeaderViewHolder(View itemView) {
             super(itemView);
-            llSettings = (LinearLayout) itemView.findViewById(R.id.llSettings);
-            llPayRecord = (LinearLayout) itemView.findViewById(R.id.llPayRecord);
-            tvHospitalName = (TextView) itemView.findViewById(R.id.tvHospitalName);
-            tvSelectHospital = (TextView) itemView.findViewById(R.id.tvSelectHospital);
-            tvTreatName = (TextView) itemView.findViewById(R.id.tvTreatName);
-            tvSocialNum = (TextView) itemView.findViewById(R.id.tvSocialNum);
-            tvAfterPayState = (TextView) itemView.findViewById(R.id.tvAfterPayState);
-            tvMobilePayState = (TextView) itemView.findViewById(R.id.tvMobilePayState);
-            tvToPay = (TextView) itemView.findViewById(R.id.tvToPay);
-            llToPayFee = (LinearLayout) itemView.findViewById(R.id.llToPayFee);
+            llSettings = itemView.findViewById(R.id.llSettings);
+            llPayRecord = itemView.findViewById(R.id.llPayRecord);
+            tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
+            tvSelectHospital = itemView.findViewById(R.id.tvSelectHospital);
+            tvTreatName = itemView.findViewById(R.id.tvTreatName);
+            tvSocialNum = itemView.findViewById(R.id.tvSocialNum);
+            tvAfterPayState = itemView.findViewById(R.id.tvAfterPayState);
+            tvMobilePayState = itemView.findViewById(R.id.tvMobilePayState);
+            tvToPay = itemView.findViewById(R.id.tvToPay);
+            llToPayFee = itemView.findViewById(R.id.llToPayFee);
             initListener();
         }
 

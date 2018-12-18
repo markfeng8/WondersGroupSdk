@@ -251,7 +251,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private String getPaymentChl() {
-        String channel = "";
+        String channel;
         switch (mPaymentType) {
             case 1:
                 channel = "01";
