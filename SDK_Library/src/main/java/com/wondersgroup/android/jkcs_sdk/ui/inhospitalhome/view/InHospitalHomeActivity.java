@@ -99,9 +99,13 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             }
 
             tvHospitalName.setText(mOrgName);
-            mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
+            requestCY0001();
         }
     };
+
+    private void requestCY0001() {
+        mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
+    }
 
     @Override
     protected InHospitalHomePresenter<InHospitalHomeContract.IView> createPresenter() {
@@ -114,6 +118,12 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         findViews();
         initListener();
         initData();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestCY0001();
     }
 
     @SuppressLint("SetTextI18n")
@@ -129,7 +139,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         mOrgName = HUZHOU_CENTER_HOS_ORG_NAME;
         mOrgCode = HUZHOU_CENTER_HOS_ORG_CODE;
         tvHospitalName.setText(mOrgName);
-        mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
+        requestCY0001();
     }
 
     private void findViews() {
