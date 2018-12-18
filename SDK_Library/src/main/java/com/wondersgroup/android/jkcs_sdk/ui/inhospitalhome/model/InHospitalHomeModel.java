@@ -49,7 +49,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-        String phone = SpUtil.getInstance().getString(SpKey.PHONE, "");
+        String phone = SpUtil.getInstance().getString(SpKey.PASS_PHONE, "");
 
         HashMap<String, String> param = new HashMap<>();
         param.put(MapKey.SID, ProduceUtil.getSid());
