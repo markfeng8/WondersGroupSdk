@@ -27,11 +27,13 @@
         android:id="@+id/tvHosName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_8dp"
+        android:layout_marginLeft="@dimen/wonders_margin_8dp"
         android:text="@string/wonders_huzhou_renmin_hospital"
         android:textColor="@color/wonders_rgb_color_969696"
         android:textSize="@dimen/wonders_text_size_16sp"
         app:layout_constraintBottom_toBottomOf="@id/tvName"
-        app:layout_constraintLeft_toLeftOf="@id/tvSocialNum"
+        app:layout_constraintLeft_toRightOf="@id/tvName"
         app:layout_constraintTop_toTopOf="@id/tvName" />
 
     <TextView
