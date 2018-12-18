@@ -74,12 +74,12 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
     }
 
     @Override
-    public void requestCy0007(boolean isPureYiBao, String orgCode, String toState, String token, String xxjje, String payChl) {
+    public void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl) {
         if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
             showLoading();
         }
 
-        mModel.requestCy0007(isPureYiBao, orgCode, toState, token, xxjje, payChl, new OnCy0007RequestListener() {
+        mModel.requestCy0007(orgCode, toState, token, xxjje, payChl, new OnCy0007RequestListener() {
             @Override
             public void onSuccess(Cy0007Entity entity) {
                 LogUtil.i(TAG, "requestCy0006() -> success~");

@@ -130,7 +130,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
     }
 
     @Override
-    public void requestCy0007(boolean isPureYiBao, String orgCode, String toState, String token, String xxjje,
+    public void requestCy0007(String orgCode, String toState, String token, String xxjje,
                               String payChl, OnCy0007RequestListener listener) {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
@@ -154,10 +154,9 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.TOKEN, token);
         param.put(MapKey.ADVICE_DATE_TIME, TimeUtil.getCurrentDateTime());
         param.put(MapKey.XXJJE, xxjje);
-        param.put(MapKey.PAY_PLAT_TRADE_NO, isPureYiBao ? "0" : payPlatTradeNo);
+        param.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
         param.put(MapKey.PAY_TRAN_DATE_TIME, payStartTime);
         param.put(MapKey.PAY_CHL, payChl);
-        //param.put(MapKey.CHL_PAY_NO, "123456");
         param.put(MapKey.PAY_CLIENT, "01"); // 01 代表 Android APP
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 

@@ -180,7 +180,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     /**
-     * 开通医保移动付
+     * 开通医保移动支付
      */
     private void openYiBaoMobPay() {
         if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {

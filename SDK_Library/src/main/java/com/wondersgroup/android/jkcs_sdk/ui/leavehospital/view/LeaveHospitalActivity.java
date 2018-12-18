@@ -215,12 +215,12 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     public void onYiBaoTokenResult(String token) {
         mYiBaoToken = token;
         // 发起正式结算保存 token
-        requestCy0007(false, "1");
+        requestCy0007("1");
         if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
             // 获取支付参数
             mPresenter.getPayParam(mOrgCode);
         } else {
-            requestCy0007(true, "2");
+            requestCy0007("2");
         }
     }
 
@@ -238,17 +238,16 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void onCashPaySuccess() {
-        requestCy0007(false, "2");
+        requestCy0007("2");
     }
 
     /**
      * 发起正式结算
      *
-     * @param isPureYiBao 是否是纯医保
-     * @param toState     1 保存 token 2 正式结算
+     * @param toState 1 保存 token 2 正式结算
      */
-    private void requestCy0007(boolean isPureYiBao, String toState) {
-        mPresenter.requestCy0007(isPureYiBao, mOrgCode, toState, mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
+    private void requestCy0007(String toState) {
+        mPresenter.requestCy0007(mOrgCode, toState, mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
     }
 
     private String getPaymentChl() {
