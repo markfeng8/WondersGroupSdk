@@ -11,6 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.text.Html;
 import android.text.TextUtils;
@@ -61,10 +62,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private RadioButton rbUnionPay;
     private LoadingView mLoading;
     private ConstraintLayout clBody;
-    /**
-     * 支付类型，默认为支付宝
-     */
-    private int mPaymentType = 1;
+
     private String mOrgCode;
     private String mOrgName;
     private String mFeeNeedCashTotal;
@@ -74,6 +72,16 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private String feeYbTotal;
     private String feeTotal;
     private String feePrepayTotal;
+    private Handler mHandler;
+
+    /**
+     * 支付类型，默认为支付宝
+     */
+    private int mPaymentType = 1;
+    /**
+     * 正式结算次数
+     */
+    private int mOfficeSettleTimes = 0;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -112,6 +120,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
+        mHandler = new Handler();
 
         rbAlipay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_alipay)));
         rbWeChatPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_wechat_pay)));
@@ -273,10 +282,40 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onCy0007Result(Cy0007Entity entity) {
         if (entity != null) {
-            jumpToLeaveHospitalResultPager(true);
+            String payState = entity.getPayState();
+            if (!TextUtils.isEmpty(payState)) {
+                switch (payState) {
+                    case "1": // 1、后台正在异步结算（前台等待）
+                        // 重试 3 次，如果还是失败就返回首页
+                        if (mOfficeSettleTimes < 3) {
+                            mOfficeSettleTimes++;
+                            waitingAndOnceAgain();
+                        } else {
+                            dismissLoading();
+                            LeaveHospitalActivity.this.finish();
+                        }
+                        break;
+                    case "2": // 2、结算完成（返回成功页面）
+                        jumpToLeaveHospitalResultPager(true);
+                        break;
+                    case "3": // 3、结算失败（包括超时自动处理）
+                        jumpToLeaveHospitalResultPager(false);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                LogUtil.e(TAG, "payState is null!");
+            }
+
         } else {
             jumpToLeaveHospitalResultPager(false);
         }
+    }
+
+    private void waitingAndOnceAgain() {
+        showLoading();
+        mHandler.postDelayed(() -> requestCy0007("2"), 5000);
     }
 
     private void jumpToLeaveHospitalResultPager(boolean isSuccess) {
@@ -296,5 +335,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
+        mHandler.removeCallbacksAndMessages(null);
     }
 }
