@@ -76,6 +76,9 @@
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory"
+            android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->
         <activity
