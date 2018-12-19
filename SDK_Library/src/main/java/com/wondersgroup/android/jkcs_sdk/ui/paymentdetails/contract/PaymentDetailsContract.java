@@ -66,8 +66,6 @@ public interface PaymentDetailsContract {
         void onTryToSettleTokenResult(String token);
 
         void onYiBaoOpenSuccess();
-
-        void onCashPaySuccess();
     }
 
     interface IPresenter {
@@ -81,15 +79,12 @@ public interface PaymentDetailsContract {
 
         void getPayParam(String orgCode);
 
-        void sendOfficialPay(boolean isPureYiBao,String toState, String token, String orgCode, HashMap<String, Object> map);
+        void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map);
 
         void getYiBaoToken(Activity activity);
 
         void getTryToSettleToken(Activity activity);
 
         void queryYiBaoOpenStatus(Activity activity);
-
-        void toSettleCashPay(Activity activity, String appId, String subMerNo, String apiKey, String orgName,
-                             String tradeNo, int payType, String amount);
     }
 }

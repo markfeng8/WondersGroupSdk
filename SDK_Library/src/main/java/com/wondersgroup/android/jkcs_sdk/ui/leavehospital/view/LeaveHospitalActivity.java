@@ -33,6 +33,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivit
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 /**
@@ -235,19 +236,27 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void onPayParamResult(PayParamEntity body) {
+        showLoading();
         // 发起万达统一支付，支付现金部分
-        mPresenter.toSettleCashPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
-                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeNeedCashTotal);
+        WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
+                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeNeedCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
+                    @Override
+                    public void onSuccess() {
+                        dismissLoading();
+                        // 支付成功后发起正式结算
+                        requestCy0007("2");
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        dismissLoading();
+                    }
+                });
     }
 
     @Override
     public void onTryToSettleTokenResult(String token) {
         mPresenter.requestCy0006(mOrgCode, token);
-    }
-
-    @Override
-    public void onCashPaySuccess() {
-        requestCy0007("2");
     }
 
     /**

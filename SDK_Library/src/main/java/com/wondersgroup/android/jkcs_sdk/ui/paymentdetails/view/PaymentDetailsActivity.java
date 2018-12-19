@@ -34,6 +34,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
@@ -68,11 +69,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private DetailPayBean mDetailPayBean = new DetailPayBean();
     private LoadingView mLoading;
     private SelectPayTypeWindow mSelectPayTypeWindow;
-    private int mPayType = 1;
+    private int mPaymentType = 1;
     private String mFeeTotal;
     private String mFeeCashTotal;
     private String mFeeYbTotal;
-    private String payPlatTradeNo;
+    private String mPayPlatTradeNo;
     private boolean tryToSettleIsSuccess = false;
     /**
      * 记录点击的 Item 的位置
@@ -93,9 +94,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
-        mPayType = type;
+        mPaymentType = type;
         if (mOnCheckedCallback != null) {
-            mOnCheckedCallback.onSelected(mPayType);
+            mOnCheckedCallback.onSelected(mPaymentType);
         }
     };
     private Handler mHandler;
@@ -150,7 +151,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
         mHeadBean = new DetailHeadBean();
         mHeadBean.setName(name);
-        mHeadBean.setOrderNum(payPlatTradeNo);
+        mHeadBean.setOrderNum(mPayPlatTradeNo);
         mHeadBean.setSocialNum(cardNum);
         mHeadBean.setHospitalName(mOrgName);
 
@@ -279,12 +280,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     public void lockOrderResult(LockOrderEntity entity) {
         if (entity != null) {
             String lockStartTime = entity.getLock_start_time();
-            payPlatTradeNo = entity.getPayplat_tradno();
-            LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",payPlatTradeNo===" + payPlatTradeNo);
+            mPayPlatTradeNo = entity.getPayplat_tradno();
+            LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",mPayPlatTradeNo===" + mPayPlatTradeNo);
             SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockStartTime);
-            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
+            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, mPayPlatTradeNo);
             // 锁单成功后刷新订单号
-            mHeadBean.setOrderNum(payPlatTradeNo);
+            mHeadBean.setOrderNum(mPayPlatTradeNo);
             refreshAdapter();
 
             // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
@@ -387,14 +388,39 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     @Override
     public void onPayParamResult(PayParamEntity body) {
         if (body != null) {
-            String appId = body.getAppid();
-            String version = body.getVersion();
-            String subMerNo = body.getSubmerno();
-            String apiKey = body.getApikey();
-            LogUtil.i(TAG, "appId===" + appId + ",version===" + version + ",subMerNo===" + subMerNo + ",apiKey===" + apiKey);
+            showLoading();
             // 发起万达统一支付，支付现金部分
-            mPresenter.toSettleCashPay(PaymentDetailsActivity.this, appId, subMerNo, apiKey,
-                    mOrgName, payPlatTradeNo, mPayType, mFeeCashTotal);
+            WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
+                    mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
+                        @Override
+                        public void onSuccess() {
+                            dismissLoading();
+                            // 支付成功后发起正式结算
+                            onCashPaySuccess();
+                        }
+
+                        @Override
+                        public void onFailed() {
+                            dismissLoading();
+                        }
+                    });
+        }
+    }
+
+    private void onCashPaySuccess() {
+        // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("0".equals(cardType)) {
+            // 现金部分结算成功，继续支付医保部分(正式结算，不管医保是否为0)
+            if (!TextUtils.isEmpty(mFeeYbTotal)) {
+                sendOfficialPay(false, "2");
+            } else {
+                LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
+            }
+        } else if ("2".equals(cardType)) {
+            // 发起正式结算，token 传 0
+            mPresenter.sendOfficialPay(false, "2", "0", mOrgCode,
+                    SettleUtil.getOfficialSettleParam(details));
         }
     }
 
@@ -524,24 +550,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     @Override
-    public void onCashPaySuccess() {
-        // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
-        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-        if ("0".equals(cardType)) {
-            // 现金部分结算成功，继续支付医保部分(正式结算，不管医保是否为0)
-            if (!TextUtils.isEmpty(mFeeYbTotal)) {
-                sendOfficialPay(false, "2");
-            } else {
-                LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
-            }
-        } else if ("2".equals(cardType)) {
-            // 发起正式结算，token 传 0
-            mPresenter.sendOfficialPay(false, "2", "0", mOrgCode,
-                    SettleUtil.getOfficialSettleParam(details));
-        }
-    }
-
-    @Override
     public void onYiBaoOpenSuccess() {
         mPresenter.getTryToSettleToken(PaymentDetailsActivity.this);
     }
@@ -566,7 +574,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 发起试结算请求
      */
     private void tryToSettle(String siCardCode) {
-        mPresenter.tryToSettle(siCardCode, mOrgCode, SettleUtil.getTryToSettleParam(payPlatTradeNo, details));
+        mPresenter.tryToSettle(siCardCode, mOrgCode, SettleUtil.getTryToSettleParam(mPayPlatTradeNo, details));
     }
 
     public void refreshAdapter() {

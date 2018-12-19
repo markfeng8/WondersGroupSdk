@@ -56,8 +56,6 @@ public interface LeaveHospitalContract {
         void onYiBaoOpenSuccess();
 
         void onPayParamResult(PayParamEntity body);
-
-        void onCashPaySuccess();
     }
 
     interface IPresenter {
@@ -72,8 +70,5 @@ public interface LeaveHospitalContract {
         void queryYiBaoOpenStatus();
 
         void getPayParam(String orgCode);
-
-        void toSettleCashPay(Activity activity, String appId, String subMerNo, String apiKey, String orgName,
-                             String tradeNo, int payType, String amount);
     }
 }
