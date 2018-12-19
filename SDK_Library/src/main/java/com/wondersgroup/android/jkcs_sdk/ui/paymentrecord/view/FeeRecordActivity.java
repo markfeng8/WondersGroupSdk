@@ -4,16 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.adapter.FeeRecordAdapter;
+import com.wondersgroup.android.jkcs_sdk.adapter.PaymentFeeRecordAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
@@ -34,17 +34,22 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     private TextView tvStartDate;
     private TextView tvEndDate;
     private TextView tvQuery;
-    private View activityView;
     private RecyclerView recyclerView;
     private long mLastTime = System.currentTimeMillis(); // 上次设置的时间
     private boolean isStartTime = true;
     private String mStartDate;
     private String mEndDate;
-    private String mPageNumber = "1"; // 页数
-    private String mPageSize = "100"; // 每页的条数
-    private FeeRecordAdapter mAdapter;
+    /**
+     * 页数
+     */
+    private String mPageNumber = "1";
+    /**
+     * 每页的条数
+     */
+    private String mPageSize = "100";
     private LoadingView mLoading;
     private List<FeeRecordEntity.DetailsBean> mDetails;
+    private PaymentFeeRecordAdapter mPaymentFeeRecordAdapter;
 
     @Override
     protected FeeRecordPresenter<FeeRecordContract.IView> createPresenter() {
@@ -61,7 +66,6 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     }
 
     private void findViews() {
-        activityView = findViewById(R.id.activityView);
         recyclerView = findViewById(R.id.recyclerView);
         tvStartDate = findViewById(R.id.tvStartDate);
         tvEndDate = findViewById(R.id.tvEndDate);
@@ -85,6 +89,10 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
         mEndDate = TimeUtil.getCurrentDate();
         tvStartDate.setText(mStartDate);
         tvEndDate.setText(mEndDate);
+
+        LinearLayoutManager linearLayoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     private void getFeeState() {
@@ -153,6 +161,8 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
             }
 
             setAdapter();
+        } else {
+            refreshAdapter();
         }
     }
 
@@ -171,14 +181,23 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     }
 
     private void setAdapter() {
-        if (mAdapter == null) {
-            mAdapter = new FeeRecordAdapter(this, mDetails);
-            recyclerView.setAdapter(mAdapter);
-            LinearLayoutManager linearLayoutManager =
-                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(linearLayoutManager);
-        } else {
-            mAdapter.setDetails(mDetails);
+        mPaymentFeeRecordAdapter = new PaymentFeeRecordAdapter(R.layout.wonders_group_fee_record_item, mDetails);
+        recyclerView.setAdapter(mPaymentFeeRecordAdapter);
+        mPaymentFeeRecordAdapter.setOnItemClickListener((adapter, view, position) -> {
+            FeeRecordEntity.DetailsBean detailsBean = mDetails.get(position);
+            RecordDetailActivity.actionStart(FeeRecordActivity.this, detailsBean.getOrg_code(), detailsBean.getOrg_name(), detailsBean.getShop_order_time(),
+                    detailsBean.getPayplat_tradno(), detailsBean.getFee_total(), detailsBean.getFee_cash_total(), detailsBean.getFee_yb_total());
+        });
+    }
+
+    private void refreshAdapter() {
+        // 1.清除旧数据
+        if (mDetails.size() > 0) {
+            mDetails.clear();
+        }
+        // 2.刷新适配器
+        if (mPaymentFeeRecordAdapter != null) {
+            mPaymentFeeRecordAdapter.notifyDataSetChanged();
         }
     }
 
