@@ -8,6 +8,9 @@
 
 package com.wondersgroup.android.jkcs_sdk.entity;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -26,8 +29,10 @@ public class Cy0001Entity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean implements Serializable {
         private String org_code;
+        @SerializedName("org_name")
+        private String orgName;
         private String in_state;
         private String name;
         private String card_type;
@@ -43,6 +48,14 @@ public class Cy0001Entity extends BaseEntity {
         private String fee_total;
         private String fee_cash_total;
         private String fee_yb_total;
+
+        public String getOrgName() {
+            return orgName;
+        }
+
+        public void setOrgName(String orgName) {
+            this.orgName = orgName;
+        }
 
         public String getOrg_code() {
             return org_code;

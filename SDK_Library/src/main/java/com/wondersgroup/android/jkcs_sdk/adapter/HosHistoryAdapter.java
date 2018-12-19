@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created by x-sir on 2018/12/18 :)
- * Function:
+ * Function:历史住院记录适配器
  */
 public class HosHistoryAdapter extends BaseQuickAdapter<Cy0001Entity.DetailsBean, BaseViewHolder> {
 
@@ -29,10 +29,9 @@ public class HosHistoryAdapter extends BaseQuickAdapter<Cy0001Entity.DetailsBean
 
     @Override
     protected void convert(BaseViewHolder helper, Cy0001Entity.DetailsBean item) {
-        helper.setText(R.id.tvHospitalName, item.getOrg_code());
+        helper.setText(R.id.tvHospitalName, item.getOrgName());
         helper.setText(R.id.tvFeeDate, "入院时间：" + item.getRysj());
-        helper.setText(R.id.tvTradeNo, "出院时间：" + item.getRysj());
+        helper.setText(R.id.tvTradeNo, "出院时间：" + item.getCysj());
         helper.setText(R.id.tvFeeTotal, "总金额：" + item.getFee_total());
-
     }
 }

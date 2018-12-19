@@ -7,6 +7,7 @@ package com.wondersgroup.android.jkcs_sdk.cons;
 public class IntentExtra {
 
     public static final String SERIALIZABLE_MAP = "SerializableHashMap";
+    public static final String SERIALIZABLE_DETAILS_BEAN = "SerializableDetailsBean";
     public static final String SERIALIZABLE_AFTERPAY_ENTITY = "SerializableAfterPayEntity";
     public static final String SERIALIZABLE_MOBILEPAY_ENTITY = "SerializableMobilePayEntity";
     public static final String ORG_CODE = "orgCode";

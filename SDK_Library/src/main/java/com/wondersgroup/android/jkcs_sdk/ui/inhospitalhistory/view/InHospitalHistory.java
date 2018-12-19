@@ -24,6 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract.InHosHisContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.presenter.InHosHisPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -160,6 +161,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
             if (details != null && details.size() > 0) {
                 HosHistoryAdapter hosHistoryAdapter = new HosHistoryAdapter(R.layout.wonders_group_in_hos_record_item, details);
                 recyclerView.setAdapter(hosHistoryAdapter);
+                hosHistoryAdapter.setOnItemClickListener((adapter, view, position) -> InHospitalRecordActivity.actionStart(InHospitalHistory.this,details.get(position)));
             }
         }
     }

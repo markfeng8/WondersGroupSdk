@@ -10,13 +10,20 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract.InHospitalRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.presenter.InHospitalRecordPresenter;
+import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -47,6 +54,48 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     protected void bindView() {
         setContentView(R.layout.activity_in_hospital_record);
         findViews();
+        initData();
+        initListener();
+    }
+
+    private void initListener() {
+        tvInHosDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WToastUtil.show("暂未开通！");
+            }
+        });
+        tvEleInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EleInvoiceActivity.actionStart(InHospitalRecordActivity.this, payPlatTradeNo);
+            }
+        });
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                Cy0001Entity.DetailsBean detailsBean = (Cy0001Entity.DetailsBean) bundle.get(IntentExtra.SERIALIZABLE_DETAILS_BEAN);
+                if (detailsBean != null) {
+                    setViewsData(detailsBean);
+                }
+            }
+        }
+    }
+
+    private void setViewsData(Cy0001Entity.DetailsBean detailsBean) {
+        tvName.setText(detailsBean.getName());
+        tvHospital.setText(detailsBean.getOrgName());
+        tvIdNum.setText(detailsBean.getId_no());
+        tvInHosId.setText(detailsBean.getJzlsh());
+        tvInHosArea.setText(detailsBean.getKsmc());
+        tvInHosDate.setText(detailsBean.getRysj());
+        tvLeaveHosDate.setText(detailsBean.getCysj());
+        tvInHosType.setText("0".equals(detailsBean.getCard_type()) ? "医保卡" : "自费卡");
+        tvInHosFeeTotal.setText(detailsBean.getFee_total());
     }
 
     private void findViews() {
@@ -63,9 +112,12 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
         tvEleInvoice = findViewById(R.id.tvEleInvoice);
     }
 
-    public static void actionStart(Context context) {
+    public static void actionStart(Context context, Cy0001Entity.DetailsBean detailsBean) {
         if (context != null) {
             Intent intent = new Intent(context, InHospitalRecordActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentExtra.SERIALIZABLE_DETAILS_BEAN, detailsBean);
+            intent.putExtras(bundle);
             context.startActivity(intent);
         } else {
             LogUtil.e(TAG, "context is null!");
