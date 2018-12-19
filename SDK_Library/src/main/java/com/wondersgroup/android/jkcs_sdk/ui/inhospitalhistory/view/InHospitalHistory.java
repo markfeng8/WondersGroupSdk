@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.HosHistoryAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -31,6 +32,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +49,8 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private String mOrgName;
     private String mOrgCode;
     private LoadingView mLoading;
+    private HosHistoryAdapter mHosHistoryAdapter;
+    private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
     private SelectHospitalWindow mSelectHospitalWindow;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
@@ -85,12 +89,12 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     protected void bindView() {
         setContentView(R.layout.activity_in_hospital_history);
         findViews();
+        initViews();
         initData();
         initListener();
-        setAdapter();
     }
 
-    private void setAdapter() {
+    private void initViews() {
         LinearLayoutManager linearLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -157,13 +161,30 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     @Override
     public void onCy0001Result(Cy0001Entity entity) {
         if (entity != null) {
-            List<Cy0001Entity.DetailsBean> details = entity.getDetails();
-            if (details != null && details.size() > 0) {
-                HosHistoryAdapter hosHistoryAdapter = new HosHistoryAdapter(R.layout.wonders_group_in_hos_record_item, details);
-                recyclerView.setAdapter(hosHistoryAdapter);
-                hosHistoryAdapter.setOnItemClickListener((adapter, view, position) -> InHospitalRecordActivity.actionStart(InHospitalHistory.this,details.get(position)));
-            }
+            mDetails = entity.getDetails();
+            setAdapter();
+        } else {
+            refreshAdapter();
         }
+    }
+
+    private void refreshAdapter() {
+        // 1.清除旧数据
+        if (mDetails.size() > 0) {
+            mDetails.clear();
+        }
+        // 2.刷新适配器
+        if (mHosHistoryAdapter != null) {
+            mHosHistoryAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setAdapter() {
+        mHosHistoryAdapter = new HosHistoryAdapter(R.layout.wonders_group_in_hos_record_item, mDetails);
+        mHosHistoryAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        mHosHistoryAdapter.isFirstOnly(false);
+        recyclerView.setAdapter(mHosHistoryAdapter);
+        mHosHistoryAdapter.setOnItemClickListener((adapter, view, position) -> InHospitalRecordActivity.actionStart(InHospitalHistory.this, mDetails.get(position)));
     }
 
     public static void actionStart(Context context) {

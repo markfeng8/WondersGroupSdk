@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,16 +86,17 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setViewsData(Cy0001Entity.DetailsBean detailsBean) {
         tvName.setText(detailsBean.getName());
         tvHospital.setText(detailsBean.getOrgName());
         tvIdNum.setText(detailsBean.getId_no());
         tvInHosId.setText(detailsBean.getJzlsh());
         tvInHosArea.setText(detailsBean.getKsmc());
-        tvInHosDate.setText(detailsBean.getRysj());
-        tvLeaveHosDate.setText(detailsBean.getCysj());
-        tvInHosType.setText("0".equals(detailsBean.getCard_type()) ? "医保卡" : "自费卡");
-        tvInHosFeeTotal.setText(detailsBean.getFee_total());
+        tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
+        tvLeaveHosDate.setText(detailsBean.getCysj().substring(0, 10));
+        tvInHosType.setText("0".equals(detailsBean.getCard_type()) ? "医保" : "自费");
+        tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
     }
 
     private void findViews() {

@@ -32,6 +32,6 @@ public class HosHistoryAdapter extends BaseQuickAdapter<Cy0001Entity.DetailsBean
         helper.setText(R.id.tvHospitalName, item.getOrgName());
         helper.setText(R.id.tvFeeDate, "入院时间：" + item.getRysj());
         helper.setText(R.id.tvTradeNo, "出院时间：" + item.getCysj());
-        helper.setText(R.id.tvFeeTotal, "总金额：" + item.getFee_total());
+        helper.setText(R.id.tvFeeTotal, "总金额：" + item.getFee_total() + "元");
     }
 }
