@@ -18,10 +18,8 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
-import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract.InHospitalRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.presenter.InHospitalRecordPresenter;
-import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
@@ -68,7 +66,8 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
         tvEleInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EleInvoiceActivity.actionStart(InHospitalRecordActivity.this, payPlatTradeNo);
+                WToastUtil.show("暂未开通！");
+                //EleInvoiceActivity.actionStart(InHospitalRecordActivity.this, "123");
             }
         });
     }
