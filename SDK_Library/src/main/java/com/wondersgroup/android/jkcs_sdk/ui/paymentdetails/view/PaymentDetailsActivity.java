@@ -529,7 +529,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     @Override
     public void onYiBaoTokenResult(String token) {
         this.mYiBaoToken = token;
-        LogUtil.i(TAG, "onYiBaoTokenResult() -> mYiBaoToken===" + token);
+        LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
         if (!TextUtils.isEmpty(mFeeCashTotal)) {
             // 发起正式结算保存 token
             sendOfficialPay(false, "1");
