@@ -1,6 +1,5 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
@@ -18,7 +17,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -124,18 +122,8 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     }
 
     @Override
-    public void queryYiBaoOpenStatus(Activity activity) {
-        if (activity != null) {
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.queryYiBaoOpenStatus(weakReference, status -> {
-                if (isNonNull()) {
-                    mViewRef.get().onYiBaoOpenStatusResult(status);
-                }
-            });
-
-        } else {
-            LogUtil.e(TAG, "activity is null!");
-        }
+    public void uploadMobilePayState() {
+        mModel.uploadMobilePayState();
     }
 
     private void showLoading() {

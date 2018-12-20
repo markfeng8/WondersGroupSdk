@@ -8,8 +8,6 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter;
 
-import android.app.Activity;
-
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
@@ -24,8 +22,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
-import java.lang.ref.WeakReference;
-
 /**
  * Created by x-sir on 2018/11/7 :)
  * Function:住院页面的 Presenter
@@ -36,21 +32,6 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
     private static final String TAG = "InHospitalHomePresenter";
     private InHospitalHomeContract.IModel mInHosModel = new InHospitalHomeModel();
     private AfterPayHomeContract.IModel mModel = new AfterPayHomeModel();
-
-    @Override
-    public void queryYiBaoOpenStatus(Activity activity) {
-        if (activity != null) {
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.queryYiBaoOpenStatus(weakReference, status -> {
-                if (isNonNull()) {
-                    mViewRef.get().onYiBaoOpenStatusResult(status);
-                }
-            });
-
-        } else {
-            LogUtil.e(TAG, "activity is null!");
-        }
-    }
 
     @Override
     public void getHospitalList() {
@@ -106,6 +87,11 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
                 }
             }
         });
+    }
+
+    @Override
+    public void uploadMobilePayState() {
+        mModel.uploadMobilePayState();
     }
 
     private void showLoading() {

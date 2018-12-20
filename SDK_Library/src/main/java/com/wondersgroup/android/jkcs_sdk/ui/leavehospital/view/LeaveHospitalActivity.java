@@ -30,6 +30,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.PaymentUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
@@ -159,15 +160,16 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
             tvInHosId.setText(inHosId);
             tvInHosDate.setText(inHosDate);
             tvInHosArea.setText(inHosArea);
-
-            mPresenter.getTryToSettleToken();
         }
+
+        // 获取试结算 token，并发起 cy0006 请求
+        EpSoftUtils.getTryToSettleToken(this, token -> mPresenter.requestCy0006(mOrgCode, token));
     }
 
     private void initListener() {
         tvToPay.setOnClickListener(v -> {
             if (clBody.getVisibility() == View.VISIBLE) {
-                mPresenter.getYiBaoToken();
+                getOfficialToSettleToken();
             } else {
                 WToastUtil.show("试结算失败！");
             }
@@ -180,6 +182,15 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
             } else if (checkedId == R.id.rbUnionPay) {
                 mPaymentType = 3;
             }
+        });
+    }
+
+    private void getOfficialToSettleToken() {
+        EpSoftUtils.getOfficialToSettleToken(this, token -> {
+            mYiBaoToken = token;
+            // 如果 token 是 0，说明是自费卡，直接发起正式结算，否则是社保卡，发起保存 token
+            mCurrentToState = "0".equals(token) ? TO_STATE2 : TO_STATE1;
+            requestCy0007();
         });
     }
 
@@ -235,14 +246,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     @Override
-    public void onYiBaoTokenResult(String token) {
-        mYiBaoToken = token;
-        // 如果 token 是 0，说明是自费卡，直接发起正式结算，否则是社保卡，发起保存 token
-        mCurrentToState = "0".equals(token) ? TO_STATE2 : TO_STATE1;
-        requestCy0007();
-    }
-
-    @Override
     public void onPayParamResult(PayParamEntity body) {
         showLoading();
         // 发起万达统一支付，支付现金部分
@@ -263,11 +266,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                         WToastUtil.show(errMsg);
                     }
                 });
-    }
-
-    @Override
-    public void onTryToSettleTokenResult(String token) {
-        mPresenter.requestCy0006(mOrgCode, token);
     }
 
     /**
@@ -335,11 +333,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         LeaveHosResultActivity.actionStart(this, isSuccess, mOrgName, feeTotal,
                 feeCashTotal, feeYbTotal, feePrepayTotal, mFeeNeedCashTotal);
         finish();
-    }
-
-    @Override
-    public void onYiBaoOpenSuccess() {
-
     }
 
     @Override

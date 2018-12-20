@@ -8,13 +8,11 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
@@ -25,10 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospital
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.model.LeaveHospitalModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -119,78 +114,6 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
             });
         } else {
             throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
-        }
-    }
-
-    @Override
-    public void getYiBaoToken() {
-        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-        // 0 是社保卡，2 是自费卡
-        if ("0".equals(cardType)) {
-            if (isNonNull()) {
-                Activity activity = (Activity) mViewRef.get();
-                WeakReference<Activity> weakReference = new WeakReference<>(activity);
-                mModel.getYiBaoToken(weakReference, token -> {
-                    if (isNonNull()) {
-                        mViewRef.get().onYiBaoTokenResult(token);
-                    }
-                });
-
-            } else {
-                LogUtil.e(TAG, "activity is null!");
-            }
-        } else if ("2".equals(cardType)) {
-            if (isNonNull()) {
-                mViewRef.get().onYiBaoTokenResult("0");
-            }
-        }
-    }
-
-    @Override
-    public void getTryToSettleToken() {
-        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-        // 0 是社保卡，2 是自费卡
-        if ("0".equals(cardType)) {
-            if (isNonNull()) {
-                Activity activity = (Activity) mViewRef.get();
-                WeakReference<Activity> weakReference = new WeakReference<>(activity);
-                mModel.getTryToSettleToken(weakReference, token -> {
-                    if (token != null) {
-                        if (isNonNull()) {
-                            mViewRef.get().onTryToSettleTokenResult(token);
-                        }
-                    } else {
-                        LogUtil.e(TAG, "getTryToSettleToken() -> token is null!");
-                    }
-                });
-
-            } else {
-                LogUtil.e(TAG, "activity is null!");
-            }
-        } else if ("2".equals(cardType)) {
-            if (isNonNull()) {
-                mViewRef.get().onTryToSettleTokenResult("0");
-            }
-        }
-    }
-
-    @Override
-    public void queryYiBaoOpenStatus() {
-        if (isNonNull()) {
-            Activity activity = (Activity) mViewRef.get();
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.queryYiBaoOpenStatus(weakReference, status -> {
-                if (status == 1) { // 已开通
-                    if (isNonNull()) {
-                        mViewRef.get().onYiBaoOpenSuccess();
-                    }
-                } else { // 未开通
-                    WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
-                }
-            });
-
-        } else {
-            LogUtil.e(TAG, "activity is null!");
         }
     }
 

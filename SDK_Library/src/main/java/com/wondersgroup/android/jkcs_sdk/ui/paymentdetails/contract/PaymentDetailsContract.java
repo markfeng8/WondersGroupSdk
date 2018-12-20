@@ -1,7 +1,5 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract;
 
-import android.app.Activity;
-
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -12,10 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoOpenStatusListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -36,12 +31,6 @@ public interface PaymentDetailsContract {
         void getPayParam(String orgCode, OnPayParamListener listener);
 
         void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
-
-        void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
-
-        void getTryToSettleToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
-
-        void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoOpenStatusListener listener);
     }
 
     interface IView {
@@ -60,12 +49,6 @@ public interface PaymentDetailsContract {
         void showLoading();
 
         void dismissLoading();
-
-        void onYiBaoTokenResult(String token);
-
-        void onTryToSettleTokenResult(String token);
-
-        void onYiBaoOpenSuccess();
     }
 
     interface IPresenter {
@@ -80,11 +63,5 @@ public interface PaymentDetailsContract {
         void getPayParam(String orgCode);
 
         void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map);
-
-        void getYiBaoToken(Activity activity);
-
-        void getTryToSettleToken(Activity activity);
-
-        void queryYiBaoOpenStatus(Activity activity);
     }
 }

@@ -8,18 +8,12 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract;
 
-import android.app.Activity;
-
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnCy0007RequestListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoOpenStatusListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoTokenListener;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -30,12 +24,6 @@ public interface LeaveHospitalContract {
         void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener);
 
         void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl, OnCy0007RequestListener listener);
-
-        void getYiBaoToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
-
-        void getTryToSettleToken(WeakReference<Activity> weakReference, OnYiBaoTokenListener listener);
-
-        void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoOpenStatusListener listener);
 
         void getPayParam(String orgCode, OnPayParamListener listener);
     }
@@ -49,12 +37,6 @@ public interface LeaveHospitalContract {
 
         void onCy0007Result(Cy0007Entity entity);
 
-        void onYiBaoTokenResult(String token);
-
-        void onTryToSettleTokenResult(String token);
-
-        void onYiBaoOpenSuccess();
-
         void onPayParamResult(PayParamEntity body);
     }
 
@@ -62,12 +44,6 @@ public interface LeaveHospitalContract {
         void requestCy0006(String orgCode, String token);
 
         void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl);
-
-        void getYiBaoToken();
-
-        void getTryToSettleToken();
-
-        void queryYiBaoOpenStatus();
 
         void getPayParam(String orgCode);
     }

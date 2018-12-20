@@ -29,6 +29,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetai
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
+import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NumberUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
@@ -189,16 +190,42 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         if ("0".equals(cardType)) {
             // 判断试结算是否成功
             if (tryToSettleIsSuccess) {
-                mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
+                getOfficialToSettleToken();
             } else {
                 isNeedToPay = true;
-                // 如果没成功，就先携带 token 再发起一次试结算，然后再进行支付
-                mPresenter.getTryToSettleToken(PaymentDetailsActivity.this);
+                getTryToSettleToken();
             }
         } else if ("2".equals(cardType)) {
             // 直接进行现金部分自费结算，先获取统一支付所需的参数
             mPresenter.getPayParam(mOrgCode);
         }
+    }
+
+    private void queryYiBaoOpenStatus() {
+        EpSoftUtils.queryYiBaoOpenStatus(this, status -> {
+            if ("01".equals(status)) { // 已开通
+                getTryToSettleToken();
+            }
+        });
+    }
+
+    private void getTryToSettleToken() {
+        // 如果没成功，就先携带 token 再发起一次试结算，然后再进行支付
+        EpSoftUtils.getTryToSettleToken(this, this::tryToSettle);
+    }
+
+    private void getOfficialToSettleToken() {
+        EpSoftUtils.getOfficialToSettleToken(this, token -> {
+            mYiBaoToken = token;
+            LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
+            if (!TextUtils.isEmpty(mFeeCashTotal)) {
+                // 发起正式结算保存 token
+                mCurrentToState = TO_STATE1;
+                sendOfficialPay(false);
+            } else {
+                LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
+            }
+        });
     }
 
     private void showAlertDialog() {
@@ -299,7 +326,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
             if ("0".equals(cardType)) {
                 // 进行医保移动状态查询并发起试结算
-                mPresenter.queryYiBaoOpenStatus(PaymentDetailsActivity.this);
+                queryYiBaoOpenStatus();
             } else {
                 // 显示需要结算的金额
                 tvPayName.setText("需现金支付：");
@@ -385,7 +412,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
             // 判断是否是试结算失败时，然后再次去支付的。
             if (isNeedToPay) {
-                mPresenter.getYiBaoToken(PaymentDetailsActivity.this);
+                getOfficialToSettleToken();
             }
         } else {
             tryToSettleIsSuccess = false;
@@ -550,32 +577,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         if (mLoading != null) {
             mLoading.dismissLoadingDialog();
         }
-    }
-
-    /**
-     * 获取医保 mYiBaoToken 的回调
-     */
-    @Override
-    public void onYiBaoTokenResult(String token) {
-        this.mYiBaoToken = token;
-        LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
-        if (!TextUtils.isEmpty(mFeeCashTotal)) {
-            // 发起正式结算保存 token
-            mCurrentToState = TO_STATE1;
-            sendOfficialPay(false);
-        } else {
-            LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
-        }
-    }
-
-    @Override
-    public void onYiBaoOpenSuccess() {
-        mPresenter.getTryToSettleToken(PaymentDetailsActivity.this);
-    }
-
-    @Override
-    public void onTryToSettleTokenResult(String token) {
-        tryToSettle(token);
     }
 
     /**

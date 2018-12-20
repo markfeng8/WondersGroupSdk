@@ -31,6 +31,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActi
 import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
+import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
@@ -252,7 +253,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                     if ("0".equals(cardType)) {
                         tvPaymentType.setText("医保");
                         // 如果是医保才去查询，自费不需要查询
-                        mPresenter.queryYiBaoOpenStatus(this);
+                        queryYiBaoOpenStatus();
                     } else if ("2".equals(cardType)) {
                         tvPaymentType.setText("自费");
                     }
@@ -267,18 +268,24 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         }
     }
 
+    private void queryYiBaoOpenStatus() {
+        EpSoftUtils.queryYiBaoOpenStatus(this, status -> {
+            if ("01".equals(status)) { // 已开通
+                // 上传开通状态
+                mPresenter.uploadMobilePayState();
+            }
+
+            if ("00".equals(status)) { // 00 未签约
+                setMobilePayState(true);
+            } else if ("01".equals(status)) { // 01 已签约
+                setMobilePayState(false);
+            }
+        });
+    }
+
     private void setViewVisibility(boolean hasDetail) {
         viewGroup.setVisibility(hasDetail ? View.VISIBLE : View.GONE);
         tvNoDetail.setVisibility(hasDetail ? View.GONE : View.VISIBLE);
-    }
-
-    @Override
-    public void onYiBaoOpenStatusResult(String status) {
-        if ("00".equals(status)) { // 00 未签约
-            setMobilePayState(true);
-        } else if ("01".equals(status)) { // 01 已签约
-            setMobilePayState(false);
-        }
     }
 
     /**

@@ -8,8 +8,6 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract;
 
-import android.app.Activity;
-
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
@@ -20,7 +18,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
  */
 public interface InHospitalHomeContract {
     interface IModel {
-        void requestCy0001(String orgCode, String inState,OnCy0001RequestListener listener);
+        void requestCy0001(String orgCode, String inState, OnCy0001RequestListener listener);
     }
 
     interface IView {
@@ -28,18 +26,16 @@ public interface InHospitalHomeContract {
 
         void dismissLoading();
 
-        void onYiBaoOpenStatusResult(String status);
-
         void onHospitalListResult(HospitalEntity body);
 
         void onCy0001Result(Cy0001Entity entity);
     }
 
     interface IPresenter {
-        void queryYiBaoOpenStatus(Activity activity);
-
         void getHospitalList();
 
         void requestCy0001(String orgCode, String inState);
+
+        void uploadMobilePayState();
     }
 }

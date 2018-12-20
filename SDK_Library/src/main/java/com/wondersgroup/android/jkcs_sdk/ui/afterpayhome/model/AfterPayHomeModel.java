@@ -1,10 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
-import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
@@ -14,11 +11,9 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.OpenStatusBean;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnYiBaoMobStatusListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.AfterPayStateService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
@@ -26,14 +21,12 @@ import com.wondersgroup.android.jkcs_sdk.net.service.HospitalService;
 import com.wondersgroup.android.jkcs_sdk.net.service.MobilePayService;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -119,7 +112,8 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                 });
     }
 
-    private void uploadMobilePayState() {
+    @Override
+    public void uploadMobilePayState() {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
 
@@ -310,36 +304,6 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                         }
                     }
                 });
-    }
-
-    @Override
-    public void queryYiBaoOpenStatus(WeakReference<Activity> weakReference, OnYiBaoMobStatusListener listener) {
-        Activity activity = weakReference.get();
-        if (activity == null) {
-            return;
-        }
-
-        AuthCall.queryOpenStatus(activity, MakeArgsFactory.getOpenStatusArgs(), result -> {
-            String mobPayStatus = "00";
-            if (!TextUtils.isEmpty(result)) {
-                LogUtil.i(TAG, "result===" + result);
-                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
-                int isYbPay = statusBean.getIsYbPay();
-                if (isYbPay == 1) { // 已开通
-                    mobPayStatus = "01";
-                    uploadMobilePayState();
-                } else { // 未开通
-                    mobPayStatus = "00";
-                }
-
-                if (listener != null) {
-                    listener.onResult(mobPayStatus);
-                }
-            }
-
-            // 保存医保移动支付开通状态
-            SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
-        });
     }
 
 }

@@ -1,6 +1,5 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
@@ -22,7 +21,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -203,9 +201,9 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "sendOfficialPay() -> onFailed()===" + errCodeDes);
+                    dismissLoading();
                     WToastUtil.show(errCodeDes);
                     if (isNonNull()) {
-                        dismissLoading();
                         // 传 null 表示正式结算失败！
                         mViewRef.get().onOfficialSettleResult(null);
                     }
@@ -213,59 +211,6 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
             });
         } else {
             throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
-        }
-    }
-
-    @Override
-    public void getYiBaoToken(Activity activity) {
-        if (activity != null) {
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.getYiBaoToken(weakReference, token -> {
-                if (isNonNull()) {
-                    mViewRef.get().onYiBaoTokenResult(token);
-                }
-            });
-
-        } else {
-            LogUtil.e(TAG, "activity is null!");
-        }
-    }
-
-    @Override
-    public void getTryToSettleToken(Activity activity) {
-        if (activity != null) {
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.getTryToSettleToken(weakReference, token -> {
-                if (token != null) {
-                    if (isNonNull()) {
-                        mViewRef.get().onTryToSettleTokenResult(token);
-                    }
-                } else {
-                    LogUtil.e(TAG, "getTryToSettleToken() -> token is null!");
-                }
-            });
-
-        } else {
-            LogUtil.e(TAG, "activity is null!");
-        }
-    }
-
-    @Override
-    public void queryYiBaoOpenStatus(Activity activity) {
-        if (activity != null) {
-            WeakReference<Activity> weakReference = new WeakReference<>(activity);
-            mModel.queryYiBaoOpenStatus(weakReference, status -> {
-                if (status == 1) { // 已开通
-                    if (isNonNull()) {
-                        mViewRef.get().onYiBaoOpenSuccess();
-                    }
-                } else { // 未开通
-                    WToastUtil.show("您未开通医保移动支付，不能进行医保结算！");
-                }
-            });
-
-        } else {
-            LogUtil.e(TAG, "activity is null!");
         }
     }
 

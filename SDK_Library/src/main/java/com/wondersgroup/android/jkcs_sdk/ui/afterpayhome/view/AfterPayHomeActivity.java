@@ -25,6 +25,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeCo
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
+import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -308,17 +309,17 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
-    @Override
-    public void onYiBaoOpenStatusResult(String status) {
-        mHeaderBean.setMobPayStatus(status);
-        refreshAdapter();
-    }
-
     /**
      * 查询医保移动支付开通状态
      */
     private void getMobilePayState() {
-        mPresenter.queryYiBaoOpenStatus(AfterPayHomeActivity.this);
+        EpSoftUtils.queryYiBaoOpenStatus(this, status -> {
+            if ("01".equals(status)) {
+                mPresenter.uploadMobilePayState();
+            }
+            mHeaderBean.setMobPayStatus(status);
+            refreshAdapter();
+        });
     }
 
     public void getHospitalList() {
