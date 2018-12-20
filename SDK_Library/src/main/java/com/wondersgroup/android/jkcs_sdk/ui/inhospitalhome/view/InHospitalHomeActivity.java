@@ -182,7 +182,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     private void leaveHospitalSettle() {
         LogUtil.i(TAG, "mInState===" + mInState);
-        if ("01".equals(mInState)) {
+        if ("01".equals(mInState) && viewGroup.getVisibility() == View.VISIBLE) {
             LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea);
         } else {
             WToastUtil.show("您当前不是预出院状态！");
