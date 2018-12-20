@@ -41,4 +41,24 @@ public class PaymentUtil {
 
         return wdChannelTypes;
     }
+
+    public static String getPaymentChl(int paymentType) {
+        String channel;
+        switch (paymentType) {
+            case 1:
+                channel = "01";
+                break;
+            case 2:
+                channel = "02";
+                break;
+            case 3:
+                channel = "03";
+                break;
+            default:
+                channel = "99";
+                break;
+        }
+
+        return channel;
+    }
 }

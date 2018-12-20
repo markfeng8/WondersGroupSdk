@@ -31,6 +31,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospital
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.PaymentUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
@@ -250,14 +251,16 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                     @Override
                     public void onSuccess() {
                         dismissLoading();
+                        WToastUtil.show("支付成功~");
                         mCurrentToState = TO_STATE2;
                         // 支付成功后发起正式结算
                         requestCy0007();
                     }
 
                     @Override
-                    public void onFailed() {
+                    public void onFailed(String errMsg) {
                         dismissLoading();
+                        WToastUtil.show(errMsg);
                     }
                 });
     }
@@ -271,27 +274,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
      * 发起正式结算
      */
     private void requestCy0007() {
-        mPresenter.requestCy0007(mOrgCode, mCurrentToState, mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
-    }
-
-    private String getPaymentChl() {
-        String channel;
-        switch (mPaymentType) {
-            case 1:
-                channel = "01";
-                break;
-            case 2:
-                channel = "02";
-                break;
-            case 3:
-                channel = "03";
-                break;
-            default:
-                channel = "99";
-                break;
-        }
-
-        return channel;
+        mPresenter.requestCy0007(mOrgCode, mCurrentToState, mYiBaoToken, mFeeNeedCashTotal, PaymentUtil.getPaymentChl(mPaymentType));
     }
 
     @Override

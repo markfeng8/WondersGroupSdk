@@ -395,13 +395,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                         @Override
                         public void onSuccess() {
                             dismissLoading();
+                            WToastUtil.show("支付成功~");
                             // 支付成功后发起正式结算
                             onCashPaySuccess();
                         }
 
                         @Override
-                        public void onFailed() {
+                        public void onFailed(String errMsg) {
                             dismissLoading();
+                            WToastUtil.show(errMsg);
                         }
                     });
         }
