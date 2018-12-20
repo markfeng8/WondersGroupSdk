@@ -237,8 +237,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onYiBaoTokenResult(String token) {
         mYiBaoToken = token;
-        // 发起正式结算保存 token
-        mCurrentToState = TO_STATE1;
+        // 如果 token 是 0，说明是自费卡，直接发起正式结算，否则是社保卡，发起保存 token
+        mCurrentToState = "0".equals(token) ? TO_STATE2 : TO_STATE1;
         requestCy0007();
     }
 

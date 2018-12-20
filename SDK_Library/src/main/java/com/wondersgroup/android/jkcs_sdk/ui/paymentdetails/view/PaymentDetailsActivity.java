@@ -91,6 +91,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 正式结算次数
      */
     private int mOfficeSettleTimes = 0;
+    /**
+     * toState 1 保存 token 2 正式结算
+     */
+    private static final String TO_STATE1 = "1";
+    private static final String TO_STATE2 = "2";
+    private String mCurrentToState;
+
     private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
@@ -415,20 +422,37 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         if ("0".equals(cardType)) {
             // 现金部分结算成功，继续支付医保部分(正式结算，不管医保是否为0)
             if (!TextUtils.isEmpty(mFeeYbTotal)) {
-                sendOfficialPay(false, "2");
+                mCurrentToState = TO_STATE2;
+                sendOfficialPay(false);
             } else {
                 LogUtil.e(TAG, "to pay money failed, because mFeeYbTotal is null!");
             }
         } else if ("2".equals(cardType)) {
             // 发起正式结算，token 传 0
-            mPresenter.sendOfficialPay(false, "2", "0", mOrgCode,
+            mCurrentToState = TO_STATE2;
+            mPresenter.sendOfficialPay(false, mCurrentToState, "0", mOrgCode,
                     SettleUtil.getOfficialSettleParam(details));
         }
     }
 
     @Override
     public void onOfficialSettleResult(SettleEntity body) {
-        parseOfficialSettleResult(body);
+        if (TO_STATE1.equals(mCurrentToState)) {
+            /*
+             * 保存完 token 后，如果个人支付为 0，携带 mYiBaoToken，直接调用正式结算接口发起正式结算，
+             * 如果不为 0，那就先个人支付(统一支付)，再进行医保支付
+             */
+            if (Double.parseDouble(mFeeCashTotal) == 0) {
+                mCurrentToState = TO_STATE2;
+                // 携带 mYiBaoToken 发起正式结算
+                sendOfficialPay(true);
+            } else {
+                // 进行现金部分结算，先获取统一支付所需的参数
+                mPresenter.getPayParam(mOrgCode);
+            }
+        } else if (TO_STATE2.equals(mCurrentToState)) {
+            parseOfficialSettleResult(body);
+        }
     }
 
     /**
@@ -478,7 +502,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     private void waitingAndOnceAgain() {
         showLoading();
-        mHandler.postDelayed(() -> sendOfficialPay(false, "2"), 5000);
+        mHandler.postDelayed(() -> {
+            mCurrentToState = TO_STATE2;
+            sendOfficialPay(false);
+        }, 5000);
     }
 
     /**
@@ -534,18 +561,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
         if (!TextUtils.isEmpty(mFeeCashTotal)) {
             // 发起正式结算保存 token
-            sendOfficialPay(false, "1");
-            /*
-             * 如果个人支付为 0，携带 mYiBaoToken，直接调用正式结算接口发起正式结算，如果不为 0，
-             * 那就先个人支付(统一支付)，再进行医保支付
-             */
-            if (Double.parseDouble(mFeeCashTotal) == 0) {
-                // 携带 mYiBaoToken 发起正式结算
-                sendOfficialPay(true, "2");
-            } else {
-                // 进行现金部分结算，先获取统一支付所需的参数
-                mPresenter.getPayParam(mOrgCode);
-            }
+            mCurrentToState = TO_STATE1;
+            sendOfficialPay(false);
         } else {
             LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
         }
@@ -565,10 +582,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 发起正式结算
      *
      * @param isPureYiBao 是否是纯医保
-     * @param toState     1 保存 token 2 正式结算
      */
-    private void sendOfficialPay(boolean isPureYiBao, String toState) {
-        mPresenter.sendOfficialPay(isPureYiBao, toState, mYiBaoToken, mOrgCode,
+    private void sendOfficialPay(boolean isPureYiBao) {
+        mPresenter.sendOfficialPay(isPureYiBao, mCurrentToState, mYiBaoToken, mOrgCode,
                 SettleUtil.getOfficialSettleParam(details));
     }
 
