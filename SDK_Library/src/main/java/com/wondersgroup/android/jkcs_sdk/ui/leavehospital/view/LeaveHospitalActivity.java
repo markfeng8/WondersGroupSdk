@@ -46,6 +46,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private static final String TAG = "LeaveHospitalActivity";
     private TextView tvName;
     private TextView tvHosName;
+    private TextView tvSocial;
     private TextView tvSocialNum;
     private TextView tvInHosId;
     private TextView tvInHosDate;
@@ -106,6 +107,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private void findViews() {
         tvName = findViewById(R.id.tvName);
         tvHosName = findViewById(R.id.tvHosName);
+        tvSocial = findViewById(R.id.tvSocial);
         tvSocialNum = findViewById(R.id.tvSocialNum);
         tvInHosId = findViewById(R.id.tvInHosId);
         tvInHosDate = findViewById(R.id.tvInHosDate);
@@ -137,6 +139,10 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("2".equals(cardType)) {
+            tvSocial.setText("自费卡号：");
+        }
         tvName.setText(name);
         tvSocialNum.setText(cardNum);
 
