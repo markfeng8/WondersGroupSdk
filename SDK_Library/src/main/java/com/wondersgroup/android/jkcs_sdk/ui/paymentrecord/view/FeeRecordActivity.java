@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -16,6 +18,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPre
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
@@ -158,6 +161,7 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
                 LogUtil.e(TAG, "查询到" + mDetails.size() + "条【已完成订单】记录！");
             } else {
                 LogUtil.e(TAG, "没有查询到【已完成订单】记录！");
+                WToastUtil.show("没有查询到【已完成订单】记录！");
             }
 
             setAdapter();
@@ -182,6 +186,8 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
 
     private void setAdapter() {
         mPaymentFeeRecordAdapter = new PaymentFeeRecordAdapter(R.layout.wonders_group_fee_record_item, mDetails);
+        View notDataView = getLayoutInflater().inflate(R.layout.wonders_group_empty_view, (ViewGroup) recyclerView.getParent(), false);
+        mPaymentFeeRecordAdapter.setEmptyView(notDataView);
         recyclerView.setAdapter(mPaymentFeeRecordAdapter);
         mPaymentFeeRecordAdapter.setOnItemClickListener((adapter, view, position) -> {
             FeeRecordEntity.DetailsBean detailsBean = mDetails.get(position);
