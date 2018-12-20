@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -181,6 +182,8 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
 
     private void setAdapter() {
         mHosHistoryAdapter = new HosHistoryAdapter(R.layout.wonders_group_in_hos_record_item, mDetails);
+        View notDataView = getLayoutInflater().inflate(R.layout.wonders_group_empty_view, (ViewGroup) recyclerView.getParent(), false);
+        mHosHistoryAdapter.setEmptyView(notDataView);
         mHosHistoryAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mHosHistoryAdapter.isFirstOnly(false);
         recyclerView.setAdapter(mHosHistoryAdapter);
