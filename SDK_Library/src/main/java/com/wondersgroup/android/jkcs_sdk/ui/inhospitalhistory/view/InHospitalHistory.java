@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * Created by x-sir on 2018/12/18 :)
- * Function:
+ * Function:住院历史列表页面
  */
 public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
         InHosHisPresenter<InHosHisContract.IView>> implements InHosHisContract.IView {

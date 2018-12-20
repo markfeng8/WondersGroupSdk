@@ -83,6 +83,12 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
      * 正式结算次数
      */
     private int mOfficeSettleTimes = 0;
+    /**
+     * toState 1 保存 token 2 正式结算
+     */
+    private static final String TO_STATE1 = "1";
+    private static final String TO_STATE2 = "2";
+    private String mCurrentToState;
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -225,13 +231,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     public void onYiBaoTokenResult(String token) {
         mYiBaoToken = token;
         // 发起正式结算保存 token
-        requestCy0007("1");
-        if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
-            // 获取支付参数
-            mPresenter.getPayParam(mOrgCode);
-        } else {
-            requestCy0007("2");
-        }
+        mCurrentToState = TO_STATE1;
+        requestCy0007();
     }
 
     @Override
@@ -243,8 +244,9 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                     @Override
                     public void onSuccess() {
                         dismissLoading();
+                        mCurrentToState = TO_STATE2;
                         // 支付成功后发起正式结算
-                        requestCy0007("2");
+                        requestCy0007();
                     }
 
                     @Override
@@ -261,11 +263,9 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     /**
      * 发起正式结算
-     *
-     * @param toState 1 保存 token 2 正式结算
      */
-    private void requestCy0007(String toState) {
-        mPresenter.requestCy0007(mOrgCode, toState, mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
+    private void requestCy0007() {
+        mPresenter.requestCy0007(mOrgCode, mCurrentToState, mYiBaoToken, mFeeNeedCashTotal, getPaymentChl());
     }
 
     private String getPaymentChl() {
@@ -290,41 +290,56 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void onCy0007Result(Cy0007Entity entity) {
-        if (entity != null) {
-            String payState = entity.getPayState();
-            if (!TextUtils.isEmpty(payState)) {
-                switch (payState) {
-                    case "1": // 1、后台正在异步结算（前台等待）
-                        // 重试 3 次，如果还是失败就返回首页
-                        if (mOfficeSettleTimes < 3) {
-                            mOfficeSettleTimes++;
-                            waitingAndOnceAgain();
-                        } else {
-                            dismissLoading();
-                            LeaveHospitalActivity.this.finish();
-                        }
-                        break;
-                    case "2": // 2、结算完成（返回成功页面）
-                        jumpToLeaveHospitalResultPager(true);
-                        break;
-                    case "3": // 3、结算失败（包括超时自动处理）
-                        jumpToLeaveHospitalResultPager(false);
-                        break;
-                    default:
-                        break;
-                }
+        if (TO_STATE1.equals(mCurrentToState)) {
+
+            if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
+                // 获取支付参数
+                mPresenter.getPayParam(mOrgCode);
             } else {
-                LogUtil.e(TAG, "payState is null!");
+                mCurrentToState = TO_STATE2;
+                requestCy0007();
             }
 
-        } else {
-            jumpToLeaveHospitalResultPager(false);
+        } else if (TO_STATE2.equals(mCurrentToState)) {
+            if (entity != null) {
+                String payState = entity.getPayState();
+                if (!TextUtils.isEmpty(payState)) {
+                    switch (payState) {
+                        case "1": // 1、后台正在异步结算（前台等待）
+                            // 重试 3 次，如果还是失败就返回首页
+                            if (mOfficeSettleTimes < 3) {
+                                mOfficeSettleTimes++;
+                                waitingAndOnceAgain();
+                            } else {
+                                dismissLoading();
+                                LeaveHospitalActivity.this.finish();
+                            }
+                            break;
+                        case "2": // 2、结算完成（返回成功页面）
+                            jumpToLeaveHospitalResultPager(true);
+                            break;
+                        case "3": // 3、结算失败（包括超时自动处理）
+                            jumpToLeaveHospitalResultPager(false);
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    LogUtil.e(TAG, "payState is null!");
+                }
+
+            } else {
+                jumpToLeaveHospitalResultPager(false);
+            }
         }
     }
 
     private void waitingAndOnceAgain() {
         showLoading();
-        mHandler.postDelayed(() -> requestCy0007("2"), 5000);
+        mHandler.postDelayed(() -> {
+            mCurrentToState = TO_STATE2;
+            requestCy0007();
+        }, 5000);
     }
 
     private void jumpToLeaveHospitalResultPager(boolean isSuccess) {
