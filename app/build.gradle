@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 68
-        versionName "2.5.7"
+        versionCode 69
+        versionName "2.5.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -43,6 +43,11 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "HZ-SDK-example-V${defaultConfig.versionName}-${releaseTime()}.apk"
+                }
+            }
         }
     }
 
@@ -50,6 +55,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {
