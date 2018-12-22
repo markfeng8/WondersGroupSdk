@@ -61,13 +61,13 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
         tvInHosDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WToastUtil.show("暂未开通！");
+                WToastUtil.show("敬请期待！");
             }
         });
         tvEleInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WToastUtil.show("暂未开通！");
+                WToastUtil.show("敬请期待！");
                 //EleInvoiceActivity.actionStart(InHospitalRecordActivity.this, "123");
             }
         });
