@@ -77,7 +77,7 @@
     <string name="wonders_finished_order">已完成订单</string>
     <string name="wonders_after_pay_home">医保医后付</string>
     <string name="wonders_self_pay_home">非医保掌上付</string>
-    <string name="wonders_in_hospital_service">住院服务</string>
+    <string name="wonders_in_hospital_service">出院掌上付</string>
     <string name="wonders_in_hospital_record">历史住院记录</string>
     <string name="wonders_in_hospital_list">历史住院列表</string>
     <string name="wonders_leave_hospital_settle">出院结算</string>

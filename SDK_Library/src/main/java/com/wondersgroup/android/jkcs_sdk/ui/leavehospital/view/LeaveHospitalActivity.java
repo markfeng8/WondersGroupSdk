@@ -270,7 +270,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void timeoutAfter60s() {
-        WToastUtil.show("请求超时了，请稍后再试！");
+        WToastUtil.show("正在结算中，请稍后查询重试。");
         finish();
     }
 
