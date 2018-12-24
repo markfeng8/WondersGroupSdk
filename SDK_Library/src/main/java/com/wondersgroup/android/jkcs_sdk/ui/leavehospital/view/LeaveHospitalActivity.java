@@ -268,10 +268,19 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                 });
     }
 
+    @Override
+    public void timeoutAfter60s() {
+        WToastUtil.show("请求超时了，请稍后再试！");
+        finish();
+    }
+
     /**
      * 发起正式结算
      */
     private void requestCy0007() {
+        if (TO_STATE2.equals(mCurrentToState)) {
+            WToastUtil.showLong("正在进行正式结算中，处理时间可能较长，请您耐心等待哦！");
+        }
         mPresenter.requestCy0007(mOrgCode, mCurrentToState, mYiBaoToken, mFeeNeedCashTotal, PaymentUtil.getPaymentChl(mPaymentType));
     }
 
@@ -323,10 +332,11 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     private void waitingAndOnceAgain() {
         showLoading();
+        // 住院部分，如果再结算中 10 秒钟发起一次请求
         mHandler.postDelayed(() -> {
             mCurrentToState = TO_STATE2;
             requestCy0007();
-        }, 5000);
+        }, 10000);
     }
 
     private void jumpToLeaveHospitalResultPager(boolean isSuccess) {

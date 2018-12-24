@@ -38,6 +38,8 @@ public interface LeaveHospitalContract {
         void onCy0007Result(Cy0007Entity entity);
 
         void onPayParamResult(PayParamEntity body);
+
+        void timeoutAfter60s();
     }
 
     interface IPresenter {

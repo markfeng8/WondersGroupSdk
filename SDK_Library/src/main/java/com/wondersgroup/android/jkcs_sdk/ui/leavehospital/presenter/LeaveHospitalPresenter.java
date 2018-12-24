@@ -80,9 +80,16 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "requestCy0006() -> failed!" + errCodeDes);
                 dismissLoading();
-                WToastUtil.show(errCodeDes);
-                if (isNonNull()) {
-                    mViewRef.get().onCy0007Result(null);
+                // 判断是否为 60s 请求超时
+                if (!TextUtils.isEmpty(errCodeDes) && errCodeDes.contains("60000ms")) {
+                    if (isNonNull()) {
+                        mViewRef.get().timeoutAfter60s();
+                    }
+                } else {
+                    WToastUtil.show(errCodeDes);
+                    if (isNonNull()) {
+                        mViewRef.get().onCy0007Result(null);
+                    }
                 }
             }
         });
