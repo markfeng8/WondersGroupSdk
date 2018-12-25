@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract.InHospitalRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.presenter.InHospitalRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -43,6 +45,7 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private TextView tvInHosFeeTotal;
     private TextView tvInHosDetail;
     private TextView tvEleInvoice;
+    private String mPayPlatTradeNo;
 
     @Override
     protected InHospitalRecordPresenter<InHospitalRecordContract.IView> createPresenter() {
@@ -64,13 +67,8 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
                 WToastUtil.show("敬请期待！");
             }
         });
-        tvEleInvoice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WToastUtil.show("敬请期待！");
-                //EleInvoiceActivity.actionStart(InHospitalRecordActivity.this, "123");
-            }
-        });
+        tvEleInvoice.setOnClickListener(v -> EleInvoiceActivity.actionStart(InHospitalRecordActivity.this,
+                TextUtils.isEmpty(mPayPlatTradeNo) ? "0" : mPayPlatTradeNo));
     }
 
     private void initData() {
@@ -97,6 +95,7 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
         tvLeaveHosDate.setText(detailsBean.getCysj().substring(0, 10));
         tvInHosType.setText("0".equals(detailsBean.getCard_type()) ? "医保" : "自费");
         tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
+        mPayPlatTradeNo = detailsBean.getPayPlatTradeNo();
     }
 
     private void findViews() {

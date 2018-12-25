@@ -33,6 +33,8 @@ public class Cy0001Entity extends BaseEntity {
         private String org_code;
         @SerializedName("org_name")
         private String orgName;
+        @SerializedName("payplat_tradno")
+        private String payPlatTradeNo;
         private String in_state;
         private String name;
         private String card_type;
@@ -48,6 +50,14 @@ public class Cy0001Entity extends BaseEntity {
         private String fee_total;
         private String fee_cash_total;
         private String fee_yb_total;
+
+        public String getPayPlatTradeNo() {
+            return payPlatTradeNo;
+        }
+
+        public void setPayPlatTradeNo(String payPlatTradeNo) {
+            this.payPlatTradeNo = payPlatTradeNo;
+        }
 
         public String getOrgName() {
             return orgName;
