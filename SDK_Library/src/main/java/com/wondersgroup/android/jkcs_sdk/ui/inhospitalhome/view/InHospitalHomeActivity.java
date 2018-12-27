@@ -75,6 +75,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(InHospitalHomeActivity.this);
+    private Cy0001Entity mCy0001Entity;
 
     /**
      * 住院状态：00 在院 01 预出院 10 已出院
@@ -188,6 +189,21 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     private void leaveHospitalSettle() {
+        if (mCy0001Entity == null) {
+            WToastUtil.show("暂无住院信息！");
+            return;
+        }
+
+        // 如果是医保卡，需要判断医保移动支付状态是否开通
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("0".equals(cardType)) {
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            if (!"01".equals(mobPayStatus)) {
+                WToastUtil.show("您未开通医保移动支付，请先开通！");
+                return;
+            }
+        }
+
         LogUtil.i(TAG, "mInState===" + mInState);
         if ("01".equals(mInState) && viewGroup.getVisibility() == View.VISIBLE) {
             LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea);
@@ -235,6 +251,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     @SuppressLint("SetTextI18n")
     @Override
     public void onCy0001Result(Cy0001Entity entity) {
+        this.mCy0001Entity = entity;
         if (entity != null) {
             List<Cy0001Entity.DetailsBean> details = entity.getDetails();
             if (details != null && details.size() > 0) {
