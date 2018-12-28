@@ -2,19 +2,19 @@ package com.wondersgroup.android.jkcs_sdk.widget;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.adapter.HospitalAdapter;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -27,7 +27,7 @@ public class SelectHospitalWindow {
 
     private View mPopupView;
     private Context mContext;
-    private ListView listView;
+    private RecyclerView recyclerView;
     private PopupWindow mPopupWindow;
     private HospitalAdapter mAdapter;
     private WeakReference<View> mView;
@@ -36,7 +36,7 @@ public class SelectHospitalWindow {
     private OnItemClickListener mOnItemClickListener;
     private List<HospitalEntity.DetailsBean> mBeanList;
 
-    SelectHospitalWindow(Builder builder) {
+    public SelectHospitalWindow(Builder builder) {
         this.mView = builder.view;
         this.mListener = builder.listener;
         this.mContext = builder.applicationContext;
@@ -69,18 +69,10 @@ public class SelectHospitalWindow {
         mAnimation.setInterpolator(new AccelerateInterpolator());
         mAnimation.setDuration(200);
 
-        listView = (ListView) mPopupView.findViewById(R.id.listView);
-
-        // 设置 Item 点击事件的监听
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onClick(position);
-                    dismiss();
-                }
-            }
-        });
+        recyclerView = mPopupView.findViewById(R.id.recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
     }
 
     public void setBeanList(List<HospitalEntity.DetailsBean> mBeanList) {
@@ -91,12 +83,25 @@ public class SelectHospitalWindow {
     private void setAdapter() {
         if (mBeanList != null && mBeanList.size() > 0) {
             if (mAdapter == null) {
-                mAdapter = new HospitalAdapter(mContext, mBeanList);
-                listView.setAdapter(mAdapter);
+                mAdapter = new HospitalAdapter(mBeanList);
+                recyclerView.setAdapter(mAdapter);
+                setOnItemClickListener();
             } else {
                 mAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    /**
+     * 设置 Item 点击事件的监听
+     */
+    private void setOnItemClickListener() {
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onClick(position);
+                dismiss();
+            }
+        });
     }
 
     /**

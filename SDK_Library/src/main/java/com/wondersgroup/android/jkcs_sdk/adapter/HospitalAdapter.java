@@ -8,12 +8,10 @@
 
 package com.wondersgroup.android.jkcs_sdk.adapter;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.support.annotation.Nullable;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 
@@ -21,50 +19,16 @@ import java.util.List;
 
 /**
  * Created by x-sir on 2018/8/20 :)
- * Function:
+ * Function:医院列表数据的适配器
  */
-public class HospitalAdapter extends BaseAdapter {
+public class HospitalAdapter extends BaseQuickAdapter<HospitalEntity.DetailsBean, BaseViewHolder> {
 
-    private Context mContext;
-    private List<HospitalEntity.DetailsBean> mBeanList;
-
-    public HospitalAdapter(Context context, List<HospitalEntity.DetailsBean> beanList) {
-        this.mContext = context;
-        this.mBeanList = beanList;
+    public HospitalAdapter(@Nullable List<HospitalEntity.DetailsBean> data) {
+        super(R.layout.wonders_group_item_hospital, data);
     }
 
     @Override
-    public int getCount() {
-        return mBeanList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mBeanList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.wonders_group_item_hospital, null);
-            holder = new ViewHolder();
-            holder.tvHospitalName = convertView.findViewById(R.id.tvHospitalName);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        HospitalEntity.DetailsBean bean = mBeanList.get(position);
-        holder.tvHospitalName.setText(bean.getOrg_name());
-        return convertView;
-    }
-
-    static class ViewHolder {
-        TextView tvHospitalName;
+    protected void convert(BaseViewHolder helper, HospitalEntity.DetailsBean item) {
+        helper.setText(R.id.tvHospitalName, item.getOrg_name());
     }
 }
