@@ -1,6 +1,9 @@
 package com.wondersgroup.android.jkcs_sdk.entity;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.annotations.SerializedName;
+import com.wondersgroup.android.jkcs_sdk.adapter.ExpandableItemAdapter;
 
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class FeeBillEntity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean extends AbstractExpandableItem<OrderDetailsEntity.DetailsBean> implements MultiItemEntity {
         /**
          * his_order_no : CF20839351
          * his_order_time : 2018-08-22 11:37:25
@@ -105,6 +108,16 @@ public class FeeBillEntity extends BaseEntity {
 
         public void setFee_order(String fee_order) {
             this.fee_order = fee_order;
+        }
+
+        @Override
+        public int getItemType() {
+            return ExpandableItemAdapter.TYPE_LEVEL_0;
+        }
+
+        @Override
+        public int getLevel() {
+            return ExpandableItemAdapter.TYPE_LEVEL_0;
         }
     }
 }
