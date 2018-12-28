@@ -188,9 +188,18 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private void getOfficialToSettleToken() {
         EpSoftUtils.getOfficialToSettleToken(this, token -> {
             mYiBaoToken = token;
-            // 如果 token 是 0，说明是自费卡，直接发起正式结算，否则是社保卡，发起保存 token
-            mCurrentToState = "0".equals(token) ? TO_STATE2 : TO_STATE1;
-            requestCy0007();
+            boolean isSelfFeeCard = "0".equals(token);
+            // 如果 token 是 0，说明是自费卡，不需要保存 token，否则是社保卡，先发起保存 token
+            mCurrentToState = isSelfFeeCard ? TO_STATE2 : TO_STATE1;
+            if (isSelfFeeCard) {
+                if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
+                    mPresenter.getPayParam(mOrgCode);
+                } else {
+                    requestCy0007();
+                }
+            } else {
+                requestCy0007();
+            }
         });
     }
 
