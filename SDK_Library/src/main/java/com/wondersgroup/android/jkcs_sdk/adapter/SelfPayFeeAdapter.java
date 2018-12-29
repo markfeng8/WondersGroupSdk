@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
@@ -92,7 +92,7 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
             case TYPE_LIST:
                 ListViewHolder listViewHolder = (ListViewHolder) holder;
-                listViewHolder.setData((FeeBillEntity.DetailsBean) mItemList.get(position));
+                listViewHolder.setData((FeeBillDetailsBean) mItemList.get(position));
                 break;
             default:
                 break;
@@ -110,7 +110,7 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Object object = mItemList.get(position);
             if (object instanceof SelfPayHeaderBean) {
                 mCurrentType = TYPE_HEADER;
-            } else if (object instanceof FeeBillEntity.DetailsBean) {
+            } else if (object instanceof FeeBillDetailsBean) {
                 mCurrentType = TYPE_LIST;
             }
         }
@@ -189,7 +189,7 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvMoney = itemView.findViewById(R.id.tvMoney);
         }
 
-        public void setData(FeeBillEntity.DetailsBean detailsBean) {
+        public void setData(FeeBillDetailsBean detailsBean) {
             if (detailsBean != null) {
                 String orderName = detailsBean.getOrdername();
                 String hisOrderTime = detailsBean.getHis_order_time();

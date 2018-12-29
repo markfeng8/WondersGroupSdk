@@ -20,6 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.SelfPayFeeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
@@ -175,9 +176,9 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     public void onYd0003Result(FeeBillEntity entity) {
         if (entity != null) {
             llNeedPay.setVisibility(View.VISIBLE);
-            String feeTotal = entity.getFee_total();
+            String feeTotal = entity.getFeeTotal();
             tvMoneyNum.setText(feeTotal);
-            List<FeeBillEntity.DetailsBean> details = entity.getDetails();
+            List<FeeBillDetailsBean> details = entity.getDetails();
             // 添加医院欠费信息数据(放到下标为 1 处)
             mItemList.addAll(1, details);
             refreshAdapter();

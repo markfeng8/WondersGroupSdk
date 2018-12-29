@@ -20,6 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -110,7 +111,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private Handler mHandler;
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
-    private List<FeeBillEntity.DetailsBean> details;
+    private List<FeeBillDetailsBean> details;
     private String mYiBaoToken;
 
     @Override
@@ -262,8 +263,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     public void onYd0003Result(FeeBillEntity entity) {
         if (entity != null) {
             // 初始化自费部分结算的金额
-            mFeeTotal = entity.getFee_total();
-            mFeeCashTotal = entity.getFee_total();
+            mFeeTotal = entity.getFeeTotal();
+            mFeeCashTotal = entity.getFeeTotal();
             mFeeYbTotal = "0";
 
             List<HashMap<String, String>> detailsList = new ArrayList<>();
@@ -281,7 +282,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             map.put(MapKey.ORG_CODE, mOrgCode);
 
             for (int i = 0; i < details.size(); i++) {
-                FeeBillEntity.DetailsBean detailsBean = details.get(i);
+                FeeBillDetailsBean detailsBean = details.get(i);
                 HashMap<String, String> detailItem = new HashMap<>();
                 detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
                 detailItem.put(MapKey.HIS_ORDER_TIME, detailsBean.getHis_order_time());
@@ -302,7 +303,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     /**
      * 获取 List 的组合数据
      */
-    private void getCombineListData(List<FeeBillEntity.DetailsBean> details) {
+    private void getCombineListData(List<FeeBillDetailsBean> details) {
         for (int i = 0; i < details.size(); i++) {
             CombineDetailsBean bean = new CombineDetailsBean();
             bean.setDefaultDetails(details.get(i));

@@ -1,7 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.utils;
 
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +16,11 @@ public class SettleUtil {
     /**
      * 获取发起试结算时的参数
      */
-    public static HashMap<String, Object> getTryToSettleParam(String payPlatTradeNo, List<FeeBillEntity.DetailsBean> details) {
+    public static HashMap<String, Object> getTryToSettleParam(String payPlatTradeNo, List<FeeBillDetailsBean> details) {
         HashMap<String, Object> map = new HashMap<>();
         List<HashMap<String, String>> detailsList = new ArrayList<>();
         for (int i = 0; i < details.size(); i++) {
-            FeeBillEntity.DetailsBean detailsBean = details.get(i);
+            FeeBillDetailsBean detailsBean = details.get(i);
             HashMap<String, String> detailItem = new HashMap<>();
             detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
             detailItem.put(MapKey.ORDER_NO, payPlatTradeNo);
@@ -39,11 +39,11 @@ public class SettleUtil {
      *
      * @param details
      */
-    public static HashMap<String, Object> getOfficialSettleParam(List<FeeBillEntity.DetailsBean> details) {
+    public static HashMap<String, Object> getOfficialSettleParam(List<FeeBillDetailsBean> details) {
         HashMap<String, Object> map = new HashMap<>();
         List<HashMap<String, String>> detailsList = new ArrayList<>();
         for (int i = 0; i < details.size(); i++) {
-            FeeBillEntity.DetailsBean detailsBean = details.get(i);
+            FeeBillDetailsBean detailsBean = details.get(i);
             HashMap<String, String> detailItem = new HashMap<>();
             detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
             detailItem.put(MapKey.ORDER_NO, "1"); // 正式结算 order_no 传 1

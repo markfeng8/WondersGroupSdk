@@ -8,23 +8,23 @@ import java.util.List;
  */
 public class CombineDetailsBean {
 
-    private FeeBillEntity.DetailsBean defaultDetails;
+    private FeeBillDetailsBean defaultDetails;
     private List<OrderDetailsEntity.DetailsBean> openDetails;
 
     public CombineDetailsBean() {
     }
 
-    public CombineDetailsBean(FeeBillEntity.DetailsBean defaultDetails,
+    public CombineDetailsBean(FeeBillDetailsBean defaultDetails,
                               List<OrderDetailsEntity.DetailsBean> openDetails) {
         this.defaultDetails = defaultDetails;
         this.openDetails = openDetails;
     }
 
-    public FeeBillEntity.DetailsBean getDefaultDetails() {
+    public FeeBillDetailsBean getDefaultDetails() {
         return defaultDetails;
     }
 
-    public void setDefaultDetails(FeeBillEntity.DetailsBean defaultDetails) {
+    public void setDefaultDetails(FeeBillDetailsBean defaultDetails) {
         this.defaultDetails = defaultDetails;
     }
 

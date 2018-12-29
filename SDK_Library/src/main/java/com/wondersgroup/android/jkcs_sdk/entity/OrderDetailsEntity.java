@@ -1,5 +1,8 @@
 package com.wondersgroup.android.jkcs_sdk.entity;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.wondersgroup.android.jkcs_sdk.adapter.ExpandableItemAdapter;
+
 import java.util.List;
 
 /**
@@ -52,7 +55,7 @@ public class OrderDetailsEntity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean implements MultiItemEntity {
         /**
          * billingdoctor :
          * billingdepartment : 急诊内科
@@ -145,6 +148,11 @@ public class OrderDetailsEntity extends BaseEntity {
 
         public void setTotal(String total) {
             this.total = total;
+        }
+
+        @Override
+        public int getItemType() {
+            return ExpandableItemAdapter.TYPE_LEVEL_1;
         }
     }
 }
