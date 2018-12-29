@@ -87,7 +87,7 @@ public class FeeBillDetailsBean extends AbstractExpandableItem<OrderDetailsEntit
 
     @Override
     public int getLevel() {
-        return ExpandableItemAdapter.TYPE_LEVEL_0;
+        return 0;
     }
 
 }

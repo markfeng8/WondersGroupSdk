@@ -17,14 +17,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.ExpandableItemAdapter;
-import com.wondersgroup.android.jkcs_sdk.adapter.RecordDetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -58,14 +55,11 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     private PayItemLayout plYiBaoPay;
     private RecyclerView recyclerView;
     private LoadingView mLoading;
-    private int mClickItemPos = -1; // 记录点击的 Item 的位置
-    private RecordDetailsAdapter mAdapter;
-    private List<FeeBillDetailsBean> details;
-    private List<CombineDetailsBean> mItemList = new ArrayList<>(); // 组合 Item 数据的集合
+    private List<FeeBillDetailsBean> mDetails;
     private String mOrgCode;
     private String payPlatTradeNo;
     private String mOrgName;
-    private ExpandableItemAdapter mExpandableItemAdapter;
+    private int mLevelPosition = 0;
 
     @Override
     protected RecordDetailPresenter<RecordDetailContract.IView> createPresenter() {
@@ -138,73 +132,8 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     @Override
     public void onYd0009Result(FeeBillEntity entity) {
         if (entity != null) {
-            details = entity.getDetails();
-            // 转换为组合数据
-//            getCombineListData(details);
-            setAdapter();
-        }
-    }
-
-    private void setAdapter() {
-//        if (mItemList != null && mItemList.size() > 0) {
-//            mAdapter = new RecordDetailsAdapter(this, mItemList);
-//            recyclerView.setAdapter(mAdapter);
-//            LinearLayoutManager linearLayoutManager =
-//                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//            recyclerView.setLayoutManager(linearLayoutManager);
-//        }
-
-        if (details != null && details.size() > 0) {
-            mExpandableItemAdapter = new ExpandableItemAdapter(getMultiItemData());
-            recyclerView.setAdapter(mExpandableItemAdapter);
-            LinearLayoutManager linearLayoutManager =
-                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(linearLayoutManager);
-
-
-//            mExpandableItemAdapter.setOnItemClickListener((adapter, view, position) -> {
-//                LogUtil.i(TAG, "mExpandableItemAdapter position:" + position);
-//                // 因为这里 position 包含了展开的 Item 的 position，所以我们要减去
-//                int level0Position = position - getExpandableItemSize();
-//                boolean hasSubItem = details.get(level0Position).hasSubItem();
-//                if (!hasSubItem) {
-//                    getOrderDetails(details.get(level0Position).getHis_order_no(), level0Position);
-//                } else {
-//                    if (details.get(level0Position).isExpanded()) {
-//                        mExpandableItemAdapter.collapse(level0Position);
-//                    } else {
-//                        mExpandableItemAdapter.expand(level0Position);
-//                    }
-//                }
-//            });
-        }
-    }
-
-    /**
-     * 获取展开 Item 的数量
-     */
-    private int getExpandableItemSize() {
-        int position = 0;
-        for (FeeBillDetailsBean bean : details) {
-            if (bean.isExpanded()) {
-                position += bean.getSubItems().size();
-            }
-        }
-        return position;
-    }
-
-    private ArrayList<MultiItemEntity> getMultiItemData() {
-        return new ArrayList<>(details);
-    }
-
-    /**
-     * 获取 List 的组合数据
-     */
-    private void getCombineListData(List<FeeBillDetailsBean> details) {
-        for (int i = 0; i < details.size(); i++) {
-            CombineDetailsBean bean = new CombineDetailsBean();
-            bean.setDefaultDetails(details.get(i));
-            mItemList.add(bean);
+            mDetails = entity.getDetails();
+            getOrderDetails();
         }
     }
 
@@ -214,34 +143,31 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     @Override
     public void onOrderDetailsResult(OrderDetailsEntity entity) {
         if (entity != null) {
+            // 循环遍历设置子 Item 的数据
             List<OrderDetailsEntity.DetailsBean> orderDetails = entity.getDetails();
             for (OrderDetailsEntity.DetailsBean bean : orderDetails) {
-                details.get(mClickItemPos).addSubItem(bean);
+                mDetails.get(mLevelPosition).addSubItem(bean);
             }
-            refreshAdapter();
-
-//            if (orderDetails.size() > 0) {
-//                // List 数据从 1 开始，需要减去头部的位置 1
-//                mItemList.get(mClickItemPos).setOpenDetails(orderDetails);
-//                refreshAdapter();
-//            }
+            // 如果有数据就继续请求
+            mLevelPosition++;
+            getOrderDetails();
         }
-    }
-
-    private void refreshAdapter() {
-//        if (mAdapter != null) {
-//            mAdapter.refreshAdapter();
-//        }
-        mExpandableItemAdapter.notifyDataSetChanged();
-        mExpandableItemAdapter.expand(mClickItemPos);
     }
 
     /**
      * 获取账单明细
      */
-    public void getOrderDetails(String hisOrderNo, int position) {
-        mClickItemPos = position;
-        mPresenter.getOrderDetails(hisOrderNo, mOrgCode);
+    public void getOrderDetails() {
+        if (mDetails != null && mLevelPosition < mDetails.size()) {
+            String hisOrderNo = mDetails.get(mLevelPosition).getHis_order_no();
+            mPresenter.getOrderDetails(hisOrderNo, mOrgCode);
+        } else {
+            // 没有数据了，就刷新适配器
+            ExpandableItemAdapter expandableItemAdapter = new ExpandableItemAdapter(new ArrayList<>(mDetails));
+            recyclerView.setAdapter(expandableItemAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+        }
     }
 
     public static void actionStart(Context context, String orgCode, String orgName, String shopOrderTime,

@@ -10,7 +10,7 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_8dp"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:src="@drawable/wonders_group_hospital"
         app:layout_constraintBottom_toBottomOf="@id/view11"
         app:layout_constraintStart_toStartOf="parent"

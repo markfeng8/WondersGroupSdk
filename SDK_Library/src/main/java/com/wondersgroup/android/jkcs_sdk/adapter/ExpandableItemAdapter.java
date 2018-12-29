@@ -8,20 +8,20 @@
 
 package com.wondersgroup.android.jkcs_sdk.adapter;
 
-import android.util.Log;
-
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/12/28 :)
- * Function:
+ * Function:订单记录详情的 Adapter
  */
 public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
@@ -48,19 +48,19 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                     FeeBillDetailsBean level0 = (FeeBillDetailsBean) item;
                     helper.setText(R.id.tvOrderName, level0.getOrder_name()).setText(R.id.tvMoney, level0.getFee_order())
                             .setText(R.id.tvOrderTime, "账单时间：" + level0.getHis_order_time())
-                            .setImageResource(R.id.ivArrow, level0.isExpanded() ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
+                            .setImageResource(R.id.ivArrow, level0.isExpanded() ? R.drawable.wonders_group_up_arrow : R.drawable.wonders_group_down_arrow);
 
                     helper.itemView.setOnClickListener(v -> {
                         int pos = helper.getAdapterPosition();
-                        Log.d(TAG, "Level 0 item pos: " + pos);
-                        if (!level0.hasSubItem()) {
+                        LogUtil.d(TAG, "Level 0 item pos: " + pos);
+                        if (level0.hasSubItem()) {
                             if (level0.isExpanded()) {
                                 collapse(pos);
                             } else {
                                 expand(pos);
                             }
                         } else {
-                            
+                            WToastUtil.show("没有查询到更多明细！");
                         }
                     });
                 }
