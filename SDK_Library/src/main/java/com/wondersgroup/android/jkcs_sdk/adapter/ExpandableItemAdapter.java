@@ -14,7 +14,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 
 import java.util.List;
@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
-    private static final String TAG = "ExpandableItemAdapter";
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
 
@@ -45,28 +44,37 @@ public class ExpandableItemAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
         switch (helper.getItemViewType()) {
             case TYPE_LEVEL_0:
-                if (item instanceof FeeBillEntity.DetailsBean) {
-                    final FeeBillEntity.DetailsBean level0 = (FeeBillEntity.DetailsBean) item;
-
-                    helper.setText(R.id.tvOrderName, level0.getOrder_name())
-                            .setText(R.id.tvMoney, level0.getFee_order())
+                if (item instanceof FeeBillDetailsBean) {
+                    FeeBillDetailsBean level0 = (FeeBillDetailsBean) item;
+                    helper.setText(R.id.tvOrderName, level0.getOrder_name()).setText(R.id.tvMoney, level0.getFee_order())
                             .setText(R.id.tvOrderTime, "账单时间：" + level0.getHis_order_time())
                             .setImageResource(R.id.ivArrow, level0.isExpanded() ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
 
                     helper.itemView.setOnClickListener(v -> {
                         int pos = helper.getAdapterPosition();
                         Log.d(TAG, "Level 0 item pos: " + pos);
-                        if (level0.isExpanded()) {
-                            collapse(pos);
+                        if (!level0.hasSubItem()) {
+                            if (level0.isExpanded()) {
+                                collapse(pos);
+                            } else {
+                                expand(pos);
+                            }
                         } else {
-                            expand(pos);
+                            
                         }
                     });
                 }
                 break;
             case TYPE_LEVEL_1:
                 if (item instanceof OrderDetailsEntity.DetailsBean) {
-                    final OrderDetailsEntity.DetailsBean level1 = (OrderDetailsEntity.DetailsBean) item;
+                    OrderDetailsEntity.DetailsBean level1 = (OrderDetailsEntity.DetailsBean) item;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String itemName = level1.getItemname();
+                    String price = level1.getPrice();
+                    String amount = level1.getAmount();
+                    String unit = level1.getUnit();
+                    stringBuilder.append(price).append("*").append(amount).append(unit);
+                    helper.setText(R.id.tvFeeName, itemName).setText(R.id.tvFeeNum, stringBuilder.toString());
                 }
                 break;
         }

@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
@@ -109,7 +109,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case TYPE_LIST:
                 ListViewHolder listViewHolder = (ListViewHolder) holder;
-                listViewHolder.setData((FeeBillEntity.DetailsBean) mItemList.get(position));
+                listViewHolder.setData((FeeBillDetailsBean) mItemList.get(position));
                 break;
             case TYPE_NOTICE:
                 NoticeViewHolder noticeViewHolder = (NoticeViewHolder) holder;
@@ -131,7 +131,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Object object = mItemList.get(position);
             if (object instanceof AfterHeaderBean) {
                 mCurrentType = TYPE_HEADER;
-            } else if (object instanceof FeeBillEntity.DetailsBean) {
+            } else if (object instanceof FeeBillDetailsBean) {
                 mCurrentType = TYPE_LIST;
             } else if (object instanceof String) {
                 mCurrentType = TYPE_NOTICE;
@@ -372,7 +372,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvMoney = itemView.findViewById(R.id.tvMoney);
         }
 
-        public void setData(FeeBillEntity.DetailsBean detailsBean) {
+        public void setData(FeeBillDetailsBean detailsBean) {
             if (detailsBean != null) {
                 String orderName = detailsBean.getOrdername();
                 String hisOrderTime = detailsBean.getHis_order_time();

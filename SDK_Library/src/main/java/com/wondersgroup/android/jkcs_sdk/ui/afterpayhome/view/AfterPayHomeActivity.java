@@ -18,6 +18,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
@@ -66,7 +67,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     /**
      * 中间的门诊账单的数据类型
      */
-    private List<FeeBillEntity.DetailsBean> mFeeBillList = new ArrayList<>();
+    private List<FeeBillDetailsBean> mFeeBillList = new ArrayList<>();
     /**
      * 尾部温馨提示的数据类型
      */
@@ -232,7 +233,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         mItemList.removeAll(mFeeBillList);
         if (entity != null) {
             llNeedPay.setVisibility(View.VISIBLE);
-            String feeTotal = entity.getFee_total();
+            String feeTotal = entity.getFeeTotal();
             // 00 未结算 01 正在结算
             String payState = entity.getPayState();
             if ("01".equals(payState)) {

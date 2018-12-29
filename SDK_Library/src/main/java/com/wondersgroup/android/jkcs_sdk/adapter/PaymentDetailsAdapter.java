@@ -26,7 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
@@ -234,7 +234,7 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         void setData(CombineDetailsBean combineDetails, int position) {
             this.position = position;
             if (combineDetails != null) {
-                FeeBillEntity.DetailsBean defaultDetails = combineDetails.getDefaultDetails();
+                FeeBillDetailsBean defaultDetails = combineDetails.getDefaultDetails();
                 spreadDetails = combineDetails.getOpenDetails();
 
                 if (defaultDetails != null) {

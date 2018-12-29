@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
-import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity;
 import com.wondersgroup.android.jkcs_sdk.widget.FeeDetailLayout;
@@ -110,7 +110,7 @@ public class RecordDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         void setData(CombineDetailsBean combineDetails, int position) {
             this.position = position;
             if (combineDetails != null) {
-                FeeBillEntity.DetailsBean defaultDetails = combineDetails.getDefaultDetails();
+                FeeBillDetailsBean defaultDetails = combineDetails.getDefaultDetails();
                 List<OrderDetailsEntity.DetailsBean> openDetails = combineDetails.getOpenDetails();
                 if (defaultDetails != null) {
                     String orderName = defaultDetails.getOrdername();
