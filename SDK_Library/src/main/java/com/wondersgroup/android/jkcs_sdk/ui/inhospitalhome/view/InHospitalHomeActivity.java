@@ -23,10 +23,13 @@ import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
+import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -169,19 +172,17 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList());
         // 预交金充值
         tvPrepayFee.setOnClickListener(view -> {
-            //PrepayFeeRechargeActivity.actionStart(InHospitalHomeActivity.this);
-            WToastUtil.show("敬请期待！");
+            // 在院状态才能进行预交金充值
+            if ("00".equals(mInState)) {
+                PrepayFeeRechargeActivity.actionStart(InHospitalHomeActivity.this);
+            } else {
+                WToastUtil.show("您当前不是住院状态，不能充值！");
+            }
         });
         // 充值记录
-        tvRechargeRecord.setOnClickListener(view -> {
-            //RechargeRecordActivity.actionStart(InHospitalHomeActivity.this);
-            WToastUtil.show("敬请期待！");
-        });
+        tvRechargeRecord.setOnClickListener(view -> RechargeRecordActivity.actionStart(InHospitalHomeActivity.this));
         // 日清单查询
-        tvDayDetail.setOnClickListener(view -> {
-            //DayDetailedListActivity.actionStart(InHospitalHomeActivity.this);
-            WToastUtil.show("敬请期待！");
-        });
+        tvDayDetail.setOnClickListener(view -> DayDetailedListActivity.actionStart(InHospitalHomeActivity.this));
         // 出院结算
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
