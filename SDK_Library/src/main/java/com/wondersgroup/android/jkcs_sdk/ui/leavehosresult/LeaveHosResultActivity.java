@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     private TextView tvCashFee;
     private TextView tvPrepayFee;
     private TextView tvWillFee;
+    private TextView tvFailedToast;
     private TextView tvInHosHis;
     private ImageView ivQrCode;
 
@@ -92,6 +94,8 @@ public class LeaveHosResultActivity extends AppCompatActivity {
 
         if (!mIsSuccess) {
             tvResult.setText(getString(R.string.wonders_self_failed1));
+            tvInHosHis.setText(getString(R.string.wonders_back_to_home_page));
+            tvFailedToast.setVisibility(View.VISIBLE);
         }
 
         tvTreatName.setText(name);
@@ -119,7 +123,10 @@ public class LeaveHosResultActivity extends AppCompatActivity {
 
     private void initListener() {
         tvInHosHis.setOnClickListener(v -> {
-            InHospitalHistory.actionStart(LeaveHosResultActivity.this);
+            // 如果结算成功就跳转到住院历史页面，失败就销毁页面返回到首页
+            if (mIsSuccess) {
+                InHospitalHistory.actionStart(LeaveHosResultActivity.this);
+            }
             finish();
         });
     }
@@ -136,6 +143,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         tvCashFee = findViewById(R.id.tvCashFee);
         tvPrepayFee = findViewById(R.id.tvPrepayFee);
         tvWillFee = findViewById(R.id.tvWillFee);
+        tvFailedToast = findViewById(R.id.tvFailedToast);
         tvInHosHis = findViewById(R.id.tvInHosHis);
         ivQrCode = findViewById(R.id.ivQrCode);
     }

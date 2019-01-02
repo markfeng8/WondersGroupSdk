@@ -18,16 +18,18 @@
 
         <TextView
             android:id="@+id/tvResult"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:drawableStart="@drawable/wonders_group_success"
             android:drawablePadding="@dimen/wonders_padding_10dp"
-            android:gravity="center"
+            android:gravity="center|start"
             android:text="您的医疗费用全部支付成功！"
             android:textColor="@color/wonders_rgb_color_58c78f"
             android:textSize="@dimen/wonders_text_size_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -298,11 +300,25 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
+            android:id="@+id/tvFailedToast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:layout_marginTop="@dimen/wonders_margin_24dp"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
+            android:text="@string/wonders_group_settle_failed_repay"
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/willFee" />
+
+        <TextView
             android:id="@+id/tvInHosHis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/wonders_margin_16dp"
-            android:layout_marginTop="@dimen/wonders_margin_24dp"
+            android:layout_marginTop="@dimen/wonders_margin_8dp"
             android:layout_marginEnd="@dimen/wonders_margin_16dp"
             android:background="@drawable/wonders_group_4dp_blue_shape"
             android:gravity="center"
@@ -310,7 +326,8 @@
             android:text="查看历史住院记录"
             android:textColor="@color/wonders_rgb_color_ffffff"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/willFee" />
+            app:layout_constraintTop_toBottomOf="@id/tvFailedToast"
+            app:layout_goneMarginTop="@dimen/wonders_margin_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 
