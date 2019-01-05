@@ -24,7 +24,8 @@
     <application>
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity"
             android:screenOrientation="portrait" />
@@ -54,7 +55,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity"
             android:screenOrientation="portrait" />
