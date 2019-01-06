@@ -20,6 +20,15 @@
             </intent-filter>
         </activity>
 
+        <!-- 蒲公英 apiKey -->
+        <meta-data
+            android:name="PGYER_API_KEY"
+            android:value="d6396614505d7f79a84394d5bf4efefe" />
+        <!-- 蒲公英 appKey -->
+        <meta-data
+            android:name="PGYER_APP_KEY"
+            android:value="a395ecfd0e17266e187f86a5f688693f" />
+
     </application>
 
 </manifest>

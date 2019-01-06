@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 73
-        versionName "2.6.2"
+        versionCode 75
+        versionName "2.6.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -44,7 +44,7 @@ android {
             signingConfig signingConfigs.release
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "HZ-SDK-example-V${defaultConfig.versionName}-${releaseTime()}.apk"
+                    outputFileName = getApkName()
                 }
             }
         }
@@ -54,10 +54,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
-
-static def releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {
@@ -70,6 +66,7 @@ dependencies {
     })
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.xsir:PgyerAndroidAppUpdate:0.4'
     implementation project(':SDK_Library')
 
 //    implementation 'com.lzy.net:okgo:3.0.4'
@@ -90,7 +87,40 @@ dependencies {
 //    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
 }
 
+def getApkFullPath() {
+    return rootDir.getAbsolutePath() + "/app/build/outputs/apk/release/" + getApkName()
+}
+
+def getApkName() {
+    return "HZ-SDK-example-V${android.defaultConfig.versionName}-${releaseTime()}.apk"
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+task("uploadApk") {
+    doLast {
+        def command = "curl -F \"file=@${getApkFullPath()}\" -F \"uKey=84580152aa5500154f68067df1db02a9\" -F \"_api_key=d6396614505d7f79a84394d5bf4efefe\" https://www.pgyer.com/apiv2/app/upload"
+        println "command:" + command
+        try {
+            exec {
+                ExecSpec execSpec ->
+                    executable 'bash'
+                    args '-c', command
+            }
+            println "uploadApk success~"
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+    }
+}
+
+uploadApk.dependsOn("assembleRelease")
+
 /*
  * 打包命令：
  * ./gradlew assembleRelease
+ * 打包上传 APK:
+ * ./gradlew :app:uploadApk
  */

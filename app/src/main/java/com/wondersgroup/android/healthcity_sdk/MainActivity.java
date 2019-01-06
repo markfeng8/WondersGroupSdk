@@ -13,6 +13,7 @@ import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.utils.WondersGroup;
+import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         String versionName = "demo 版本：V" + version;
         tvVersion.setText(versionName);
         initPerson();
+        PgyerApi.checkUpdate(this);
     }
 
     private void initPerson() {
