@@ -38,7 +38,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     private static final String TAG = "LeaveHosResultActivity";
     private TextView tvResult;
     private TextView tvTreatName;
-    private TextView tvSocialNum;
+    private TextView tvIdNum;
     private TextView tvHospitalName;
     private TextView tvBillDate;
     private TextView tvBillNo;
@@ -77,7 +77,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
 
     private void initData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
         String payStartTime = SpUtil.getInstance().getString(SpKey.PAY_START_TIME, "");
 
@@ -99,7 +99,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         }
 
         tvTreatName.setText(name);
-        tvSocialNum.setText(cardNum);
+        tvIdNum.setText(idNum);
         tvHospitalName.setText(mOrgName);
         tvBillDate.setText(payStartTime);
         tvBillNo.setText(payPlatTradeNo);
@@ -134,7 +134,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     private void findViews() {
         tvResult = findViewById(R.id.tvResult);
         tvTreatName = findViewById(R.id.tvTreatName);
-        tvSocialNum = findViewById(R.id.tvSocialNum);
+        tvIdNum = findViewById(R.id.tvIdNum);
         tvHospitalName = findViewById(R.id.tvHospitalName);
         tvBillDate = findViewById(R.id.tvBillDate);
         tvBillNo = findViewById(R.id.tvBillNo);

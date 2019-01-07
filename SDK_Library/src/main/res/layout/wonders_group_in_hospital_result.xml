@@ -60,27 +60,27 @@
             app:layout_constraintLeft_toRightOf="@id/treatName" />
 
         <TextView
-            android:id="@+id/socialNum"
+            android:id="@+id/idNum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/wonders_margin_8dp"
             android:layout_weight="1"
-            android:text="社保卡号："
+            android:text="身份证号："
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="@dimen/wonders_text_size_14sp"
             app:layout_constraintStart_toStartOf="@id/treatName"
             app:layout_constraintTop_toBottomOf="@id/treatName" />
 
         <TextView
-            android:id="@+id/tvSocialNum"
+            android:id="@+id/tvIdNum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="@string/wonders_social_number"
             android:textColor="@color/wonders_rgb_color_333333"
             android:textSize="@dimen/wonders_text_size_14sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/socialNum"
-            app:layout_constraintLeft_toRightOf="@id/socialNum" />
+            app:layout_constraintBaseline_toBaselineOf="@id/idNum"
+            app:layout_constraintLeft_toRightOf="@id/idNum" />
 
         <TextView
             android:id="@+id/hospitalName"
@@ -91,8 +91,8 @@
             android:text="就诊医院："
             android:textColor="@color/wonders_rgb_color_969696"
             android:textSize="@dimen/wonders_text_size_14sp"
-            app:layout_constraintStart_toStartOf="@id/socialNum"
-            app:layout_constraintTop_toBottomOf="@id/socialNum" />
+            app:layout_constraintStart_toStartOf="@id/idNum"
+            app:layout_constraintTop_toBottomOf="@id/idNum" />
 
         <TextView
             android:id="@+id/tvHospitalName"
