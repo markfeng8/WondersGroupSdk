@@ -94,7 +94,7 @@
         android:drawableEnd="@drawable/wonders_group_right_arrow"
         android:drawablePadding="@dimen/wonders_padding_10dp"
         android:gravity="start|center"
-        android:text="@string/wonders_huzhou_city"
+        android:text="@string/wonders_select_hospital_please"
         android:textColor="@color/wonders_rgb_color_333333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

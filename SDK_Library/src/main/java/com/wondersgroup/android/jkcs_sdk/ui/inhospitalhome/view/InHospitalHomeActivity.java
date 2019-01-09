@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.Group;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -85,9 +86,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      */
     private String mInState = "";
 
-    private static final String HUZHOU_CENTER_HOS_ORG_CODE = "47117170333050211A1001";
-    private static final String HUZHOU_CENTER_HOS_ORG_NAME = "湖州市中心医院";
-
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
         @Override
         public void onClick(int position) {
@@ -106,7 +104,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     };
 
     private void requestCY0001() {
-        mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
+        if (!TextUtils.isEmpty(mOrgCode)) {
+            mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE0);
+        }
     }
 
     @Override
@@ -138,10 +138,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String start = idNum.substring(0, 10);
         String end = idNum.substring(idNum.length() - 4, idNum.length());
         tvIdNum.setText(start + "****" + end);
-        mOrgName = HUZHOU_CENTER_HOS_ORG_NAME;
-        mOrgCode = HUZHOU_CENTER_HOS_ORG_CODE;
-        tvHospitalName.setText(mOrgName);
-        requestCY0001();
     }
 
     private void findViews() {
