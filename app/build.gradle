@@ -67,7 +67,9 @@ dependencies {
     })
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.tencent.bugly:crashreport:2.8.6.0'
-    implementation 'com.xsir:PgyerAndroidAppUpdate:0.6'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
+    implementation 'com.xsir:PgyerAndroidAppUpdate:0.8'
     implementation project(':SDK_Library')
 
 //    implementation 'com.lzy.net:okgo:3.0.4'

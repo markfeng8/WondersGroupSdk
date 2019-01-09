@@ -2,6 +2,8 @@ package com.wondersgroup.android.healthcity_sdk;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
@@ -24,7 +27,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    // /\*\*\R(.+)\R(.+)*/ /\*\*$1$2*/
     private static final String[] NAME = {"吴振强", "陆晓明", "朱凯", "潘人伟", "杨旭成", "沈佳威", "赵岳寅", "钟瑜", "唐其儿", "邱晨飞", "钟央毛", "程华凤", "测试2", "严超", "闵丽明", "测试新", "居国芳"};
     private static final String[] ID_NUM = {"330501199008213715", "330502197207121415", "330501199005222018", "330502196310210630", "330102197703011512", "330501198709151313", "330681198610031570", "330501198112238539", "330501198908158673", "330501199001262215", "330511193603094218", "330523196701243028", "330501198804146213", "330501198804146213", "330511194908061024", "111111111111111111", "330502196211040023"};
     private static final String[] CARD_TYPE = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "2", "0", "0", "0", "0", "0", "0", "0"};
@@ -64,42 +66,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelfPayHome;
     @BindView(R.id.btnInHospitalHome)
     Button btnInHospitalHome;
-    @BindView(R.id.tvMrLu)
-    TextView tvMrLu;
-    @BindView(R.id.tvMrZhu)
-    TextView tvMrZhu;
-    @BindView(R.id.tvMrWu)
-    TextView tvMrWu;
-    @BindView(R.id.tvMrPan)
-    TextView tvMrPan;
-    @BindView(R.id.tvMrYang)
-    TextView tvMrYang;
-    @BindView(R.id.tvMrShen)
-    TextView tvMrShen;
-    @BindView(R.id.tvMrZhao)
-    TextView tvMrZhao;
-    @BindView(R.id.tvMrZhong)
-    TextView tvMrZhong;
-    @BindView(R.id.tvMrTang)
-    TextView tvMrTang;
-    @BindView(R.id.tvMrQiu)
-    TextView tvMrQiu;
-    @BindView(R.id.tvMrZym)
-    TextView tvMrZym;
-    @BindView(R.id.tvMrCheng)
-    TextView tvMrCheng;
-    @BindView(R.id.tvMrTest2)
-    TextView tvMrTest2;
-    @BindView(R.id.tvMrYanChao)
-    TextView tvMrYanChao;
-    @BindView(R.id.tvMrMinLm)
-    TextView tvMrMinLm;
-    @BindView(R.id.tvMrTestNew)
-    TextView tvMrTestNew;
-    @BindView(R.id.tvMrJu)
-    TextView tvMrJu;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
         initData();
+        setAdapter();
     }
 
     private void initData() {
@@ -117,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
         tvVersion.setText(versionName);
         initPerson();
         PgyerApi.checkUpdate(this);
+    }
+
+    private void setAdapter() {
+        PersonAdapter personAdapter = new PersonAdapter(mPersonList);
+        recyclerView.setAdapter(personAdapter);
+        LinearLayoutManager linearLayoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        personAdapter.setOnItemClickListener((adapter, view, position) -> setPersonInfo(mPersonList.get(position)));
     }
 
     private void initPerson() {
@@ -133,63 +113,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.tvMrWu, R.id.tvMrLu, R.id.tvMrZhu, R.id.tvMrPan, R.id.tvMrYang, R.id.tvMrShen,
-            R.id.tvMrZhao, R.id.tvMrZhong, R.id.tvMrTang, R.id.tvMrQiu, R.id.tvMrZym, R.id.tvMrCheng,
-            R.id.tvMrTest2, R.id.tvMrYanChao, R.id.tvMrMinLm, R.id.tvMrTestNew, R.id.tvMrJu, R.id.btnAfterPayHome,
-            R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tvMrWu:
-                setPersonInfo(mPersonList.get(0));
-                break;
-            case R.id.tvMrLu:
-                setPersonInfo(mPersonList.get(1));
-                break;
-            case R.id.tvMrZhu:
-                setPersonInfo(mPersonList.get(2));
-                break;
-            case R.id.tvMrPan:
-                setPersonInfo(mPersonList.get(3));
-                break;
-            case R.id.tvMrYang:
-                setPersonInfo(mPersonList.get(4));
-                break;
-            case R.id.tvMrShen:
-                setPersonInfo(mPersonList.get(5));
-                break;
-            case R.id.tvMrZhao:
-                setPersonInfo(mPersonList.get(6));
-                break;
-            case R.id.tvMrZhong:
-                setPersonInfo(mPersonList.get(7));
-                break;
-            case R.id.tvMrTang:
-                setPersonInfo(mPersonList.get(8));
-                break;
-            case R.id.tvMrQiu:
-                setPersonInfo(mPersonList.get(9));
-                break;
-            case R.id.tvMrZym:
-                setPersonInfo(mPersonList.get(10));
-                break;
-            case R.id.tvMrCheng:
-                setPersonInfo(mPersonList.get(11));
-                break;
-            case R.id.tvMrTest2:
-                setPersonInfo(mPersonList.get(12));
-                break;
-            case R.id.tvMrYanChao:
-                setPersonInfo(mPersonList.get(13));
-                break;
-            case R.id.tvMrMinLm:
-                setPersonInfo(mPersonList.get(14));
-                break;
-            case R.id.tvMrTestNew:
-                setPersonInfo(mPersonList.get(15));
-                break;
-            case R.id.tvMrJu:
-                setPersonInfo(mPersonList.get(16));
-                break;
             case R.id.btnAfterPayHome:
                 startBusiness(0);
                 break;
