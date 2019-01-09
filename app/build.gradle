@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 76
-        versionName "2.6.5"
+        versionCode 78
+        versionName "2.6.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -102,10 +102,28 @@ static def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
+def readProperties(key) {
+    File file = rootProject.file('local.properties')
+    if (file.exists()) {
+        InputStream inputStream = rootProject.file('local.properties').newDataInputStream()
+        Properties properties = new Properties()
+        properties.load(inputStream)
+
+        if (properties.containsKey(key)) {
+            return properties.getProperty(key)
+        }
+    }
+}
+
+static def getUpdateDescription() {
+    return '我是更新描述信息！'
+}
+
 task("uploadApk") {
     doLast {
-        def command = "curl -F \"file=@${getApkFullPath()}\" -F \"uKey=84580152aa5500154f68067df1db02a9\" -F \"_api_key=d6396614505d7f79a84394d5bf4efefe\" https://www.pgyer.com/apiv2/app/upload"
+        def command = "curl -F \"file=@${getApkFullPath()}\" -F \"uKey=${readProperties('pgyer.userKey')}\" -F \"_api_key=${readProperties('pgyer.apiKey')}\" -F \"buildUpdateDescription=${getUpdateDescription()}\" https://www.pgyer.com/apiv2/app/upload"
         println "command:" + command
+
         try {
             exec {
                 ExecSpec execSpec ->
