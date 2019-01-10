@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.HosHistoryAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
@@ -56,9 +58,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(InHospitalHistory.this);
-
-    private static final String HUZHOU_CENTER_HOS_ORG_CODE = "47117170333050211A1001";
-    private static final String HUZHOU_CENTER_HOS_ORG_NAME = "湖州市中心医院";
 
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
         @Override
@@ -104,10 +103,16 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
-        mOrgName = HUZHOU_CENTER_HOS_ORG_NAME;
-        mOrgCode = HUZHOU_CENTER_HOS_ORG_CODE;
-        tvHospitalName.setText(mOrgName);
-        requestCY0001();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
+            mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+            if (!TextUtils.isEmpty(mOrgCode) && !TextUtils.isEmpty(mOrgName)) {
+                tvHospitalName.setText(mOrgName);
+                requestCY0001();
+            }
+        }
     }
 
     private void initListener() {
@@ -190,9 +195,15 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
         mHosHistoryAdapter.setOnItemClickListener((adapter, view, position) -> InHospitalRecordActivity.actionStart(InHospitalHistory.this, mDetails.get(position)));
     }
 
-    public static void actionStart(Context context) {
+    public static void actionStart(Context context, String orgCode, String orgName) {
         if (context != null) {
             Intent intent = new Intent(context, InHospitalHistory.class);
+            if (!TextUtils.isEmpty(orgCode)) {
+                intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+            }
+            if (!TextUtils.isEmpty(orgCode)) {
+                intent.putExtra(IntentExtra.ORG_NAME, orgName);
+            }
             context.startActivity(intent);
         } else {
             LogUtil.e(TAG, "context is null!");

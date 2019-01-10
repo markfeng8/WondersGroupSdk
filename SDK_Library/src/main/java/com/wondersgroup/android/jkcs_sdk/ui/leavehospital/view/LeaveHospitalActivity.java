@@ -349,7 +349,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private void jumpToLeaveHospitalResultPager(boolean isSuccess) {
-        LeaveHosResultActivity.actionStart(this, isSuccess, mOrgName, feeTotal,
+        LeaveHosResultActivity.actionStart(this, isSuccess, mOrgCode, mOrgName, feeTotal,
                 feeCashTotal, feeYbTotal, feePrepayTotal, mFeeNeedCashTotal);
         finish();
     }

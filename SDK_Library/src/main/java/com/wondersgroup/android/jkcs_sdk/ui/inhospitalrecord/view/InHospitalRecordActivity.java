@@ -24,6 +24,8 @@ import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract.InHospitalRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.presenter.InHospitalRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -47,6 +49,7 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private String mPayPlatTradeNo;
     private String mOrgCode;
     private String mInHosId;
+    private String mLeaveHosDate;
 
     @Override
     protected InHospitalRecordPresenter<InHospitalRecordContract.IView> createPresenter() {
@@ -62,7 +65,13 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     }
 
     private void initListener() {
-        tvInHosDetail.setOnClickListener(v -> DayDetailedListActivity.actionStart(InHospitalRecordActivity.this, mOrgCode, mInHosId));
+        tvInHosDetail.setOnClickListener(v -> {
+            if (!TimeUtil.isOver90Days(mLeaveHosDate)) {
+                DayDetailedListActivity.actionStart(InHospitalRecordActivity.this, mOrgCode, mInHosId);
+            } else {
+                WToastUtil.show("仅支持3个月内日清单记录查询！");
+            }
+        });
         tvEleInvoice.setOnClickListener(v -> EleInvoiceActivity.actionStart(InHospitalRecordActivity.this,
                 TextUtils.isEmpty(mPayPlatTradeNo) ? "0" : mPayPlatTradeNo));
     }
@@ -84,13 +93,14 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private void setViewsData(Cy0001Entity.DetailsBean detailsBean) {
         mOrgCode = detailsBean.getOrg_code();
         mInHosId = detailsBean.getJzlsh();
+        mLeaveHosDate = detailsBean.getCysj().substring(0, 10);
         tvName.setText(detailsBean.getName());
         tvHospital.setText(detailsBean.getOrgName());
         tvIdNum.setText(detailsBean.getId_no());
         tvInHosId.setText(mInHosId);
         tvInHosArea.setText(detailsBean.getKsmc());
         tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
-        tvLeaveHosDate.setText(detailsBean.getCysj().substring(0, 10));
+        tvLeaveHosDate.setText(mLeaveHosDate);
         tvInHosType.setText("0".equals(detailsBean.getCard_type()) ? "医保" : "自费");
         tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");
         mPayPlatTradeNo = detailsBean.getPayPlatTradeNo();

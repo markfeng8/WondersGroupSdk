@@ -74,7 +74,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
             String beforeDate = TimeUtil.getBeforeDate(91);
             String lastDate = TimeUtil.getLastDay(mLastTime);
             if (lastDate.equals(beforeDate)) {
-                WToastUtil.show("查询失败！您已经达到了能查询的最小日期。");
+                WToastUtil.show("仅支持3个月内日清单记录查询！");
             } else {
                 mLastTime -= 1000L * 60L * 60L * 24L;
                 tvStartDate.setText(lastDate);

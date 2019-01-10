@@ -57,6 +57,11 @@ public class TimeUtil {
         return System.currentTimeMillis() - beforeTime;
     }
 
+    public static long getBeforeDayMillis(int day) {
+        long beforeTime = 1000L * 60L * 60L * 24L * day;
+        return System.currentTimeMillis() - beforeTime;
+    }
+
     /**
      * 返回倒计时毫秒数
      *
@@ -94,6 +99,17 @@ public class TimeUtil {
         long millis = Long.parseLong(time);
         long curTime = System.currentTimeMillis();
         return (curTime - millis) > (30 * 60 * 1000);
+    }
+
+    public static boolean isOver90Days(String dateStr) {
+        Date date = null;
+        try {
+            date = sdf4.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date != null && date.before(new Date(getBeforeDayMillis(90)));
     }
 
     /**

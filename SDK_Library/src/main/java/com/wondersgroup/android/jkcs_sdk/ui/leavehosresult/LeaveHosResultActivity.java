@@ -51,6 +51,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     private TextView tvInHosHis;
     private ImageView ivQrCode;
 
+    private String mOrgCode = "";
     private String mOrgName = "";
     private String mFeeTotal = "";
     private String mFeeCashTotal = "";
@@ -84,6 +85,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             mIsSuccess = intent.getBooleanExtra(IntentExtra.IS_SUCCESS, false);
+            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
             mFeeTotal = intent.getStringExtra(IntentExtra.FEE_TOTAL);
             mFeeCashTotal = intent.getStringExtra(IntentExtra.FEE_CASH_TOTAL);
@@ -125,7 +127,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         tvInHosHis.setOnClickListener(v -> {
             // 如果结算成功就跳转到住院历史页面，失败就销毁页面返回到首页
             if (mIsSuccess) {
-                InHospitalHistory.actionStart(LeaveHosResultActivity.this);
+                InHospitalHistory.actionStart(LeaveHosResultActivity.this, mOrgCode, mOrgName);
             }
             finish();
         });
@@ -148,11 +150,12 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         ivQrCode = findViewById(R.id.ivQrCode);
     }
 
-    public static void actionStart(Context context, boolean isSuccess, String orgName, String feeTotal,
+    public static void actionStart(Context context, boolean isSuccess, String orgCode, String orgName, String feeTotal,
                                    String feeCashTotal, String feeYbTotal, String feePrepayTotal, String feeNeedCashTotal) {
         if (context != null) {
             Intent intent = new Intent(context, LeaveHosResultActivity.class);
             intent.putExtra(IntentExtra.IS_SUCCESS, isSuccess);
+            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
             intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
             intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);

@@ -182,15 +182,24 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 出院结算
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
-        tvInHosRecord.setOnClickListener(view -> InHospitalHistory.actionStart(InHospitalHomeActivity.this));
+        tvInHosRecord.setOnClickListener(view -> {
+            InHospitalHistory.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
+        });
     }
 
     private void findDayDetails() {
-        if (mCy0001Entity == null) {
-            WToastUtil.show("暂无住院信息！");
+        if (TextUtils.isEmpty(mOrgName)) {
+            WToastUtil.show("请先选择医院！");
             return;
         }
-        DayDetailedListActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mInHosId);
+        if (mCy0001Entity == null) {
+            WToastUtil.show("当前无住院信息，请通过住院记录页面查询！");
+            return;
+        }
+        // 在院或预出院状态才可以查询日清单
+        if ("00".equals(mInState) || "01".equals(mInState)) {
+            DayDetailedListActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mInHosId);
+        }
     }
 
     private void leaveHospitalSettle() {
