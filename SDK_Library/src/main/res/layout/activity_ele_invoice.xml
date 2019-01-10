@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:text="@string/wonders_my_ele_invoice"
         app:textColor="@color/wonders_rgb_color_ffffff"
-        app:textSize="@dimen/wonders_text_size_16sp"
+        app:textSize="@dimen/wonders_text_size_18sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
 
     <ProgressBar

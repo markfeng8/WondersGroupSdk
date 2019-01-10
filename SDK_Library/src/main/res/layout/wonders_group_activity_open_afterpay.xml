@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:text="@string/wonders_text_open_after_paying"
         app:textColor="@color/wonders_rgb_color_ffffff"
-        app:textSize="@dimen/wonders_text_size_16sp"
+        app:textSize="@dimen/wonders_text_size_18sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
 
     <include layout="@layout/wonders_group_open_afterpay_page" />

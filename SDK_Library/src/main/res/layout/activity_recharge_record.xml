@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         app:text="@string/wonders_recharge_record"
         app:textColor="@color/wonders_rgb_color_ffffff"
-        app:textSize="@dimen/wonders_text_size_16sp"
+        app:textSize="@dimen/wonders_text_size_18sp"
         app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
 
     <android.support.v7.widget.RecyclerView
