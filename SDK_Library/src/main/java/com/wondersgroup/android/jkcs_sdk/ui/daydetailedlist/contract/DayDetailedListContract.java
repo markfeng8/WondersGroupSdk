@@ -8,17 +8,27 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract;
 
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
+import com.wondersgroup.android.jkcs_sdk.listener.OnCy0005RequestListener;
+
 /**
  * Created by x-sir on 2018/11/1 :)
  * Function:
  */
 public interface DayDetailedListContract {
     interface IModel {
+        void requestCy0005(String orgCode, String jzlsh, String startDate, OnCy0005RequestListener listener);
     }
 
     interface IView {
+        void showLoading();
+
+        void dismissLoading();
+
+        void onCy0005Result(Cy0005Entity entity);
     }
 
     interface IPresenter {
+        void requestCy0005(String orgCode, String jzlsh, String startDate);
     }
 }

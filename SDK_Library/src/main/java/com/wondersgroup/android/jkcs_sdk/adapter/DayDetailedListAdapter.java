@@ -8,51 +8,36 @@
 
 package com.wondersgroup.android.jkcs_sdk.adapter;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.Nullable;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
+
+import java.util.List;
 
 /**
  * Created by x-sir on 2018/11/1 :)
  * Function:日清单列表数据的 Adapter
  */
-public class DayDetailedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DayDetailedListAdapter extends BaseQuickAdapter<Cy0005Entity.DetailsBean, BaseViewHolder> {
 
     private static final String TAG = "DayDetailedListAdapter";
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
 
-    public DayDetailedListAdapter(Context context) {
-        this.mContext = context;
-        this.mLayoutInflater = LayoutInflater.from(context);
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(mLayoutInflater.inflate(
-                R.layout.wonders_group_day_detailed_item, parent, false));
+    public DayDetailedListAdapter(@Nullable List<Cy0005Entity.DetailsBean> data) {
+        super(R.layout.wonders_group_day_detailed_item, data);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        MyViewHolder myViewHolder = (MyViewHolder) holder;
-    }
-
-    @Override
-    public int getItemCount() {
-        return 10;
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        MyViewHolder(View itemView) {
-            super(itemView);
-        }
+    protected void convert(BaseViewHolder helper, Cy0005Entity.DetailsBean item) {
+        helper.setText(R.id.tvDrugName, item.getItemName())
+                .setText(R.id.tvDrugNo, item.getItemCode())
+                .setText(R.id.tvStandard, "规格：" + item.getStandard())
+                .setText(R.id.tvNum, "数量：" + item.getAmount())
+                .setText(R.id.tvUnit, "单位：" + item.getUnit())
+                .setText(R.id.tvPrice, "单价：" + item.getPrice())
+                .setText(R.id.tvFee, "费用：" + item.getTotal())
+                .setText(R.id.tvType, "类别：" + item.getCustomerFeeId());
     }
 }

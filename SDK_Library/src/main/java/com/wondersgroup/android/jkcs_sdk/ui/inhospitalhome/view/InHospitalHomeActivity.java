@@ -178,11 +178,19 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 充值记录
         tvRechargeRecord.setOnClickListener(view -> RechargeRecordActivity.actionStart(InHospitalHomeActivity.this));
         // 日清单查询
-        tvDayDetail.setOnClickListener(view -> DayDetailedListActivity.actionStart(InHospitalHomeActivity.this));
+        tvDayDetail.setOnClickListener(view -> findDayDetails());
         // 出院结算
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> InHospitalHistory.actionStart(InHospitalHomeActivity.this));
+    }
+
+    private void findDayDetails() {
+        if (mCy0001Entity == null) {
+            WToastUtil.show("暂无住院信息！");
+            return;
+        }
+        DayDetailedListActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mInHosId);
     }
 
     private void leaveHospitalSettle() {

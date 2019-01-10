@@ -43,6 +43,7 @@
             android:layout_marginTop="@dimen/wonders_margin_32dp">
 
             <TextView
+                android:id="@+id/tvStandard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,6 +52,7 @@
                 android:textSize="@dimen/wonders_text_size_16sp" />
 
             <TextView
+                android:id="@+id/tvNum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -59,6 +61,7 @@
                 android:textSize="@dimen/wonders_text_size_16sp" />
 
             <TextView
+                android:id="@+id/tvUnit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
@@ -73,6 +76,7 @@
             android:layout_marginTop="@dimen/wonders_margin_16dp">
 
             <TextView
+                android:id="@+id/tvPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -81,6 +85,7 @@
                 android:textSize="@dimen/wonders_text_size_16sp" />
 
             <TextView
+                android:id="@+id/tvFee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,6 +94,7 @@
                 android:textSize="@dimen/wonders_text_size_16sp" />
 
             <TextView
+                android:id="@+id/tvType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"

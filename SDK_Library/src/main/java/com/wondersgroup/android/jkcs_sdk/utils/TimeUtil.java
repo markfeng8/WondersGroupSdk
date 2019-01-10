@@ -52,6 +52,11 @@ public class TimeUtil {
         return date == null ? 0L : date.getTime();
     }
 
+    public static long getBefore90DayTime() {
+        long beforeTime = 1000L * 60L * 60L * 24L * 90L;
+        return System.currentTimeMillis() - beforeTime;
+    }
+
     /**
      * 返回倒计时毫秒数
      *
@@ -120,14 +125,28 @@ public class TimeUtil {
      *
      * @return 2018-08-03
      */
-    @SuppressWarnings("NumericOverflow")
     public static String getBefore30Date() {
-        long beforeTime = 1000L * 60L * 60L * 24L * 30L;
+        return getBeforeDate(30);
+    }
+
+    @SuppressWarnings("NumericOverflow")
+    public static String getBeforeDate(int day) {
+        long beforeTime = 1000L * 60L * 60L * 24L * day;
         long millis = System.currentTimeMillis() - beforeTime;
         Date date = new Date(millis);
         String format = sdf4.format(date);
-        LogUtil.i(TAG, "getBefore30Date()===" + format);
+        LogUtil.i(TAG, "getBeforeDate()===" + format);
         return format;
+    }
+
+    /**
+     * 获取昨天的日期
+     *
+     * @return "yyyy-MM-dd"
+     */
+    public static String getLastDay(long todayMillis) {
+        long millis = todayMillis - 1000L * 60L * 60L * 24L;
+        return sdf4.format(new Date(millis));
     }
 
     /**
