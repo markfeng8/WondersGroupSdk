@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 80
-        versionName "2.6.9"
+        versionCode 82
+        versionName "2.7.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -116,7 +116,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '我是更新描述信息！'
+    return '1.日清单查询页面增加时间控制及逻辑判断;\n2.bugs fix;'
 }
 
 task("uploadApk") {

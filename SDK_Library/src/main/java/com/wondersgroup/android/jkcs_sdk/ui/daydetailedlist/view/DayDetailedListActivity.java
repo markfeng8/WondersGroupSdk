@@ -100,6 +100,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
             tvToday.setText("后一天");
         }
 
+        mLastTime = Long.parseLong(mMaxMillis);
         String currentDate = TimeUtil.getDate(Long.parseLong(mMaxMillis));
         tvStartDate.setText(currentDate);
         requestCy0005(currentDate);
@@ -179,8 +180,8 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         DateScrollerDialog dialog = new DateScrollerDialog.Builder()
                 .setType(Type.YEAR_MONTH_DAY)
                 .setTitleStringId(getString(R.string.wonders_select_date_please))
-                .setMinMilliseconds(TimeUtil.getBefore90DayTime())
-                .setMaxMilliseconds(System.currentTimeMillis())
+                .setMinMilliseconds(Long.parseLong(mMinMillis))
+                .setMaxMilliseconds(Long.parseLong(mMaxMillis))
                 .setCurMilliseconds(mLastTime)
                 .setCallback(mOnDateSetListener)
                 .build();
