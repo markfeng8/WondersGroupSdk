@@ -50,6 +50,7 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private String mOrgCode;
     private String mInHosId;
     private String mLeaveHosDate;
+    private String mInHosDate;
 
     @Override
     protected InHospitalRecordPresenter<InHospitalRecordContract.IView> createPresenter() {
@@ -67,7 +68,8 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private void initListener() {
         tvInHosDetail.setOnClickListener(v -> {
             if (!TimeUtil.isOver90Days(mLeaveHosDate)) {
-                DayDetailedListActivity.actionStart(InHospitalRecordActivity.this, mOrgCode, mInHosId);
+                DayDetailedListActivity.actionStart(InHospitalRecordActivity.this, mOrgCode,
+                        mInHosId, TAG, TimeUtil.getMinMillis(mInHosDate), String.valueOf(TimeUtil.getMillis(mLeaveHosDate)));
             } else {
                 WToastUtil.show("仅支持3个月内日清单记录查询！");
             }
@@ -93,13 +95,14 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     private void setViewsData(Cy0001Entity.DetailsBean detailsBean) {
         mOrgCode = detailsBean.getOrg_code();
         mInHosId = detailsBean.getJzlsh();
+        mInHosDate = detailsBean.getRysj().substring(0, 10);
         mLeaveHosDate = detailsBean.getCysj().substring(0, 10);
         tvName.setText(detailsBean.getName());
         tvHospital.setText(detailsBean.getOrgName());
         tvIdNum.setText(detailsBean.getId_no());
         tvInHosId.setText(mInHosId);
         tvInHosArea.setText(detailsBean.getKsmc());
-        tvInHosDate.setText(detailsBean.getRysj().substring(0, 10));
+        tvInHosDate.setText(mInHosDate);
         tvLeaveHosDate.setText(mLeaveHosDate);
         tvInHosType.setText("0".equals(detailsBean.getCard_type()) ? "医保" : "自费");
         tvInHosFeeTotal.setText(detailsBean.getFee_total() + "元");

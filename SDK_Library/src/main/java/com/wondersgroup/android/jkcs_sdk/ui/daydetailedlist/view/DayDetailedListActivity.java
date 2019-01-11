@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,6 +55,9 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     private long mLastTime = System.currentTimeMillis();
     private String mOrgCode;
     private String mInHosId;
+    private String mActivityTag;
+    private String mMinMillis;
+    private String mMaxMillis;
 
     @Override
     protected DayDetailedListPresenter<DayDetailedListContract.IView> createPresenter() {
@@ -66,6 +70,39 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         findViews();
         initData();
         initListener();
+    }
+
+    private void findViews() {
+        recyclerView = findViewById(R.id.recyclerView);
+        tvStartDate = findViewById(R.id.tvStartDate);
+        tvTotalFee = findViewById(R.id.tvTotalFee);
+        tvBeforeDay = findViewById(R.id.tvBeforeDay);
+        tvToday = findViewById(R.id.tvToday);
+        llTotalFee = findViewById(R.id.llTotalFee);
+    }
+
+    private void initData() {
+        mLoading = new LoadingView.Builder(this)
+                .build();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
+            mInHosId = intent.getStringExtra(IntentExtra.IN_HOS_ID);
+            mActivityTag = intent.getStringExtra(IntentExtra.ACTIVITY_TAG);
+            mMinMillis = intent.getStringExtra(IntentExtra.MIN_MILLIS);
+            mMaxMillis = intent.getStringExtra(IntentExtra.MAX_MILLIS);
+        }
+
+        if ("InHospitalHomeActivity".equals(mActivityTag)) {
+            tvToday.setText("今天");
+        } else if ("InHospitalRecordActivity".equals(mActivityTag)) {
+            tvToday.setText("后一天");
+        }
+
+        String currentDate = TimeUtil.getDate(Long.parseLong(mMaxMillis));
+        tvStartDate.setText(currentDate);
+        requestCy0005(currentDate);
     }
 
     private void initListener() {
@@ -82,35 +119,45 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
             }
         });
         tvToday.setOnClickListener(v -> {
-            String currentDate = TimeUtil.getCurrentDate();
-            mLastTime = System.currentTimeMillis();
-            tvStartDate.setText(currentDate);
-            requestCy0005(currentDate);
+            dealWithTime();
         });
     }
 
-    private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
+    private void dealWithTime() {
+        boolean isReturn = false;
+        if (!TextUtils.isEmpty(mActivityTag)) {
+            switch (mActivityTag) {
+                case "InHospitalHomeActivity":
+                    String lastDate = TimeUtil.getDate(mLastTime);
+                    String curDate = TimeUtil.getDate(System.currentTimeMillis());
+                    if (lastDate.equals(curDate)) {
+                        WToastUtil.show("时间选择已到达今天，无法查看明日清单!");
+                        isReturn = true;
+                    } else {
+                        mLastTime = System.currentTimeMillis();
+                    }
+                    break;
+                case "InHospitalRecordActivity":
+                    mLastTime += 1000L * 60L * 60L * 24L;
+                    break;
+                default:
+                    LogUtil.e("Invalid activity tag!");
+                    break;
+            }
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
-            mInHosId = intent.getStringExtra(IntentExtra.IN_HOS_ID);
+            if (isReturn) {
+                return;
+            }
+
+            if (mLastTime > System.currentTimeMillis()) {
+                WToastUtil.show("已显示出院当天日清单，无法查看未住院日清单！");
+                mLastTime = System.currentTimeMillis();
+            } else {
+                String date = TimeUtil.getDate(mLastTime);
+                tvStartDate.setText(date);
+                requestCy0005(date);
+            }
         }
-
-        String currentDate = TimeUtil.getCurrentDate();
-        tvStartDate.setText(currentDate);
-        requestCy0005(currentDate);
-    }
-
-    private void findViews() {
-        recyclerView = findViewById(R.id.recyclerView);
-        tvStartDate = findViewById(R.id.tvStartDate);
-        tvTotalFee = findViewById(R.id.tvTotalFee);
-        tvBeforeDay = findViewById(R.id.tvBeforeDay);
-        tvToday = findViewById(R.id.tvToday);
-        llTotalFee = findViewById(R.id.llTotalFee);
     }
 
     private void setAdapter() {
@@ -162,14 +209,27 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         mPresenter.requestCy0005(mOrgCode, mInHosId, date);
     }
 
-    public static void actionStart(Context context, String orgCode, String inHosId) {
+    /**
+     * Activity 跳转的逻辑处理
+     *
+     * @param context   上下文
+     * @param orgCode   组织机构编号
+     * @param inHosId   就诊流水号
+     * @param flag      页面跳转标志(从哪个页面跳转过来的)
+     * @param minMillis 时间控件的最小时间
+     * @param maxMillis 时间控件的最大时间
+     */
+    public static void actionStart(Context context, String orgCode, String inHosId, String flag, String minMillis, String maxMillis) {
         if (context != null) {
             Intent intent = new Intent(context, DayDetailedListActivity.class);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
             intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
+            intent.putExtra(IntentExtra.ACTIVITY_TAG, flag);
+            intent.putExtra(IntentExtra.MIN_MILLIS, minMillis);
+            intent.putExtra(IntentExtra.MAX_MILLIS, maxMillis);
             context.startActivity(intent);
         } else {
-            LogUtil.e(TAG, "context is null!");
+            throw new NullPointerException("context is null!");
         }
     }
 

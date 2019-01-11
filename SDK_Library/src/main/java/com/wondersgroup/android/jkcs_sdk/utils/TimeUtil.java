@@ -85,6 +85,18 @@ public class TimeUtil {
         return reduceTime;
     }
 
+    public static long getMillis(String strDate) {
+        long millis = 0;
+        try {
+            Date date = sdf4.parse(strDate);
+            millis = date.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return millis;
+    }
+
     /**
      * 返回当前时间的毫秒数
      */
@@ -177,4 +189,7 @@ public class TimeUtil {
         return format;
     }
 
+    public static String getMinMillis(String inHosDate) {
+        return isOver90Days(inHosDate) ? String.valueOf(getBeforeDayMillis(90)) : String.valueOf(getMillis(inHosDate));
+    }
 }

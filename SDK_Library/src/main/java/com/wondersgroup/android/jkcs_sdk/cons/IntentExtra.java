@@ -15,6 +15,9 @@ public class IntentExtra {
     public static final String IN_HOS_AREA = "inHosArea";
     public static final String IN_HOS_DATE = "inHosDate";
     public static final String IN_HOS_ID = "inHosId";
+    public static final String ACTIVITY_TAG = "activityTag";
+    public static final String MIN_MILLIS = "minMillis";
+    public static final String MAX_MILLIS = "maxMillis";
     public static final String IS_SUCCESS = "isSuccess"; // 是否支付成功
     public static final String FEE_TOTAL = "feeTotal";
     public static final String FEE_CASH_TOTAL = "feeCashTotal";
