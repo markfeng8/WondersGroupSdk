@@ -125,18 +125,10 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     }
 
     private void dealWithTime() {
-        boolean isReturn = false;
         if (!TextUtils.isEmpty(mActivityTag)) {
             switch (mActivityTag) {
                 case "InHospitalHomeActivity":
-                    String lastDate = TimeUtil.getDate(mLastTime);
-                    String curDate = TimeUtil.getDate(System.currentTimeMillis());
-                    if (lastDate.equals(curDate)) {
-                        WToastUtil.show("时间选择已到达今天，无法查看明日清单!");
-                        isReturn = true;
-                    } else {
-                        mLastTime = System.currentTimeMillis();
-                    }
+                    mLastTime = System.currentTimeMillis();
                     break;
                 case "InHospitalRecordActivity":
                     mLastTime += 1000L * 60L * 60L * 24L;
@@ -144,10 +136,6 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
                 default:
                     LogUtil.e("Invalid activity tag!");
                     break;
-            }
-
-            if (isReturn) {
-                return;
             }
 
             if (mLastTime > System.currentTimeMillis()) {
@@ -162,13 +150,15 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     }
 
     private void setAdapter() {
-        if (mDayDetailedListAdapter == null) {
-            mDayDetailedListAdapter = new DayDetailedListAdapter(mDetails);
-            recyclerView.setAdapter(mDayDetailedListAdapter);
-            LinearLayoutManager linearLayoutManager =
-                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(linearLayoutManager);
-        } else {
+        mDayDetailedListAdapter = new DayDetailedListAdapter(mDetails);
+        recyclerView.setAdapter(mDayDetailedListAdapter);
+        LinearLayoutManager linearLayoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private void refreshAdapter() {
+        if (mDayDetailedListAdapter != null) {
             mDayDetailedListAdapter.notifyDataSetChanged();
         }
     }
@@ -258,11 +248,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         }
         if (entity != null) {
             tvTotalFee.setText("￥" + entity.getRqdzje());
-            if (mDetails != null) {
-                mDetails.addAll(entity.getDetails());
-            } else {
-                mDetails = entity.getDetails();
-            }
+            mDetails = entity.getDetails();
             if (mDetails != null && mDetails.size() > 0) {
                 setAdapter();
             }
