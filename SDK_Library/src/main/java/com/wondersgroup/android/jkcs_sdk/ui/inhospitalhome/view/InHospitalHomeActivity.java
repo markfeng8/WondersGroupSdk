@@ -37,7 +37,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
@@ -198,9 +198,13 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             return;
         }
         // 在院或预出院状态才可以查询日清单
+        long minMillis = TimeUtils.getMinMillis(mInHosDate);
+        long currentMillis = System.currentTimeMillis();
+        LogUtil.i(TAG, "minMillis===" + minMillis + ",currentMillis===" + currentMillis);
+        // minMillis===1541952000000,currentMillis===1547537526483
         if ("00".equals(mInState) || "01".equals(mInState)) {
             DayDetailedListActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mInHosId,
-                    TAG, TimeUtil.getMinMillis(mInHosDate), TimeUtil.getCurrentMillis());
+                    TAG, minMillis, currentMillis);
         }
     }
 

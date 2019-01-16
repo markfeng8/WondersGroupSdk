@@ -8,27 +8,21 @@ import java.util.Date;
 
 /**
  * Created by x-sir on 2018/08/02 :)
- * Function:获取当前时间工具类
+ * Function:时间处理工具类
  */
-public class TimeUtil {
+public class TimeUtils {
 
+    public static final String TAG = "TimeUtils";
     @SuppressLint("SimpleDateFormat")
-    private static SimpleDateFormat sdf1 =
-            new SimpleDateFormat("yyyyMMddHHmmss");
+    public static final SimpleDateFormat SDF1 = new SimpleDateFormat("yyyyMMddHHmmss");
     @SuppressLint("SimpleDateFormat")
-    private static SimpleDateFormat sdf2 =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    public static final SimpleDateFormat SDF2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     @SuppressLint("SimpleDateFormat")
-    private static SimpleDateFormat sdf3 =
-            new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    public static final SimpleDateFormat SDF3 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     @SuppressLint("SimpleDateFormat")
-    private static SimpleDateFormat sdf4 =
-            new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat SDF4 = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat")
-    private static SimpleDateFormat sdf5 =
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 2018-09-13 16:55:11
-    private static final String TAG = TimeUtil.class.getSimpleName();
-
+    public static final SimpleDateFormat SDF5 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 返回如下格式的当前时间
@@ -37,7 +31,7 @@ public class TimeUtil {
      */
     public static String getSecondsTime() {
         Date date = new Date(System.currentTimeMillis());
-        String format = sdf1.format(date);
+        String format = SDF1.format(date);
         LogUtil.i(TAG, "format time===" + format);
         return format;
     }
@@ -45,7 +39,7 @@ public class TimeUtil {
     public static long getScrollMinTime() {
         Date date = null;
         try {
-            date = sdf4.parse("2018-01-01");
+            date = SDF4.parse("2018-01-01");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -72,7 +66,7 @@ public class TimeUtil {
         long currentTimeMillis = System.currentTimeMillis();
         Date lockOrderTime = null;
         try {
-            lockOrderTime = sdf5.parse(lockStartTime);
+            lockOrderTime = SDF5.parse(lockStartTime);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,10 +79,17 @@ public class TimeUtil {
         return reduceTime;
     }
 
-    public static long getMillis(String strDate) {
-        long millis = 0;
+    /**
+     * 将格式化的时间字符串转为对应的毫秒数
+     *
+     * @param sdf     时间格式
+     * @param strDate 字符串日期
+     * @return 毫秒数
+     */
+    public static long convertToMillis(SimpleDateFormat sdf, String strDate) {
+        long millis = 0L;
         try {
-            Date date = sdf4.parse(strDate);
+            Date date = sdf.parse(strDate);
             millis = date.getTime();
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,7 +117,7 @@ public class TimeUtil {
     public static boolean isOver90Days(String dateStr) {
         Date date = null;
         try {
-            date = sdf4.parse(dateStr);
+            date = SDF4.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -131,7 +132,7 @@ public class TimeUtil {
      */
     public static String getCurrentDate() {
         Date date = new Date(System.currentTimeMillis());
-        String format = sdf4.format(date);
+        String format = SDF4.format(date);
         LogUtil.i(TAG, "getCurrentDate()===" + format);
         return format;
     }
@@ -143,7 +144,7 @@ public class TimeUtil {
      */
     public static String getCurrentDateTime() {
         Date date = new Date(System.currentTimeMillis());
-        String format = sdf5.format(date);
+        String format = SDF5.format(date);
         LogUtil.i(TAG, "getCurrentDate()===" + format);
         return format;
     }
@@ -162,9 +163,61 @@ public class TimeUtil {
         long beforeTime = 1000L * 60L * 60L * 24L * day;
         long millis = System.currentTimeMillis() - beforeTime;
         Date date = new Date(millis);
-        String format = sdf4.format(date);
+        String format = SDF4.format(date);
         LogUtil.i(TAG, "getBeforeDate()===" + format);
         return format;
+    }
+
+    /**
+     * 比较 date1 是否比 date2 的时间小
+     *
+     * @param sdf   时间格式
+     * @param date1 格式化的时间字符串 date1
+     * @param date2 格式化的时间字符串 date1
+     * @return 如果 date1 比 date2 小，返回 true，否则返回 false
+     */
+    public static boolean compareBefore(SimpleDateFormat sdf, String date1, String date2) {
+        Date d1 = null;
+        Date d2 = null;
+
+        try {
+            d1 = sdf.parse(date1);
+            d2 = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (d1 == null || d2 == null) {
+            return false;
+        }
+
+        return d1.before(d2);
+    }
+
+    /**
+     * 比较 date1 是否比 date2 的时间大
+     *
+     * @param sdf   时间格式
+     * @param date1 格式化的时间字符串 date1
+     * @param date2 格式化的时间字符串 date1
+     * @return 如果 date1 比 date2 大，返回 true，否则返回 false
+     */
+    public static boolean compareAfter(SimpleDateFormat sdf, String date1, String date2) {
+        Date d1 = null;
+        Date d2 = null;
+
+        try {
+            d1 = sdf.parse(date1);
+            d2 = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (d1 == null || d2 == null) {
+            return false;
+        }
+
+        return d1.after(d2);
     }
 
     /**
@@ -174,7 +227,7 @@ public class TimeUtil {
      */
     public static String getLastDay(long todayMillis) {
         long millis = todayMillis - 1000L * 60L * 60L * 24L;
-        return sdf4.format(new Date(millis));
+        return SDF4.format(new Date(millis));
     }
 
     /**
@@ -184,12 +237,12 @@ public class TimeUtil {
      */
     public static String getDate(long millis) {
         Date date = new Date(millis);
-        String format = sdf4.format(date);
+        String format = SDF4.format(date);
         LogUtil.i(TAG, "getDate()===" + format);
         return format;
     }
 
-    public static String getMinMillis(String inHosDate) {
-        return isOver90Days(inHosDate) ? String.valueOf(getBeforeDayMillis(90)) : String.valueOf(getMillis(inHosDate));
+    public static long getMinMillis(String inHosDate) {
+        return isOver90Days(inHosDate) ? getBeforeDayMillis(90) : convertToMillis(TimeUtils.SDF4, inHosDate);
     }
 }

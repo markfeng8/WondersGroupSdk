@@ -29,7 +29,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -70,7 +70,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
         map.put(MapKey.ID_NO, mIdNum);
@@ -78,7 +78,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
         map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
-        map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
+        map.put(MapKey.END_DATE, TimeUtils.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
@@ -135,7 +135,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0005);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
         map.put(MapKey.ID_NO, mIdNum);
@@ -205,7 +205,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.HIS_ORDER_NO, hisOrderNo);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
@@ -265,7 +265,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.TOKEN, token);
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
@@ -326,7 +326,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
@@ -388,7 +388,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0007);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.TO_STATE, toState);
         map.put(MapKey.TOKEN, token);

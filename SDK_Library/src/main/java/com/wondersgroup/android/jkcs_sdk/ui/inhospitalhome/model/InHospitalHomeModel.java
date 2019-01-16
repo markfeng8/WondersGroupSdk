@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -56,7 +56,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0001);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        param.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         param.put(MapKey.ORG_CODE, orgCode);
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
@@ -64,7 +64,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         param.put(MapKey.PHONE, phone);
         param.put(MapKey.IN_STATE, inState);
         param.put(MapKey.START_DATE, "2018-01-01");
-        param.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
+        param.put(MapKey.END_DATE, TimeUtils.getCurrentDate());
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
         RetrofitHelper

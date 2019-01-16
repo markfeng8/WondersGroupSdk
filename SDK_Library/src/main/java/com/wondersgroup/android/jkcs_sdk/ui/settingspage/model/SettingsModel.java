@@ -20,7 +20,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -47,7 +47,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
@@ -107,7 +107,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.PHONE, phone);
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.IDEN_CLASS, idenClass);
@@ -166,7 +166,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));

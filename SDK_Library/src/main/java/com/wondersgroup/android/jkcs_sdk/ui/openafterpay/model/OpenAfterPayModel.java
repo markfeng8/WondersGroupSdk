@@ -17,7 +17,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -57,7 +57,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.PHONE, phone);
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.IDEN_CLASS, OrgConfig.IDEN_CLASS1);
@@ -115,7 +115,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0002);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.REG_ORG_NAME, OrgConfig.SIGN_ORG_NAME);
         map.put(MapKey.NAME, mName);

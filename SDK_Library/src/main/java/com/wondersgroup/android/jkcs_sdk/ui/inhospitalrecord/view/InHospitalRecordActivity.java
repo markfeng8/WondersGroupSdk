@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.contract.InHospitalRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.presenter.InHospitalRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -67,9 +67,9 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
 
     private void initListener() {
         tvInHosDetail.setOnClickListener(v -> {
-            if (!TimeUtil.isOver90Days(mLeaveHosDate)) {
+            if (!TimeUtils.isOver90Days(mLeaveHosDate)) {
                 DayDetailedListActivity.actionStart(InHospitalRecordActivity.this, mOrgCode,
-                        mInHosId, TAG, TimeUtil.getMinMillis(mInHosDate), String.valueOf(TimeUtil.getMillis(mLeaveHosDate)));
+                        mInHosId, TAG, TimeUtils.getMinMillis(mInHosDate), TimeUtils.convertToMillis(TimeUtils.SDF4, mLeaveHosDate));
             } else {
                 WToastUtil.show("仅支持3个月内日清单记录查询！");
             }

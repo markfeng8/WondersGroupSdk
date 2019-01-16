@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0001);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         // 此处时为了判断是否已经请求过一次，是否将 sign 加入 map 中，第二次请求时需要剔除 sign，因为 sign 不参与签名！
         if (map.containsKey(MapKey.SIGN)) {
             map.remove(MapKey.SIGN);
@@ -122,13 +122,13 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0002);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        param.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         param.put(MapKey.NAME, mName);
         param.put(MapKey.ID_NO, mIdNum);
         param.put(MapKey.CARD_NO, cardNum);
         param.put(MapKey.ID_TYPE, mIdType);
         param.put(MapKey.CARD_TYPE, cardType);
-        param.put(MapKey.MOBILE_PAY_TIME, TimeUtil.getCurrentDate());
+        param.put(MapKey.MOBILE_PAY_TIME, TimeUtils.getCurrentDate());
         param.put(MapKey.MOBILE_PAY_STATUS, "01");// 01 代表开通
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
@@ -189,7 +189,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
         map.put(MapKey.ID_NO, mIdNum);
@@ -197,7 +197,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.CARD_NO, cardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
         map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
-        map.put(MapKey.END_DATE, TimeUtil.getCurrentDate());
+        map.put(MapKey.END_DATE, TimeUtils.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
@@ -255,7 +255,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper

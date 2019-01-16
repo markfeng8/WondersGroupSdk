@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -54,7 +54,7 @@ public class DayDetailedListModel implements DayDetailedListContract.IModel {
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0001);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, TimeUtil.getSecondsTime());
+        param.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
         param.put(MapKey.ORG_CODE, orgCode);
         param.put(MapKey.JZLSH, jzlsh);
         param.put(MapKey.NAME, name);

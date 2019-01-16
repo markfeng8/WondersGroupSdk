@@ -26,7 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract.DayDetailedListContract;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.presenter.DayDetailedListPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
@@ -56,8 +56,8 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     private String mOrgCode;
     private String mInHosId;
     private String mActivityTag;
-    private String mMinMillis;
-    private String mMaxMillis;
+    private long mMinMillis;
+    private long mMaxMillis;
 
     @Override
     protected DayDetailedListPresenter<DayDetailedListContract.IView> createPresenter() {
@@ -90,8 +90,9 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mInHosId = intent.getStringExtra(IntentExtra.IN_HOS_ID);
             mActivityTag = intent.getStringExtra(IntentExtra.ACTIVITY_TAG);
-            mMinMillis = intent.getStringExtra(IntentExtra.MIN_MILLIS);
-            mMaxMillis = intent.getStringExtra(IntentExtra.MAX_MILLIS);
+            mMinMillis = intent.getLongExtra(IntentExtra.MIN_MILLIS, 0L);
+            mMaxMillis = intent.getLongExtra(IntentExtra.MAX_MILLIS, 0L);
+            LogUtil.i(TAG, "mMinMillis===" + mMinMillis + ",mMaxMillis===" + mMaxMillis);
         }
 
         if ("InHospitalHomeActivity".equals(mActivityTag)) {
@@ -100,31 +101,77 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
             tvToday.setText("后一天");
         }
 
-        mLastTime = Long.parseLong(mMaxMillis);
-        String currentDate = TimeUtil.getDate(Long.parseLong(mMaxMillis));
+        mLastTime = mMaxMillis;
+        String currentDate = TimeUtils.getDate(mMaxMillis);
         tvStartDate.setText(currentDate);
         requestCy0005(currentDate);
     }
 
     private void initListener() {
+        /*
+         * 设置点击时间选择器的点击事件
+         */
         tvStartDate.setOnClickListener(v -> showDate());
-        tvBeforeDay.setOnClickListener(v -> {
-            String beforeDate = TimeUtil.getBeforeDate(91);
-            String lastDate = TimeUtil.getLastDay(mLastTime);
-            if (lastDate.equals(beforeDate)) {
-                WToastUtil.show("仅支持3个月内日清单记录查询！");
-            } else {
-                mLastTime -= 1000L * 60L * 60L * 24L;
-                tvStartDate.setText(lastDate);
-                requestCy0005(lastDate);
-            }
-        });
-        tvToday.setOnClickListener(v -> {
-            dealWithTime();
-        });
+        /*
+         * 设置点击上一天的点击事件
+         */
+        tvBeforeDay.setOnClickListener(v -> getLastDayData());
+        /*
+         * 设置点击今天或者下一天的点击事件
+         */
+        tvToday.setOnClickListener(v -> dealWithTime());
+    }
+
+    private void getLastDayData() {
+        // 1.先获取上一天的时间戳
+        long lastTimestamp = mLastTime - 1000L * 60L * 60L * 24L;
+        // 2.格式化 lastTimestamp 为字符串
+        String lastDateStr = TimeUtils.getDate(lastTimestamp);
+        // 3.格式化最小时间戳为字符串
+        String minDateStr = TimeUtils.getDate(mMinMillis);
+
+        // 4.用上一天的时间戳和 90 天之前的时间戳进行比较
+        boolean compareResult1 = TimeUtils.compareBefore(TimeUtils.SDF4, lastDateStr, TimeUtils.getBeforeDate(90));
+
+        if (compareResult1) {
+            WToastUtil.show("仅支持3个月内日清单记录查询！");
+            return;
+        }
+
+        // 5.用上一天的时间戳和最小的时间戳进行比较
+        boolean compareResult2 = TimeUtils.compareBefore(TimeUtils.SDF4, lastDateStr, minDateStr);
+
+        if (compareResult2) {
+            WToastUtil.show("已显示入院当天日清单!");
+            return;
+        }
+
+        String lastDate = TimeUtils.getLastDay(mLastTime);
+        mLastTime -= 1000L * 60L * 60L * 24L;
+        tvStartDate.setText(lastDate);
+        requestCy0005(lastDate);
     }
 
     private void dealWithTime() {
+        // 如果是从历史住院记录点击进去的需要判断不能超过出院时间
+        if ("InHospitalRecordActivity".equals(mActivityTag)) {
+            // 1.先获取下一天的时间戳
+            long nextTimestamp = mLastTime + 1000L * 60L * 60L * 24L;
+            // 2.格式化 nextTimestamp 为字符串
+            String nextDateStr = TimeUtils.getDate(nextTimestamp);
+            // 3.格式化最大时间戳为字符串
+            String maxDateStr = TimeUtils.getDate(mMaxMillis);
+
+            // 4.用上一天的时间戳和最大的时间戳进行比较
+            boolean compareResult = TimeUtils.compareAfter(TimeUtils.SDF4, nextDateStr, maxDateStr);
+
+            // 需要考虑时间相等的情况，相等也是返回 false 的
+            if (compareResult) {
+                WToastUtil.show("已显示入院当天日清单！");
+                return;
+            }
+        }
+
         if (!TextUtils.isEmpty(mActivityTag)) {
             switch (mActivityTag) {
                 case "InHospitalHomeActivity":
@@ -138,14 +185,9 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
                     break;
             }
 
-            if (mLastTime > System.currentTimeMillis()) {
-                WToastUtil.show("已显示出院当天日清单，无法查看未住院日清单！");
-                mLastTime = System.currentTimeMillis();
-            } else {
-                String date = TimeUtil.getDate(mLastTime);
-                tvStartDate.setText(date);
-                requestCy0005(date);
-            }
+            String date = TimeUtils.getDate(mLastTime);
+            tvStartDate.setText(date);
+            requestCy0005(date);
         }
     }
 
@@ -167,11 +209,12 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
      * 显示日期(配置最大、最小时间伐值)
      */
     public void showDate() {
+        LogUtil.i(TAG, "showDate():mMinMillis===" + mMinMillis + ",mMaxMillis===" + mMaxMillis);
         DateScrollerDialog dialog = new DateScrollerDialog.Builder()
                 .setType(Type.YEAR_MONTH_DAY)
                 .setTitleStringId(getString(R.string.wonders_select_date_please))
-                .setMinMilliseconds(Long.parseLong(mMinMillis))
-                .setMaxMilliseconds(Long.parseLong(mMaxMillis))
+                .setMinMilliseconds(mMinMillis)
+                .setMaxMilliseconds(mMaxMillis)
                 .setCurMilliseconds(mLastTime)
                 .setCallback(mOnDateSetListener)
                 .build();
@@ -187,10 +230,11 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
      * 选择时间数据的回调
      */
     private OnDateSetListener mOnDateSetListener = new OnDateSetListener() {
+
         @Override
         public void onDateSet(DateScrollerDialog timePickerView, long milliseconds) {
             mLastTime = milliseconds;
-            String date = TimeUtil.getDate(milliseconds);
+            String date = TimeUtils.getDate(milliseconds);
             tvStartDate.setText(date);
             requestCy0005(date);
         }
@@ -210,7 +254,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
      * @param minMillis 时间控件的最小时间
      * @param maxMillis 时间控件的最大时间
      */
-    public static void actionStart(Context context, String orgCode, String inHosId, String flag, String minMillis, String maxMillis) {
+    public static void actionStart(Context context, String orgCode, String inHosId, String flag, long minMillis, long maxMillis) {
         if (context != null) {
             Intent intent = new Intent(context, DayDetailedListActivity.class);
             intent.putExtra(IntentExtra.ORG_CODE, orgCode);
