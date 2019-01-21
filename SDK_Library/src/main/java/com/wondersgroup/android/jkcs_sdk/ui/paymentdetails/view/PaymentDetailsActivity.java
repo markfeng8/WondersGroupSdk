@@ -198,6 +198,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             }
         } else if ("2".equals(cardType)) {
             // 直接进行现金部分自费结算，先获取统一支付所需的参数
+            LogUtil.i(TAG, "mOrgCode===" + mOrgCode);
             mPresenter.getPayParam(mOrgCode);
         }
     }

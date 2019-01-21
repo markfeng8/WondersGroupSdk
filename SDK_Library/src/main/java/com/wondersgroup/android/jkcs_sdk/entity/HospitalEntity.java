@@ -19,6 +19,7 @@ public class HospitalEntity extends BaseEntity {
     }
 
     public static class DetailsBean {
+
         /**
          * org_code : 47117172X33050211G1001
          * org_name : 湖州市妇幼保健院

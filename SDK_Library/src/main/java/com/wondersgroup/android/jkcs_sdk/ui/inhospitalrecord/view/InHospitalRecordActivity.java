@@ -99,7 +99,10 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
         mLeaveHosDate = detailsBean.getCysj().substring(0, 10);
         tvName.setText(detailsBean.getName());
         tvHospital.setText(detailsBean.getOrgName());
-        tvIdNum.setText(detailsBean.getId_no());
+        String idNum = detailsBean.getId_no();
+        String start = idNum.substring(0, 10);
+        String end = idNum.substring(idNum.length() - 4, idNum.length());
+        tvIdNum.setText(start + "****" + end);
         tvInHosId.setText(mInHosId);
         tvInHosArea.setText(detailsBean.getKsmc());
         tvInHosDate.setText(mInHosDate);

@@ -10,10 +10,12 @@ import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListV1Listener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.AfterPayStateService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
@@ -295,6 +297,65 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
                     @Override
                     public void onFailure(Call<HospitalEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (listener != null) {
+                                listener.onFailed(error);
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getHospitalList(String version, OnHospitalListV1Listener listener) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        map.put(MapKey.VERSION, version);
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        RetrofitHelper
+                .getInstance()
+                .createService(HospitalService.class)
+                .getHosListV1(RequestUrl.XY0008, map)
+                .enqueue(new Callback<HospitalV1Entity>() {
+                    @Override
+                    public void onResponse(Call<HospitalV1Entity> call, Response<HospitalV1Entity> response) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            HospitalV1Entity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    if (listener != null) {
+                                        listener.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (listener != null) {
+                                            listener.onFailed(errCodeDes);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            if (listener != null) {
+                                listener.onFailed("服务器异常！");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<HospitalV1Entity> call, Throwable t) {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);

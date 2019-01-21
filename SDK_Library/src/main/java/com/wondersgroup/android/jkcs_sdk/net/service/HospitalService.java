@@ -1,6 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.net.service;
 
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 
 import java.util.Map;
 
@@ -20,6 +21,13 @@ public interface HospitalService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
     Call<HospitalEntity> getHosList(
+            @Path(value = "url", encoded = true) String url,
+            @Body Map<String, String> maps);
+
+    //  POST Map body 请求
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("{url}")
+    Call<HospitalV1Entity> getHosListV1(
             @Path(value = "url", encoded = true) String url,
             @Body Map<String, String> maps);
 }

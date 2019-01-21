@@ -21,6 +21,10 @@ public class MapKey {
     public static final String TIMESTAMP = "timestamp";
     public static final String IN_STATE = "in_state";
     /**
+     * 接口版本号控制
+     */
+    public static final String VERSION = "version";
+    /**
      * 调用状态 1 保存token 2 正式结算
      */
     public static final String TO_STATE = "to_state";

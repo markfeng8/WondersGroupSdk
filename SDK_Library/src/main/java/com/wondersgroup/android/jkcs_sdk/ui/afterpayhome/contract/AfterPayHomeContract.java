@@ -3,9 +3,11 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListV1Listener;
 
 import java.util.HashMap;
 
@@ -22,6 +24,8 @@ public interface AfterPayHomeContract {
 
         void getHospitalList(OnHospitalListListener listener);
 
+        void getHospitalList(String version, OnHospitalListV1Listener listener);
+
         void uploadMobilePayState();
     }
 
@@ -35,6 +39,8 @@ public interface AfterPayHomeContract {
         void dismissLoading();
 
         void onHospitalListResult(HospitalEntity body);
+
+        void onHospitalListV1Result(HospitalV1Entity body);
     }
 
     interface IPresenter {
@@ -43,6 +49,8 @@ public interface AfterPayHomeContract {
         void requestYd0003(String orgCode);
 
         void getHospitalList();
+
+        void getHospitalList(String version);
 
         void uploadMobilePayState();
     }

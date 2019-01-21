@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -21,6 +22,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
@@ -310,6 +312,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    @Override
+    public void onHospitalListV1Result(HospitalV1Entity body) {
+        String json = new Gson().toJson(body);
+        LogUtil.i(TAG, "json===" + json);
+    }
+
     /**
      * 查询医保移动支付开通状态
      */
@@ -324,7 +332,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     public void getHospitalList() {
-        mPresenter.getHospitalList();
+        mPresenter.getHospitalList("V1.0");
     }
 
     public static void actionStart(Context context, HashMap<String, String> param) {
