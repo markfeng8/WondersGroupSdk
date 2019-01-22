@@ -33,7 +33,7 @@ import java.util.List;
  * Created by x-sir on 2019/1/21 :)
  * Function:自定义选择医院二级联动视图
  */
-public class HospitalPickerView implements CanShow, OnWheelChangedListener {
+public class HospitalPickerView implements OnWheelChangedListener {
 
     private static final String TAG = "HospitalPickerView";
     private PopupWindow mPopupWindow;
@@ -332,15 +332,13 @@ public class HospitalPickerView implements CanShow, OnWheelChangedListener {
         }
     }
 
-    @Override
-    public void hide() {
+    private void hide() {
         if (isShow()) {
             mPopupWindow.dismiss();
         }
     }
 
-    @Override
-    public boolean isShow() {
+    private boolean isShow() {
         return mPopupWindow.isShowing();
     }
 
