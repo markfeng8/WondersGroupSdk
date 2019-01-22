@@ -8,11 +8,9 @@ import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListV1Listener;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -113,39 +111,11 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
             @Override
             public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "get defaultHospital list failed!");
-                dismissLoading();
-                WToastUtil.show(errCodeDes);
-                if (isNonNull()) {
-                    mViewRef.get().onHospitalListResult(null);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void getHospitalList(String version) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
-        mModel.getHospitalList(version, new OnHospitalListV1Listener() {
-            @Override
-            public void onSuccess(HospitalV1Entity body) {
-                LogUtil.i(TAG, "get defaultHospital list success~");
-                dismissLoading();
-                if (isNonNull()) {
-                    mViewRef.get().onHospitalListV1Result(body);
-                }
-            }
-
-            @Override
-            public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "get defaultHospital list failed!" + errCodeDes);
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
-                    mViewRef.get().onHospitalListV1Result(null);
+                    mViewRef.get().onHospitalListResult(null);
                 }
             }
         });

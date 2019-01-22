@@ -8,13 +8,10 @@
 
 package com.wondersgroup.android.jkcs_sdk.widget.selecthospital;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wondersgroup.android.jkcs_sdk.entity.CityBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
-import com.wondersgroup.android.jkcs_sdk.utils.AssetUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 import java.lang.reflect.Type;
@@ -30,10 +27,6 @@ import java.util.Map;
 public class ParseHelper {
 
     private static final String TAG = "ParseHelper";
-    /**
-     * assets 目录下的本地 json 文件常量名
-     */
-    private static final String HZ_HOS_DATA = "hz_hos_data.json";
     /**
      * 城市列表数据
      */
@@ -129,9 +122,7 @@ public class ParseHelper {
     /**
      * 初始化数据，解析 json 数据
      */
-    public void initData(Context context) {
-        // 1.从本地的 assets 目录中读取到 json 串
-        String json = AssetUtils.getJson(context, HZ_HOS_DATA);
+    public void initData(String json) {
         LogUtil.i(TAG, "json===" + json);
 
         Type type = new TypeToken<ArrayList<CityBean>>() {
@@ -185,15 +176,7 @@ public class ParseHelper {
             // 10.然后把一个地区下的医院列表的数据放入到之前创建的集合中
             mHospitalBeanArrayList.add(hospitalList);
 
-            // 只有显示二级联动，才会执行
-            // 11.创建一个医院列表长度的空的集合
-//            List<HospitalBean> array2DistrictLists = new ArrayList<>(hospitalList.size());
-//            // 将医院列表添加到这个集合中去
-//            array2DistrictLists.addAll(hospitalList);
-//            //
-//            mHospitalBeanArrayList.add(array2DistrictLists);
-
-            // 赋值所有地区的 city
+            // 11.赋值所有地区的 city
             mCityBeanArray[i] = city;
         }
     }

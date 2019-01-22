@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -31,7 +32,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHis
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
@@ -40,7 +40,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
-import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -71,7 +70,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private TextView tvInHosPrepayFee;
     private TextView tvInHosFeeTotal;
     private TextView tvPaymentType;
-    private View activityView;
     private Group viewGroup;
     /**
      * 选择器默认的医院
@@ -86,10 +84,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private String mInHosArea;
     private String mInHosDate;
     private LoadingView mLoading;
-    private SelectHospitalWindow mSelectHospitalWindow;
-    private List<HospitalEntity.DetailsBean> mHospitalBeanList;
-    private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
-            () -> BrightnessManager.lighton(InHospitalHomeActivity.this);
     private Cy0001Entity mCy0001Entity;
 
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
@@ -98,23 +92,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      * 住院状态：00 在院 01 预出院 10 已出院
      */
     private String mInState = "";
-
-    private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
-        @Override
-        public void onClick(int position) {
-            if (mHospitalBeanList != null && position < mHospitalBeanList.size()) {
-                HospitalEntity.DetailsBean bean = mHospitalBeanList.get(position);
-                if (bean != null) {
-                    mOrgCode = bean.getOrg_code();
-                    mOrgName = bean.getOrg_name();
-                    LogUtil.i(TAG, "mOrgCode===" + mOrgCode + ",mOrgName===" + mOrgName);
-                }
-            }
-
-            tvHospitalName.setText(mOrgName);
-            requestCY0001();
-        }
-    };
 
     private void requestCY0001() {
         if (!TextUtils.isEmpty(mOrgCode)) {
@@ -145,8 +122,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
-        // 预先加载仿iOS滚轮实现的全部数据
-        mCityPickerView.init(this);
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
@@ -165,7 +140,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvDayDetail = findViewById(R.id.tvDayDetail);
         tvLeaveHos = findViewById(R.id.tvLeaveHos);
         tvInHosRecord = findViewById(R.id.tvInHosRecord);
-        activityView = findViewById(R.id.activityView);
         viewGroup = findViewById(R.id.viewGroup);
         tvNoDetail = findViewById(R.id.tvNoDetail);
         tvInHosId = findViewById(R.id.tvInHosId);
@@ -180,7 +154,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 去开通医保移动支付
         tvMobPayState.setOnClickListener(view -> openYiBaoMobPay());
         // 选择医院
-        tvHospitalName.setOnClickListener(view -> showWheelDialog());
+        tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList());
         // 预交金充值
         tvPrepayFee.setOnClickListener(view -> {
             comingSoon();
@@ -218,7 +192,10 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     /**
      * 弹出选择器
      */
-    private void showWheelDialog() {
+    private void showWheelDialog(String json) {
+        // 预先加载仿iOS滚轮实现的全部数据
+        mCityPickerView.init(this, json);
+
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)
                 .defaultHospital(mOrgName)
@@ -315,21 +292,11 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     @Override
     public void onHospitalListResult(HospitalEntity body) {
         if (body != null) {
-            mHospitalBeanList = body.getDetails();
-            if (mHospitalBeanList != null && mHospitalBeanList.size() > 0) {
-                if (mSelectHospitalWindow == null) {
-                    mSelectHospitalWindow = new SelectHospitalWindow.Builder(this)
-                            .setDropView(activityView)
-                            .setListener(mOnLoadingListener)
-                            .setOnItemClickListener(mOnItemClickListener)
-                            .build();
-                }
-
-                BrightnessManager.lightoff(this);
-                mSelectHospitalWindow.setBeanList(mHospitalBeanList);
-                mSelectHospitalWindow.show();
-            } else {
-                WToastUtil.show("未查询到门诊账单！");
+            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
+            if (details != null && details.size() > 0) {
+                String json = new Gson().toJson(details);
+                LogUtil.i(TAG, "json===" + json);
+                showWheelDialog(json);
             }
         } else {
             LogUtil.w(TAG, "onHospitalListResult() -> body is null!");

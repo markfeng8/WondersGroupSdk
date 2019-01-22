@@ -22,6 +22,7 @@ public interface SelfPayFeeContract {
     }
 
     interface IView {
+
         void showLoading();
 
         void dismissLoading();
@@ -32,6 +33,7 @@ public interface SelfPayFeeContract {
     }
 
     interface IPresenter {
+
         void getHospitalList();
 
         void requestYd0003(String orgCode);

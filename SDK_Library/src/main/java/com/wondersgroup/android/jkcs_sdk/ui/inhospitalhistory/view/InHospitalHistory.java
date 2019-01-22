@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.HosHistoryAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -31,11 +32,8 @@ import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract.InHosHisContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.presenter.InHosHisPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
-import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -66,28 +64,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private LoadingView mLoading;
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
-    private SelectHospitalWindow mSelectHospitalWindow;
-    private List<HospitalEntity.DetailsBean> mHospitalBeanList;
-    private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
-            () -> BrightnessManager.lighton(InHospitalHistory.this);
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
-
-    private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
-        @Override
-        public void onClick(int position) {
-            if (mHospitalBeanList != null && position < mHospitalBeanList.size()) {
-                HospitalEntity.DetailsBean bean = mHospitalBeanList.get(position);
-                if (bean != null) {
-                    mOrgCode = bean.getOrg_code();
-                    mOrgName = bean.getOrg_name();
-                    LogUtil.i(TAG, "mOrgCode===" + mOrgCode + ",mOrgName===" + mOrgName);
-                }
-            }
-
-            tvHospitalName.setText(mOrgName);
-            requestCY0001();
-        }
-    };
 
     private void requestCY0001() {
         mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE1);
@@ -116,10 +93,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
-
-        // 预先加载仿iOS滚轮实现的全部数据
-        mCityPickerView.init(this);
-
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
@@ -132,7 +105,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     private void initListener() {
-        tvHospitalName.setOnClickListener(v -> showWheelDialog());
+        tvHospitalName.setOnClickListener(v -> mPresenter.getHospitalList());
     }
 
     private void findViews() {
@@ -144,7 +117,9 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     /**
      * 弹出选择器
      */
-    private void showWheelDialog() {
+    private void showWheelDialog(String json) {
+        // 预先加载仿iOS滚轮实现的全部数据
+        mCityPickerView.init(this, json);
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)
                 .defaultHospital(mOrgName)
@@ -188,21 +163,11 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     @Override
     public void onHospitalListResult(HospitalEntity body) {
         if (body != null) {
-            mHospitalBeanList = body.getDetails();
-            if (mHospitalBeanList != null && mHospitalBeanList.size() > 0) {
-                if (mSelectHospitalWindow == null) {
-                    mSelectHospitalWindow = new SelectHospitalWindow.Builder(this)
-                            .setDropView(activityView)
-                            .setListener(mOnLoadingListener)
-                            .setOnItemClickListener(mOnItemClickListener)
-                            .build();
-                }
-
-                BrightnessManager.lightoff(this);
-                mSelectHospitalWindow.setBeanList(mHospitalBeanList);
-                mSelectHospitalWindow.show();
-            } else {
-                WToastUtil.show("未查询到门诊账单！");
+            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
+            if (details != null && details.size() > 0) {
+                String json = new Gson().toJson(details);
+                LogUtil.i(TAG, "json===" + json);
+                showWheelDialog(json);
             }
         } else {
             LogUtil.w(TAG, "onHospitalListResult() -> body is null!");

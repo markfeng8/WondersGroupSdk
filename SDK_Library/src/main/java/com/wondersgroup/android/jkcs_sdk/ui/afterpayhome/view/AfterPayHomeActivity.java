@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
@@ -23,18 +24,14 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
-import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -54,10 +51,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private RecyclerView recyclerView;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
-    private View activityView;
     private LinearLayout llNeedPay;
     private LoadingView mLoading;
-    private SelectHospitalWindow mSelectHospitalWindow;
     private AfterPayHomeAdapter mAdapter;
     private HashMap<String, String> mPassParamMap;
     /**
@@ -70,9 +65,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private String mAreaName = "湖州市";
     private boolean mAfterPayOpenSuccess;
-    private List<HospitalEntity.DetailsBean> mHospitalBeanList;
-    private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
-            () -> BrightnessManager.lighton(AfterPayHomeActivity.this);
     /**
      * 头部数据类型
      */
@@ -126,7 +118,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         refreshAfterPayState();
         getMobilePayState();
         // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
-        mHeaderBean.setHospitalName("湖州市");
+        mHeaderBean.setHospitalName("请选择医院");
         mItemList.removeAll(mFeeBillList);
         refreshAdapter();
     }
@@ -146,12 +138,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
-
-        /**
-         * 预先加载仿iOS滚轮实现的全部数据
-         */
-        mCityPickerView.init(this);
-
         initHeaderData();
         getIntentAndFindAfterPayState();
     }
@@ -210,7 +196,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         tvMoneyNum = findViewById(R.id.tvMoneyNum);
         tvPayMoney = findViewById(R.id.tvPayMoney);
         llNeedPay = findViewById(R.id.llNeedPay);
-        activityView = findViewById(R.id.activity_after_pay_home);
     }
 
     @Override
@@ -291,55 +276,29 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
-    private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
-        @Override
-        public void onClick(int position) {
-            if (mHospitalBeanList != null && position < mHospitalBeanList.size()) {
-                HospitalEntity.DetailsBean bean = mHospitalBeanList.get(position);
-                if (bean != null) {
-                    mOrgCode = bean.getOrg_code();
-                    mOrgName = bean.getOrg_name();
-                    mHeaderBean.setHospitalName(mOrgName);
-                }
-            }
-
-            requestYd0003();
-        }
-    };
-
     @Override
     public void onHospitalListResult(HospitalEntity body) {
         if (body != null) {
-            mHospitalBeanList = body.getDetails();
-            if (mHospitalBeanList != null && mHospitalBeanList.size() > 0) {
-                if (mSelectHospitalWindow == null) {
-                    mSelectHospitalWindow = new SelectHospitalWindow.Builder(this)
-                            .setDropView(activityView)
-                            .setListener(mOnLoadingListener)
-                            .setOnItemClickListener(mOnItemClickListener)
-                            .build();
-                }
-
-                BrightnessManager.lightoff(this);
-                mSelectHospitalWindow.setBeanList(mHospitalBeanList);
-                mSelectHospitalWindow.show();
-            } else {
-                WToastUtil.show("未查询到门诊账单！");
+            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
+            if (details != null && details.size() > 0) {
+                String json = new Gson().toJson(details);
+                LogUtil.i(TAG, "json===" + json);
+                showWheelDialog(json);
             }
         } else {
             LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
         }
     }
 
-    @Override
-    public void onHospitalListV1Result(HospitalV1Entity body) {
-        showWheelDialog();
-    }
-
     /**
      * 弹出选择器
+     *
+     * @param json
      */
-    private void showWheelDialog() {
+    private void showWheelDialog(String json) {
+        // 预先加载仿iOS滚轮实现的全部数据
+        mCityPickerView.init(this, json);
+
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)
                 .defaultHospital(mOrgName)
@@ -380,8 +339,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     public void getHospitalList() {
-        //mPresenter.getHospitalList("V1.0");
-        showWheelDialog();
+        mPresenter.getHospitalList();
     }
 
     public static void actionStart(Context context, HashMap<String, String> param) {

@@ -71,26 +71,25 @@ public class HospitalPickerView implements CanShow, OnWheelChangedListener {
      *
      * @param config cityConfig
      */
-    public void setConfig(final CityConfig config) {
+    public void setConfig(CityConfig config) {
         this.mConfig = config;
     }
 
     /**
      * 初始化，默认解析城市数据，提升加载速度
      */
-    public void init(Context context) {
+    public void init(Context context, String json) {
         this.mContext = context;
-        mParseHelper = new ParseHelper();
-        // 如果列表数据为空，就解析初始数据
-        if (mParseHelper.getmCityBeanArrayList().isEmpty()) {
-            mParseHelper.initData(context);
+        if (mParseHelper == null) {
+            mParseHelper = new ParseHelper();
         }
+        mParseHelper.initData(json);
     }
 
     /**
-     * 初始化 popupWindow
+     * initialize picker's popupWindow.
      */
-    private void initCityPickerPopupWindow() {
+    private void initPickerPopupWindow() {
         if (mConfig == null) {
             throw new IllegalArgumentException("please set cityConfig first！");
         }
@@ -397,7 +396,7 @@ public class HospitalPickerView implements CanShow, OnWheelChangedListener {
     }
 
     public void showCityPicker() {
-        initCityPickerPopupWindow();
+        initPickerPopupWindow();
         if (!isShow()) {
             popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
         }

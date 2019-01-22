@@ -29,11 +29,11 @@ import java.io.InputStreamReader;
 public class AssetUtils {
 
     /**
-     * 读取方法
+     * 读取本地 assets 目录文件的方法
      *
-     * @param context
-     * @param fileName
-     * @return
+     * @param context  上下文
+     * @param fileName 文件名
+     * @return json
      */
     public static String getJson(Context context, String fileName) {
         StringBuilder stringBuilder = new StringBuilder();

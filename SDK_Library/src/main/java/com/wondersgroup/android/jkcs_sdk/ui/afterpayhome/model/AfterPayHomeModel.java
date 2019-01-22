@@ -10,12 +10,10 @@ import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.HospitalV1Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListV1Listener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.AfterPayStateService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
@@ -250,8 +248,10 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                 });
     }
 
-    @Override
-    public void getHospitalList(OnHospitalListListener listener) {
+    /**
+     * 旧版本获取医院列表接口
+     */
+    public void getHospitalListOld(OnHospitalListListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
@@ -309,28 +309,28 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void getHospitalList(String version, OnHospitalListV1Listener listener) {
+    public void getHospitalList(OnHospitalListListener listener) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
-        map.put(MapKey.VERSION, version);
+        map.put(MapKey.VERSION, "V1.0");
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper
                 .getInstance()
                 .createService(HospitalService.class)
-                .getHosListV1(RequestUrl.XY0008, map)
-                .enqueue(new Callback<HospitalV1Entity>() {
+                .getHosList(RequestUrl.XY0008, map)
+                .enqueue(new Callback<HospitalEntity>() {
                     @Override
-                    public void onResponse(Call<HospitalV1Entity> call, Response<HospitalV1Entity> response) {
+                    public void onResponse(Call<HospitalEntity> call, Response<HospitalEntity> response) {
                         int code = response.code();
                         String message = response.message();
                         boolean successful = response.isSuccessful();
                         if (code == 200 && "OK".equals(message) && successful) {
-                            HospitalV1Entity body = response.body();
+                            HospitalEntity body = response.body();
                             if (body != null) {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
@@ -355,7 +355,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                     }
 
                     @Override
-                    public void onFailure(Call<HospitalV1Entity> call, Throwable t) {
+                    public void onFailure(Call<HospitalEntity> call, Throwable t) {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
