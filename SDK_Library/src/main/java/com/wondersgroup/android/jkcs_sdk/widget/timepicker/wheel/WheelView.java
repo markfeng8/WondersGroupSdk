@@ -1,7 +1,7 @@
 /*
  *  Android Wheel Control.
  *  https://code.google.com/p/android-wheel/
- *  
+ *
  *  Copyright 2011 Yuri Kanivets
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,12 +41,15 @@ import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.Utils;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * Numeric wheel view.
  */
 public class WheelView extends View {
 
+    /**
+     * 滚轮从上到下背景逐渐变淡，到中间，逆反改变
+     */
+    private int[] SHADOWS_COLORS = new int[]{0xefE9E9E9, 0xcfE9E9E9, 0x3fE9E9E9};
     /**
      * Top and bottom items offset (to hide that)
      */
@@ -62,6 +66,7 @@ public class WheelView extends View {
     private static final int DEF_VISIBLE_ITEMS = 5;
     // Cyclic
     boolean isCyclic = false;
+
     int defaultColor, selectorColor;
     // Wheel Values
     private int currentItem = 0;
@@ -80,13 +85,27 @@ public class WheelView extends View {
     // IView adapter
     private WheelViewAdapter viewAdapter;
 
+    // Shadows drawables
+    private GradientDrawable topShadow;
+    private GradientDrawable bottomShadow;
+    // Draw Shadows
+    private boolean drawShadows = false;
+    /**
+     * 中间线的颜色
+     */
+    private String lineColorStr = "#000000";
+    /**
+     * 中间线的宽度
+     */
+    private int lineWidth = 1;
+
     // Recycle
     private WheelRecycle recycle = new WheelRecycle(this);
     private Paint mPaintLineCenter, mPaintLineRight, mPaintRectCenter;
     private int mLineRightMar;
     // Listeners
-    private List<OnWheelChangedListener> changingListeners = new LinkedList<OnWheelChangedListener>();
-    private List<OnWheelScrollListener> scrollingListeners = new LinkedList<OnWheelScrollListener>();
+    private List<OnWheelChangedListener> changingListeners = new LinkedList<>();
+    private List<OnWheelScrollListener> scrollingListeners = new LinkedList<>();
     // Scrolling listener
     WheelScroller.ScrollingListener scrollingListener = new WheelScroller.ScrollingListener() {
         public void onStarted() {
@@ -123,6 +142,7 @@ public class WheelView extends View {
             }
         }
     };
+
     private List<OnWheelClickedListener> clickingListeners = new LinkedList<OnWheelClickedListener>();
     // Adapter listener
     private DataSetObserver dataObserver = new DataSetObserver() {
@@ -204,6 +224,39 @@ public class WheelView extends View {
         selectorColor = config.mWheelTVSelectorColor;
     }
 
+    /**
+     * Determine whether shadows are drawn
+     *
+     * @return true is shadows are drawn
+     */
+    public boolean drawShadows() {
+        return drawShadows;
+    }
+
+    /**
+     * Set whether shadows should be drawn
+     *
+     * @param drawShadows flag as true or false
+     */
+    public void setDrawShadows(boolean drawShadows) {
+        this.drawShadows = drawShadows;
+    }
+
+    public String getLineColorStr() {
+        return lineColorStr == null ? "" : lineColorStr;
+    }
+
+    public void setLineColorStr(String lineColorStr) {
+        this.lineColorStr = lineColorStr;
+    }
+
+    public int getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+    }
 
     /**
      * Set the the specified scrolling interpolator
@@ -299,7 +352,6 @@ public class WheelView extends View {
 
         refreshTextStatus(oldView, oldValue);
         refreshTextStatus(newView, newValue);
-
     }
 
     /**
@@ -336,8 +388,6 @@ public class WheelView extends View {
         for (OnWheelScrollListener listener : scrollingListeners) {
             listener.onScrollingFinished(this);
         }
-
-
     }
 
     /**
@@ -408,7 +458,6 @@ public class WheelView extends View {
             }
         }
 
-
         if (index != currentItem) {
             if (animated) {
                 int itemsToScroll = index - currentItem;
@@ -429,8 +478,6 @@ public class WheelView extends View {
 
                 invalidate();
             }
-
-
         }
     }
 
@@ -478,6 +525,14 @@ public class WheelView extends View {
      */
     private void initResourcesIfNecessary() {
         setBackgroundResource(android.R.color.transparent);
+
+        if (topShadow == null) {
+            topShadow = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, SHADOWS_COLORS);
+        }
+
+        if (bottomShadow == null) {
+            bottomShadow = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, SHADOWS_COLORS);
+        }
     }
 
     /**
@@ -599,8 +654,32 @@ public class WheelView extends View {
             drawItems(canvas);
             drawCenterRect(canvas);
         }
+
+        if (drawShadows)
+            drawShadows(canvas);
     }
 
+    /**
+     * Draws shadows on top and bottom of control
+     *
+     * @param canvas the canvas for drawing
+     */
+    private void drawShadows(Canvas canvas) {
+        /*/ Modified by wulianghuan 2014-11-25
+        int height = (int)(1.5 * getItemHeight());
+        //*/
+
+        //从中间到顶部渐变处理
+        int count = getVisibleItems() == 2 ? 1 : getVisibleItems() / 2;
+        int height = count * getItemHeight();
+
+        topShadow.setBounds(0, 0, getWidth(), height);
+        topShadow.draw(canvas);
+
+        bottomShadow.setBounds(0, getHeight() - height, getWidth(), getHeight());
+        bottomShadow.draw(canvas);
+
+    }
 
     /**
      * Draws items
@@ -923,8 +1002,7 @@ public class WheelView extends View {
         }
 
         index %= count;
-        View view = viewAdapter.getItem(index, recycle.getItem(), itemsLayout);
-        return view;
+        return viewAdapter.getItem(index, recycle.getItem(), itemsLayout);
     }
 
     /**

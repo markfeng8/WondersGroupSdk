@@ -123,7 +123,6 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     class HeaderViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout llPayRecord;
         private TextView tvHospitalName;
-        private TextView tvSelectHospital;
         private TextView tvName;
         private TextView tvIcNum;
         private String orgCode;
@@ -133,7 +132,6 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             llPayRecord = itemView.findViewById(R.id.llPayRecord);
             tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
-            tvSelectHospital = itemView.findViewById(R.id.tvSelectHospital);
             tvName = itemView.findViewById(R.id.tvName);
             tvIcNum = itemView.findViewById(R.id.tvIcNum);
             initListener();
@@ -143,7 +141,7 @@ public class SelfPayFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             /*
              * 点击选择医院
              */
-            tvSelectHospital.setOnClickListener(v -> getHospitalList());
+            tvHospitalName.setOnClickListener(v -> getHospitalList());
             /*
              * 点击缴费记录
              */

@@ -24,7 +24,9 @@ import com.wondersgroup.android.jkcs_sdk.adapter.HosHistoryAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
+import com.wondersgroup.android.jkcs_sdk.entity.CityBean;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract.InHosHisContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.presenter.InHosHisPresenter;
@@ -34,6 +36,9 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +54,15 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private RecyclerView recyclerView;
     private TextView tvHospitalName;
     private View activityView;
-    private String mOrgName;
+    /**
+     * 选择器默认的医院
+     */
+    private String mOrgName = "湖州市中心医院";
     private String mOrgCode;
+    /**
+     * 选择器默认的地区
+     */
+    private String mAreaName = "湖州市";
     private LoadingView mLoading;
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
@@ -58,6 +70,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(InHospitalHistory.this);
+    private HospitalPickerView mCityPickerView = new HospitalPickerView();
 
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
         @Override
@@ -104,6 +117,9 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
         mLoading = new LoadingView.Builder(this)
                 .build();
 
+        // 预先加载仿iOS滚轮实现的全部数据
+        mCityPickerView.init(this);
+
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
@@ -116,13 +132,43 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     private void initListener() {
-        tvHospitalName.setOnClickListener(v -> mPresenter.getHospitalList());
+        tvHospitalName.setOnClickListener(v -> showWheelDialog());
     }
 
     private void findViews() {
         recyclerView = findViewById(R.id.recyclerView);
         tvHospitalName = findViewById(R.id.tvHospitalName);
         activityView = findViewById(R.id.activityView);
+    }
+
+    /**
+     * 弹出选择器
+     */
+    private void showWheelDialog() {
+        CityConfig cityConfig = new CityConfig.Builder()
+                .defaultCity(mAreaName)
+                .defaultHospital(mOrgName)
+                .build();
+
+        mCityPickerView.setConfig(cityConfig);
+
+        mCityPickerView.setOnCityItemClickListener(new OnCityItemClickListener() {
+            @Override
+            public void onSelected(CityBean cityBean, HospitalBean hospitalBean) {
+                mAreaName = cityBean.getArea_name();
+                mOrgCode = hospitalBean.getOrg_code();
+                mOrgName = hospitalBean.getOrg_name();
+                tvHospitalName.setText(mOrgName);
+                requestCY0001();
+            }
+
+            @Override
+            public void onCancel() {
+                LogUtil.i(TAG, "onCancel()");
+            }
+        });
+
+        mCityPickerView.showCityPicker();
     }
 
     @Override

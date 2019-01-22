@@ -15,6 +15,7 @@
     <color name="wonders_rgb_color_94E738">#94E738</color>
     <color name="wonders_rgb_color_a5ff50">#A5FF50</color>
     <color name="wonders_rgb_color_73c518">#73C518</color>
+    <color name="wonders_rgb_color_c7c7c7">#C7C7C7</color>
     <color name="wonders_rgb_color_18b670">#18B670</color>
     <color name="wonders_rgb_color_ff0000">#FF0000</color>
     <color name="wonders_rgb_color_ff5b7f">#FF5B7F</color>
@@ -84,12 +85,12 @@
 
     <!-- date scroller -->
     <color name="timetimepicker_default_text_color">#999999</color>
-    <color name="toolbar_bg">#FBFBFB</color>
+    <color name="toolbar_bg">#E0E0E0</color>
     <color name="toolbar_text_cancel">#323232</color>
     <color name="toolbar_text_ok">#323232</color>
     <color name="toolbar_line">#E7E7E7</color>
-    <color name="item_selector_line">#C2C2C2</color>
+    <color name="item_selector_line">#000000</color>
     <color name="item_selector_rect">#FFFFFF</color>
     <color name="timepicker_dialog_bg">#80000000</color>
-    <color name="timepicker_line">#e8e8e8</color>
+    <color name="timepicker_line">#000000</color>
 </resources>

@@ -4,6 +4,7 @@
     android:id="@+id/activityView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/wonders_rgb_color_ffffff"
     android:orientation="vertical">
 
     <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
@@ -17,10 +18,11 @@
     <TextView
         android:id="@+id/tvHospitalName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="@dimen/wonders_margin_16dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="@dimen/wonders_margin_16dp"
+        android:background="@color/wonders_rgb_color_ffffff"
         android:drawableStart="@drawable/wonders_group_hospital"
         android:drawableEnd="@drawable/wonders_group_right_arrow"
         android:drawablePadding="@dimen/wonders_padding_10dp"

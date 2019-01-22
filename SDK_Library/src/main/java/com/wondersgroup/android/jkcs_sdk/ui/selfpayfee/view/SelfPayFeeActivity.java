@@ -20,8 +20,10 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.adapter.SelfPayFeeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.CityBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SelfPayHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
@@ -33,6 +35,9 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +58,21 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private LoadingView mLoading;
     private SelfPayFeeAdapter mSelfPayFeeAdapter;
     private List<Object> mItemList = new ArrayList<>();
-    private String mOrgName;
+    /**
+     * 选择器默认的医院
+     */
+    private String mOrgName = "湖州市中心医院";
     private String mOrgCode;
+    /**
+     * 选择器默认的地区
+     */
+    private String mAreaName = "湖州市";
     private SelfPayHeaderBean mSelfPayHeaderBean;
     private SelectHospitalWindow mSelectHospitalWindow;
     private List<HospitalEntity.DetailsBean> mHospitalBeanList;
     private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
             () -> BrightnessManager.lighton(SelfPayFeeActivity.this);
+    private HospitalPickerView mCityPickerView = new HospitalPickerView();
 
     @Override
     protected SelfPayFeePresenter<SelfPayFeeContract.IView> createPresenter() {
@@ -77,7 +90,8 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private void initData() {
         mLoading = new LoadingView.Builder(this)
                 .build();
-
+        // 预先加载仿iOS滚轮实现的全部数据
+        mCityPickerView.init(this);
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         mSelfPayHeaderBean = new SelfPayHeaderBean();
@@ -133,7 +147,46 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     public void getHospitalList() {
-        mPresenter.getHospitalList();
+        //mPresenter.getHospitalList();
+        showWheelDialog();
+    }
+
+    /**
+     * 弹出选择器
+     */
+    private void showWheelDialog() {
+        CityConfig cityConfig = new CityConfig.Builder()
+                .defaultCity(mAreaName)
+                .defaultHospital(mOrgName)
+                .build();
+
+        mCityPickerView.setConfig(cityConfig);
+
+        mCityPickerView.setOnCityItemClickListener(new OnCityItemClickListener() {
+            @Override
+            public void onSelected(CityBean cityBean, HospitalBean hospitalBean) {
+                mAreaName = cityBean.getArea_name();
+                mOrgCode = hospitalBean.getOrg_code();
+                mOrgName = hospitalBean.getOrg_name();
+
+                mSelfPayHeaderBean.setHospitalName(mOrgName);
+
+                // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+                if (mItemList.size() > 0) {
+                    mItemList.clear();
+                }
+                mItemList.add(mSelfPayHeaderBean); // 选择医院后添加数据
+                refreshAdapter();
+                requestYd0003();
+            }
+
+            @Override
+            public void onCancel() {
+                LogUtil.i(TAG, "onCancel()");
+            }
+        });
+
+        mCityPickerView.showCityPicker();
     }
 
     private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {

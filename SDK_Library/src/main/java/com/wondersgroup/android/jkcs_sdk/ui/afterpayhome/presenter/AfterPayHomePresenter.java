@@ -104,7 +104,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
         mModel.getHospitalList(new OnHospitalListListener() {
             @Override
             public void onSuccess(HospitalEntity body) {
-                LogUtil.i(TAG, "get hospital list success~");
+                LogUtil.i(TAG, "get defaultHospital list success~");
                 dismissLoading();
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(body);
@@ -113,7 +113,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
             @Override
             public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "get hospital list failed!");
+                LogUtil.e(TAG, "get defaultHospital list failed!");
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
@@ -132,7 +132,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
         mModel.getHospitalList(version, new OnHospitalListV1Listener() {
             @Override
             public void onSuccess(HospitalV1Entity body) {
-                LogUtil.i(TAG, "get hospital list success~");
+                LogUtil.i(TAG, "get defaultHospital list success~");
                 dismissLoading();
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListV1Result(body);
@@ -141,7 +141,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
 
             @Override
             public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "get hospital list failed!" + errCodeDes);
+                LogUtil.e(TAG, "get defaultHospital list failed!" + errCodeDes);
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
