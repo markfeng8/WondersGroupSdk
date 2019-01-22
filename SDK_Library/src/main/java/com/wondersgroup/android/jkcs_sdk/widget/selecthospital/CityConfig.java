@@ -15,79 +15,64 @@ package com.wondersgroup.android.jkcs_sdk.widget.selecthospital;
 public class CityConfig {
 
     public static final Integer NONE = -1111;
-
     /**
      * 滚轮显示的item个数
      */
     private int visibleItems = 5;
-
     /**
      * 省滚轮是否循环滚动
      */
     private boolean isProvinceCyclic = true;
-
     /**
      * 市滚轮是否循环滚动
      */
     private boolean isCityCyclic = true;
-
     /**
      * 区滚轮是否循环滚动
      */
     private boolean isDistrictCyclic = true;
-
     /**
      * Color.BLACK
      */
-    private String cancelTextColorStr = "#000000";
-
+    private String cancelTextColorStr = "#333333";
     /**
      * Color.BLACK
      */
     private String cancelText = "取消";
 
-    private int cancelTextSize = 16;
-
+    private int cancelTextSize = 14;
     /**
      * Color.BLUE
      */
-    private String confirmTextColorStr = "#000000";
-
+    private String confirmTextColorStr = "#333333";
     /**
      * Color.BLUE
      */
     private String confirmText = "确定";
-
     /**
      * Color.BLUE
      */
-    private int confirmTextSize = 16;
-
+    private int confirmTextSize = 14;
     /**
      * 标题
      */
     private String mTitle = "选择地区";
-
     /**
      * 标题背景颜色
      */
-    private String titleBackgroundColorStr = "#E9E9E9";
-
+    private String titleBackgroundColorStr = "#F0F0F0";
     /**
      * 标题颜色
      */
-    private String titleTextColorStr = "#585858";
-
+    private String titleTextColorStr = "#333333";
     /**
      * 标题字体大小
      */
-    private int titleTextSize = 18;
-
+    private int titleTextSize = 16;
     /**
      * 第一次默认的显示省份，一般配合定位，使用
      */
     private String defaultProvinceName = "浙江";
-
     /**
      * 第一次默认得显示城市，一般配合定位，使用
      */
@@ -393,114 +378,92 @@ public class CityConfig {
          * 滚轮显示的 item 个数(默认是 5 个)
          */
         private int visibleItems = 5;
-
         /**
          * 省滚轮是否循环滚动
          */
         private boolean isProvinceCyclic = false;
-
         /**
          * 市滚轮是否循环滚动
          */
         private boolean isCityCyclic = false;
-
         /**
          * 区滚轮是否循环滚动
          */
         private boolean isDistrictCyclic = false;
-
         /**
          * Color.BLACK
          */
         private String cancelTextColorStr = "#000000";
-
         /**
          * Color.BLACK
          */
         private String cancelText = "取消";
 
-        private int cancelTextSize = 16;
-
+        private int cancelTextSize = 14;
         /**
          * Color.BLUE
          */
         private String confirmTextColorStr = "#000000";
-
         /**
          * Color.BLUE
          */
         private String confirmText = "确定";
-
         /**
          * 16sp
          */
-        private int confirmTextSize = 16;
-
+        private int confirmTextSize = 14;
         /**
          * 标题
          */
         private String mTitle = "请选择医院";
-
         /**
          * 标题背景颜色
          */
         private String titleBackgroundColorStr = "#E0E0E0";
-
         /**
          * 标题颜色
          */
         private String titleTextColorStr = "#000000";
-
         /**
          * 标题字体大小
          */
-        private int titleTextSize = 18;
-
+        private int titleTextSize = 16;
         /**
          * 第一次默认的显示省份，一般配合定位，使用
          */
         private String defaultProvinceName = "浙江";
-
         /**
          * 第一次默认得显示城市，一般配合定位，使用
          */
         private String defaultCityName = "杭州";
-
         /**
          * 定义默认显示省市区三级联动的滚轮选择器
          */
         private CityConfig.WheelType mWheelType = CityConfig.WheelType.PRO_CITY;
-
         /**
          * 是否显示半透明的背景
          */
         private boolean isShowBackground = true;
-
         /**
          * 自定义的 item 布局
          */
         private Integer customItemLayout;
-
         /**
          * 自定义的item txt id
          */
         private Integer customItemTextViewId;
-
         /**
          * 是否显示滚轮上面的模糊阴影效果
          */
         private boolean drawShadows = false;
-
         /**
          * 中间线的颜色
          */
         private String lineColor = "#000000";
-
         /**
          * 是否显示港澳台城市数据
          */
         private boolean showGAT = false;
-
         /**
          * 中间线的宽度
          */

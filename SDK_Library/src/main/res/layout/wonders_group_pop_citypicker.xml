@@ -15,10 +15,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/wonders_rgb_color_e0e0e0">
+        android:layout_height="48dp"
+        android:background="@color/wonders_rgb_color_f0f0f0">
 
         <TextView
             android:id="@+id/tv_confirm"
@@ -28,8 +27,8 @@
             android:layout_marginRight="15dp"
             android:gravity="center_vertical"
             android:text="确定"
-            android:textColor="@color/wonders_rgb_color_000000"
-            android:textSize="18sp" />
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -38,8 +37,8 @@
             android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
             android:text="选择地区"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_cancel"
@@ -49,8 +48,8 @@
             android:layout_marginLeft="15dp"
             android:gravity="center_vertical"
             android:text="取消"
-            android:textColor="@color/wonders_rgb_color_000000"
-            android:textSize="18sp" />
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -63,13 +62,13 @@
             android:id="@+id/id_province"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel.WheelView
             android:id="@+id/id_city"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="3" />
 
         <com.wondersgroup.android.jkcs_sdk.widget.timepicker.wheel.WheelView
             android:id="@+id/id_district"

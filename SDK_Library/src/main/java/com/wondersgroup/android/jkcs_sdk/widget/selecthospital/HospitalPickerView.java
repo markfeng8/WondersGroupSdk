@@ -9,7 +9,6 @@
 package com.wondersgroup.android.jkcs_sdk.widget.selecthospital;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -17,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -38,15 +36,12 @@ import java.util.List;
 public class HospitalPickerView implements CanShow, OnWheelChangedListener {
 
     private static final String TAG = "HospitalPickerView";
-
-    private PopupWindow popupWindow;
-    private View popupView;
+    private PopupWindow mPopupWindow;
+    private View mPopupView;
     private WheelView mViewProvince;
     private WheelView mViewCity;
     private WheelView mViewDistrict;
-    private RelativeLayout mRelativeTitleBg;
     private TextView mTvOK;
-    private TextView mTvTitle;
     private TextView mTvCancel;
     private OnCityItemClickListener mBaseListener;
 
@@ -87,7 +82,7 @@ public class HospitalPickerView implements CanShow, OnWheelChangedListener {
     }
 
     /**
-     * initialize picker's popupWindow.
+     * initialize picker's mPopupWindow.
      */
     private void initPickerPopupWindow() {
         if (mConfig == null) {
@@ -103,92 +98,27 @@ public class HospitalPickerView implements CanShow, OnWheelChangedListener {
         }
 
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        popupView = layoutInflater.inflate(R.layout.wonders_group_pop_citypicker, null);
+        mPopupView = layoutInflater.inflate(R.layout.wonders_group_pop_citypicker, null);
 
-        mViewProvince = popupView.findViewById(R.id.id_province);
-        mViewCity = popupView.findViewById(R.id.id_city);
-        mViewDistrict = popupView.findViewById(R.id.id_district);
-        mRelativeTitleBg = popupView.findViewById(R.id.rl_title);
-        mTvOK = popupView.findViewById(R.id.tv_confirm);
-        mTvTitle = popupView.findViewById(R.id.tv_title);
-        mTvCancel = popupView.findViewById(R.id.tv_cancel);
+        mViewProvince = mPopupView.findViewById(R.id.id_province);
+        mViewCity = mPopupView.findViewById(R.id.id_city);
+        mViewDistrict = mPopupView.findViewById(R.id.id_district);
+        mTvOK = mPopupView.findViewById(R.id.tv_confirm);
+        mTvCancel = mPopupView.findViewById(R.id.tv_cancel);
 
-        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT,
+        mPopupWindow = new PopupWindow(mPopupView, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setAnimationStyle(R.style.AnimBottom);
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setFocusable(true);
+        mPopupWindow.setAnimationStyle(R.style.AnimBottom);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable());
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setOutsideTouchable(false);
+        mPopupWindow.setFocusable(true);
 
-        popupWindow.setOnDismissListener(() -> {
+        mPopupWindow.setOnDismissListener(() -> {
             if (mConfig.isShowBackground()) {
                 AssetUtils.setBackgroundAlpha(mContext, 1.0f);
             }
         });
-
-        // 设置标题背景颜色
-        if (!TextUtils.isEmpty(mConfig.getTitleBackgroundColorStr())) {
-            if (mConfig.getTitleBackgroundColorStr().startsWith("#")) {
-                mRelativeTitleBg.setBackgroundColor(Color.parseColor(mConfig.getTitleBackgroundColorStr()));
-            } else {
-                mRelativeTitleBg.setBackgroundColor(Color.parseColor("#" + mConfig.getTitleBackgroundColorStr()));
-
-            }
-        }
-
-        // 标题
-        if (!TextUtils.isEmpty(mConfig.getTitle())) {
-            mTvTitle.setText(mConfig.getTitle());
-        }
-
-        // 标题文字大小
-        if (mConfig.getTitleTextSize() > 0) {
-            mTvTitle.setTextSize(mConfig.getTitleTextSize());
-        }
-
-        // 标题文字颜色
-        if (!TextUtils.isEmpty(mConfig.getTitleTextColorStr())) {
-            if (mConfig.getTitleTextColorStr().startsWith("#")) {
-                mTvTitle.setTextColor(Color.parseColor(mConfig.getTitleTextColorStr()));
-            } else {
-                mTvTitle.setTextColor(Color.parseColor("#" + mConfig.getTitleTextColorStr()));
-            }
-        }
-
-        // 设置确认按钮文字大小颜色
-        if (!TextUtils.isEmpty(mConfig.getConfirmTextColorStr())) {
-            if (mConfig.getConfirmTextColorStr().startsWith("#")) {
-                mTvOK.setTextColor(Color.parseColor(mConfig.getConfirmTextColorStr()));
-            } else {
-                mTvOK.setTextColor(Color.parseColor("#" + mConfig.getConfirmTextColorStr()));
-            }
-        }
-
-        if (!TextUtils.isEmpty(mConfig.getConfirmText())) {
-            mTvOK.setText(mConfig.getConfirmText());
-        }
-
-        if ((mConfig.getConfirmTextSize() > 0)) {
-            mTvOK.setTextSize(mConfig.getConfirmTextSize());
-        }
-
-        // 设置取消按钮文字颜色
-        if (!TextUtils.isEmpty(mConfig.getCancelTextColorStr())) {
-            if (mConfig.getCancelTextColorStr().startsWith("#")) {
-                mTvCancel.setTextColor(Color.parseColor(mConfig.getCancelTextColorStr()));
-            } else {
-                mTvCancel.setTextColor(Color.parseColor("#" + mConfig.getCancelTextColorStr()));
-            }
-        }
-
-        if (!TextUtils.isEmpty(mConfig.getCancelText())) {
-            mTvCancel.setText(mConfig.getCancelText());
-        }
-
-        if ((mConfig.getCancelTextSize() > 0)) {
-            mTvCancel.setTextSize(mConfig.getCancelTextSize());
-        }
 
         // 只显示省市两级联动
         if (mConfig.getWheelType() == CityConfig.WheelType.PRO) {
@@ -398,20 +328,20 @@ public class HospitalPickerView implements CanShow, OnWheelChangedListener {
     public void showCityPicker() {
         initPickerPopupWindow();
         if (!isShow()) {
-            popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
+            mPopupWindow.showAtLocation(mPopupView, Gravity.BOTTOM, 0, 0);
         }
     }
 
     @Override
     public void hide() {
         if (isShow()) {
-            popupWindow.dismiss();
+            mPopupWindow.dismiss();
         }
     }
 
     @Override
     public boolean isShow() {
-        return popupWindow.isShowing();
+        return mPopupWindow.isShowing();
     }
 
     @Override

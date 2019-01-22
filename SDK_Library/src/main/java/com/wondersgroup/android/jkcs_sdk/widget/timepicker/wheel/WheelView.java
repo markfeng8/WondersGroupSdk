@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.adapters.WheelViewAdapter;
-import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.DefaultConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.config.ScrollerConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.utils.Utils;
 
@@ -101,7 +100,18 @@ public class WheelView extends View {
 
     // Recycle
     private WheelRecycle recycle = new WheelRecycle(this);
-    private Paint mPaintLineCenter, mPaintLineRight, mPaintRectCenter;
+    /**
+     * 绘制线的画笔
+     */
+    private Paint mPaintLineCenter;
+    /**
+     * 中间线两条分割线的画笔
+     */
+    private Paint mPaintLineRight;
+    /**
+     * 中间矩形选中框的画笔
+     */
+    private Paint mPaintRectCenter;
     private int mLineRightMar;
     // Listeners
     private List<OnWheelChangedListener> changingListeners = new LinkedList<>();
@@ -143,7 +153,7 @@ public class WheelView extends View {
         }
     };
 
-    private List<OnWheelClickedListener> clickingListeners = new LinkedList<OnWheelClickedListener>();
+    private List<OnWheelClickedListener> clickingListeners = new LinkedList<>();
     // Adapter listener
     private DataSetObserver dataObserver = new DataSetObserver() {
         @Override
@@ -160,24 +170,16 @@ public class WheelView extends View {
     /**
      * Constructor
      */
+    public WheelView(Context context) {
+        this(context, null);
+    }
+
+    public WheelView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
     public WheelView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        initData(context);
-    }
-
-    /**
-     * Constructor
-     */
-    public WheelView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initData(context);
-    }
-
-    /**
-     * Constructor
-     */
-    public WheelView(Context context) {
-        super(context);
         initData(context);
     }
 
@@ -190,35 +192,36 @@ public class WheelView extends View {
         scroller = new WheelScroller(getContext(), scrollingListener);
 
         mPaintLineCenter = new Paint();
-        mPaintLineCenter.setColor(getResources().getColor(DefaultConfig.TOOLBAR_BKG_COLOR));
+        mPaintLineCenter.setColor(getResources().getColor(R.color.wonders_rgb_color_000000));
         mPaintLineCenter.setAntiAlias(true);
-        mPaintLineCenter.setStrokeWidth(1);
-        mPaintLineCenter.setStyle(Paint.Style.FILL);
+        mPaintLineCenter.setStrokeWidth(0.5f);
+        mPaintLineCenter.setStyle(Paint.Style.FILL_AND_STROKE);
 
         mPaintLineRight = new Paint();
-        mPaintLineRight.setColor(0xffe8e8e8);
+        mPaintLineRight.setColor(getResources().getColor(R.color.wonders_rgb_color_000000));
         mPaintLineRight.setAntiAlias(true);
-//        mPaintLineRight.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.picker_line_width));
-        mPaintLineRight.setStrokeWidth(1);
+        mPaintLineRight.setStrokeWidth(0.5f);
         mPaintLineRight.setStyle(Paint.Style.FILL);
 
         mPaintRectCenter = new Paint();
-        mPaintRectCenter.setColor(getResources().getColor(DefaultConfig.TOOLBAR_BKG_COLOR));
+        mPaintRectCenter.setColor(getResources().getColor(R.color.wonders_rgb_color_ffffff));
         mPaintRectCenter.setAlpha((int) (0.1 * 255));
         mPaintRectCenter.setAntiAlias(true);
+        mPaintRectCenter.setStrokeWidth(0.5f);
         mPaintRectCenter.setStyle(Paint.Style.FILL);
 
         mLineRightMar = context.getResources().getDimensionPixelSize(R.dimen.picker_line_mar);
 
-        defaultColor = DefaultConfig.TV_NORMAL_COLOR;
-        selectorColor = DefaultConfig.TV_SELECTOR_COLOR;
+        defaultColor = R.color.wonders_rgb_color_666666;
+        selectorColor = R.color.wonders_rgb_color_333333;
     }
 
     public void setConfig(ScrollerConfig config) {
-        mPaintLineCenter.setColor(getResources().getColor(config.mItemSelectorLine));
-
-        mPaintRectCenter.setColor(getResources().getColor(config.mItemSelectorRect));
-        mPaintRectCenter.setAlpha((int) (0.1 * 255));
+        // 设置分割线的颜色
+        mPaintLineCenter.setColor(getResources().getColor(R.color.wonders_rgb_color_000000));
+        // 设置中间矩形框画笔的颜色和透明度，因为这个矩形是覆盖在最上层的，所以必须要设置透明度，否则会挡到文字
+        mPaintRectCenter.setColor(getResources().getColor(R.color.wonders_rgb_color_ffffff));
+        mPaintRectCenter.setAlpha(0);
 
         defaultColor = config.mWheelTVNormalColor;
         selectorColor = config.mWheelTVSelectorColor;
@@ -704,17 +707,10 @@ public class WheelView extends View {
      */
     private void drawCenterRect(Canvas canvas) {
         int center = getHeight() / 2;
-        int offset = (int) (getItemHeight() / 2 * 1.2);
-//        centerDrawable.setBounds(0, center - offset, getWidth(), center + offset);
-//        centerDrawable.draw(canvas);
+        int offset = (int) ((getItemHeight() / 2) * 1.2);
         canvas.drawRect(0, center - offset, getWidth(), center + offset, mPaintRectCenter);
-
         canvas.drawLine(0, center - offset, getWidth(), center - offset, mPaintLineCenter);
         canvas.drawLine(0, center + offset, getWidth(), center + offset, mPaintLineCenter);
-
-        // 去掉右侧画线
-//        int x = getWidth() - 1;
-//        canvas.drawLine(x, mLineRightMar, x, getHeight() - mLineRightMar, mPaintLineRight);
     }
 
 
