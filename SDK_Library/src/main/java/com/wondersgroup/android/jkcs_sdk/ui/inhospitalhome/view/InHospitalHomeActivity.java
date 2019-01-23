@@ -17,21 +17,21 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.CityBean;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity;
-import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.BrightnessManager;
 import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
@@ -40,7 +40,9 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
-import com.wondersgroup.android.jkcs_sdk.widget.SelectHospitalWindow;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
+import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
 
 import java.util.List;
 
@@ -68,41 +70,28 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private TextView tvInHosPrepayFee;
     private TextView tvInHosFeeTotal;
     private TextView tvPaymentType;
-    private View activityView;
     private Group viewGroup;
-    private String mOrgName;
+    /**
+     * 选择器默认的医院
+     */
+    private String mOrgName = "湖州市中心医院";
     private String mOrgCode;
+    /**
+     * 选择器默认的地区
+     */
+    private String mAreaName = "湖州市";
     private String mInHosId;
     private String mInHosArea;
     private String mInHosDate;
     private LoadingView mLoading;
-    private SelectHospitalWindow mSelectHospitalWindow;
-    private List<HospitalEntity.DetailsBean> mHospitalBeanList;
-    private SelectHospitalWindow.OnLoadingListener mOnLoadingListener =
-            () -> BrightnessManager.lighton(InHospitalHomeActivity.this);
     private Cy0001Entity mCy0001Entity;
+
+    private HospitalPickerView mCityPickerView = new HospitalPickerView();
 
     /**
      * 住院状态：00 在院 01 预出院 10 已出院
      */
     private String mInState = "";
-
-    private SelectHospitalWindow.OnItemClickListener mOnItemClickListener = new SelectHospitalWindow.OnItemClickListener() {
-        @Override
-        public void onClick(int position) {
-            if (mHospitalBeanList != null && position < mHospitalBeanList.size()) {
-                HospitalEntity.DetailsBean bean = mHospitalBeanList.get(position);
-                if (bean != null) {
-                    mOrgCode = bean.getOrg_code();
-                    mOrgName = bean.getOrg_name();
-                    LogUtil.i(TAG, "mOrgCode===" + mOrgCode + ",mOrgName===" + mOrgName);
-                }
-            }
-
-            tvHospitalName.setText(mOrgName);
-            requestCY0001();
-        }
-    };
 
     private void requestCY0001() {
         if (!TextUtils.isEmpty(mOrgCode)) {
@@ -151,7 +140,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvDayDetail = findViewById(R.id.tvDayDetail);
         tvLeaveHos = findViewById(R.id.tvLeaveHos);
         tvInHosRecord = findViewById(R.id.tvInHosRecord);
-        activityView = findViewById(R.id.activityView);
         viewGroup = findViewById(R.id.viewGroup);
         tvNoDetail = findViewById(R.id.tvNoDetail);
         tvInHosId = findViewById(R.id.tvInHosId);
@@ -169,30 +157,86 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList());
         // 预交金充值
         tvPrepayFee.setOnClickListener(view -> {
-            // 在院状态才能进行预交金充值
-            if ("00".equals(mInState)) {
-                PrepayFeeRechargeActivity.actionStart(InHospitalHomeActivity.this);
-            } else {
-                WToastUtil.show("您当前不是住院状态，不能充值！");
-            }
+            comingSoon();
         });
         // 充值记录
-        tvRechargeRecord.setOnClickListener(view -> RechargeRecordActivity.actionStart(InHospitalHomeActivity.this));
+        tvRechargeRecord.setOnClickListener(view -> {
+            //RechargeRecordActivity.actionStart(InHospitalHomeActivity.this);
+            comingSoon();
+        });
         // 日清单查询
         tvDayDetail.setOnClickListener(view -> findDayDetails());
         // 出院结算
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> {
-            InHospitalHistory.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
+            if ("南浔区".equals(mAreaName)) {
+                WToastUtil.show("该医院暂未开放！");
+            } else {
+                InHospitalHistory.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
+            }
         });
     }
 
+    private void comingSoon() {
+        WToastUtil.show("敬请期待！");
+
+        // 在院状态才能进行预交金充值
+//        if ("00".equals(mInState)) {
+//            PrepayFeeRechargeActivity.actionStart(InHospitalHomeActivity.this);
+//        } else {
+//            WToastUtil.show("您当前不是住院状态，不能充值！");
+//        }
+    }
+
+    /**
+     * 弹出选择器
+     */
+    private void showWheelDialog(String json) {
+        // 预先加载仿iOS滚轮实现的全部数据
+        mCityPickerView.init(this, json);
+
+        CityConfig cityConfig = new CityConfig.Builder()
+                .defaultCity(mAreaName)
+                .defaultHospital(mOrgName)
+                .build();
+
+        mCityPickerView.setConfig(cityConfig);
+
+        mCityPickerView.setOnCityItemClickListener(new OnCityItemClickListener() {
+            @Override
+            public void onSelected(CityBean cityBean, HospitalBean hospitalBean) {
+                mAreaName = cityBean.getArea_name();
+                mOrgCode = hospitalBean.getOrg_code();
+                mOrgName = hospitalBean.getOrg_name();
+                tvHospitalName.setText(mOrgName);
+                if (!"南浔区".equals(mAreaName)) {
+                    requestCY0001();
+                } else {
+                    WToastUtil.show("该医院暂未开放！");
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                LogUtil.i(TAG, "onCancel()");
+            }
+        });
+
+        mCityPickerView.showCityPicker();
+    }
+
     private void findDayDetails() {
+        if ("南浔区".equals(mAreaName)) {
+            WToastUtil.show("该医院暂未开放！");
+            return;
+        }
+
         if (TextUtils.isEmpty(mOrgName)) {
             WToastUtil.show("请先选择医院！");
             return;
         }
+
         if (mCy0001Entity == null) {
             WToastUtil.show("当前无住院信息，请通过住院记录页面查询！");
             return;
@@ -209,6 +253,11 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     private void leaveHospitalSettle() {
+        if ("南浔区".equals(mAreaName)) {
+            WToastUtil.show("该医院暂未开放！");
+            return;
+        }
+
         if (mCy0001Entity == null) {
             WToastUtil.show("暂无住院信息！");
             return;
@@ -247,21 +296,11 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     @Override
     public void onHospitalListResult(HospitalEntity body) {
         if (body != null) {
-            mHospitalBeanList = body.getDetails();
-            if (mHospitalBeanList != null && mHospitalBeanList.size() > 0) {
-                if (mSelectHospitalWindow == null) {
-                    mSelectHospitalWindow = new SelectHospitalWindow.Builder(this)
-                            .setDropView(activityView)
-                            .setListener(mOnLoadingListener)
-                            .setOnItemClickListener(mOnItemClickListener)
-                            .build();
-                }
-
-                BrightnessManager.lightoff(this);
-                mSelectHospitalWindow.setBeanList(mHospitalBeanList);
-                mSelectHospitalWindow.show();
-            } else {
-                WToastUtil.show("未查询到门诊账单！");
+            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
+            if (details != null && details.size() > 0) {
+                String json = new Gson().toJson(details);
+                LogUtil.i(TAG, "json===" + json);
+                showWheelDialog(json);
             }
         } else {
             LogUtil.w(TAG, "onHospitalListResult() -> body is null!");

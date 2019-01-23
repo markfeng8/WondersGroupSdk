@@ -66,6 +66,9 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     }
 
     private void initListener() {
+        /*
+         * 设置点击住院清单时的点击事件
+         */
         tvInHosDetail.setOnClickListener(v -> {
             if (!TimeUtils.isOver90Days(mLeaveHosDate)) {
                 DayDetailedListActivity.actionStart(InHospitalRecordActivity.this, mOrgCode,
@@ -74,8 +77,18 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
                 WToastUtil.show("仅支持3个月内日清单记录查询！");
             }
         });
-        tvEleInvoice.setOnClickListener(v -> EleInvoiceActivity.actionStart(InHospitalRecordActivity.this,
-                TextUtils.isEmpty(mPayPlatTradeNo) ? "0" : mPayPlatTradeNo));
+
+        /*
+         * 设置点击电子发票时的点击事件
+         */
+        tvEleInvoice.setOnClickListener(v -> {
+            LogUtil.i(TAG, "mPayPlatTradeNo===" + mPayPlatTradeNo);
+            if (!TextUtils.isEmpty(mPayPlatTradeNo) && !"0".equals(mPayPlatTradeNo)) {
+                EleInvoiceActivity.actionStart(InHospitalRecordActivity.this, mPayPlatTradeNo);
+            } else {
+                WToastUtil.show("此次住院为窗口缴费，请通过健康湖州APP首页电子发票按钮进行查看!");
+            }
+        });
     }
 
     private void initData() {

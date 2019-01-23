@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by x-sir on 2018/08/14 :)
  * Function: sp存储的工具类
@@ -42,6 +45,28 @@ public class SpUtil {
         } else if (value instanceof Integer) {
             mSp.edit().putInt(key, (Integer) value).commit();
         }
+    }
+
+    /**
+     * 保存一个 HashMap 集合
+     */
+    public void save(HashMap<String, Object> map) {
+        SharedPreferences.Editor editor = mSp.edit();
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (value instanceof String) {
+                editor.putString(key, (String) value);
+            } else if (value instanceof Boolean) {
+                editor.putBoolean(key, (Boolean) value);
+            } else if (value instanceof Integer) {
+                editor.putInt(key, (Integer) value);
+            }
+        }
+
+        editor.apply();
     }
 
     /**

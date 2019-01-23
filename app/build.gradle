@@ -6,13 +6,12 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 84
-        versionName "2.7.3"
+        versionCode 89
+        versionName "2.7.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-            //, 'x86', 'x86_64'
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
 
@@ -116,7 +115,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '1.解决日清单查询页面时间控制的问题;\n2.bugs fix;'
+    return '1.代码优化;\n2.bugs fix;\n3.为了更好的用户体验赶快更新吧;'
 }
 
 task("uploadApk") {

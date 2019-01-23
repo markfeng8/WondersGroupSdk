@@ -15,7 +15,7 @@ import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
-import com.wondersgroup.android.jkcs_sdk.utils.WondersGroup;
+import com.wondersgroup.android.jkcs_sdk.api.WondersGroup;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;

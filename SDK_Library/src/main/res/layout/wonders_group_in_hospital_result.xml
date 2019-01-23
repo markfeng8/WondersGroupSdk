@@ -320,12 +320,14 @@
             android:layout_marginStart="@dimen/wonders_margin_16dp"
             android:layout_marginTop="@dimen/wonders_margin_8dp"
             android:layout_marginEnd="@dimen/wonders_margin_16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/wonders_group_4dp_blue_shape"
             android:gravity="center"
             android:padding="@dimen/wonders_padding_12dp"
             android:text="查看历史住院记录"
             android:textColor="@color/wonders_rgb_color_ffffff"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFailedToast"
             app:layout_goneMarginTop="@dimen/wonders_margin_24dp" />
 

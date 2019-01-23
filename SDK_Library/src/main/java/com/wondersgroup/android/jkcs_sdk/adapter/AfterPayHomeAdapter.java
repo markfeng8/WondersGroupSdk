@@ -147,7 +147,6 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private LinearLayout llSettings;
         private LinearLayout llPayRecord;
         private TextView tvHospitalName;
-        private TextView tvSelectHospital;
         private TextView tvTreatName;
         private TextView tvSocialNum;
         private TextView tvAfterPayState;
@@ -162,7 +161,6 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             llSettings = itemView.findViewById(R.id.llSettings);
             llPayRecord = itemView.findViewById(R.id.llPayRecord);
             tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
-            tvSelectHospital = itemView.findViewById(R.id.tvSelectHospital);
             tvTreatName = itemView.findViewById(R.id.tvTreatName);
             tvSocialNum = itemView.findViewById(R.id.tvSocialNum);
             tvAfterPayState = itemView.findViewById(R.id.tvAfterPayState);
@@ -176,7 +174,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             /*
              * 点击选择医院
              */
-            tvSelectHospital.setOnClickListener(v -> getHospitalList());
+            tvHospitalName.setOnClickListener(v -> getHospitalList());
             /*
              * 点击缴费记录
              */

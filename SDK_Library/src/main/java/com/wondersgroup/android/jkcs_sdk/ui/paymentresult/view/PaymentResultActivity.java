@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -41,8 +42,8 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private TextView tvFailed2;
     private ImageView ivQrCode;
     private Button btnBackToHome;
-    private LinearLayout llPaySuccess;
-    private LinearLayout llPayFailed;
+    private ScrollView llPaySuccess;
+    private ScrollView llPayFailed;
     private LinearLayout llContainer1;
     private LinearLayout llContainer2;
     private LinearLayout llYiBaoLayout;

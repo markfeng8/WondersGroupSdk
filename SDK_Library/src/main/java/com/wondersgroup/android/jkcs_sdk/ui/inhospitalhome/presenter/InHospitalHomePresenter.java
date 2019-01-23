@@ -42,7 +42,7 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
         mModel.getHospitalList(new OnHospitalListListener() {
             @Override
             public void onSuccess(HospitalEntity body) {
-                LogUtil.i(TAG, "get hospital list success~");
+                LogUtil.i(TAG, "get defaultHospital list success~");
                 dismissLoading();
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(body);
@@ -51,7 +51,7 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
 
             @Override
             public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "get hospital list failed!");
+                LogUtil.e(TAG, "get defaultHospital list failed!");
                 dismissLoading();
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {

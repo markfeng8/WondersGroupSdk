@@ -20,64 +20,75 @@ public class LogUtil {
     private static boolean isNotSet = false;
 
     public static void setIsNeedPrintLog(boolean isNeedPrintLog) {
+        setAdapter();
         IS_NEED_PRINT_LOG = isNeedPrintLog;
     }
 
     public static void v(String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.v(DEFAULT_TAG, msg);
         }
     }
 
     public static void d(String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.d(DEFAULT_TAG, msg);
         }
     }
 
     public static void i(String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.i(DEFAULT_TAG, msg);
         }
     }
 
     public static void w(String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.w(DEFAULT_TAG, msg);
         }
     }
 
     public static void e(String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.e(DEFAULT_TAG, msg);
         }
     }
 
     public static void i(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.i(getTag(tag), msg);
         }
     }
 
     public static void w(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.w(getTag(tag), msg);
         }
     }
 
     public static void e(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.e(getTag(tag), msg);
         }
     }
 
     public static void v(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.v(getTag(tag), msg);
         }
     }
 
     public static void d(String tag, String msg) {
+        setAdapter();
         if (IS_NEED_PRINT_LOG) {
             Log.d(getTag(tag), msg);
         }

@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llPayFailed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:orientation="vertical"
-    android:visibility="visible">
-
-    <TextView
-        android:id="@+id/tvFailed1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/wonders_margin_16dp"
-        android:drawableStart="@drawable/wonders_group_mark"
-        android:drawablePadding="@dimen/wonders_padding_10dp"
-        android:gravity="center_vertical"
-        android:text="@string/wonders_settle_failed1"
-        android:textColor="@color/wonders_rgb_color_58c78f"
-        android:textSize="@dimen/wonders_text_size_16sp" />
+    android:scrollbars="none">
 
     <LinearLayout
-        android:id="@+id/llContainer2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-    <TextView
-        android:id="@+id/tvFailed2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
-        android:background="@color/wonders_rgb_color_f8f8f8"
-        android:padding="@dimen/wonders_padding_10dp"
-        android:text="@string/wonders_settle_failed2"
-        android:textColor="@color/wonders_rgb_color_979797"
-        android:textSize="@dimen/wonders_text_size_12sp" />
+        <TextView
+            android:id="@+id/tvFailed1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:drawableStart="@drawable/wonders_group_mark"
+            android:drawablePadding="@dimen/wonders_padding_10dp"
+            android:gravity="center_vertical"
+            android:text="@string/wonders_settle_failed1"
+            android:textColor="@color/wonders_rgb_color_58c78f"
+            android:textSize="@dimen/wonders_text_size_16sp" />
 
-    <Button
-        android:id="@+id/btnBackToHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/wonders_margin_10dp"
-        android:layout_marginTop="@dimen/wonders_margin_10dp"
-        android:background="@drawable/wonders_group_blue_shape"
-        android:text="回到首页"
-        android:textColor="@color/wonders_rgb_color_ffffff"
-        android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/llContainer2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvFailed2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:layout_marginTop="@dimen/wonders_margin_16dp"
+            android:background="@color/wonders_rgb_color_f8f8f8"
+            android:text="@string/wonders_settle_failed2"
+            android:textColor="@color/wonders_rgb_color_979797"
+            android:textSize="@dimen/wonders_text_size_12sp" />
+
+        <Button
+            android:id="@+id/btnBackToHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/wonders_margin_16dp"
+            android:background="@drawable/wonders_group_blue_shape"
+            android:text="回到首页"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</ScrollView>

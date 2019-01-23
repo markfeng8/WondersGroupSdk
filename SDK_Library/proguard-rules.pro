@@ -280,7 +280,7 @@
 }
 
 # 保持对外的调用类 WondersGroup 的类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
--keep class com.wondersgroup.android.jkcs_sdk.utils.WondersGroup {
+-keep class com.wondersgroup.android.jkcs_sdk.api.WondersGroup {
     public static void startBusiness(android.content.Context, com.wondersgroup.android.jkcs_sdk.entity.UserBuilder, int);
 }
 #--------------------------------- 项目个性化配置 end --------------------------------------

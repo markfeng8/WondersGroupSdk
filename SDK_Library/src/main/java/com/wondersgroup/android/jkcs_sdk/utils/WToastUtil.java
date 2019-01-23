@@ -6,7 +6,7 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 
 /**
  * Created by x-sir on 2018/8/2 :)
- * Function:Wonders Toast utils.
+ * Function:Wonders Toast AssetUtils.
  */
 public class WToastUtil {
 
