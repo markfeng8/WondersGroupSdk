@@ -9,9 +9,7 @@
 package com.wondersgroup.android.jkcs_sdk.api;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -37,15 +35,6 @@ public abstract class AbstractBusiness {
      */
     public void saveUserInfo(UserBuilder builder) {
 
-    }
-
-    protected final void actionStart(Context context, Class<?> clazz) {
-        if (context != null) {
-            Intent intent = new Intent(context, clazz);
-            context.startActivity(intent);
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
-        }
     }
 
     protected final void save(HashMap<String, Object> map) {
