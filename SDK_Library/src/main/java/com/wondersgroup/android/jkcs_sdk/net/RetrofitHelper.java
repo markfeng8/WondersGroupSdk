@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.net;
 
+import com.wondersgroup.android.jkcs_sdk.BuildConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.net.interceptor.LoggerInterceptor;
 import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
@@ -7,6 +8,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHelper {
 
+    private static final String TAG = "RetrofitHelper";
     private static final String BASE_URL = RequestUrl.HOST; // host
     private static final long DEFAULT_TIMEOUT = 60000L; // timeout millis
 
@@ -35,6 +38,15 @@ public class RetrofitHelper {
      */
     private RetrofitHelper() {
         // HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(MyApplication.getIntstance(), new int[0], R.raw.ivms8700, STORE_PASS);
+        // 包含header、body数据
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new LoggerInterceptor());
+        if (BuildConfig.DEBUG) {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
         client = new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
@@ -42,7 +54,7 @@ public class RetrofitHelper {
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 //.hostnameVerifier(HttpsUtils.getHostnameVerifier())
                 //.addInterceptor(new HeaderInterceptor()) // 添加请求头
-                .addInterceptor(new LoggerInterceptor(true)) // 添加日志打印拦截器
+                .addNetworkInterceptor(loggingInterceptor) // 添加日志打印拦截器
                 .build();
 
         retrofit = new Retrofit.Builder()

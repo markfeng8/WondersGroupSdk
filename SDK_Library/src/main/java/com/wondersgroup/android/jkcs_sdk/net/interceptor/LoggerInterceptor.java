@@ -1,41 +1,32 @@
 package com.wondersgroup.android.jkcs_sdk.net.interceptor;
 
-import android.support.annotation.NonNull;
-
-import com.wondersgroup.android.jkcs_sdk.BuildConfig;
+import com.wondersgroup.android.jkcs_sdk.utils.JsonUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by x-sir on 2018/8/3 :)
  * Function:LoggerInterceptor
  */
-public class LoggerInterceptor implements Interceptor {
+public class LoggerInterceptor implements HttpLoggingInterceptor.Logger {
 
-    private static String TAG = "LoggerInterceptor";
-    private boolean isDebug;
-
-    public LoggerInterceptor(boolean isDebug) {
-        this(TAG, isDebug);
-    }
-
-    public LoggerInterceptor(String tag, boolean isDebug) {
-        this.isDebug = isDebug;
-        TAG = tag;
-    }
+    private StringBuilder mStringBuilder = new StringBuilder();
 
     @Override
-    public Response intercept(@NonNull Chain chain) throws IOException {
-        Request request = chain.request();
-        if (BuildConfig.DEBUG || isDebug) {
-            LogUtil.i(TAG, String.format("发送请求:%s on %s%n%s%n%s",
-                    request.url(), chain.connection(), request.headers(), request.body()));
+    public void log(String message) {
+        // 请求或者响应开始
+        if (message.startsWith("--> POST")) {
+            mStringBuilder.setLength(0);
         }
-        return chain.proceed(request);
+        // 以 {} 或者 [] 形式的说明是响应结果的 json 数据，需要进行格式化
+        if ((message.startsWith("{") && message.endsWith("}")) || (message.startsWith("[") && message.endsWith("]"))) {
+            message = JsonUtil.formatJson(message);
+        }
+        mStringBuilder.append(message.concat("\n"));
+        // 请求或者响应结束，打印整条日志
+        if (message.startsWith("<-- END HTTP")) {
+            LogUtil.dLogging(mStringBuilder.toString());
+        }
     }
 }

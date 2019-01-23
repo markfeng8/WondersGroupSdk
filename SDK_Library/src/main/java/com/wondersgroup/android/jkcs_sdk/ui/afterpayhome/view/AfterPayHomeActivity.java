@@ -282,7 +282,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             List<HospitalEntity.DetailsBeanX> details = body.getDetails();
             if (details != null && details.size() > 0) {
                 String json = new Gson().toJson(details);
-                LogUtil.i(TAG, "json===" + json);
+                LogUtil.json(TAG, json);
                 showWheelDialog(json);
             }
         } else {
