@@ -170,7 +170,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> {
-            if ("湖州市南浔区人民医院".equals(mOrgName)) {
+            if ("南浔区".equals(mAreaName)) {
                 WToastUtil.show("该医院暂未开放！");
             } else {
                 InHospitalHistory.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
@@ -210,7 +210,11 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                 mOrgCode = hospitalBean.getOrg_code();
                 mOrgName = hospitalBean.getOrg_name();
                 tvHospitalName.setText(mOrgName);
-                requestCY0001();
+                if (!"南浔区".equals(mAreaName)) {
+                    requestCY0001();
+                } else {
+                    WToastUtil.show("该医院暂未开放！");
+                }
             }
 
             @Override
@@ -223,13 +227,13 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     private void findDayDetails() {
-        if (TextUtils.isEmpty(mOrgName)) {
-            WToastUtil.show("请先选择医院！");
+        if ("南浔区".equals(mAreaName)) {
+            WToastUtil.show("该医院暂未开放！");
             return;
         }
 
-        if ("湖州市南浔区人民医院".equals(mOrgName)) {
-            WToastUtil.show("该医院暂未开放！");
+        if (TextUtils.isEmpty(mOrgName)) {
+            WToastUtil.show("请先选择医院！");
             return;
         }
 
@@ -249,7 +253,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     private void leaveHospitalSettle() {
-        if ("湖州市南浔区人民医院".equals(mOrgName)) {
+        if ("南浔区".equals(mAreaName)) {
             WToastUtil.show("该医院暂未开放！");
             return;
         }
