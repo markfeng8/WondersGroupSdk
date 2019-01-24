@@ -26,7 +26,7 @@ public class LoggerInterceptor implements HttpLoggingInterceptor.Logger {
         mStringBuilder.append(message.concat("\n"));
         // 请求或者响应结束，打印整条日志
         if (message.startsWith("<-- END HTTP")) {
-            LogUtil.dLogging(mStringBuilder.toString());
+            LogUtil.d(mStringBuilder.toString());
         }
     }
 }

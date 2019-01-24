@@ -10,6 +10,8 @@ package com.wondersgroup.android.jkcs_sdk.net.mock;
 
 import android.util.Log;
 
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -48,9 +50,10 @@ public class Parrot {
     }
 
     private String mockKey(Request request) {
-        String url = request.url().toString();
+        String path = request.url().uri().getPath();
+        LogUtil.i("path", "path===" + path);
         for (String key : methodMap.keySet()) {
-            if (url.contains(key)) {
+            if (path.equals(key)) {
                 return key;
             }
         }

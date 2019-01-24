@@ -1,0 +1,7 @@
+{
+  "return_code": "SUCCESS",
+  "return_msg": "响应成功",
+  "result_code": "FAIL",
+  "err_code": "ERROR",
+  "err_code_des": "payplat_tradno不存在"
+}

@@ -1,0 +1,7 @@
+{
+  "return_code": "SUCCESS",
+  "return_msg": "响应成功",
+  "result_code": "FAIL",
+  "err_code": "id_type不能为空",
+  "err_code_des": "id_type不能为空"
+}

@@ -45,11 +45,23 @@ public class MockService {
                 "}");
     }
 
-    @MOCK("/test/huzh_credit/ct/xy0001")
+    @MOCK("/huzh_credit/ct/xy0001")
     public MockResult xy0001(Request request) {
+        return getXy0001Result(request);
+    }
+
+    @MOCK("/test/huzh_credit/ct/xy0001")
+    public MockResult xy0001Test(Request request) {
+        return getXy0001Result(request);
+    }
+
+    private MockResult getXy0001Result(Request request) {
         boolean state = SpUtil.getInstance().getBoolean(SpKey.MOCK_XY0001, true);
         String fileName = state ? "mock/XY0001_SUCCESS.json" : "mock/FAILED.json";
-        String json = AssetUtils.getJson(WondersApplication.getsContext(), fileName);
-        return MockResult.create(request, json);
+        return MockResult.create(request, getJson(fileName));
+    }
+
+    private String getJson(String fileName) {
+        return AssetUtils.getJson(WondersApplication.getsContext(), fileName);
     }
 }
