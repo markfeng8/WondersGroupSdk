@@ -78,4 +78,8 @@ public class SpKey {
      * 就诊流水号
      */
     public static final String JZLSH = "jzlsh";
+    /**
+     * 是否是模拟请求数据
+     */
+    public static final String IS_MOCK = "is_mock";
 }

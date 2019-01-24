@@ -2,8 +2,13 @@ package com.wondersgroup.android.jkcs_sdk.net;
 
 import com.wondersgroup.android.jkcs_sdk.BuildConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.net.interceptor.LoggerInterceptor;
+import com.wondersgroup.android.jkcs_sdk.net.mock.MockInterceptor;
+import com.wondersgroup.android.jkcs_sdk.net.mock.MockService;
+import com.wondersgroup.android.jkcs_sdk.net.mock.Parrot;
 import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +61,14 @@ public class RetrofitHelper {
                 //.addInterceptor(new HeaderInterceptor()) // 添加请求头
                 .addNetworkInterceptor(loggingInterceptor) // 添加日志打印拦截器
                 .build();
+
+        // 是否需要设置模拟请求数据
+        boolean isMock = SpUtil.getInstance().getBoolean(SpKey.IS_MOCK, false);
+        if (isMock) {
+            client = client.newBuilder()
+                    .addInterceptor(new MockInterceptor(Parrot.create(MockService.class)))
+                    .build();
+        }
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

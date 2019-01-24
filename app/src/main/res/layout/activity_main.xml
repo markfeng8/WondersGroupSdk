@@ -238,10 +238,23 @@
             android:scrollbars="none" />
 
         <TextView
+            android:id="@+id/tvMock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingTop="@dimen/wonders_padding_8dp"
+            android:paddingBottom="@dimen/wonders_padding_8dp"
+            android:text="设置请求模拟数据"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/tvVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="32dp"
             android:gravity="center"
             android:text="demo 版本：V1.0"
             android:textSize="12sp" />

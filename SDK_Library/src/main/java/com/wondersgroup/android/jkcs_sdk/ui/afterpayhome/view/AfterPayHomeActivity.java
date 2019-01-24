@@ -201,6 +201,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     @Override
     public void afterPayResult(AfterPayStateEntity entity) {
         if (entity != null) {
+            LogUtil.json(TAG, new Gson().toJson(entity));
             String signingStatus = entity.getSigning_status();
             String paymentStatus = entity.getOne_payment_status();
             String phone = entity.getPhone();

@@ -16,6 +16,7 @@ import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.api.WondersGroup;
+import com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelfPayHome;
     @BindView(R.id.btnInHospitalHome)
     Button btnInHospitalHome;
+    @BindView(R.id.tvMock)
+    TextView tvMock;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
     @BindView(R.id.recyclerView)
@@ -113,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.tvMock})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -124,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnInHospitalHome:
                 startBusiness(2);
+                break;
+            case R.id.tvMock:
+                MockActivity.actionStart(this);
                 break;
         }
     }

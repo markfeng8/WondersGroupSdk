@@ -18,8 +18,8 @@ public class RequestUrl {
     /**
      * 门诊部分接口
      */
-    public static final String XY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0002";
     public static final String XY0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0001";
+    public static final String XY0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0002";
     public static final String XY0003 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0003";
     public static final String XY0004 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0004";
     public static final String XY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0005";
