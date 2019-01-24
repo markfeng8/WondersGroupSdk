@@ -237,18 +237,47 @@
             android:layout_marginTop="16dp"
             android:scrollbars="none" />
 
-        <TextView
-            android:id="@+id/tvMock"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:paddingTop="@dimen/wonders_padding_8dp"
-            android:paddingBottom="@dimen/wonders_padding_8dp"
-            android:text="设置请求模拟数据"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:background="@drawable/wonders_group_blue_stroke_shape"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/wonders_margin_16dp"
+                android:gravity="center"
+                android:paddingTop="@dimen/wonders_padding_8dp"
+                android:paddingBottom="@dimen/wonders_padding_8dp"
+                android:text="模拟数据"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <ToggleButton
+                android:id="@+id/tbEnable"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/wonders_margin_16dp"
+                android:layout_marginEnd="@dimen/wonders_margin_16dp"
+                android:background="@drawable/wonders_group_toggle_switch_selector"
+                android:checked="false"
+                android:textOff=""
+                android:textOn="" />
+
+            <TextView
+                android:id="@+id/tvMock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:paddingTop="@dimen/wonders_padding_8dp"
+                android:paddingBottom="@dimen/wonders_padding_8dp"
+                android:text="精确设置"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvVersion"

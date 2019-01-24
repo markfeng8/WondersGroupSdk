@@ -45,7 +45,7 @@ public class MockResult {
                     .code(200)
                     .receivedResponseAtMillis(System.currentTimeMillis())
                     .sentRequestAtMillis(-1L)
-                    .message("mock request succeed")
+                    .message("OK")
                     .protocol(Protocol.HTTP_1_1);
         }
 

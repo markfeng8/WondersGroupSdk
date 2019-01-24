@@ -10,13 +10,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.api.WondersGroup;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMock;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
+    @BindView(R.id.tbEnable)
+    ToggleButton tbEnable;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -82,10 +88,20 @@ public class MainActivity extends AppCompatActivity {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
         initData();
+        initListener();
         setAdapter();
     }
 
+    private void initListener() {
+        tbEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            WToastUtil.show(isChecked ? "模拟数据开启~" : "模拟数据关闭！");
+            SpUtil.getInstance().save(SpKey.IS_MOCK, isChecked);
+        });
+    }
+
     private void initData() {
+        // 默认模拟数据是关闭的状态
+        SpUtil.getInstance().save(SpKey.IS_MOCK, false);
         String version = AppInfoUtil.getVersionName(this);
         String versionName = "demo 版本：V" + version;
         tvVersion.setText(versionName);

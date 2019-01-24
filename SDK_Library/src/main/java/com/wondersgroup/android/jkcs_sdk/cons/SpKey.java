@@ -82,4 +82,5 @@ public class SpKey {
      * 是否是模拟请求数据
      */
     public static final String IS_MOCK = "is_mock";
+    public static final String MOCK_XY0001 = "Mock_xy0001";
 }

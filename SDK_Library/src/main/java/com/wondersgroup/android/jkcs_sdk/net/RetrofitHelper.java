@@ -27,8 +27,8 @@ public class RetrofitHelper {
     private static final String BASE_URL = RequestUrl.HOST; // host
     private static final long DEFAULT_TIMEOUT = 60000L; // timeout millis
 
-    private Retrofit retrofit;
-    private OkHttpClient client;
+    private Retrofit mRetrofit;
+    private OkHttpClient mClient;
 
     public static RetrofitHelper getInstance() {
         return SingletonHolder.INSTANCE;
@@ -52,7 +52,7 @@ public class RetrofitHelper {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
 
-        client = new OkHttpClient.Builder()
+        mClient = new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
@@ -65,14 +65,14 @@ public class RetrofitHelper {
         // 是否需要设置模拟请求数据
         boolean isMock = SpUtil.getInstance().getBoolean(SpKey.IS_MOCK, false);
         if (isMock) {
-            client = client.newBuilder()
+            mClient = mClient.newBuilder()
                     .addInterceptor(new MockInterceptor(Parrot.create(MockService.class)))
                     .build();
         }
 
-        retrofit = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(client)
+                .client(mClient)
                 .addConverterFactory(GsonConverterFactory.create()) // 添加 Gson 解析
                 //.addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // 添加rxJava
                 .build();
@@ -98,6 +98,6 @@ public class RetrofitHelper {
         if (clazz == null) {
             throw new RuntimeException("Api service is null!");
         }
-        return retrofit.create(clazz);
+        return mRetrofit.create(clazz);
     }
 }
