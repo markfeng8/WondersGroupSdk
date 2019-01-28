@@ -21,22 +21,22 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by gengqiquan on 2017/9/27.
+ * Created by x-sir on 2019/1/23 :)
+ * Function:
  */
+public class Mocker {
 
-public class Parrot {
+    private static Map<String, Method> methodMap = new HashMap<>();
+    private static Class mService;
 
-    static Map<String, Method> methodMap = new HashMap<>();
-    static Class mService;
-
-    private Parrot() {
+    private Mocker() {
 
     }
 
-    public static Parrot create(Class service) {
+    public static Mocker create(Class service) {
         mService = service;
         initMethods(service);
-        return new Parrot();
+        return new Mocker();
     }
 
     private static void initMethods(Class service) {
@@ -46,7 +46,7 @@ public class Parrot {
                 methodMap.put(mock.value(), method);
             }
         }
-        Log.d("Parrot methods:", methodMap.toString());
+        Log.d("Mocker methods:", methodMap.toString());
     }
 
     private String mockKey(Request request) {

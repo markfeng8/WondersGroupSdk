@@ -8,7 +8,6 @@
 
 package com.wondersgroup.android.jkcs_sdk.net.mock;
 
-
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.utils.AssetUtils;
@@ -19,26 +18,26 @@ import java.util.Map;
 import okhttp3.Request;
 
 /**
- * Created by gengqiquan on 2017/9/27.
+ * Created by x-sir on 2019/1/23 :)
+ * Function:
  */
-
 public class MockService {
 
-    @MOCK("github_user_info")
+    @MOCK("/getUserInfo")
     public MockResult action(Request request) {
         // 如果是 GET 请求，可以取出 ？后面拼接的参数，然后拼接到返回结果中
         Map<String, String> query = MockRequest.getQuery(request);
         String name = query.get("name");
         return MockResult.create(request, "{\n" +
                 "    \"status\": true,\n" +
-                "    \"msg\": \"操作成功\",\n" +
+                "    \"msg\": \"SUCCESS\",\n" +
                 "    \"data\": {\n" +
                 "        \"bond\": \"100000\",\n" +
-                "        \"auction_plats\": [\n" +
+                "        \"bio\": [\n" +
                 "            {\n" +
                 "                \"id\": \"1\",\n" +
-                "                \"name\": \"汽车街\",\n" +
-                "                \"rule_url\": \"http://www.rule.com\"\n" +
+                "                \"name\": \"hell0\",\n" +
+                "                \"rule_url\": \"http://www.x-sir.com\"\n" +
                 "            }\n" +
                 "        ]\n" +
                 "    }\n" +

@@ -1,5 +1,6 @@
 package com.wondersgroup.android.healthcity_sdk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
      * 家庭住址
      */
     private static final String ADDRESS = "ShangHai";
+    private static final int REQUEST_CODE = 666;
 
     private List<PersonBean> mPersonList = new ArrayList<>();
 
@@ -94,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initListener() {
         tbEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            WToastUtil.show(isChecked ? "模拟数据开启~" : "模拟数据关闭！");
             SpUtil.getInstance().save(SpKey.IS_MOCK, isChecked);
         });
     }
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 startBusiness(2);
                 break;
             case R.id.tvMock:
-                MockActivity.actionStart(this);
+                MockActivity.actionStart(this, REQUEST_CODE);
                 break;
         }
     }
@@ -189,4 +189,12 @@ public class MainActivity extends AppCompatActivity {
         WondersGroup.startBusiness(MainActivity.this, userBuilder, flag);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            boolean isMocker = data.getBooleanExtra("isMocker", false);
+            tbEnable.setChecked(isMocker);
+        }
+    }
 }

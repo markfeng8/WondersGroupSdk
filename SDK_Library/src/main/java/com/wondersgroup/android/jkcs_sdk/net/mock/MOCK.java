@@ -16,7 +16,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by gengqiquan on 2017/9/27.
+ * Created by x-sir on 2019/1/23 :)
+ * Function:
  */
 @Documented
 @Target(METHOD)

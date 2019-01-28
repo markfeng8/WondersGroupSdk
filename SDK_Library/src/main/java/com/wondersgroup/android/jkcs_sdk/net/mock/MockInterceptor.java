@@ -16,21 +16,21 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by gengqiquan on 2017/9/27.
+ * Created by x-sir on 2019/1/23 :)
+ * Function:
  */
-
 public class MockInterceptor implements Interceptor {
 
-    private Parrot mParrot;
+    private Mocker mMocker;
 
-    public MockInterceptor(Parrot parrot) {
-        this.mParrot = parrot;
+    public MockInterceptor(Mocker mocker) {
+        this.mMocker = mocker;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        Response response = mParrot.mockResult(request);
+        Response response = mMocker.mockResult(request);
         if (response != null) {
             return response;
         }

@@ -6,7 +6,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.net.interceptor.LoggerInterceptor;
 import com.wondersgroup.android.jkcs_sdk.net.mock.MockInterceptor;
 import com.wondersgroup.android.jkcs_sdk.net.mock.MockService;
-import com.wondersgroup.android.jkcs_sdk.net.mock.Parrot;
+import com.wondersgroup.android.jkcs_sdk.net.mock.Mocker;
 import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -74,7 +74,7 @@ public class RetrofitHelper {
         boolean isMock = SpUtil.getInstance().getBoolean(SpKey.IS_MOCK, false);
         if (isMock) {
             okHttpClient = okHttpClient.newBuilder()
-                    .addInterceptor(new MockInterceptor(Parrot.create(MockService.class)))
+                    .addInterceptor(new MockInterceptor(Mocker.create(MockService.class)))
                     .build();
         }
 

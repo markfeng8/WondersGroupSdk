@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.jkcs_sdk.net.mock;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import android.widget.ToggleButton;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
@@ -44,7 +44,6 @@ public class MockActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private static final String[] mApi = {TranCode.TRAN_XY0001, TranCode.TRAN_XY0002, TranCode.TRAN_XY0003, TranCode.TRAN_XY0004, TranCode.TRAN_XY0005, TranCode.TRAN_XY0006, TranCode.TRAN_XY0008, TranCode.TRAN_YD0001, TranCode.TRAN_YD0002, TranCode.TRAN_YD0003, TranCode.TRAN_YD0004, TranCode.TRAN_YD0005, TranCode.TRAN_YD0006, TranCode.TRAN_YD0007, TranCode.TRAN_YD0008, TranCode.TRAN_YD0009, TranCode.TRAN_YD0010, TranCode.TRAN_CY0001, TranCode.TRAN_CY0002, TranCode.TRAN_CY0003, TranCode.TRAN_CY0004, TranCode.TRAN_CY0005, TranCode.TRAN_CY0006, TranCode.TRAN_CY0007};
-    private static final Boolean[] mState = {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
 
     private List<MockBean> mList;
     private MockAdapter mMockAdapter;
@@ -67,7 +66,10 @@ public class MockActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        tvBack.setOnClickListener(v -> finish());
+        tvBack.setOnClickListener(v -> {
+            WToastUtil.show("设置取消~");
+            finish();
+        });
         tvReset.setOnClickListener(v -> {
             for (MockBean mockBean : mList) {
                 mockBean.state = Boolean.TRUE;
@@ -89,18 +91,20 @@ public class MockActivity extends AppCompatActivity {
         }
 
         SpUtil.getInstance().save(map);
-        SpUtil.getInstance().save(SpKey.IS_MOCK, true);
 
+        Intent intent = new Intent();
+        intent.putExtra("isMocker", true);
+        setResult(RESULT_OK, intent);
+        WToastUtil.show("设置成功~");
         finish();
-        WToastUtil.show("保存成功~");
     }
 
     private void initData() {
         mList = new ArrayList<>();
-        for (int i = 0; i < mApi.length; i++) {
+        for (String aMApi : mApi) {
             MockBean mockBean = new MockBean();
-            mockBean.api = mApi[i];
-            mockBean.state = mState[i];
+            mockBean.api = aMApi;
+            mockBean.state = SpUtil.getInstance().getBoolean("Mock_" + mockBean.api, true);
             mList.add(mockBean);
         }
 
@@ -130,10 +134,10 @@ public class MockActivity extends AppCompatActivity {
         }
     }
 
-    public static void actionStart(Context context) {
+    public static void actionStart(Context context, int requestCode) {
         if (context != null) {
             Intent intent = new Intent(context, MockActivity.class);
-            context.startActivity(intent);
+            ((Activity) context).startActivityForResult(intent, requestCode);
         } else {
             LogUtil.e(TAG, "context is null!");
         }

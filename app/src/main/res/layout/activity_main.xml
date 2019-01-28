@@ -280,6 +280,15 @@
         </LinearLayout>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:lineSpacingExtra="2dp"
+            android:text="温馨提示：打开模拟数据开关(默认关闭)可以模拟真实环境下的接口调试访问，方便演示，如需更精确的设置每个接口的模拟返回状态请点击「精确设置」进行设置。"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/tvVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

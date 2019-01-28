@@ -16,9 +16,9 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Created by gengqiquan on 2017/9/27.
+ * Created by x-sir on 2019/1/23 :)
+ * Function:
  */
-
 public class MockResult {
 
     private MockResult(Response response) {

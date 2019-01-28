@@ -14,9 +14,9 @@ import java.util.Map;
 import okhttp3.Request;
 
 /**
- * Created by gengqiquan on 2017/9/27.
+ * Created by x-sir on 2019/1/23 :)
+ * Function:
  */
-
 public class MockRequest {
 
     public static Map<String, String> getQuery(Request request) {
