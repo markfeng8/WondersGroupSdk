@@ -15,8 +15,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -42,7 +42,7 @@ public class RecordDetailModel implements RecordDetailContract.IModel {
     }
 
     @Override
-    public void requestYd0009(String tradeNo, OnFeeDetailListener listener) {
+    public void requestYd0009(String tradeNo, HttpRequestCallback<FeeBillEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0009);
@@ -68,21 +68,21 @@ public class RecordDetailModel implements RecordDetailContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -92,8 +92,8 @@ public class RecordDetailModel implements RecordDetailContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }

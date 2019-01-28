@@ -10,11 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.PaymentDetailsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -40,7 +36,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 showLoading();
             }
 
-            mModel.requestYd0003(orgCode, new OnFeeDetailListener() {
+            mModel.requestYd0003(orgCode, new HttpRequestCallback<FeeBillEntity>() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
@@ -69,7 +65,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 showLoading();
             }
 
-            mModel.getOrderDetails(hisOrderNo, orgCode, new OnOrderDetailListener() {
+            mModel.getOrderDetails(hisOrderNo, orgCode, new HttpRequestCallback<OrderDetailsEntity>() {
                 @Override
                 public void onSuccess(OrderDetailsEntity entity) {
                     LogUtil.i(TAG, "getOrderDetails() -> onSuccess()");
@@ -98,7 +94,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 showLoading();
             }
 
-            mModel.tryToSettle(token, orgCode, map, new OnSettleListener() {
+            mModel.tryToSettle(token, orgCode, map, new HttpRequestCallback<SettleEntity>() {
                 @Override
                 public void onSuccess(SettleEntity body) {
                     LogUtil.i(TAG, "tryToSettle() -> onSuccess()");
@@ -130,7 +126,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 showLoading();
             }
 
-            mModel.getPayParam(orgCode, new OnPayParamListener() {
+            mModel.getPayParam(orgCode, new HttpRequestCallback<PayParamEntity>() {
                 @Override
                 public void onSuccess(PayParamEntity entity) {
                     LogUtil.i(TAG, "getPayParam() -> onSuccess()");
@@ -159,7 +155,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 showLoading();
             }
 
-            mModel.lockOrder(map, totalCount, new OnLockOrderListener() {
+            mModel.lockOrder(map, totalCount, new HttpRequestCallback<LockOrderEntity>() {
                 @Override
                 public void onSuccess(LockOrderEntity entity) {
                     LogUtil.i(TAG, "lockOrder() -> onSuccess()");
@@ -188,7 +184,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 showLoading();
             }
 
-            mModel.sendOfficialPay(isPureYiBao, toState, token, orgCode, map, new OnSettleListener() {
+            mModel.sendOfficialPay(isPureYiBao, toState, token, orgCode, map, new HttpRequestCallback<SettleEntity>() {
                 @Override
                 public void onSuccess(SettleEntity body) {
                     LogUtil.i(TAG, "sendOfficialPay() -> onSuccess()");

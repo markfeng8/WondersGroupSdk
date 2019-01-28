@@ -10,7 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -18,7 +18,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
  */
 public interface InHospitalHomeContract {
     interface IModel {
-        void requestCy0001(String orgCode, String inState, OnCy0001RequestListener listener);
+        void requestCy0001(String orgCode, String inState, HttpRequestCallback<Cy0001Entity> callback);
     }
 
     interface IView {

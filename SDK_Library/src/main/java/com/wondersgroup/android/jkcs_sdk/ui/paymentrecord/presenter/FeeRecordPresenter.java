@@ -6,7 +6,7 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.model.FeeRecordModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -31,7 +31,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
                 showLoading();
             }
 
-            mModel.getFeeRecord(feeState, startDate, endDate, pageNumber, pageSize, new OnFeeRecordListener() {
+            mModel.getFeeRecord(feeState, startDate, endDate, pageNumber, pageSize, new HttpRequestCallback<FeeRecordEntity>() {
                 @Override
                 public void onSuccess(FeeRecordEntity entity) {
                     LogUtil.i(TAG, "requestYd0008() -> onSuccess()");

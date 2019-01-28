@@ -16,8 +16,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0001Service;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -45,7 +45,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
     }
 
     @Override
-    public void requestCy0001(String orgCode, String inState, OnCy0001RequestListener listener) {
+    public void requestCy0001(String orgCode, String inState, HttpRequestCallback<Cy0001Entity> callback) {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
@@ -82,14 +82,14 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
@@ -104,8 +104,8 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }

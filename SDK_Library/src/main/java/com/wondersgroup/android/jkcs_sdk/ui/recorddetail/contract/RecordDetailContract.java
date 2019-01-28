@@ -10,7 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
  * Created by x-sir on 2018/11/19 :)
@@ -20,7 +20,7 @@ public interface RecordDetailContract {
 
     interface IModel {
 
-        void requestYd0009(String tradeNo, OnFeeDetailListener listener);
+        void requestYd0009(String tradeNo, HttpRequestCallback<FeeBillEntity> callback);
     }
 
     interface IView {

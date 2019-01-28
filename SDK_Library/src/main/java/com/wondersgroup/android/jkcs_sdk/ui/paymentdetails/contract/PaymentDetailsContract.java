@@ -5,11 +5,7 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 import java.util.HashMap;
 
@@ -20,17 +16,17 @@ import java.util.HashMap;
 public interface PaymentDetailsContract {
 
     interface IModel {
-        void lockOrder(HashMap<String, Object> map, int totalCount, OnLockOrderListener listener);
+        void lockOrder(HashMap<String, Object> map, int totalCount, HttpRequestCallback<LockOrderEntity> callback);
 
-        void requestYd0003(String orgCode, OnFeeDetailListener listener);
+        void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback);
 
-        void getOrderDetails(String hisOrderNo, String orgCode, OnOrderDetailListener listener);
+        void getOrderDetails(String hisOrderNo, String orgCode, HttpRequestCallback<OrderDetailsEntity> callback);
 
-        void tryToSettle(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
+        void tryToSettle(String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback);
 
-        void getPayParam(String orgCode, OnPayParamListener listener);
+        void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback);
 
-        void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener);
+        void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback);
     }
 
     interface IView {

@@ -16,8 +16,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0005RequestListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0005Service;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract.DayDetailedListContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -44,7 +44,7 @@ public class DayDetailedListModel implements DayDetailedListContract.IModel {
     }
 
     @Override
-    public void requestCy0005(String orgCode, String jzlsh, String startDate, OnCy0005RequestListener listener) {
+    public void requestCy0005(String orgCode, String jzlsh, String startDate, HttpRequestCallback<Cy0005Entity> callback) {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
@@ -78,14 +78,14 @@ public class DayDetailedListModel implements DayDetailedListContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
@@ -100,8 +100,8 @@ public class DayDetailedListModel implements DayDetailedListContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }

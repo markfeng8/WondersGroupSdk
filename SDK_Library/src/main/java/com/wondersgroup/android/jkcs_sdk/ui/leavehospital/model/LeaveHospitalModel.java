@@ -18,10 +18,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0007RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0006Service;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0007Service;
 import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
@@ -50,7 +48,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
     }
 
     @Override
-    public void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener) {
+    public void requestCy0006(String orgCode, String token, HttpRequestCallback<Cy0006Entity> callback) {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
@@ -88,14 +86,14 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
@@ -110,8 +108,8 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -120,7 +118,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
 
     @Override
     public void requestCy0007(String orgCode, String toState, String token, String xxjje,
-                              String payChl, OnCy0007RequestListener listener) {
+                              String payChl, HttpRequestCallback<Cy0007Entity> callback) {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
@@ -164,14 +162,14 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
@@ -186,8 +184,8 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -195,7 +193,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
     }
 
     @Override
-    public void getPayParam(String orgCode, OnPayParamListener listener) {
+    public void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
@@ -221,21 +219,21 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -245,8 +243,8 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }

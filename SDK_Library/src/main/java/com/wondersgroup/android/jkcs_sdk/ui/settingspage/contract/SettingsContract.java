@@ -1,8 +1,8 @@
 package com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract;
 
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
+import com.wondersgroup.android.jkcs_sdk.entity.BaseEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 import java.util.HashMap;
 
@@ -12,11 +12,11 @@ import java.util.HashMap;
  */
 public interface SettingsContract {
     interface IModel {
-        void sendOpenRequest(HashMap<String, String> map, OnOpenResultListener listener);
+        void sendOpenRequest(HashMap<String, String> map, HttpRequestCallback<BaseEntity> callback);
 
-        void sendVerifyCode(String phone, String idenClass, OnVerifySendListener listener);
+        void sendVerifyCode(String phone, String idenClass, HttpRequestCallback<SmsEntity> callback);
 
-        void termination(HashMap<String, String> map, OnTerminationListener listener);
+        void termination(HashMap<String, String> map, HttpRequestCallback<BaseEntity> callback);
     }
 
     interface IView {

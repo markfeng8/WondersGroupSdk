@@ -1,7 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract;
 
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
+import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
  * Created by x-sir on 2018/8/1 :)
@@ -9,9 +9,9 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
  */
 public interface OpenAfterPayContract {
     interface IModel {
-        void sendSmsCode(String phone, OnSmsSendListener listener);
+        void sendSmsCode(String phone, HttpRequestCallback<SmsEntity> callback);
 
-        void openAfterPay(String phone, String idenCode, OnOpenAfterPayListener listener);
+        void openAfterPay(String phone, String idenCode, HttpRequestCallback<SmsEntity> callback);
     }
 
     interface IView {

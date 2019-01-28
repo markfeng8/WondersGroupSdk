@@ -16,9 +16,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0007RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.model.LeaveHospitalModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -41,7 +39,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
             showLoading();
         }
 
-        mModel.requestCy0006(orgCode, token, new OnCy0006RequestListener() {
+        mModel.requestCy0006(orgCode, token, new HttpRequestCallback<Cy0006Entity>() {
             @Override
             public void onSuccess(Cy0006Entity entity) {
                 LogUtil.i(TAG, "requestCy0006() -> success~");
@@ -66,10 +64,10 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
             showLoading();
         }
 
-        mModel.requestCy0007(orgCode, toState, token, xxjje, payChl, new OnCy0007RequestListener() {
+        mModel.requestCy0007(orgCode, toState, token, xxjje, payChl, new HttpRequestCallback<Cy0007Entity>() {
             @Override
             public void onSuccess(Cy0007Entity entity) {
-                LogUtil.i(TAG, "requestCy0006() -> success~");
+                LogUtil.i(TAG, "requestCy0007() -> success~");
                 dismissLoading();
                 if (isNonNull()) {
                     mViewRef.get().onCy0007Result(entity);
@@ -78,7 +76,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
 
             @Override
             public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "requestCy0006() -> failed!" + errCodeDes);
+                LogUtil.e(TAG, "requestCy0007() -> failed!" + errCodeDes);
                 dismissLoading();
                 // 判断是否为 60s 请求超时
                 if (!TextUtils.isEmpty(errCodeDes) && errCodeDes.contains("60000ms")) {
@@ -102,7 +100,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
                 showLoading();
             }
 
-            mModel.getPayParam(orgCode, new OnPayParamListener() {
+            mModel.getPayParam(orgCode, new HttpRequestCallback<PayParamEntity>() {
                 @Override
                 public void onSuccess(PayParamEntity entity) {
                     LogUtil.i(TAG, "getPayParam() -> onSuccess()");

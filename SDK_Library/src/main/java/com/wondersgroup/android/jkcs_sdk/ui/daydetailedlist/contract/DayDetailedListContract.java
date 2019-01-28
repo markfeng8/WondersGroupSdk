@@ -9,7 +9,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0005RequestListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
  * Created by x-sir on 2018/11/1 :)
@@ -17,7 +17,7 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnCy0005RequestListener;
  */
 public interface DayDetailedListContract {
     interface IModel {
-        void requestCy0005(String orgCode, String jzlsh, String startDate, OnCy0005RequestListener listener);
+        void requestCy0005(String orgCode, String jzlsh, String startDate, HttpRequestCallback<Cy0005Entity> callback);
     }
 
     interface IView {

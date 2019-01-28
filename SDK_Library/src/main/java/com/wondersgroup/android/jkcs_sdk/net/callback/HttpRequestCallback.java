@@ -10,7 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.net.callback;
 
 /**
  * Created by x-sir on 2018/8/10 :)
- * Function:Http 请求的统一回调
+ * Function:Http 请求的统一回调接口
  */
 public interface HttpRequestCallback<T> {
 

@@ -6,10 +6,10 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
+import com.wondersgroup.android.jkcs_sdk.entity.BaseEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.model.SettingsModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -32,9 +32,9 @@ public class SettingsPresenter<T extends SettingsContract.IView>
     @Override
     public void sendOpenRequest(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
-            mModel.sendOpenRequest(map, new OnOpenResultListener() {
+            mModel.sendOpenRequest(map, new HttpRequestCallback<BaseEntity>() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(BaseEntity baseEntity) {
                     LogUtil.i(TAG, "sendOpenRequest() -> onSuccess()");
                     dismissPopupWindow();
                     WToastUtil.show("修改成功！");
@@ -58,10 +58,10 @@ public class SettingsPresenter<T extends SettingsContract.IView>
     @Override
     public void sendVerifyCode(String phone, String idenClass) {
         if (!TextUtils.isEmpty(phone)) {
-            mModel.sendVerifyCode(phone, idenClass, new OnVerifySendListener() {
+            mModel.sendVerifyCode(phone, idenClass, new HttpRequestCallback<SmsEntity>() {
                 @Override
-                public void onSuccess() {
-                    LogUtil.i(TAG, "sendVerifyCode() -> onSuccess()");
+                public void onSuccess(SmsEntity smsEntity) {
+                    LogUtil.i(TAG, "sendVerifyCode() -> onSuccess()" + smsEntity.getIden_code());
                     WToastUtil.show("发送成功！");
                 }
 
@@ -80,9 +80,9 @@ public class SettingsPresenter<T extends SettingsContract.IView>
     @Override
     public void termination(HashMap<String, String> map) {
         if (map != null && !map.isEmpty()) {
-            mModel.termination(map, new OnTerminationListener() {
+            mModel.termination(map, new HttpRequestCallback<BaseEntity>() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(BaseEntity baseEntity) {
                     LogUtil.i(TAG, "医后付解约成功~");
                     WToastUtil.show("医后付解约成功");
                     dismissPopupWindow();
