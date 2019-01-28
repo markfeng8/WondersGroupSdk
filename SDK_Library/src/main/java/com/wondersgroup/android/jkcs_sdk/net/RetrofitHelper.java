@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -26,9 +27,7 @@ public class RetrofitHelper {
     private static final String TAG = "RetrofitHelper";
     private static final String BASE_URL = RequestUrl.HOST; // host
     private static final long DEFAULT_TIMEOUT = 60000L; // timeout millis
-
     private Retrofit mRetrofit;
-    private OkHttpClient mClient;
 
     public static RetrofitHelper getInstance() {
         return SingletonHolder.INSTANCE;
@@ -42,6 +41,15 @@ public class RetrofitHelper {
      * private constructor.
      */
     private RetrofitHelper() {
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(getOkhttpClient())
+                .addConverterFactory(GsonConverterFactory.create()) // 添加 Gson 解析
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 添加rxJava
+                .build();
+    }
+
+    private OkHttpClient getOkhttpClient() {
         // HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(MyApplication.getIntstance(), new int[0], R.raw.ivms8700, STORE_PASS);
         // 包含header、body数据
 
@@ -52,7 +60,7 @@ public class RetrofitHelper {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
 
-        mClient = new OkHttpClient.Builder()
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
@@ -65,17 +73,12 @@ public class RetrofitHelper {
         // 是否需要设置模拟请求数据
         boolean isMock = SpUtil.getInstance().getBoolean(SpKey.IS_MOCK, false);
         if (isMock) {
-            mClient = mClient.newBuilder()
+            okHttpClient = okHttpClient.newBuilder()
                     .addInterceptor(new MockInterceptor(Parrot.create(MockService.class)))
                     .build();
         }
 
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(mClient)
-                .addConverterFactory(GsonConverterFactory.create()) // 添加 Gson 解析
-                //.addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // 添加rxJava
-                .build();
+        return okHttpClient;
     }
 
     /**
