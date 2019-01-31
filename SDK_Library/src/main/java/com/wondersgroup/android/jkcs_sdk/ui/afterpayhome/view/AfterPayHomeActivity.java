@@ -207,6 +207,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             String phone = entity.getPhone();
             String signDate = entity.getCt_date();
             String feeTotal = entity.getFee_total();
+            LogUtil.iLogging(TAG, "feeTotal===" + feeTotal);
             mOrgCode = entity.getOrg_code();
             mOrgName = entity.getOrg_name();
 
@@ -259,7 +260,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     /**
      * 请求 yd0003 接口
      */
-    public void requestYd0003() {
+    private void requestYd0003() {
         mPresenter.requestYd0003(mOrgCode);
     }
 

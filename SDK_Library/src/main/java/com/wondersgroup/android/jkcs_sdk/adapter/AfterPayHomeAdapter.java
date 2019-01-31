@@ -30,6 +30,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivi
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
@@ -242,6 +243,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
              * 3.如果医后付也开通了，继续判断是否有待缴费记录
              */
             String feeTotal = SpUtil.getInstance().getString(SpKey.FEE_TOTAL, "");
+            LogUtil.iLogging(TAG, "feeTotal===" + feeTotal);
             if (!TextUtils.isEmpty(feeTotal)) {
                 WToastUtil.showLong("目前您还有欠费未处理，请您点击医后付欠费提醒进行处理！");
                 return;
@@ -249,7 +251,9 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             /*
              * 4.弹出医院列表
              */
-            ((AfterPayHomeActivity) mContext).getHospitalList();
+            if (mContext instanceof AfterPayHomeActivity) {
+                ((AfterPayHomeActivity) mContext).getHospitalList();
+            }
         }
 
         /**

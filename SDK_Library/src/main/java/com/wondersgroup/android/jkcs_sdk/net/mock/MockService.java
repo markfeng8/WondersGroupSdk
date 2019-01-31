@@ -19,7 +19,7 @@ import okhttp3.Request;
 
 /**
  * Created by x-sir on 2019/1/23 :)
- * Function:
+ * Function:mock 数据源服务类，只要在这个类中写了某个接口的方法，就会自动返回这里的数据
  */
 public class MockService {
 
@@ -44,6 +44,10 @@ public class MockService {
                 "}");
     }
 
+    /**
+     * -------------- XY0001 -------------------------------------
+     */
+
     @MOCK("/huzh_credit/ct/xy0001")
     public MockResult xy0001(Request request) {
         return getXy0001Result(request);
@@ -57,6 +61,46 @@ public class MockService {
     private MockResult getXy0001Result(Request request) {
         boolean state = SpUtil.getInstance().getBoolean(SpKey.MOCK_XY0001, true);
         String fileName = state ? "mock/XY0001_SUCCESS.json" : "mock/FAILED.json";
+        return MockResult.create(request, getJson(fileName));
+    }
+
+    /**
+     * -------------- xy0008 --------------------------------------
+     */
+
+    @MOCK("/huzh_credit/ct/xy0008")
+    public MockResult xy0008(Request request) {
+        return getXy0008Result(request);
+    }
+
+    @MOCK("/test/huzh_credit/ct/xy0008")
+    public MockResult xy0008Test(Request request) {
+        return getXy0008Result(request);
+    }
+
+    private MockResult getXy0008Result(Request request) {
+        boolean state = SpUtil.getInstance().getBoolean(SpKey.MOCK_XY0008, true);
+        String fileName = state ? "mock/XY0008_SUCCESS.json" : "mock/FAILED.json";
+        return MockResult.create(request, getJson(fileName));
+    }
+
+    /**
+     * -------------- yd0003 ----------------------------------------
+     */
+
+    @MOCK("/huzh_credit/sdk/yd0003")
+    public MockResult yd0003(Request request) {
+        return getYd0003Result(request);
+    }
+
+    @MOCK("/test/huzh_credit/sdk/yd0003")
+    public MockResult yd0003Test(Request request) {
+        return getYd0003Result(request);
+    }
+
+    private MockResult getYd0003Result(Request request) {
+        boolean state = SpUtil.getInstance().getBoolean(SpKey.MOCK_YD0003, true);
+        String fileName = state ? "mock/YD0003_SUCCESS.json" : "mock/FAILED.json";
         return MockResult.create(request, getJson(fileName));
     }
 
