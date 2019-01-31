@@ -5,8 +5,12 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.epsoft.hzauthsdk.all.AuthCall;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.ConfigOption;
+import com.wondersgroup.android.jkcs_sdk.utils.LogCatStrategy;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -33,7 +37,7 @@ public class WondersSdk {
     public void init(Context context, ConfigOption option) {
         WondersApplication.sContext = context.getApplicationContext();
         initEpSoft(context);
-        initLog(getIsDebug(option));
+        initLogger(getIsDebug(option));
     }
 
     private void initEpSoft(Context context) {
@@ -42,7 +46,18 @@ public class WondersSdk {
                 result -> LogUtil.e(TAG, "result===" + result));
     }
 
-    private void initLog(boolean isDebug) {
+    private void initLogger(final boolean isDebug) {
+        PrettyFormatStrategy strategy = PrettyFormatStrategy.newBuilder()
+                .logStrategy(new LogCatStrategy())
+                .build();
+
+        Logger.addLogAdapter(new AndroidLogAdapter(strategy) {
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                return isDebug;
+            }
+        });
+
         LogUtil.setIsNeedPrintLog(isDebug);
     }
 

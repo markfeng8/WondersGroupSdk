@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="返回"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+
+        <TextView
+            android:id="@+id/tvReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="重置"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+
+        <TextView
+            android:id="@+id/tvSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/wonders_rgb_color_0aae65"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="保存"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llColumn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llTitle">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:padding="8dp"
+            android:text="接口名称"
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_8dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:padding="8dp"
+            android:text="是否成功"
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        app:layout_constraintTop_toBottomOf="@id/llColumn" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+</android.support.constraint.ConstraintLayout>

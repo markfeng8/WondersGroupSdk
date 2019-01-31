@@ -1,0 +1,15 @@
+{
+  "return_code": "SUCCESS",
+  "return_msg": "响应成功",
+  "result_code": "SUCCESS",
+  "fee_total": "0.17",
+  "fee_cash_total": "0.17",
+  "fee_yb_total": "0.00",
+  "details": [
+    {
+      "his_order_no": "Y13479000",
+      "order_name": "苯扎氯铵帖（基）",
+      "fee_order": "0.17"
+    }
+  ]
+}

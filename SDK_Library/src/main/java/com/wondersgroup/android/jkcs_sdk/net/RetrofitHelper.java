@@ -1,13 +1,21 @@
 package com.wondersgroup.android.jkcs_sdk.net;
 
+import com.wondersgroup.android.jkcs_sdk.BuildConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.net.interceptor.LoggerInterceptor;
+import com.wondersgroup.android.jkcs_sdk.net.mock.MockInterceptor;
+import com.wondersgroup.android.jkcs_sdk.net.mock.MockService;
+import com.wondersgroup.android.jkcs_sdk.net.mock.Mocker;
 import com.wondersgroup.android.jkcs_sdk.net.service.ApiService;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -16,11 +24,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHelper {
 
+    private static final String TAG = "RetrofitHelper";
     private static final String BASE_URL = RequestUrl.HOST; // host
     private static final long DEFAULT_TIMEOUT = 60000L; // timeout millis
-
-    private Retrofit retrofit;
-    private OkHttpClient client;
+    private Retrofit mRetrofit;
 
     public static RetrofitHelper getInstance() {
         return SingletonHolder.INSTANCE;
@@ -34,23 +41,44 @@ public class RetrofitHelper {
      * private constructor.
      */
     private RetrofitHelper() {
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(getOkhttpClient())
+                .addConverterFactory(GsonConverterFactory.create()) // 添加 Gson 解析
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 添加rxJava
+                .build();
+    }
+
+    private OkHttpClient getOkhttpClient() {
         // HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(MyApplication.getIntstance(), new int[0], R.raw.ivms8700, STORE_PASS);
-        client = new OkHttpClient.Builder()
+        // 包含header、body数据
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new LoggerInterceptor());
+        if (BuildConfig.DEBUG) {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 //.hostnameVerifier(HttpsUtils.getHostnameVerifier())
                 //.addInterceptor(new HeaderInterceptor()) // 添加请求头
-                .addInterceptor(new LoggerInterceptor(true)) // 添加日志打印拦截器
+                .addNetworkInterceptor(loggingInterceptor) // 添加日志打印拦截器
                 .build();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create()) // 添加 Gson 解析
-                //.addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // 添加rxJava
-                .build();
+        // 是否需要设置模拟请求数据
+        boolean isMock = SpUtil.getInstance().getBoolean(SpKey.IS_MOCK, false);
+        if (isMock) {
+            okHttpClient = okHttpClient.newBuilder()
+                    .addInterceptor(new MockInterceptor(Mocker.create(MockService.class)))
+                    .build();
+        }
+
+        return okHttpClient;
     }
 
     /**
@@ -73,6 +101,6 @@ public class RetrofitHelper {
         if (clazz == null) {
             throw new RuntimeException("Api service is null!");
         }
-        return retrofit.create(clazz);
+        return mRetrofit.create(clazz);
     }
 }

@@ -6,8 +6,8 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
+import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.model.OpenAfterPayModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -37,10 +37,10 @@ public class OpenAfterPayPresenter<T extends OpenAfterPayContract.IView>
             if (isNonNull()) {
                 mViewRef.get().showCountDownView();
             }
-            mModel.sendSmsCode(phoneNumber, new OnSmsSendListener() {
+            mModel.sendSmsCode(phoneNumber, new HttpRequestCallback<SmsEntity>() {
                 @Override
-                public void onSuccess() {
-                    LogUtil.i(TAG, "发送成功~");
+                public void onSuccess(SmsEntity smsEntity) {
+                    LogUtil.i(TAG, "发送成功~" + smsEntity.getIden_code());
                     WToastUtil.show("发送成功！");
                 }
 
@@ -59,11 +59,11 @@ public class OpenAfterPayPresenter<T extends OpenAfterPayContract.IView>
     @Override
     public void openAfterPay(String phone, String idenCode) {
         if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(idenCode)) {
-            mModel.openAfterPay(phone, idenCode, new OnOpenAfterPayListener() {
+            mModel.openAfterPay(phone, idenCode, new HttpRequestCallback<SmsEntity>() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(SmsEntity smsEntity) {
                     LogUtil.i(TAG, "openAfterPay() -> onSuccess()");
-                    WToastUtil.show("开通成功！");
+                    WToastUtil.show("开通成功！" + smsEntity.getIden_code());
                     if (isNonNull()) {
                         mViewRef.get().onAfterPayOpenSuccess();
                     }

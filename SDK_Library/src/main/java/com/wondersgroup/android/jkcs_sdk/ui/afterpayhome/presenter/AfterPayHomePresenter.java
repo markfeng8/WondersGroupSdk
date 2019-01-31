@@ -8,9 +8,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnAfterPayStateListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -39,21 +37,21 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 showLoading();
             }
 
-            mModel.getAfterPayState(map, new OnAfterPayStateListener() {
+            mModel.getAfterPayState(map, new HttpRequestCallback<AfterPayStateEntity>() {
                 @Override
-                public void onSuccess(AfterPayStateEntity entity) {
+                public void onSuccess(AfterPayStateEntity afterPayStateEntity) {
                     LogUtil.i(TAG, "医后付状态查询成功~");
                     dismissLoading();
                     if (isNonNull()) {
-                        mViewRef.get().afterPayResult(entity);
+                        mViewRef.get().afterPayResult(afterPayStateEntity);
                     }
                 }
 
                 @Override
-                public void onFailed(String errCodeDes) {
-                    LogUtil.e(TAG, "医后付状态查询失败===" + errCodeDes);
+                public void onFailed(String errMsg) {
+                    LogUtil.e(TAG, "医后付状态查询失败===" + errMsg);
                     dismissLoading();
-                    WToastUtil.show(errCodeDes);
+                    WToastUtil.show(errMsg);
                 }
             });
         } else {
@@ -68,7 +66,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 showLoading();
             }
 
-            mModel.requestYd0003(orgCode, new OnFeeDetailListener() {
+            mModel.requestYd0003(orgCode, new HttpRequestCallback<FeeBillEntity>() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
@@ -99,7 +97,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
             showLoading();
         }
 
-        mModel.getHospitalList(new OnHospitalListListener() {
+        mModel.getHospitalList(new HttpRequestCallback<HospitalEntity>() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get defaultHospital list success~");

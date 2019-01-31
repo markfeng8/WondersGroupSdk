@@ -8,9 +8,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenAfterPayListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSmsSendListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -51,7 +50,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
     }
 
     @Override
-    public void sendSmsCode(String phone, final OnSmsSendListener listener) {
+    public void sendSmsCode(String phone, HttpRequestCallback<SmsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
@@ -79,20 +78,19 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    String idenCode = body.getIden_code();
-                                    if (listener != null) {
-                                        listener.onSuccess();
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
-                                    if (listener != null) {
-                                        listener.onFailed(errCodeDes);
+                                    if (callback != null) {
+                                        callback.onFailed(errCodeDes);
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -101,15 +99,15 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
                     public void onFailure(Call<SmsEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (callback != null) {
+                            callback.onFailed(error);
                         }
                     }
                 });
     }
 
     @Override
-    public void openAfterPay(String phone, String idenCode, final OnOpenAfterPayListener listener) {
+    public void openAfterPay(String phone, String idenCode, HttpRequestCallback<SmsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0002);
@@ -145,22 +143,21 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    String idenCode = body.getIden_code();
-                                    if (listener != null) {
-                                        listener.onSuccess();
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -169,8 +166,8 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
                     public void onFailure(Call<SmsEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (callback != null) {
+                            callback.onFailed(error);
                         }
                     }
                 });

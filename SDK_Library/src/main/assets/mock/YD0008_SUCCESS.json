@@ -1,0 +1,47 @@
+{
+  "return_code": "SUCCESS",
+  "return_msg": "响应成功",
+  "result_code": "SUCCESS",
+  "details": [
+    {
+      "org_name": "湖州市中心医院",
+      "fee_total": "17.10",
+      "fee_cash_total": "0.00",
+      "fee_yb_total": "17.10",
+      "payplat_tradno": "M2019012300004499",
+      "shop_order_time": "2019-01-23 14:57:23",
+      "fee_state": "02",
+      "org_code": "47117170333050211A1001"
+    },
+    {
+      "org_name": "湖州市中心医院",
+      "fee_total": "18.47",
+      "fee_cash_total": "0.00",
+      "fee_yb_total": "18.47",
+      "payplat_tradno": "M2019010400002709",
+      "shop_order_time": "2019-01-04 14:58:04",
+      "fee_state": "02",
+      "org_code": "47117170333050211A1001"
+    },
+    {
+      "org_name": "湖州市中心医院",
+      "fee_total": "20.17",
+      "fee_cash_total": "0.00",
+      "fee_yb_total": "20.17",
+      "payplat_tradno": "M2018122700001815",
+      "shop_order_time": "2018-12-27 09:11:27",
+      "fee_state": "02",
+      "org_code": "47117170333050211A1001"
+    },
+    {
+      "org_name": "湖州市第一人民医院",
+      "fee_total": "0.17",
+      "fee_cash_total": "0.17",
+      "fee_yb_total": "0.00",
+      "payplat_tradno": "M2018122600001783",
+      "shop_order_time": "2018-12-26 19:39:26",
+      "fee_state": "02",
+      "org_code": "47117166633050211A1001"
+    }
+  ]
+}

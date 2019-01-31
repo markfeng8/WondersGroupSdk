@@ -12,13 +12,9 @@ import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnLockOrderListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnSettleListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.net.service.LockOrderService;
@@ -59,7 +55,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void requestYd0003(String orgCode, OnFeeDetailListener listener) {
+    public void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback) {
         String pageNumber = "1"; // 页数
         String pageSize = "100"; // 每页的条数
         HashMap<String, String> map = new HashMap<>();
@@ -97,21 +93,21 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -121,8 +117,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -130,7 +126,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void lockOrder(HashMap<String, Object> map, int totalCount, OnLockOrderListener listener) {
+    public void lockOrder(HashMap<String, Object> map, int totalCount, HttpRequestCallback<LockOrderEntity> callback) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0005);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -160,21 +156,21 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -184,8 +180,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -196,10 +192,10 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
      * 获取账单明细
      *
      * @param hisOrderNo
-     * @param listener
+     * @param callback
      */
     @Override
-    public void getOrderDetails(String hisOrderNo, String orgCode, OnOrderDetailListener listener) {
+    public void getOrderDetails(String hisOrderNo, String orgCode, HttpRequestCallback<OrderDetailsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0004);
@@ -226,21 +222,21 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -250,8 +246,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -259,7 +255,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void tryToSettle(String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
+    public void tryToSettle(String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0006);
@@ -287,21 +283,21 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -311,8 +307,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -320,7 +316,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void getPayParam(String orgCode, OnPayParamListener listener) {
+    public void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
@@ -346,21 +342,21 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -370,8 +366,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -379,7 +375,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, OnSettleListener listener) {
+    public void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
         LogUtil.i(TAG, "adviceDateTime===" + adviceDateTime + ",payPlatTradeNo===" + payPlatTradeNo);
@@ -413,21 +409,21 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -437,8 +433,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }

@@ -12,8 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract.SelfPayFeeContract;
@@ -39,7 +38,7 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
             showLoading();
         }
 
-        mHospitalModel.getHospitalList(new OnHospitalListListener() {
+        mHospitalModel.getHospitalList(new HttpRequestCallback<HospitalEntity>() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get defaultHospital list success~");
@@ -67,7 +66,7 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
             showLoading();
         }
 
-        mHospitalModel.requestYd0003(orgCode, new OnFeeDetailListener() {
+        mHospitalModel.requestYd0003(orgCode, new HttpRequestCallback<FeeBillEntity>() {
             @Override
             public void onSuccess(FeeBillEntity entity) {
                 LogUtil.i(TAG, "requestYd0003() -> onSuccess()");

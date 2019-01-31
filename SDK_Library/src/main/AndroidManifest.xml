@@ -82,6 +82,9 @@
         <activity
             android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity"
+            android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->
         <activity

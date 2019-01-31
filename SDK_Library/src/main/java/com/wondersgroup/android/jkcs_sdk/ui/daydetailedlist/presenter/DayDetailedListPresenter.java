@@ -11,7 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.presenter;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0005RequestListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract.DayDetailedListContract;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.model.DayDetailedListModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -34,7 +34,7 @@ public class DayDetailedListPresenter<T extends DayDetailedListContract.IView>
             showLoading();
         }
 
-        mModel.requestCy0005(orgCode, jzlsh, startDate, new OnCy0005RequestListener() {
+        mModel.requestCy0005(orgCode, jzlsh, startDate, new HttpRequestCallback<Cy0005Entity>() {
             @Override
             public void onSuccess(Cy0005Entity entity) {
                 LogUtil.i(TAG, "requestCy0005 success~");

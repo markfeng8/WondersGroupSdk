@@ -1,0 +1,21 @@
+{
+  "return_code": "SUCCESS",
+  "return_msg": "响应成功",
+  "result_code": "SUCCESS",
+  "fee_order": "17.10",
+  "diagnosis": "职业健康查体",
+  "illnesscode": "Z10.000",
+  "details": [
+    {
+      "billingdoctor": "HLF1091",
+      "billingdepartment": "548",
+      "itemname": "尿常规",
+      "standard": "",
+      "unit": "次",
+      "postcount": "1.00",
+      "price": "17.10",
+      "amount": "1",
+      "total": "17.10"
+    }
+  ]
+}

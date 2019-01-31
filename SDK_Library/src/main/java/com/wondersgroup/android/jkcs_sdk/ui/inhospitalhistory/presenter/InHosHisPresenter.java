@@ -12,8 +12,7 @@ import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0001RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnHospitalListListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract.InHosHisContract;
@@ -42,7 +41,7 @@ public class InHosHisPresenter<T extends InHosHisContract.IView>
             showLoading();
         }
 
-        mAfterPayModel.getHospitalList(new OnHospitalListListener() {
+        mAfterPayModel.getHospitalList(new HttpRequestCallback<HospitalEntity>() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get defaultHospital list success~");
@@ -70,7 +69,7 @@ public class InHosHisPresenter<T extends InHosHisContract.IView>
             showLoading();
         }
 
-        mInHosModel.requestCy0001(orgCode, inState, new OnCy0001RequestListener() {
+        mInHosModel.requestCy0001(orgCode, inState, new HttpRequestCallback<Cy0001Entity>() {
             @Override
             public void onSuccess(Cy0001Entity entity) {
                 LogUtil.i(TAG, "requestCy0001() -> success~");
@@ -81,10 +80,10 @@ public class InHosHisPresenter<T extends InHosHisContract.IView>
             }
 
             @Override
-            public void onFailed(String errCodeDes) {
-                LogUtil.e(TAG, "requestCy0001() -> failed!" + errCodeDes);
+            public void onFailed(String errMsg) {
+                LogUtil.e(TAG, "requestCy0001() -> failed!" + errMsg);
                 dismissLoading();
-                WToastUtil.show(errCodeDes);
+                WToastUtil.show(errMsg);
                 if (isNonNull()) {
                     mViewRef.get().onCy0001Result(null);
                 }

@@ -8,8 +8,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeRecordService;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -47,7 +47,7 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
 
     @Override
     public void getFeeRecord(String feeState, String startDate, String endDate, String pageNumber,
-                             String pageSize, OnFeeRecordListener listener) {
+                             String pageSize, HttpRequestCallback<FeeRecordEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0008);
@@ -82,21 +82,21 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess(body);
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -106,8 +106,8 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }

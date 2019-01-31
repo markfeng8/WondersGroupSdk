@@ -15,8 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeDetailListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOrderDetailListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.PaymentDetailsModel;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
@@ -43,7 +42,7 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 showLoading();
             }
 
-            mPayModel.getOrderDetails(hisOrderNo, orgCode, new OnOrderDetailListener() {
+            mPayModel.getOrderDetails(hisOrderNo, orgCode, new HttpRequestCallback<OrderDetailsEntity>() {
                 @Override
                 public void onSuccess(OrderDetailsEntity entity) {
                     LogUtil.i(TAG, "getOrderDetails() -> onSuccess()");
@@ -72,7 +71,7 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 showLoading();
             }
 
-            mModel.requestYd0009(tradeNo, new OnFeeDetailListener() {
+            mModel.requestYd0009(tradeNo, new HttpRequestCallback<FeeBillEntity>() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0009() -> onSuccess()");

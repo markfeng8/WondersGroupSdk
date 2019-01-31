@@ -9,10 +9,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.BaseEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SmsEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnOpenResultListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnTerminationListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnVerifySendListener;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.net.service.UpdatePhoneService;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
@@ -42,7 +40,7 @@ public class SettingsModel implements SettingsContract.IModel {
     }
 
     @Override
-    public void sendOpenRequest(HashMap<String, String> map, final OnOpenResultListener listener) {
+    public void sendOpenRequest(HashMap<String, String> map, HttpRequestCallback<BaseEntity> callback) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -68,21 +66,21 @@ public class SettingsModel implements SettingsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess();
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -92,8 +90,8 @@ public class SettingsModel implements SettingsContract.IModel {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);
-                            if (listener != null) {
-                                listener.onFailed(error);
+                            if (callback != null) {
+                                callback.onFailed(error);
                             }
                         }
                     }
@@ -101,7 +99,7 @@ public class SettingsModel implements SettingsContract.IModel {
     }
 
     @Override
-    public void sendVerifyCode(String phone, String idenClass, final OnVerifySendListener listener) {
+    public void sendVerifyCode(String phone, String idenClass, HttpRequestCallback<SmsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
@@ -129,22 +127,21 @@ public class SettingsModel implements SettingsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    String idenCode = body.getIden_code();
-                                    if (listener != null) {
-                                        listener.onSuccess();
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -153,15 +150,15 @@ public class SettingsModel implements SettingsContract.IModel {
                     public void onFailure(Call<SmsEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (callback != null) {
+                            callback.onFailed(error);
                         }
                     }
                 });
     }
 
     @Override
-    public void termination(HashMap<String, String> map, final OnTerminationListener listener) {
+    public void termination(HashMap<String, String> map, HttpRequestCallback<BaseEntity> callback) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -187,21 +184,21 @@ public class SettingsModel implements SettingsContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (listener != null) {
-                                        listener.onSuccess();
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
                                     }
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (listener != null) {
-                                            listener.onFailed(errCodeDes);
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
                                         }
                                     }
                                 }
                             }
                         } else {
-                            if (listener != null) {
-                                listener.onFailed("服务器异常！");
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
                             }
                         }
                     }
@@ -210,8 +207,8 @@ public class SettingsModel implements SettingsContract.IModel {
                     public void onFailure(Call<BaseEntity> call, Throwable t) {
                         String error = t.getMessage();
                         LogUtil.e(TAG, error);
-                        if (listener != null) {
-                            listener.onFailed(error);
+                        if (callback != null) {
+                            callback.onFailed(error);
                         }
                     }
                 });

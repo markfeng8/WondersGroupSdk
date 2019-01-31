@@ -11,9 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0006RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnCy0007RequestListener;
-import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -21,11 +19,11 @@ import com.wondersgroup.android.jkcs_sdk.listener.OnPayParamListener;
  */
 public interface LeaveHospitalContract {
     interface IModel {
-        void requestCy0006(String orgCode, String token, OnCy0006RequestListener listener);
+        void requestCy0006(String orgCode, String token, HttpRequestCallback<Cy0006Entity> callback);
 
-        void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl, OnCy0007RequestListener listener);
+        void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl, HttpRequestCallback<Cy0007Entity> callback);
 
-        void getPayParam(String orgCode, OnPayParamListener listener);
+        void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback);
     }
 
     interface IView {

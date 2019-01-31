@@ -1,5 +1,6 @@
 package com.wondersgroup.android.healthcity_sdk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +11,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.api.WondersGroup;
+import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
+import com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
      * 家庭住址
      */
     private static final String ADDRESS = "ShangHai";
+    private static final int REQUEST_CODE = 666;
 
     private List<PersonBean> mPersonList = new ArrayList<>();
 
@@ -66,8 +72,12 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelfPayHome;
     @BindView(R.id.btnInHospitalHome)
     Button btnInHospitalHome;
+    @BindView(R.id.tvMock)
+    TextView tvMock;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
+    @BindView(R.id.tbEnable)
+    ToggleButton tbEnable;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -79,10 +89,19 @@ public class MainActivity extends AppCompatActivity {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
         initData();
+        initListener();
         setAdapter();
     }
 
+    private void initListener() {
+        tbEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SpUtil.getInstance().save(SpKey.IS_MOCK, isChecked);
+        });
+    }
+
     private void initData() {
+        // 默认模拟数据是关闭的状态
+        SpUtil.getInstance().save(SpKey.IS_MOCK, false);
         String version = AppInfoUtil.getVersionName(this);
         String versionName = "demo 版本：V" + version;
         tvVersion.setText(versionName);
@@ -113,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.tvMock})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -124,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnInHospitalHome:
                 startBusiness(2);
+                break;
+            case R.id.tvMock:
+                MockActivity.actionStart(this, REQUEST_CODE);
                 break;
         }
     }
@@ -167,4 +189,12 @@ public class MainActivity extends AppCompatActivity {
         WondersGroup.startBusiness(MainActivity.this, userBuilder, flag);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            boolean isMocker = data.getBooleanExtra("isMocker", false);
+            tbEnable.setChecked(isMocker);
+        }
+    }
 }

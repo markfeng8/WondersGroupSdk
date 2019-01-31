@@ -1,7 +1,7 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
-import com.wondersgroup.android.jkcs_sdk.listener.OnFeeRecordListener;
+import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
  * Created by x-sir on 2018/9/18 :)
@@ -11,7 +11,7 @@ public interface FeeRecordContract {
 
     interface IModel {
         void getFeeRecord(String feeState, String startDate, String endDate,
-                          String pageNumber, String pageSize, OnFeeRecordListener listener);
+                          String pageNumber, String pageSize, HttpRequestCallback<FeeRecordEntity> callback);
     }
 
     interface IView {

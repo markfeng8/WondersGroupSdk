@@ -6,17 +6,15 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.wondersgroup.android.jkcs_sdk.listener;
-
-import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
+package com.wondersgroup.android.jkcs_sdk.net.callback;
 
 /**
- * Created by x-sir on 2018/8/23 :)
- * Function:查询日清单信息的监听器
+ * Created by x-sir on 2018/8/10 :)
+ * Function:Http 请求的统一回调接口
  */
-public interface OnCy0005RequestListener {
+public interface HttpRequestCallback<T> {
 
-    void onSuccess(Cy0005Entity entity);
+    void onSuccess(T t);
 
-    void onFailed(String errCodeDes);
+    void onFailed(String errMsg);
 }
