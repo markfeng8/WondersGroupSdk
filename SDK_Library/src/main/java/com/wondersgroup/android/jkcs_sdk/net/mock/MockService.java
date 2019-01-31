@@ -23,27 +23,6 @@ import okhttp3.Request;
  */
 public class MockService {
 
-    @MOCK("/getUserInfo")
-    public MockResult action(Request request) {
-        // 如果是 GET 请求，可以取出 ？后面拼接的参数，然后拼接到返回结果中
-        Map<String, String> query = MockRequest.getQuery(request);
-        String name = query.get("name");
-        return MockResult.create(request, "{\n" +
-                "    \"status\": true,\n" +
-                "    \"msg\": \"SUCCESS\",\n" +
-                "    \"data\": {\n" +
-                "        \"bond\": \"100000\",\n" +
-                "        \"bio\": [\n" +
-                "            {\n" +
-                "                \"id\": \"1\",\n" +
-                "                \"name\": \"hell0\",\n" +
-                "                \"rule_url\": \"http://www.x-sir.com\"\n" +
-                "            }\n" +
-                "        ]\n" +
-                "    }\n" +
-                "}");
-    }
-
     /**
      * -------------- XY0001 -------------------------------------
      */
@@ -106,5 +85,26 @@ public class MockService {
 
     private String getJson(String fileName) {
         return AssetUtils.getJson(WondersApplication.getsContext(), fileName);
+    }
+
+    @MOCK("/getUserInfo")
+    public MockResult action(Request request) {
+        // 如果是 GET 请求，可以取出 ？后面拼接的参数，然后拼接到返回结果中
+        Map<String, String> query = MockRequest.getQuery(request);
+        String name = query.get("name");
+        return MockResult.create(request, "{\n" +
+                "    \"status\": true,\n" +
+                "    \"msg\": \"SUCCESS\",\n" +
+                "    \"data\": {\n" +
+                "        \"bond\": \"100000\",\n" +
+                "        \"bio\": [\n" +
+                "            {\n" +
+                "                \"id\": \"1\",\n" +
+                "                \"name\": \"hell0\",\n" +
+                "                \"rule_url\": \"http://www.x-sir.com\"\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}");
     }
 }
