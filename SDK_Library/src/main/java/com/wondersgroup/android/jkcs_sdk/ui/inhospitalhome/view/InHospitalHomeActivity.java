@@ -154,7 +154,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 去开通医保移动支付
         tvMobPayState.setOnClickListener(view -> openYiBaoMobPay());
         // 选择医院
-        tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList());
+        tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList("V1.1", "02"));
         // 预交金充值
         tvPrepayFee.setOnClickListener(view -> {
             comingSoon();
@@ -170,11 +170,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         tvLeaveHos.setOnClickListener(view -> leaveHospitalSettle());
         // 历史住院记录
         tvInHosRecord.setOnClickListener(view -> {
-            if ("南浔区".equals(mAreaName)) {
-                WToastUtil.show("该医院暂未开放！");
-            } else {
-                InHospitalHistory.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
-            }
+            InHospitalHistory.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName);
         });
     }
 
@@ -210,11 +206,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                 mOrgCode = hospitalBean.getOrg_code();
                 mOrgName = hospitalBean.getOrg_name();
                 tvHospitalName.setText(mOrgName);
-                if (!"南浔区".equals(mAreaName)) {
-                    requestCY0001();
-                } else {
-                    WToastUtil.show("该医院暂未开放！");
-                }
+                requestCY0001();
             }
 
             @Override
@@ -227,11 +219,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     private void findDayDetails() {
-        if ("南浔区".equals(mAreaName)) {
-            WToastUtil.show("该医院暂未开放！");
-            return;
-        }
-
         if (TextUtils.isEmpty(mOrgName)) {
             WToastUtil.show("请先选择医院！");
             return;
@@ -253,11 +240,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     private void leaveHospitalSettle() {
-        if ("南浔区".equals(mAreaName)) {
-            WToastUtil.show("该医院暂未开放！");
-            return;
-        }
-
         if (mCy0001Entity == null) {
             WToastUtil.show("暂无住院信息！");
             return;

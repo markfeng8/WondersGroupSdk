@@ -30,7 +30,7 @@ public interface InHosHisContract {
     }
 
     interface IPresenter {
-        void getHospitalList();
+        void getHospitalList(String version, String type);
 
         void requestCy0001(String orgCode, String inState);
     }

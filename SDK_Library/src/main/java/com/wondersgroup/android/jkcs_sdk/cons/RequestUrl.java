@@ -13,7 +13,7 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    public static final String HOST = isTestEnv() ? "http://122.225.124.34:39008" : "http://115.238.228.2:7001";
+    public static final String HOST = "http://115.238.228.2:7001";
 
     /**
      * 门诊部分接口

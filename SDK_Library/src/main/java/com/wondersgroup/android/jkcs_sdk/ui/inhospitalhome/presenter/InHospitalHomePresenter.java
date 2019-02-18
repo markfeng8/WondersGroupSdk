@@ -33,12 +33,12 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
     private AfterPayHomeContract.IModel mModel = new AfterPayHomeModel();
 
     @Override
-    public void getHospitalList() {
+    public void getHospitalList(String version, String type) {
         if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
             showLoading();
         }
 
-        mModel.getHospitalList(new HttpRequestCallback<HospitalEntity>() {
+        mModel.getHospitalList(version, type, new HttpRequestCallback<HospitalEntity>() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get defaultHospital list success~");

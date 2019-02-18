@@ -341,7 +341,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     public void getHospitalList() {
-        mPresenter.getHospitalList();
+        mPresenter.getHospitalList("V1.1", "01");
     }
 
     public static void actionStart(Context context, HashMap<String, String> param) {

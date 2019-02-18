@@ -105,7 +105,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     private void initListener() {
-        tvHospitalName.setOnClickListener(v -> mPresenter.getHospitalList());
+        tvHospitalName.setOnClickListener(v -> mPresenter.getHospitalList("V1.1", "02"));
     }
 
     private void findViews() {

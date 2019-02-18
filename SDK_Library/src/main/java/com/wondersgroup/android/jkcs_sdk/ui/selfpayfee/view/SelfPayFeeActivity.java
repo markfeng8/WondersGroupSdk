@@ -137,7 +137,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     public void getHospitalList() {
-        mPresenter.getHospitalList();
+        mPresenter.getHospitalList("V1.1", "01");
     }
 
     /**

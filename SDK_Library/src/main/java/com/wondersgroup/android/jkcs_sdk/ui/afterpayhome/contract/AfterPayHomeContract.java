@@ -19,7 +19,7 @@ public interface AfterPayHomeContract {
 
         void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback);
 
-        void getHospitalList(HttpRequestCallback<HospitalEntity> callback);
+        void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback);
 
         void uploadMobilePayState();
     }
@@ -43,7 +43,7 @@ public interface AfterPayHomeContract {
 
         void requestYd0003(String orgCode);
 
-        void getHospitalList();
+        void getHospitalList(String version, String type);
 
         void uploadMobilePayState();
     }

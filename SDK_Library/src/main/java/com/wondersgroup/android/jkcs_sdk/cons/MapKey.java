@@ -25,6 +25,10 @@ public class MapKey {
      */
     public static final String VERSION = "version";
     /**
+     * 医院列表接口类型字段
+     */
+    public static final String TYPE = "type";
+    /**
      * 调用状态 1 保存token 2 正式结算
      */
     public static final String TO_STATE = "to_state";

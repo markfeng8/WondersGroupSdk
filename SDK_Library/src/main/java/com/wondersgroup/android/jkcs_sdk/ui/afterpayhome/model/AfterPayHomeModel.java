@@ -307,14 +307,15 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void getHospitalList(HttpRequestCallback<HospitalEntity> callback) {
+    public void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
-        map.put(MapKey.VERSION, "V1.0");
+        map.put(MapKey.VERSION, version);
+        map.put(MapKey.TYPE, type);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         RetrofitHelper

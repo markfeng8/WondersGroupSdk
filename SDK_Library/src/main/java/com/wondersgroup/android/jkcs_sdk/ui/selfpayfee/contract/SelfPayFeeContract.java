@@ -34,7 +34,7 @@ public interface SelfPayFeeContract {
 
     interface IPresenter {
 
-        void getHospitalList();
+        void getHospitalList(String version, String type);
 
         void requestYd0003(String orgCode);
     }
