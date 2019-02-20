@@ -55,7 +55,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            LogUtil.eLogging(TAG, "getAfterPayState():" + Exceptions.MAP_SET_NULL);
         }
     }
 
@@ -87,7 +87,7 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "requestYd0003():" + Exceptions.PARAM_IS_NULL);
         }
     }
 

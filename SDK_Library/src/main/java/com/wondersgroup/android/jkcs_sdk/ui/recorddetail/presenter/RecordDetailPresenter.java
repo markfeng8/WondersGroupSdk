@@ -60,7 +60,7 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "getOrderDetails():" + Exceptions.PARAM_IS_NULL);
         }
     }
 
@@ -89,7 +89,7 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "requestYd0009():" + Exceptions.PARAM_IS_NULL);
         }
     }
 

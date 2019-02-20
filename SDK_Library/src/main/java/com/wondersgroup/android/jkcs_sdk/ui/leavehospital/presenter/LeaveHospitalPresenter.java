@@ -118,7 +118,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "getPayParam():" + Exceptions.PARAM_IS_NULL);
         }
     }
 

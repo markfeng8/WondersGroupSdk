@@ -79,7 +79,7 @@ public class OpenAfterPayPresenter<T extends OpenAfterPayContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "openAfterPay():" + Exceptions.PARAM_IS_NULL);
         }
     }
 }

@@ -54,7 +54,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            LogUtil.eLogging(TAG, "requestYd0003():" + Exceptions.MAP_SET_NULL);
         }
     }
 
@@ -83,7 +83,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "getOrderDetails():" + Exceptions.PARAM_IS_NULL);
         }
     }
 
@@ -115,7 +115,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "tryToSettle():" + Exceptions.PARAM_IS_NULL);
         }
     }
 
@@ -144,7 +144,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "getPayParam():" + Exceptions.PARAM_IS_NULL);
         }
     }
 
@@ -173,7 +173,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            LogUtil.eLogging(TAG, "lockOrder():" + Exceptions.MAP_SET_NULL);
         }
     }
 
@@ -206,7 +206,7 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "sendOfficialPay():" + Exceptions.PARAM_IS_NULL);
         }
     }
 

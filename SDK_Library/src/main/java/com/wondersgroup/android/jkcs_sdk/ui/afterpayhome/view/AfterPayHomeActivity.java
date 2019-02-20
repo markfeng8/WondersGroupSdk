@@ -3,6 +3,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -335,6 +336,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             if ("01".equals(status)) {
                 mPresenter.uploadMobilePayState();
             }
+
             mHeaderBean.setMobPayStatus(status);
             refreshAdapter();
         });
@@ -362,6 +364,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         } else {
             throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        LogUtil.e(TAG, "onSaveInstanceState()");
     }
 
     @Override

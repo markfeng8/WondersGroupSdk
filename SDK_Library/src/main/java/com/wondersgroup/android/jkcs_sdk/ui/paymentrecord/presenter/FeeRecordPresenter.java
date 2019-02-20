@@ -49,7 +49,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_IS_NULL);
+            LogUtil.eLogging(TAG, "getFeeRecord():" + Exceptions.PARAM_IS_NULL);
         }
     }
 

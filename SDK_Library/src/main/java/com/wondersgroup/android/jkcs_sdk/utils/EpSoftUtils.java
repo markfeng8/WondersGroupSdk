@@ -32,7 +32,7 @@ public class EpSoftUtils {
      * @param activity
      * @param listener
      */
-    public static void queryYiBaoOpenStatus(Activity activity, OnOpenStatusListener listener) {
+    public static void queryYiBaoOpenStatus(Activity activity, final OnOpenStatusListener listener) {
         if (activity == null) {
             return;
         }

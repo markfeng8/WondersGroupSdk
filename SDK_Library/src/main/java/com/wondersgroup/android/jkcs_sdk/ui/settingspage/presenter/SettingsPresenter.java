@@ -51,7 +51,7 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            LogUtil.eLogging(TAG, "sendOpenRequest():" + Exceptions.MAP_SET_NULL);
         }
     }
 
@@ -99,7 +99,7 @@ public class SettingsPresenter<T extends SettingsContract.IView>
                 }
             });
         } else {
-            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+            LogUtil.eLogging(TAG, "termination():" + Exceptions.MAP_SET_NULL);
         }
     }
 
