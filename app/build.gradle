@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 91
-        versionName "2.8.0"
+        versionCode 92
+        versionName "2.8.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -116,7 +116,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '1.代码优化;\n2.住院部分医院列表显示控制;\n3.为了更好的用户体验赶快更新吧;'
+    return '1.代码优化;\n2.为了更好的用户体验赶快更新吧;'
 }
 
 task("uploadApk") {
