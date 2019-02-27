@@ -10,6 +10,7 @@ import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Maps;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
@@ -115,7 +116,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
 
-        HashMap<String, String> param = new HashMap<>();
+        HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
         param.put(MapKey.SID, ProduceUtil.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0002);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -179,7 +180,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
         String pageNumber = "1"; // 页数
         String pageSize = "100"; // 每页的条数
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.PAGE_NUMBER, pageNumber);
         map.put(MapKey.PAGE_SIZE, pageSize);
@@ -250,7 +251,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
      * 旧版本获取医院列表接口
      */
     public void getHospitalListOld(HttpRequestCallback<HospitalEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -308,7 +309,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     @Override
     public void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(8);
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
