@@ -25,8 +25,8 @@ import com.wondersgroup.android.jkcs_sdk.cons.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract.DayDetailedListContract;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.presenter.DayDetailedListPresenter;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
@@ -102,7 +102,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         }
 
         mLastTime = mMaxMillis;
-        String currentDate = TimeUtils.getDate(mMaxMillis);
+        String currentDate = DateUtils.getDate(mMaxMillis);
         tvStartDate.setText(currentDate);
         requestCy0005(currentDate);
     }
@@ -126,12 +126,12 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         // 1.先获取上一天的时间戳
         long lastTimestamp = mLastTime - 1000L * 60L * 60L * 24L;
         // 2.格式化 lastTimestamp 为字符串
-        String lastDateStr = TimeUtils.getDate(lastTimestamp);
+        String lastDateStr = DateUtils.getDate(lastTimestamp);
         // 3.格式化最小时间戳为字符串
-        String minDateStr = TimeUtils.getDate(mMinMillis);
+        String minDateStr = DateUtils.getDate(mMinMillis);
 
         // 4.用上一天的时间戳和 90 天之前的时间戳进行比较
-        boolean compareResult1 = TimeUtils.compareBefore(TimeUtils.SDF4, lastDateStr, TimeUtils.getBeforeDate(90));
+        boolean compareResult1 = DateUtils.compareBefore(DateUtils.getDateFormat3(), lastDateStr, DateUtils.getBeforeDate(90));
 
         if (compareResult1) {
             WToastUtil.show("仅支持3个月内日清单记录查询！");
@@ -139,14 +139,14 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         }
 
         // 5.用上一天的时间戳和最小的时间戳进行比较
-        boolean compareResult2 = TimeUtils.compareBefore(TimeUtils.SDF4, lastDateStr, minDateStr);
+        boolean compareResult2 = DateUtils.compareBefore(DateUtils.getDateFormat3(), lastDateStr, minDateStr);
 
         if (compareResult2) {
             WToastUtil.show("已显示入院当天日清单!");
             return;
         }
 
-        String lastDate = TimeUtils.getLastDay(mLastTime);
+        String lastDate = DateUtils.getLastDay(mLastTime);
         mLastTime -= 1000L * 60L * 60L * 24L;
         tvStartDate.setText(lastDate);
         requestCy0005(lastDate);
@@ -158,12 +158,12 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
             // 1.先获取下一天的时间戳
             long nextTimestamp = mLastTime + 1000L * 60L * 60L * 24L;
             // 2.格式化 nextTimestamp 为字符串
-            String nextDateStr = TimeUtils.getDate(nextTimestamp);
+            String nextDateStr = DateUtils.getDate(nextTimestamp);
             // 3.格式化最大时间戳为字符串
-            String maxDateStr = TimeUtils.getDate(mMaxMillis);
+            String maxDateStr = DateUtils.getDate(mMaxMillis);
 
             // 4.用上一天的时间戳和最大的时间戳进行比较
-            boolean compareResult = TimeUtils.compareAfter(TimeUtils.SDF4, nextDateStr, maxDateStr);
+            boolean compareResult = DateUtils.compareAfter(DateUtils.getDateFormat3(), nextDateStr, maxDateStr);
 
             // 需要考虑时间相等的情况，相等也是返回 false 的
             if (compareResult) {
@@ -185,7 +185,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
                     break;
             }
 
-            String date = TimeUtils.getDate(mLastTime);
+            String date = DateUtils.getDate(mLastTime);
             tvStartDate.setText(date);
             requestCy0005(date);
         }
@@ -234,7 +234,7 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
         @Override
         public void onDateSet(DateScrollerDialog timePickerView, long milliseconds) {
             mLastTime = milliseconds;
-            String date = TimeUtils.getDate(milliseconds);
+            String date = DateUtils.getDate(milliseconds);
             tvStartDate.setText(date);
             requestCy0005(date);
         }

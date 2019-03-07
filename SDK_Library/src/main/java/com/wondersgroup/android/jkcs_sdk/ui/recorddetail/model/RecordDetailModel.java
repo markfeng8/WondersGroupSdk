@@ -19,10 +19,10 @@ import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -48,7 +48,7 @@ public class RecordDetailModel implements RecordDetailContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0009);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.PAY_PLAT_TRADE_NO, tradeNo);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 

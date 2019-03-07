@@ -16,8 +16,8 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter.FeeRecordPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
@@ -88,8 +88,8 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
         mLoading = new LoadingView.Builder(this)
                 .build();
 
-        mStartDate = TimeUtils.getBefore30Date();
-        mEndDate = TimeUtils.getCurrentDate();
+        mStartDate = DateUtils.getBefore30Date();
+        mEndDate = DateUtils.getCurrentDate();
         tvStartDate.setText(mStartDate);
         tvEndDate.setText(mEndDate);
 
@@ -122,7 +122,7 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
         DateScrollerDialog dialog = new DateScrollerDialog.Builder()
                 .setType(Type.YEAR_MONTH_DAY)
                 .setTitleStringId(getString(R.string.wonders_select_date_please))
-                .setMinMilliseconds(TimeUtils.getScrollMinTime())
+                .setMinMilliseconds(DateUtils.getScrollMinTime())
                 .setMaxMilliseconds(System.currentTimeMillis())
                 .setCurMilliseconds(mLastTime)
                 .setCallback(mOnDateSetListener)
@@ -142,7 +142,7 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
         @Override
         public void onDateSet(DateScrollerDialog timePickerView, long milliseconds) {
             mLastTime = milliseconds;
-            String date = TimeUtils.getDate(milliseconds);
+            String date = DateUtils.getDate(milliseconds);
             if (isStartTime) {
                 mStartDate = date;
                 tvStartDate.setText(date);

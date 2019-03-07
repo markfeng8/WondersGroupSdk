@@ -32,12 +32,12 @@ import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHis
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
@@ -229,7 +229,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             return;
         }
         // 在院或预出院状态才可以查询日清单
-        long minMillis = TimeUtils.getMinMillis(mInHosDate);
+        long minMillis = DateUtils.getMinMillis(mInHosDate);
         long currentMillis = System.currentTimeMillis();
         LogUtil.i(TAG, "minMillis===" + minMillis + ",currentMillis===" + currentMillis);
         // minMillis===1541952000000,currentMillis===1547537526483

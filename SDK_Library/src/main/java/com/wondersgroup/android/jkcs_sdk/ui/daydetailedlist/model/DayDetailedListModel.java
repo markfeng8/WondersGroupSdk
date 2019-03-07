@@ -20,11 +20,11 @@ import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0005Service;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract.DayDetailedListContract;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -54,7 +54,7 @@ public class DayDetailedListModel implements DayDetailedListContract.IModel {
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0001);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        param.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         param.put(MapKey.ORG_CODE, orgCode);
         param.put(MapKey.JZLSH, jzlsh);
         param.put(MapKey.NAME, name);

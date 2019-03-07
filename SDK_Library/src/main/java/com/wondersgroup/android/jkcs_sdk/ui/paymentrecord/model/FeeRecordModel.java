@@ -16,7 +16,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 
 import java.util.HashMap;
 
@@ -53,7 +53,7 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
         map.put(MapKey.ID_NO, mIdNum);

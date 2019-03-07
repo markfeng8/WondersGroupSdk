@@ -106,7 +106,7 @@ public class EpSoftUtils {
             String tokenTime = SpUtil.getInstance().getString(SpKey.TOKEN_TIME, "");
 
             // 判断医保 token 和 保存的 token 是否在有效期内，如果在就使用之前的获取到的，如果没有那就获取
-            if (!TextUtils.isEmpty(yiBaoToken) && !TextUtils.isEmpty(tokenTime) && !TimeUtils.isOver30min(tokenTime)) {
+            if (!TextUtils.isEmpty(yiBaoToken) && !TextUtils.isEmpty(tokenTime) && !DateUtils.isOver30min(tokenTime)) {
                 if (listener != null) {
                     listener.onResult(yiBaoToken);
                 }
@@ -135,7 +135,7 @@ public class EpSoftUtils {
                                      */
                                     String token = keyboardBean.getToken();
                                     SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, token);
-                                    SpUtil.getInstance().save(SpKey.TOKEN_TIME, TimeUtils.getCurrentMillis());
+                                    SpUtil.getInstance().save(SpKey.TOKEN_TIME, DateUtils.getCurrentMillis());
 
                                     if (listener != null) {
                                         listener.onResult(token);

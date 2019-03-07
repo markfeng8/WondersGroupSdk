@@ -18,7 +18,7 @@ public class ProduceUtil {
      */
     public static String getSid() {
         int num = (int) ((Math.random() * 9 + 1) * 100000);
-        String serialNum = OrgConfig.ORG_CODE + TimeUtils.getSecondsTime() + num;
+        String serialNum = OrgConfig.ORG_CODE + DateUtils.getTheNearestSecondTime() + num;
         LogUtil.i(TAG, "sid===" + serialNum);
         return serialNum;
     }

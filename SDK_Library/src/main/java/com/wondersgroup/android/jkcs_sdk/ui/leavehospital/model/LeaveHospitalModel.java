@@ -24,11 +24,11 @@ import com.wondersgroup.android.jkcs_sdk.net.service.Cy0006Service;
 import com.wondersgroup.android.jkcs_sdk.net.service.Cy0007Service;
 import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
+import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.TimeUtils;
 
 import java.util.HashMap;
 
@@ -60,7 +60,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0006);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        param.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         param.put(MapKey.ORG_CODE, orgCode);
         param.put(MapKey.JZLSH, jzlsh);
         param.put(MapKey.NAME, name);
@@ -68,7 +68,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.CARD_TYPE, cardType);
         param.put(MapKey.ID_NO, idNum);
         param.put(MapKey.TOKEN, token);
-        param.put(MapKey.ADVICE_DATE_TIME, TimeUtils.getCurrentDateTime());
+        param.put(MapKey.ADVICE_DATE_TIME, DateUtils.getCurrentDateTime());
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
         RetrofitHelper
@@ -131,7 +131,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0007);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        param.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         param.put(MapKey.ORG_CODE, orgCode);
         param.put(MapKey.TO_STATE, toState);
         param.put(MapKey.JZLSH, jzlsh);
@@ -139,7 +139,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.ID_TYPE, idType);
         param.put(MapKey.ID_NO, idNum);
         param.put(MapKey.TOKEN, token);
-        param.put(MapKey.ADVICE_DATE_TIME, TimeUtils.getCurrentDateTime());
+        param.put(MapKey.ADVICE_DATE_TIME, DateUtils.getCurrentDateTime());
         param.put(MapKey.XXJJE, xxjje);
         param.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
         param.put(MapKey.PAY_TRAN_DATE_TIME, payStartTime);
@@ -199,7 +199,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TIMESTAMP, TimeUtils.getSecondsTime());
+        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
