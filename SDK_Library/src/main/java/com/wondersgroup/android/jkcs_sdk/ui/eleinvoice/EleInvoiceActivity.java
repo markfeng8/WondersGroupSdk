@@ -72,6 +72,11 @@ public class EleInvoiceActivity extends AppCompatActivity {
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         // 开启 DOM storage API 功能
         webView.getSettings().setDomStorageEnabled(true);
+        // 解除数据阻止
+        webView.getSettings().setBlockNetworkImage(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        }
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
