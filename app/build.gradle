@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 93
-        versionName "2.8.2"
+        versionCode 95
+        versionName "2.8.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:2.8.6.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
-    implementation 'com.xsir:PgyerAndroidAppUpdate:0.9.2'
+    implementation 'com.xsir:PgyerAndroidAppUpdate:0.9.8'
     implementation project(':SDK_Library')
 
 //    implementation 'com.lzy.net:okgo:3.0.4'
@@ -115,7 +115,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '1.代码优化;\n2.为了更好的用户体验赶快更新吧;'
+    return '1.解决数据请求问题;\n2.修复一些bug;'
 }
 
 task("uploadApk") {

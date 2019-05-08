@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view;
 
 import android.app.Activity;
@@ -362,14 +370,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             if (details.size() > 0) {
                 // List 数据从 1 开始，需要减去头部的位置 1
                 mCombineList.get(mClickItemPos - 1).setOpenDetails(details);
-
-                // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
-                if (mItemList.size() > 0) {
-                    mItemList.clear();
-                }
-                mItemList.add(mHeadBean); // 先添加头部数据
-                mItemList.addAll(mCombineList);// 再添加 List 数据
-                mItemList.add(mDetailPayBean); // 添加支付数据
+                mCombineList.get(mClickItemPos - 1).setSpread(true);
+                // 刷新适配器
                 refreshAdapter();
             }
         }

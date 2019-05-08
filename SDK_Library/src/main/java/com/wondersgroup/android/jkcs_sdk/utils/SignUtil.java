@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.wondersgroup.android.jkcs_sdk.utils;
 
 import android.text.TextUtils;
@@ -6,7 +14,6 @@ import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,19 +48,15 @@ public class SignUtil {
     public static String getSignWithObject(HashMap<String, Object> param) {
         List<Map.Entry<String, Object>> infoIds = new ArrayList<>(param.entrySet());
         // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
-        Collections.sort(infoIds, new Comparator<Map.Entry<String, Object>>() {
-            @Override
-            public int compare(Map.Entry<String, Object> o1, Map.Entry<String, Object> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-            }
-        });
+        Collections.sort(infoIds, (o1, o2) -> o1.getKey().compareTo(o2.getKey()));
 
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Object> item : infoIds) {
             String k = item.getKey();
             Object v = item.getValue();
 
-            if (v instanceof java.util.List) { // 处理 Value 是 List 的情况
+            // 处理 Value 是 List 的情况
+            if (v instanceof List) {
                 List list = (List) v;
                 String listSortValue = "";
                 StringBuilder strBuilder = new StringBuilder();
@@ -66,7 +69,6 @@ public class SignUtil {
                         String suffixKey = k + "[" + i + "].";
                         String objectSort = getMapObjectSort(suffixKey, map);
                         sortList.add(objectSort);
-                        //strBuilder.append(objectSort);
                     }
                 }
 
@@ -111,12 +113,7 @@ public class SignUtil {
     private static String getMapObjectSort(String suffixKey, Map param) {
         List<Map.Entry> infoIds = new ArrayList<>(param.entrySet());
         // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
-        Collections.sort(infoIds, new Comparator<Map.Entry>() {
-            @Override
-            public int compare(Map.Entry o1, Map.Entry o2) {
-                return ((String) o1.getKey()).compareTo((String) o2.getKey());
-            }
-        });
+        Collections.sort(infoIds, (o1, o2) -> ((String) o1.getKey()).compareTo((String) o2.getKey()));
 
         StringBuilder sb = new StringBuilder();
 
@@ -143,12 +140,7 @@ public class SignUtil {
     private static String createSign(HashMap<String, String> param, String key) {
         List<Map.Entry<String, String>> infoIds = new ArrayList<>(param.entrySet());
         // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
-        Collections.sort(infoIds, new Comparator<Map.Entry<String, String>>() {
-            @Override
-            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-            }
-        });
+        Collections.sort(infoIds, (o1, o2) -> o1.getKey().compareTo(o2.getKey()));
 
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> item : infoIds) {
@@ -178,10 +170,10 @@ public class SignUtil {
     private static String sha256_HMAC(String message, String secret) {
         String hash = "";
         try {
-            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-            sha256_HMAC.init(secret_key);
-            byte[] bytes = sha256_HMAC.doFinal(message.getBytes());
+            Mac hmacSHA256 = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            hmacSHA256.init(secretKey);
+            byte[] bytes = hmacSHA256.doFinal(message.getBytes());
             hash = byteArrayToHexString(bytes);
         } catch (Exception e) {
             LogUtil.e(TAG, "Error HmacSHA256 ===========" + e.getMessage());
@@ -197,12 +189,13 @@ public class SignUtil {
      */
     private static String byteArrayToHexString(byte[] b) {
         StringBuilder hs = new StringBuilder();
-        String stmp;
+        String tmpStr;
         for (int n = 0; b != null && n < b.length; n++) {
-            stmp = Integer.toHexString(b[n] & 0XFF);
-            if (stmp.length() == 1)
+            tmpStr = Integer.toHexString(b[n] & 0XFF);
+            if (tmpStr.length() == 1) {
                 hs.append('0');
-            hs.append(stmp);
+            }
+            hs.append(tmpStr);
         }
         return hs.toString().toLowerCase();
     }

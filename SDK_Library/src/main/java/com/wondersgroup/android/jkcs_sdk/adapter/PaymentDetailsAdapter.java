@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
  * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
  * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
@@ -187,8 +187,8 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private LinearLayout llDetails;
         private String hisOrderNo;
         private int position;
-        boolean needVisibleDetails = false; // 是否需要显示详情
         private List<OrderDetailsEntity.DetailsBean> spreadDetails;
+        private CombineDetailsBean mCombineDetails;
 
         ListViewHolder(View itemView) {
             super(itemView);
@@ -215,27 +215,24 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // 1.先判断数据是否已经请求下来了，没有就先去请求
             if (spreadDetails == null) {
                 if (mContext instanceof PaymentDetailsActivity) {
-                    needVisibleDetails = true;
                     ((PaymentDetailsActivity) mContext).getOrderDetails(hisOrderNo, position);
                 }
 
             } else { // 如果有数据就判断是显示还是隐藏
-                needVisibleDetails = false; // 有数据之后就不需要在装配数据了
-                // 1.先判断详情是否已经被展开
-                boolean visible = llDetails.getVisibility() == View.VISIBLE;
-                // 2.如果展开了就隐藏，如果没展开就展开并显示
-                llDetails.setVisibility((visible) ? View.GONE : View.VISIBLE);
-                // 3.根据是否展开设置箭头的方向
-                ivArrow.setImageResource(visible ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
+                boolean spread = mCombineDetails.isSpread();
+                llDetails.setVisibility((spread) ? View.GONE : View.VISIBLE);
+                ivArrow.setImageResource(spread ? R.drawable.wonders_group_down_arrow : R.drawable.wonders_group_up_arrow);
+                mCombineDetails.setSpread(!spread);
             }
         }
 
         @SuppressLint("SetTextI18n")
         void setData(CombineDetailsBean combineDetails, int position) {
+            this.mCombineDetails = combineDetails;
             this.position = position;
-            if (combineDetails != null) {
-                FeeBillDetailsBean defaultDetails = combineDetails.getDefaultDetails();
-                spreadDetails = combineDetails.getOpenDetails();
+            if (mCombineDetails != null) {
+                FeeBillDetailsBean defaultDetails = mCombineDetails.getDefaultDetails();
+                spreadDetails = mCombineDetails.getOpenDetails();
 
                 if (defaultDetails != null) {
                     String orderName = defaultDetails.getOrdername();
@@ -254,10 +251,19 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 }
 
-                if (needVisibleDetails) {
+                resetViewState();
+                if (mCombineDetails.isSpread()) {
                     spreadDetailsLayout();
                 }
             }
+        }
+
+        /**
+         * 重置 View 的状态，不管如何，在装载是否显示展开数据之前调用，这样可以防止 Item 被复用之前状态的影响
+         */
+        private void resetViewState() {
+            llDetails.setVisibility(View.GONE);
+            ivArrow.setImageResource(R.drawable.wonders_group_down_arrow);
         }
 
         /**

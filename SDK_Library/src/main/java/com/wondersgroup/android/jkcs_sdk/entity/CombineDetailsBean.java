@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.wondersgroup.android.jkcs_sdk.entity;
 
 import java.util.List;
@@ -10,14 +18,19 @@ public class CombineDetailsBean {
 
     private FeeBillDetailsBean defaultDetails;
     private List<OrderDetailsEntity.DetailsBean> openDetails;
+    /**
+     * 是否展开，默认为否
+     */
+    private boolean spread = false;
 
     public CombineDetailsBean() {
+
     }
 
-    public CombineDetailsBean(FeeBillDetailsBean defaultDetails,
-                              List<OrderDetailsEntity.DetailsBean> openDetails) {
+    public CombineDetailsBean(FeeBillDetailsBean defaultDetails, List<OrderDetailsEntity.DetailsBean> openDetails, boolean spread) {
         this.defaultDetails = defaultDetails;
         this.openDetails = openDetails;
+        this.spread = spread;
     }
 
     public FeeBillDetailsBean getDefaultDetails() {
@@ -36,11 +49,11 @@ public class CombineDetailsBean {
         this.openDetails = openDetails;
     }
 
-    @Override
-    public String toString() {
-        return "CombineDetailsBean{" +
-                "defaultDetails=" + defaultDetails +
-                ", openDetails=" + openDetails +
-                '}';
+    public boolean isSpread() {
+        return spread;
+    }
+
+    public void setSpread(boolean spread) {
+        this.spread = spread;
     }
 }
