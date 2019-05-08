@@ -90,7 +90,7 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
 
     @Override
     public void uploadMobilePayState() {
-        mModel.uploadMobilePayState();
+        mModel.requestYd0002();
     }
 
     private void showLoading() {

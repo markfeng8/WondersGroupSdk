@@ -10,6 +10,8 @@ package com.wondersgroup.android.jkcs_sdk.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,9 +21,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
@@ -30,9 +30,8 @@ import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivi
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity;
+import com.wondersgroup.android.jkcs_sdk.utils.DensityUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
@@ -172,29 +171,17 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         private void initListener() {
-            /*
-             * 点击选择医院
-             */
+            // 点击选择医院
             tvHospitalName.setOnClickListener(v -> getHospitalList());
-            /*
-             * 点击缴费记录
-             */
+            // 点击缴费记录
             llPayRecord.setOnClickListener(v -> FeeRecordActivity.actionStart(mContext));
-            /*
-             * 点击医后付首页顶部的 "点击缴纳"
-             */
+            // 点击医后付首页顶部的 "点击缴纳"
             llToPayFee.setOnClickListener(v -> requestYd0003());
-            /*
-             * 点击去开通医后付(前提是开通医保移动支付)
-             */
+            // 点击去开通医后付(前提是开通医保移动支付)
             tvAfterPayState.setOnClickListener(v -> openAfterPay());
-            /*
-             * 去开通医保移动支付
-             */
-            tvMobilePayState.setOnClickListener(v -> openYiBaoMobPay());
-            /*
-             * 点击跳转到 "设置" 页面
-             */
+            // 申领(查看)电子社保卡
+            tvMobilePayState.setOnClickListener(v -> electronicSocialSecurityCard());
+            // 点击跳转到 "设置" 页面
             llSettings.setOnClickListener(v -> jumpToSetting());
         }
 
@@ -335,24 +322,37 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
          */
         private void setMobilePayState(boolean enable) {
             if (enable) {
+                // 分别为开始颜色，结束颜色
+                int[] colors = new int[]{Color.parseColor("#f2c700"), Color.parseColor("#fea127")};
+                GradientDrawable linearDrawable = new GradientDrawable();
+                linearDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+                linearDrawable.setColors(colors);
+                linearDrawable.setCornerRadius(DensityUtils.dp2px(mContext, 20));
+                linearDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+
+                tvMobilePayState.setBackground(linearDrawable);
                 tvMobilePayState.setText(mContext.getString(R.string.wonders_to_open_mobile_pay));
-                tvMobilePayState.setEnabled(true);
+                tvMobilePayState.setTextColor(mContext.getResources().getColor(R.color.wonders_rgb_color_ffffff));
                 tvMobilePayState.setCompoundDrawables(null, null, null, null);
+
             } else {
+                GradientDrawable gd = new GradientDrawable();
+                gd.setCornerRadius(DensityUtils.dp2px(mContext, 20));
+                gd.setGradientType(GradientDrawable.RECTANGLE);
+                gd.setColor(Color.parseColor("#6B45BFDB"));
+
+                tvMobilePayState.setBackground(gd);
                 tvMobilePayState.setText(mContext.getString(R.string.wonders_open_mobile_pay));
-                tvMobilePayState.setEnabled(false);
+                tvMobilePayState.setTextColor(mContext.getResources().getColor(R.color.wonders_rgb_color_386fb9));
             }
         }
 
         /**
-         * 开通医保移动付
+         * 申领(查看)电子社保卡
          */
-        private void openYiBaoMobPay() {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                AuthCall.businessProcess(mContext,
-                        MakeArgsFactory.getOpenArgs(), WToastUtil::show);
-            } else {
-                WToastUtil.show("网络连接错误，请检查您的网络连接！");
+        private void electronicSocialSecurityCard() {
+            if (mContext instanceof AfterPayHomeActivity) {
+                ((AfterPayHomeActivity) mContext).applyElectronicSocialSecurityCard();
             }
         }
     }

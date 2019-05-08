@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
@@ -35,7 +34,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActi
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.MakeArgsFactory;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -268,8 +266,8 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      */
     private void openYiBaoMobPay() {
         if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            AuthCall.businessProcess(InHospitalHomeActivity.this,
-                    MakeArgsFactory.getOpenArgs(), WToastUtil::show);
+//            AuthCall.businessProcess(InHospitalHomeActivity.this,
+//                    MakeArgsFactory.getOpenArgs(), WToastUtil::show);
         } else {
             WToastUtil.show("网络连接错误，请检查您的网络连接！");
         }

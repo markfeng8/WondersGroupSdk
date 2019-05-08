@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
+
 /**
  * Created by xpf on 2018/8/1 :)
  * Function:Activity的基类
@@ -12,6 +14,7 @@ import android.view.WindowManager;
 public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends AppCompatActivity {
 
     public T mPresenter;
+    private LoadingView mBaseLoading;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -20,10 +23,16 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
         mPresenter = createPresenter();
         mPresenter.attachView((V) this);
         bindView();
+        initLoading();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+    }
+
+    private void initLoading() {
+        mBaseLoading = new LoadingView.Builder(this)
+                .build();
     }
 
     /**
@@ -36,9 +45,24 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
      */
     protected abstract void bindView();
 
+    public void showLoadingView(boolean show) {
+        if (mBaseLoading == null) {
+            return;
+        }
+
+        if (show) {
+            mBaseLoading.showLoadingDialog();
+        } else {
+            mBaseLoading.dismissLoadingDialog();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mBaseLoading != null) {
+            mBaseLoading.dispose();
+        }
         mPresenter.detachView();
     }
 }

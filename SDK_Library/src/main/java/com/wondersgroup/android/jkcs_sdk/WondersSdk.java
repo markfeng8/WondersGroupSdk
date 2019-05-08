@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.epsoft.hzauthsdk.all.AuthCall;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
@@ -14,6 +13,8 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogCatStrategy;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
+import cn.com.epsoft.zjessc.ZjEsscSDK;
+
 /**
  * Company:WondersGroup
  * Created by x-sir on 2018/7/31 :)
@@ -22,6 +23,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 public class WondersSdk {
 
     private static final String TAG = "WondersSdk";
+    private static final String CHANNEL_NO = "3305000003"; // 3300000001 3305000003
 
     private WondersSdk() {
     }
@@ -35,15 +37,23 @@ public class WondersSdk {
     }
 
     public void init(Context context, ConfigOption option) {
+        LogUtil.i(TAG, "WondersSdk initialize success~");
         WondersApplication.sContext = context.getApplicationContext();
-        initEpSoft(context);
+        initEpSoft(context, getIsDebug(option));
         initLogger(getIsDebug(option));
     }
 
-    private void initEpSoft(Context context) {
-        AuthCall.initApplication((Application) context);
-        AuthCall.initSDK(context, "6151490102",
-                result -> LogUtil.e(TAG, "result===" + result));
+    /**
+     * 集成省电子社保卡
+     */
+    private void initEpSoft(Context context, boolean isDebug) {
+        ZjEsscSDK.init(isDebug, (Application) context, CHANNEL_NO);
+        // 设置主题颜色
+        ZjEsscSDK.setTitleColor("#147038");
+        // 设置主题字体颜色
+        ZjEsscSDK.setTextColor("#FFFFFF");
+        // 设置是否打印日志
+        ZjEsscSDK.setLogDebug(isDebug);
     }
 
     private void initLogger(final boolean isDebug) {
@@ -77,4 +87,7 @@ public class WondersSdk {
         return isDebug;
     }
 
+    public static String getChannelNo() {
+        return CHANNEL_NO;
+    }
 }

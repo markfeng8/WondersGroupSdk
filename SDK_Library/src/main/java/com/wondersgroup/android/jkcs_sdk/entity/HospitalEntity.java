@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by x-sir on 2018/8/20 :)
- * Function:
+ * Function:医院列表返回数据
  */
 public class HospitalEntity extends BaseEntity {
 

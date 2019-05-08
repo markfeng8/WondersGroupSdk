@@ -25,9 +25,10 @@ public class RequestUrl {
     public static final String XY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0005";
     public static final String XY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0006";
     public static final String XY0008 = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/xy0008";
+    public static final String SIGN = (isTestEnv() ? "/test" : "") + "/huzh_credit/ct/sign";
 
     /**
-     * 账单部分接口
+     * 移动支付状态查询
      */
     public static final String YD0001 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0001";
     public static final String YD0002 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/yd0002";
@@ -50,6 +51,16 @@ public class RequestUrl {
     public static final String CY0005 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0005";
     public static final String CY0006 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0006";
     public static final String CY0007 = (isTestEnv() ? "/test" : "") + "/huzh_credit/sdk/cy0007";
+
+    /**
+     * 恩普参数签名接口
+     */
+    public static final String EPSOFT_SIGN_API = (isTestEnv() ? "http://115.236.191.153:9090/" : "http://dzsbk.zjhrss.gov.cn:8080/") + "sdk/csb/signTest";
+
+    /**
+     * 验签测试接口
+     */
+    public static final String CHECK_SIGN_API = "http://61.153.183.132:9025/access/api/gateway";
 
     /**
      * 统一支付回调地址

@@ -32,6 +32,10 @@ public class SpKey {
     public static final String CARD_TYPE = "cardType";
     public static final String CARD_NUM = "cardNum";
     /**
+     * 签发号
+     */
+    public static final String SIGN_NO = "signNo";
+    /**
      * 是否允许医保支付
      */
     public static final String YIBAO_ENABLE = "yiBaoEnable";

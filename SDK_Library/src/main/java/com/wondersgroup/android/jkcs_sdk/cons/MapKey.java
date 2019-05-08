@@ -10,16 +10,29 @@ public class MapKey {
     public static final String SIGN = "sign";
     public static final String NAME = "name";
     public static final String PHONE = "phone";
-    public static final String ID_TYPE = "id_type"; // 证件类型 01:身份证
-    public static final String ID_NO = "id_no"; // 证件号码
+    /**
+     * 证件类型 01:身份证
+     */
+    public static final String ID_TYPE = "id_type";
+    /**
+     * 证件号码
+     */
+    public static final String ID_NO = "id_no";
     public static final String CARD_NO = "card_no";
     public static final String CARD_TYPE = "card_type";
     public static final String TRAN_CHL = "tran_chl";
     public static final String TRAN_ORG = "tran_org";
-    public static final String ORG_CODE = "org_code";// 医院代码
+    /**
+     * 医院代码
+     */
+    public static final String ORG_CODE = "org_code";
     public static final String TRAN_CODE = "tran_code";
     public static final String TIMESTAMP = "timestamp";
     public static final String IN_STATE = "in_state";
+    /**
+     * 需要签名的 json 串
+     */
+    public static final String JSON_STR = "json_str";
     /**
      * 接口版本号控制
      */
@@ -85,5 +98,76 @@ public class MapKey {
     public static final String MOBILE_PAY_TIME = "mobile_pay_time";
     public static final String PAY_PLAT_TRADE_NO = "payplat_tradno";
     public static final String MOBILE_PAY_STATUS = "mobile_pay_status";
-    public static final String HEALTH_CARE_STATUS = "health_care_status"; // 医保卡状态
+    /**
+     * 电子社保卡开通状态
+     */
+    public static final String ELE_CARD_STATUS = "sdk_status";
+    /**
+     * 签发号
+     */
+    public static final String SIGNATURE_NO= "signno";
+    /**
+     * 医保卡状态
+     */
+    public static final String HEALTH_CARE_STATUS = "health_care_status";
+    /**
+     * 渠道编号
+     */
+    public static final String CHANNEL_NO = "channelNo";
+    /**
+     * 社会保账号
+     */
+    public static final String AAC002 = "aac002";
+    /**
+     * 真实姓名
+     */
+    public static final String AAC003 = "aac003";
+    /**
+     * 手机号
+     */
+    public static final String AAC067 = "aac067";
+    /**
+     * 业务流水号
+     */
+    public static final String SIGN_SEQ = "signSeq";
+    /**
+     * 签发级别
+     */
+    public static final String SIGN_LEVEL = "signLevel";
+    /**
+     * 签发号
+     */
+    public static final String SIGN_NO = "signNo";
+    /**
+     * 合法日期
+     */
+    public static final String VALID_DATE = "validDate";
+    /**
+     * 发卡地区编号
+     */
+    public static final String AAB301 = "aab301";
+    /**
+     * 签发日期
+     */
+    public static final String SIGN_DATE = "signDate";
+    /**
+     * 监听器
+     */
+    public static final String LISTENTER = "listenter";
+    /**
+     * 监听器
+     */
+    public static final String ACTION_TYPE = "actionType";
+    /**
+     * 操作验证串
+     */
+    public static final String BUSI_SEQ = "busiSeq";
+    /**
+     * 历史数据标记
+     */
+    public static final String HISTORY_FLAG = "historyFlag";
+    /**
+     * 独立扫码登录服务
+     */
+    public static final String QR_CODE = "qrCode";
 }

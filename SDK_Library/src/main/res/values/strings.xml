@@ -18,8 +18,8 @@
     <string name="wonders_personal_pay">个人账户支付</string>
     <string name="wonders_open_after_pay">已开通医后付</string>
     <string name="wonders_to_open_after_pay">去开通医后付</string>
-    <string name="wonders_open_mobile_pay">已开通移动支付</string>
-    <string name="wonders_to_open_mobile_pay">去开通移动支付</string>
+    <string name="wonders_open_mobile_pay">已申领电子社保卡</string>
+    <string name="wonders_to_open_mobile_pay">未申领电子社保卡</string>
     <string name="wonders_yibao_mobile_pay">医保移动支付</string>
     <string name="wonders_look_afterpay_rules">查看医后付协议</string>
     <string name="wonders_cancel_after_pay">取消医后付</string>

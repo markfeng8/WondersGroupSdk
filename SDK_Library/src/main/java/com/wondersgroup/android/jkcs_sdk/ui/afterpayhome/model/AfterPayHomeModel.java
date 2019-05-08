@@ -2,6 +2,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
 import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
@@ -12,12 +13,14 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.Maps;
 import com.wondersgroup.android.jkcs_sdk.entity.MobilePayEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Yd0001Entity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.net.service.AfterPayStateService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.HospitalService;
 import com.wondersgroup.android.jkcs_sdk.net.service.MobilePayService;
+import com.wondersgroup.android.jkcs_sdk.net.service.Yd0001Service;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
@@ -51,7 +54,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     @SuppressWarnings("RedundantCollectionOperation")
     @Override
-    public void getAfterPayState(HashMap<String, String> map, HttpRequestCallback<AfterPayStateEntity> callback) {
+    public void requestXy0001(HashMap<String, String> map, HttpRequestCallback<AfterPayStateEntity> callback) {
         map.put(MapKey.SID, ProduceUtil.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0001);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -112,9 +115,77 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void uploadMobilePayState() {
+    public void requestYd0001(HttpRequestCallback<Yd0001Entity> callback) {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
+        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0001);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
+        map.put(MapKey.NAME, mName);
+        map.put(MapKey.ID_TYPE, mIdType);
+        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.CARD_TYPE, cardType);
+        map.put(MapKey.CARD_NO, cardNum);
+        map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+
+        String json = new Gson().toJson(map);
+        LogUtil.i(TAG, "json:" + json);
+
+        RetrofitHelper
+                .getInstance()
+                .createService(Yd0001Service.class)
+                .yd0001(RequestUrl.YD0001, map)
+                .enqueue(new Callback<Yd0001Entity>() {
+                    @Override
+                    public void onResponse(Call<Yd0001Entity> call, Response<Yd0001Entity> response) {
+                        int code = response.code();
+                        String message = response.message();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && "OK".equals(message) && successful) {
+                            Yd0001Entity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getReturn_code();
+                                String resultCode = body.getResult_code();
+                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErr_code_des();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            LogUtil.e("服务器异常！");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Yd0001Entity> call, Throwable t) {
+                        String error = t.getMessage();
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            LogUtil.e(TAG, "移动医保状态上报失败~");
+                            WToastUtil.show(error);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void requestYd0002() {
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
 
         HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
         param.put(MapKey.SID, ProduceUtil.getSid());
@@ -128,7 +199,13 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         param.put(MapKey.ID_TYPE, mIdType);
         param.put(MapKey.CARD_TYPE, cardType);
         param.put(MapKey.MOBILE_PAY_TIME, DateUtils.getCurrentDate());
-        param.put(MapKey.MOBILE_PAY_STATUS, "01");// 01 代表开通
+        // 01 代表开通
+        param.put(MapKey.MOBILE_PAY_STATUS, "01");
+        // 01 已开通 00：未开通
+        param.put(MapKey.ELE_CARD_STATUS, "00");
+        // 签发号
+        param.put(MapKey.SIGNATURE_NO, signNo);
+        param.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
         RetrofitHelper
@@ -147,11 +224,11 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                                 String returnCode = body.getReturn_code();
                                 String resultCode = body.getResult_code();
                                 if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    LogUtil.i(TAG, "移动医保状态上报成功~");
+                                    LogUtil.i(TAG, "电子社保卡状态上报成功~");
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        LogUtil.e(TAG, "移动医保状态上报失败~");
+                                        LogUtil.e(TAG, "电子社保卡状态上报失败！");
                                         WToastUtil.show(errCodeDes);
                                     }
                                 }
@@ -177,9 +254,10 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     public void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback) {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-
-        String pageNumber = "1"; // 页数
-        String pageSize = "100"; // 每页的条数
+        // 页数
+        String pageNumber = "1";
+        // 每页的条数
+        String pageSize = "100";
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.PAGE_NUMBER, pageNumber);
@@ -249,7 +327,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     /**
      * 旧版本获取医院列表接口
+     * recommend use {@link AfterPayHomeModel#getHospitalList(String version, String type, HttpRequestCallback callback)}
      */
+    @Deprecated
     public void getHospitalListOld(HttpRequestCallback<HospitalEntity> callback) {
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, ProduceUtil.getSid());
@@ -315,7 +395,10 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
-        map.put(MapKey.VERSION, version);
+        // 兼容旧版本接口，如果传空就说明请求的是旧接口
+        if (!TextUtils.isEmpty(version)) {
+            map.put(MapKey.VERSION, version);
+        }
         map.put(MapKey.TYPE, type);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 

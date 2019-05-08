@@ -14,7 +14,17 @@ package com.wondersgroup.android.jkcs_sdk.net.callback;
  */
 public interface HttpRequestCallback<T> {
 
+    /**
+     * 成功的回调
+     *
+     * @param t 成功的数据
+     */
     void onSuccess(T t);
 
+    /**
+     * 失败的回调
+     *
+     * @param errMsg 错误信息
+     */
     void onFailed(String errMsg);
 }

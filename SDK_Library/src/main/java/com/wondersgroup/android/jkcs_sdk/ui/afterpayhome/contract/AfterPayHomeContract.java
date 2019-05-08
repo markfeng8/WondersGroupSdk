@@ -3,6 +3,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Yd0001Entity;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 import java.util.HashMap;
@@ -15,36 +16,40 @@ public interface AfterPayHomeContract {
 
     interface IModel {
 
-        void getAfterPayState(HashMap<String, String> map, HttpRequestCallback<AfterPayStateEntity> callback);
+        void requestXy0001(HashMap<String, String> map, HttpRequestCallback<AfterPayStateEntity> callback);
+
+        void requestYd0001(HttpRequestCallback<Yd0001Entity> callback);
 
         void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback);
 
         void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback);
 
-        void uploadMobilePayState();
+        void requestYd0002();
     }
 
     interface IView {
 
-        void afterPayResult(AfterPayStateEntity entity);
+        void onXy0001Result(AfterPayStateEntity entity);
+
+        void onYd0001Result(Yd0001Entity entity);
 
         void onYd0003Result(FeeBillEntity entity);
 
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
 
         void onHospitalListResult(HospitalEntity body);
     }
 
     interface IPresenter {
 
-        void getAfterPayState(HashMap<String, String> map);
+        void requestXy0001(HashMap<String, String> map);
+
+        void requestYd0001();
 
         void requestYd0003(String orgCode);
 
         void getHospitalList(String version, String type);
 
-        void uploadMobilePayState();
+        void requestYd0002();
     }
 }

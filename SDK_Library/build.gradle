@@ -9,8 +9,8 @@ android {
         versionName "1.8.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-            //, 'x86', 'x86_64'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            //'armeabi', 'x86', 'x86_64'
         }
     }
 
@@ -75,6 +75,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    implementation 'com.yanzhenjie:permission:2.0.0-rc12'
+    implementation 'com.alibaba:fastjson:1.1.68.android'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 
 //    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.6'
 //    implementation 'com.squareup.retrofit2:retrofit-mock:2.0.2'
@@ -91,7 +94,8 @@ dependencies {
     implementation files('libs/alipaySdk-20160120.jar')
 
     // 此种方式不会将 libs 中的 aar 包打进 aar 包中
-    implementation(name: 'hzauthsdk-release', ext: 'aar')
+    implementation(name: 'PALiveDetect1.0.0', ext: 'aar')
+    implementation(name: 'zj_essc_sdk-1.0.5', ext: 'aar')
 }
 
 /**

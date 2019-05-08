@@ -58,13 +58,24 @@ public class SignUtil {
                 String listSortValue = "";
                 StringBuilder strBuilder = new StringBuilder();
 
+                List<String> sortList = new ArrayList<>();
                 for (int i = 0; i < list.size(); i++) {
                     Object object = list.get(i);
                     if (object instanceof Map) {
                         Map map = (Map) object;
                         String suffixKey = k + "[" + i + "].";
-                        strBuilder.append(getMapObjectSort(suffixKey, map));
+                        String objectSort = getMapObjectSort(suffixKey, map);
+                        sortList.add(objectSort);
+                        //strBuilder.append(objectSort);
                     }
+                }
+
+                // 1.对 sortList 按字典序进行排序
+                Collections.sort(sortList, String::compareTo);
+
+                // 循环拼接排序好的 List
+                for (String str : sortList) {
+                    strBuilder.append(str);
                 }
 
                 listSortValue = strBuilder.toString();
