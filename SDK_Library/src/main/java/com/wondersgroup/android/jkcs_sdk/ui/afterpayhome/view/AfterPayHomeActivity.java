@@ -37,6 +37,7 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomeP
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -250,8 +251,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     public void applyElectronicSocialSecurityCard() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-//        String name = "徐渊";
-//        String idNum = "330501198611183034";
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
         map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
@@ -300,7 +299,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 签发回调处理
      */
     private void handleAction(String data) {
-        Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
+        WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
         switch (actionType) {
@@ -330,11 +329,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 break;
             // 表示提供给SDK用户信息，不需要处理
             case "006":
-//                String signNo = eleCardEntity.getSignNo();
-//                String aab301 = eleCardEntity.getAab301();
-//                LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
-//                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-//                requestYd0002();
                 break;
             default:
                 break;

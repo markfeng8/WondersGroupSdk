@@ -49,7 +49,7 @@ public class WondersSdk {
     private void initEpSoft(Context context, boolean isDebug) {
         ZjEsscSDK.init(isDebug, (Application) context, CHANNEL_NO);
         // 设置主题颜色
-        ZjEsscSDK.setTitleColor("#147038");
+        ZjEsscSDK.setTitleColor("#1E90FF");
         // 设置主题字体颜色
         ZjEsscSDK.setTextColor("#FFFFFF");
         // 设置是否打印日志
