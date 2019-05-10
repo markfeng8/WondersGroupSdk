@@ -202,7 +202,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         // 01 代表开通
         param.put(MapKey.MOBILE_PAY_STATUS, "01");
         // 01 已开通 00：未开通
-        param.put(MapKey.ELE_CARD_STATUS, "00");
+        param.put(MapKey.ELE_CARD_STATUS, "01");
         // 签发号
         param.put(MapKey.SIGNATURE_NO, signNo);
         param.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
@@ -228,7 +228,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
                                 } else {
                                     String errCodeDes = body.getErr_code_des();
                                     if (!TextUtils.isEmpty(errCodeDes)) {
-                                        LogUtil.e(TAG, "电子社保卡状态上报失败！");
+                                        LogUtil.e(TAG, "电子社保卡状态上报失败！" + errCodeDes);
                                         WToastUtil.show(errCodeDes);
                                     }
                                 }
