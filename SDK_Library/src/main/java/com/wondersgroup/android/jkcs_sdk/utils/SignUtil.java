@@ -111,6 +111,7 @@ public class SignUtil {
      * @return
      */
     private static String getMapObjectSort(String suffixKey, Map param) {
+        @SuppressWarnings("unchecked")
         List<Map.Entry> infoIds = new ArrayList<>(param.entrySet());
         // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
         Collections.sort(infoIds, (o1, o2) -> ((String) o1.getKey()).compareTo((String) o2.getKey()));

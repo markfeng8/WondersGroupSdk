@@ -10,6 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.text.TextUtils;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -38,22 +39,19 @@ public class QRCodeUtil {
      * @param filePath  用于存储二维码图片的文件路径
      * @return 生成二维码及保存文件是否成功
      */
-    public static boolean createQRImage(String content, int widthPix, int heightPix,
-                                        Bitmap logoBm, String filePath) {
+    public static boolean createQRImage(String content, int widthPix, int heightPix, Bitmap logoBm, String filePath) {
+        if (TextUtils.isEmpty(content)) {
+            return false;
+        }
 
-        // 手机内部存储：String path = getFilesDir().getAbsolutePath();
         try {
-            if (content == null || "".equals(content)) {
-                return false;
-            }
-
-            //配置参数
+            // 配置参数
             Map<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-            //容错级别
+            // 容错级别
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-            //设置空白边距的宽度
-            hints.put(EncodeHintType.MARGIN, 1); //default is 4
+            // 设置空白边距的宽度 default is 4
+            hints.put(EncodeHintType.MARGIN, 1);
 
             // 图像数据转换，使用了矩阵转换
             BitMatrix bitMatrix = null;
@@ -84,8 +82,7 @@ public class QRCodeUtil {
                 bitmap = addLogo(bitmap, logoBm);
             }
 
-            //必须使用compress方法将bitmap保存到文件中再进行读取。直接返回的bitmap是没有任何压缩的，
-            // 内存消耗巨大！
+            // 必须使用compress方法将bitmap保存到文件中再进行读取。直接返回的bitmap是没有任何压缩的，内存消耗巨大！
             return bitmap != null && bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
                     new FileOutputStream(filePath));
         } catch (Exception e) {
@@ -95,20 +92,19 @@ public class QRCodeUtil {
         return false;
     }
 
-    public static Bitmap createQrCodeBitmap(String content, int widthPix, int heightPix,
-                                            Bitmap logoBm) {
-        try {
-            if (content == null || "".equals(content)) {
-                return null;
-            }
+    public static Bitmap createQrCodeBitmap(String content, int widthPix, int heightPix, Bitmap logoBm) {
+        if (TextUtils.isEmpty(content)) {
+            return null;
+        }
 
-            //配置参数
+        try {
+            // 配置参数
             Map<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-            //容错级别
+            // 容错级别
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-            //设置空白边距的宽度
-            hints.put(EncodeHintType.MARGIN, 1); //default is 4
+            // 设置空白边距的宽度 default is 4
+            hints.put(EncodeHintType.MARGIN, 1);
 
             // 图像数据转换，使用了矩阵转换
             BitMatrix bitMatrix = null;
@@ -140,6 +136,7 @@ public class QRCodeUtil {
             }
 
             return bitmap;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,14 +173,16 @@ public class QRCodeUtil {
         // logo大小为二维码整体大小的 1/5
         float scaleFactor = srcWidth * 1.0f / 5 / logoWidth;
         Bitmap bitmap = Bitmap.createBitmap(srcWidth, srcHeight, Bitmap.Config.ARGB_8888);
+
         try {
             Canvas canvas = new Canvas(bitmap);
             canvas.drawBitmap(src, 0, 0, null);
             canvas.scale(scaleFactor, scaleFactor, srcWidth / 2, srcHeight / 2);
             canvas.drawBitmap(logo, (srcWidth - logoWidth) / 2, (srcHeight - logoHeight) / 2, null);
 
-            canvas.save(Canvas.ALL_SAVE_FLAG);
+            canvas.save();
             canvas.restore();
+
         } catch (Exception e) {
             bitmap = null;
             e.getStackTrace();

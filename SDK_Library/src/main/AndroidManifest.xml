@@ -91,8 +91,12 @@
         <activity
             android:name="cn.wd.checkout.api.WDWechatPaymentActivity"
             android:launchMode="singleTask" />
+
+        <!-- io.dcloud.H5E20CCC5 -->
+        <!-- com.wondersgroup.android.healthcity_sdk -->
+
         <activity-alias
-            android:name="${applicationId}.wxapi.WXPayEntryActivity"
+            android:name="com.wondersgroup.android.healthcity_sdk.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="cn.wd.checkout.api.WDWechatPaymentActivity" />
         <!-- WXPay sdk end -->
