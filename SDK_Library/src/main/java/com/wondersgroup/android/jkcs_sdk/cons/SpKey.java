@@ -55,9 +55,9 @@ public class SpKey {
      */
     public static final String PAYMENT_STATUS = "paymentStatus";
     /**
-     * 移动支付状态
+     * 电子社保卡开通状态
      */
-    public static final String MOB_PAY_STATUS = "mobPayStatus";
+    public static final String ELE_CARD_STATUS = "eleCardStatus";
     /**
      * 医后付开通状态
      */

@@ -331,7 +331,7 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         private void initData() {
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
             // 如果未开通医保移动支付并且不是自费卡，就显示医保移动支付开关
             if (!"01".equals(mobPayStatus) && !"2".equals(cardType)) {
@@ -342,7 +342,7 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private void initListener() {
             tbYiBaoEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+                    String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
                     if ("01".equals(mobPayStatus)) { // 已开通
                         SpUtil.getInstance().save(SpKey.YIBAO_ENABLE, true);
                     } else { // 未开通

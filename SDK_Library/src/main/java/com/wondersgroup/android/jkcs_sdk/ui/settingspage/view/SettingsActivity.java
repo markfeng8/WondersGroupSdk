@@ -143,7 +143,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         }
         tvAfterPayState.setText(state);
 
-        String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+        String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
         if ("00".equals(mobPayStatus)) { // 00 未签约
             tvMobilePayState.setText("未开通");
         } else if ("01".equals(mobPayStatus)) { // 01已签约

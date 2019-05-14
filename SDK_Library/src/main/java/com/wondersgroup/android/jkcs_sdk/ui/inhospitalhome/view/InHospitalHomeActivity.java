@@ -246,7 +246,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 如果是医保卡，需要判断医保移动支付状态是否开通
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         if ("0".equals(cardType)) {
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             if (!"01".equals(mobPayStatus)) {
                 WToastUtil.show("您未开通医保移动支付，请先开通！");
                 return;

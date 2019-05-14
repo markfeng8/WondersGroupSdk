@@ -238,7 +238,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             // 电子社保卡状态：00 未开通 01 已开通
             String eleCardStatus = entity.getEleCardStatus();
             LogUtil.i(TAG, "eleCardStatus===" + eleCardStatus);
-            mHeaderBean.setMobPayStatus(eleCardStatus);
+            mHeaderBean.setEleCardStatus(eleCardStatus);
+            SpUtil.getInstance().save(SpKey.ELE_CARD_STATUS, eleCardStatus);
             refreshAdapter();
             // 如果已开通，保存签发号
             if ("01".equals(eleCardStatus)) {

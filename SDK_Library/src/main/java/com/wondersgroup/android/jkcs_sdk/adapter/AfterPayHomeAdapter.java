@@ -195,14 +195,14 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         /**
-         * 开通医后付（需要先判断医保移动支付状态是否开通）
+         * 开通医后付（需要先判断电子社保卡状态是否开通）
          */
         private void openAfterPay() {
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             if ("01".equals(mobPayStatus)) {
                 OpenAfterPayActivity.actionStart(mContext);
             } else {
-                WToastUtil.show("您未开通医保移动支付，请先开通！");
+                WToastUtil.show("您未开通电子社保卡，请先开通！");
             }
         }
 
@@ -211,11 +211,11 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
          */
         private void getHospitalList() {
             /*
-             * 1.选择医院需要先判断医保移动支付状态是否开通
+             * 1.选择医院需要先判断电子社保卡开通状态
              */
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
-            if (!"01".equals(mobPayStatus)) {
-                WToastUtil.show("您未开通医保移动支付，请先开通！");
+            String eleCardStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
+            if (!"01".equals(eleCardStatus)) {
+                WToastUtil.show("您未开通电子社保卡，请先开通！");
                 return;
             }
             /*
@@ -248,11 +248,11 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
          * 需要先判断医保移动支付状态是否开通
          */
         private void requestYd0003() {
-            String mobPayStatus = SpUtil.getInstance().getString(SpKey.MOB_PAY_STATUS, "");
+            String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             if ("01".equals(mobPayStatus)) {
                 PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
             } else {
-                WToastUtil.show("您未开通医保移动支付，请先开通！");
+                WToastUtil.show("您未开通电子社保卡，请先开通！");
             }
         }
 
@@ -262,7 +262,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String name = afterHeaderBean.getName();
                 String cardNo = afterHeaderBean.getSocialNum();
                 String signingStatus = afterHeaderBean.getSigningStatus();
-                String mobPayStatus = afterHeaderBean.getMobPayStatus();
+                String eleCardStatus = afterHeaderBean.getEleCardStatus();
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
@@ -276,7 +276,8 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // 00未签约（医后付状态给NULL）
                 if ("00".equals(signingStatus)) {
                     setAfterPayState(true);
-                } else if ("01".equals(signingStatus)) { // 01已签约
+                    // 01已签约
+                } else if ("01".equals(signingStatus)) {
                     setAfterPayState(false);
                     /*
                      * 1：正常（缴清或未使用医后付服务）2：欠费(医后付后有欠费的概要信
@@ -291,14 +292,17 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 feeTotal + mContext.getString(R.string.wonders_to_pay_fee2);
                         tvToPay.setText(content);
                     }
-                } else if ("02".equals(signingStatus)) { // 02 其他
+                    // 02 其他
+                } else if ("02".equals(signingStatus)) {
                     setAfterPayState(false);
                 }
 
-                if ("00".equals(mobPayStatus)) { // 00 未签约
-                    setMobilePayState(true);
-                } else if ("01".equals(mobPayStatus)) { // 01 已签约
-                    setMobilePayState(false);
+                // 00 未签约
+                if ("00".equals(eleCardStatus)) {
+                    setEleCardState(true);
+                    // 01 已签约
+                } else if ("01".equals(eleCardStatus)) {
+                    setEleCardState(false);
                 }
             }
         }
@@ -318,9 +322,9 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         /**
-         * 设置医保移动付状态
+         * 设置电子社保卡开通状态
          */
-        private void setMobilePayState(boolean enable) {
+        private void setEleCardState(boolean enable) {
             if (enable) {
                 // 分别为开始颜色，结束颜色
                 int[] colors = new int[]{Color.parseColor("#f2c700"), Color.parseColor("#fea127")};

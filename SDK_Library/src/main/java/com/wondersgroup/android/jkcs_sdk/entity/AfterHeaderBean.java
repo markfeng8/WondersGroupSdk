@@ -9,9 +9,15 @@ public class AfterHeaderBean {
     private String name;
     private String socialNum;
     private String hospitalName;
-    private String paymentStatus; // 医后付付费状态(已签约)
-    private String signingStatus; // 医后付签约状态
-    private String mobPayStatus;
+    /**
+     * 医后付付费状态(已签约)
+     */
+    private String paymentStatus;
+    /**
+     * 医后付签约状态
+     */
+    private String signingStatus;
+    private String eleCardStatus;
     private String feeTotal;
     private String orgCode;
     private String orgName;
@@ -28,7 +34,7 @@ public class AfterHeaderBean {
         this.hospitalName = hospitalName;
         this.paymentStatus = paymentStatus;
         this.signingStatus = signingStatus;
-        this.mobPayStatus = mobPayStatus;
+        this.eleCardStatus = mobPayStatus;
         this.feeTotal = feeTotal;
         this.orgCode = orgCode;
         this.orgName = orgName;
@@ -98,12 +104,12 @@ public class AfterHeaderBean {
         this.paymentStatus = paymentStatus;
     }
 
-    public String getMobPayStatus() {
-        return mobPayStatus;
+    public String getEleCardStatus() {
+        return eleCardStatus;
     }
 
-    public void setMobPayStatus(String mobPayStatus) {
-        this.mobPayStatus = mobPayStatus;
+    public void setEleCardStatus(String eleCardStatus) {
+        this.eleCardStatus = eleCardStatus;
     }
 
     @Override
@@ -114,7 +120,7 @@ public class AfterHeaderBean {
                 ", hospitalName='" + hospitalName + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", signingStatus='" + signingStatus + '\'' +
-                ", mobPayStatus='" + mobPayStatus + '\'' +
+                ", eleCardStatus='" + eleCardStatus + '\'' +
                 ", feeTotal='" + feeTotal + '\'' +
                 ", orgCode='" + orgCode + '\'' +
                 ", orgName='" + orgName + '\'' +

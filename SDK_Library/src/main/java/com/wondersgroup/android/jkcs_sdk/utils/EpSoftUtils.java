@@ -48,7 +48,7 @@ public class EpSoftUtils {
 //            }
 //
 //            // 保存医保移动支付开通状态
-//            SpUtil.getInstance().save(SpKey.MOB_PAY_STATUS, mobPayStatus);
+//            SpUtil.getInstance().save(SpKey.ELE_CARD_STATUS, mobPayStatus);
 //
 //            if (listener != null) {
 //                listener.onResult(mobPayStatus);
