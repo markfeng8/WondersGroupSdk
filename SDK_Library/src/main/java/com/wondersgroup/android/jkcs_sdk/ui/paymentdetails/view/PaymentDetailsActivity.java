@@ -209,12 +209,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         }
     }
 
-    private void queryYiBaoOpenStatus() {
-        EpSoftUtils.queryYiBaoOpenStatus(this, status -> {
-            if ("01".equals(status)) { // 已开通
-                getTryToSettleToken();
-            }
-        });
+    /**
+     * 查询并电子社保卡开通状态，如果开通了就继续获取试结算的 token
+     */
+    private void queryEleCardOpenStatus() {
+        String eleCardStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
+        // 已开通
+        if ("01".equals(eleCardStatus)) {
+            getTryToSettleToken();
+        }
     }
 
     private void getTryToSettleToken() {
@@ -333,8 +336,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
             String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
             if ("0".equals(cardType)) {
-                // 进行医保移动状态查询并发起试结算
-                queryYiBaoOpenStatus();
+                queryEleCardOpenStatus();
             } else {
                 // 显示需要结算的金额
                 tvPayName.setText("需现金支付：");
@@ -350,9 +352,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                 if (mItemList.size() > 0) {
                     mItemList.clear();
                 }
-                mItemList.add(mHeadBean); // 先添加头部数据
-                mItemList.addAll(mCombineList);// 再添加 List 数据
-                mItemList.add(mDetailPayBean); // 添加支付数据
+                // 先添加头部数据
+                mItemList.add(mHeadBean);
+                // 再添加 List 数据
+                mItemList.addAll(mCombineList);
+                // 添加支付数据
+                mItemList.add(mDetailPayBean);
                 refreshAdapter();
             }
         }
@@ -407,9 +412,12 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             if (mItemList.size() > 0) {
                 mItemList.clear();
             }
-            mItemList.add(mHeadBean); // 先添加头部数据
-            mItemList.addAll(mCombineList);// 再添加 List 数据
-            mItemList.add(mDetailPayBean); // 添加支付数据
+            // 先添加头部数据
+            mItemList.add(mHeadBean);
+            // 再添加 List 数据
+            mItemList.addAll(mCombineList);
+            // 添加支付数据
+            mItemList.add(mDetailPayBean);
             refreshAdapter();
 
             // 判断是否是试结算失败时，然后再次去支付的。
@@ -493,7 +501,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             String payState = body.getPayState();
             if (!TextUtils.isEmpty(payState)) {
                 switch (payState) {
-                    case "1": // 1、后台正在异步结算（前台等待）
+                    // 1、后台正在异步结算（前台等待）
+                    case "1":
                         // 重试 3 次，如果还是失败就返回首页
                         if (mOfficeSettleTimes < 3) {
                             mOfficeSettleTimes++;
@@ -503,7 +512,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                             PaymentDetailsActivity.this.finish();
                         }
                         break;
-                    case "2": // 2、结算完成（返回成功页面）
+                    // 2、结算完成（返回成功页面）
+                    case "2":
                         String feeTotal = body.getFee_total();
                         String feeCashTotal = body.getFee_cash_total();
                         String feeYbTotal = body.getFee_yb_total();
@@ -514,7 +524,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                             jumpToPaymentResultPage(true);
                         }
                         break;
-                    case "3": // 3、结算失败（包括超时自动处理）
+                    // 3、结算失败（包括超时自动处理）
+                    case "3":
                         jumpToPaymentResultPage(false);
                         break;
                     default:
