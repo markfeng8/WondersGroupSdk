@@ -10,7 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.cons;
+package com.wondersgroup.android.jkcs_sdk.constants;
 
 import android.text.TextUtils;
 

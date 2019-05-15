@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.ConfigOption;
 import com.wondersgroup.android.jkcs_sdk.utils.LogCatStrategy;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;

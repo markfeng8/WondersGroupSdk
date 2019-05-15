@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayrules.AfterPayRuleActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.presenter.SettingsPresenter;

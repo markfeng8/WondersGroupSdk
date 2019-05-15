@@ -1,6 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.utils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 
 import java.util.ArrayList;

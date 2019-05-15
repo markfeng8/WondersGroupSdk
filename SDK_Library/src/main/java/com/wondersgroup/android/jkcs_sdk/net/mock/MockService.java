@@ -9,7 +9,7 @@
 package com.wondersgroup.android.jkcs_sdk.net.mock;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.utils.AssetUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 

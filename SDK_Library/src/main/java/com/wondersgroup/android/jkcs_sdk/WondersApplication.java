@@ -3,7 +3,7 @@ package com.wondersgroup.android.jkcs_sdk;
 import android.app.Application;
 import android.content.Context;
 
-import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
+import com.wondersgroup.android.jkcs_sdk.constants.Exceptions;
 
 /**
  * Created by x-sir on 2018/8/2 :)

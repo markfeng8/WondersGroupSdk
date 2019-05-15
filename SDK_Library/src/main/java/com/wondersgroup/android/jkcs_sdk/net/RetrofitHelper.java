@@ -1,8 +1,8 @@
 package com.wondersgroup.android.jkcs_sdk.net;
 
 import com.wondersgroup.android.jkcs_sdk.BuildConfig;
-import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.net.interceptor.LoggerInterceptor;
 import com.wondersgroup.android.jkcs_sdk.net.mock.MockInterceptor;
 import com.wondersgroup.android.jkcs_sdk.net.mock.MockService;

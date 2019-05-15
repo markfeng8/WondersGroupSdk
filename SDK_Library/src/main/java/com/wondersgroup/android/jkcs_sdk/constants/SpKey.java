@@ -1,4 +1,4 @@
-package com.wondersgroup.android.jkcs_sdk.cons;
+package com.wondersgroup.android.jkcs_sdk.constants;
 
 /**
  * Created by x-sir on 2018/8/20 :)

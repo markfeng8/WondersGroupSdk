@@ -12,7 +12,7 @@ import android.widget.ToggleButton;
 
 import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.OpenAfterPayPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;

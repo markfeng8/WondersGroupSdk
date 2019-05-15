@@ -10,11 +10,11 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.model;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
-import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
+import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
+import com.wondersgroup.android.jkcs_sdk.constants.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;

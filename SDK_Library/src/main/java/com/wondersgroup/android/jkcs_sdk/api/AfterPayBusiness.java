@@ -11,9 +11,9 @@ package com.wondersgroup.android.jkcs_sdk.api;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.ErrorCode;
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.ErrorCode;
+import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;

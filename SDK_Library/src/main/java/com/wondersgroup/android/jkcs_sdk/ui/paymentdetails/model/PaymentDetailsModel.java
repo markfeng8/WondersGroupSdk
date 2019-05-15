@@ -2,11 +2,11 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.MapKey;
-import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
-import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
-import com.wondersgroup.android.jkcs_sdk.cons.TranCode;
+import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
+import com.wondersgroup.android.jkcs_sdk.constants.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.TranCode;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;

@@ -3,7 +3,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
-import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
+import com.wondersgroup.android.jkcs_sdk.constants.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;

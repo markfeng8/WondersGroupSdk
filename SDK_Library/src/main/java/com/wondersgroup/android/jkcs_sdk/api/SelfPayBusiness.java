@@ -11,8 +11,8 @@ package com.wondersgroup.android.jkcs_sdk.api;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.ErrorCode;
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.ErrorCode;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;

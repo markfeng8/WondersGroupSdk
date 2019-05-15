@@ -1,6 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.utils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.OrgConfig;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 
 /**
  * Created by x-sir on 2018/8/2 :)

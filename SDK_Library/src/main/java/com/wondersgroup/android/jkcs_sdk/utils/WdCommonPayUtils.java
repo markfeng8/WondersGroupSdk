@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.WondersApplication;
-import com.wondersgroup.android.jkcs_sdk.cons.RequestUrl;
+import com.wondersgroup.android.jkcs_sdk.constants.RequestUrl;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;

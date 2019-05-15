@@ -11,7 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 import android.app.Activity;
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.cons.SpKey;
+import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 
 /**
  * Created by x-sir on 2018/12/20 :)
