@@ -45,6 +45,7 @@ import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
+import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 
@@ -82,6 +83,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private String mFeeCashTotal;
     private String mFeeYbTotal;
     private String mPayPlatTradeNo;
+    private LoadingView mLoading;
     private boolean tryToSettleIsSuccess = false;
     /**
      * 记录点击的 Item 的位置
@@ -134,6 +136,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     private void initData() {
+        mLoading = new LoadingView.Builder(this).build();
         mHandler = new Handler();
         mSelectPayTypeWindow = new SelectPayTypeWindow.Builder(this)
                 .setDropView(activityView)
@@ -155,9 +158,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
         }
 
-        // 获取未结清账单详情
-        mPresenter.requestYd0003(mOrgCode);
-
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
 
@@ -169,6 +169,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
         mItemList.add(mHeadBean);
         setAdapter();
+
+        // 获取未结清账单详情
+        mPresenter.requestYd0003(mOrgCode);
     }
 
     /**
@@ -566,7 +569,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void showLoading(boolean show) {
-        showLoadingView(show);
+        if (show) {
+            mLoading.showLoadingDialog();
+        } else {
+            mLoading.dismissLoadingDialog();
+        }
     }
 
     /**
@@ -631,5 +638,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
         mHandler.removeCallbacksAndMessages(null);
+        if (mLoading != null) {
+            mLoading.dispose();
+        }
     }
+
 }

@@ -23,7 +23,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.presenter.PaymentResul
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.PayResultLayout;
 
 /**
@@ -47,7 +46,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private LinearLayout llContainer1;
     private LinearLayout llContainer2;
     private LinearLayout llYiBaoLayout;
-    private LoadingView mLoading;
     private String mOrgName = "";
     private String mFeeTotal = "";
     private String mFeeCashTotal = "";
@@ -69,9 +67,6 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
 
     @SuppressLint("SetTextI18n")
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
-
         Intent intent = getIntent();
         if (intent != null) {
             mIsSuccess = intent.getBooleanExtra(IntentExtra.IS_SUCCESS, false);
@@ -197,11 +192,4 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mLoading != null) {
-            mLoading.dispose();
-        }
-    }
 }
