@@ -10,7 +10,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.recorddetail.presenter;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
@@ -21,7 +20,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model.PaymentDetailsM
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.model.RecordDetailModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -38,15 +36,12 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
     @Override
     public void getOrderDetails(String hisOrderNo, String orgCode) {
         if (!TextUtils.isEmpty(hisOrderNo)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
+            showLoading(true);
             mPayModel.getOrderDetails(hisOrderNo, orgCode, new HttpRequestCallback<OrderDetailsEntity>() {
                 @Override
                 public void onSuccess(OrderDetailsEntity entity) {
                     LogUtil.i(TAG, "getOrderDetails() -> onSuccess()");
-                    dismissLoading();
+                    showLoading(false);
                     if (isNonNull()) {
                         mViewRef.get().onOrderDetailsResult(entity);
                     }
@@ -55,7 +50,7 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "getOrderDetails() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
+                    showLoading(false);
                     WToastUtil.show(errCodeDes);
                 }
             });
@@ -67,15 +62,12 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
     @Override
     public void requestYd0009(String tradeNo) {
         if (!TextUtils.isEmpty(tradeNo)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
+            showLoading(true);
             mModel.requestYd0009(tradeNo, new HttpRequestCallback<FeeBillEntity>() {
                 @Override
                 public void onSuccess(FeeBillEntity entity) {
                     LogUtil.i(TAG, "requestYd0009() -> onSuccess()");
-                    dismissLoading();
+                    showLoading(false);
                     if (isNonNull()) {
                         mViewRef.get().onYd0009Result(entity);
                     }
@@ -84,7 +76,7 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "requestYd0009() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
+                    showLoading(false);
                     WToastUtil.show(errCodeDes);
                 }
             });
@@ -93,15 +85,9 @@ public class RecordDetailPresenter<T extends RecordDetailContract.IView>
         }
     }
 
-    private void showLoading() {
+    private void showLoading(boolean show) {
         if (isNonNull()) {
-            mViewRef.get().showLoading();
-        }
-    }
-
-    private void dismissLoading() {
-        if (isNonNull()) {
-            mViewRef.get().dismissLoading();
+            mViewRef.get().showLoading(show);
         }
     }
 }

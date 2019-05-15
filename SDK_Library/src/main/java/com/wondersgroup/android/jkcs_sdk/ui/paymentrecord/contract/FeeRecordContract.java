@@ -18,9 +18,7 @@ public interface FeeRecordContract {
 
         void onFeeRecordResult(FeeRecordEntity entity);
 
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
     }
 
     interface IPresenter {

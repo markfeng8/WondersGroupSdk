@@ -14,7 +14,7 @@ import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends AppCompatActivity {
 
     public T mPresenter;
-    private LoadingView mBaseLoading;
+    protected LoadingView mBaseLoading;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -26,7 +26,6 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
         initLoading();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 

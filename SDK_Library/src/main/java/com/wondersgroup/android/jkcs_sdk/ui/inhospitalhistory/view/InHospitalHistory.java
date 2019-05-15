@@ -33,7 +33,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.contract.InHosHisC
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.presenter.InHosHisPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -51,7 +50,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private static final String TAG = "InHospitalHistory";
     private RecyclerView recyclerView;
     private TextView tvHospitalName;
-    private View activityView;
     /**
      * 选择器默认的医院
      */
@@ -61,7 +59,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
      * 选择器默认的地区
      */
     private String mAreaName = "湖州市";
-    private LoadingView mLoading;
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
@@ -91,8 +88,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
@@ -111,7 +106,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private void findViews() {
         recyclerView = findViewById(R.id.recyclerView);
         tvHospitalName = findViewById(R.id.tvHospitalName);
-        activityView = findViewById(R.id.activityView);
     }
 
     /**
@@ -147,17 +141,8 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     @Override

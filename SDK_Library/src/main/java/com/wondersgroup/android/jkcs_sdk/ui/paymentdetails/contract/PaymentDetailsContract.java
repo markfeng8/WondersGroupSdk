@@ -42,9 +42,7 @@ public interface PaymentDetailsContract {
 
         void onOfficialSettleResult(SettleEntity body);
 
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
     }
 
     interface IPresenter {

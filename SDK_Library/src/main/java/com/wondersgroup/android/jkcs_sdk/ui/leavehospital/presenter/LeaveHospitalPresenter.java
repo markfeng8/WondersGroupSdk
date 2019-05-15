@@ -10,7 +10,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
@@ -20,7 +19,6 @@ import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.model.LeaveHospitalModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -35,15 +33,12 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
 
     @Override
     public void requestCy0006(String orgCode, String token) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mModel.requestCy0006(orgCode, token, new HttpRequestCallback<Cy0006Entity>() {
             @Override
             public void onSuccess(Cy0006Entity entity) {
                 LogUtil.i(TAG, "requestCy0006() -> success~");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onCy0006Result(entity);
                 }
@@ -52,7 +47,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "requestCy0006() -> failed!" + errCodeDes);
-                dismissLoading();
+                showLoading(false);
                 WToastUtil.show(errCodeDes);
             }
         });
@@ -60,15 +55,12 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
 
     @Override
     public void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mModel.requestCy0007(orgCode, toState, token, xxjje, payChl, new HttpRequestCallback<Cy0007Entity>() {
             @Override
             public void onSuccess(Cy0007Entity entity) {
                 LogUtil.i(TAG, "requestCy0007() -> success~");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onCy0007Result(entity);
                 }
@@ -77,7 +69,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "requestCy0007() -> failed!" + errCodeDes);
-                dismissLoading();
+                showLoading(false);
                 // 判断是否为 60s 请求超时
                 if (!TextUtils.isEmpty(errCodeDes) && errCodeDes.contains("60000ms")) {
                     if (isNonNull()) {
@@ -96,15 +88,12 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
     @Override
     public void getPayParam(String orgCode) {
         if (!TextUtils.isEmpty(orgCode)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
+            showLoading(true);
             mModel.getPayParam(orgCode, new HttpRequestCallback<PayParamEntity>() {
                 @Override
                 public void onSuccess(PayParamEntity entity) {
                     LogUtil.i(TAG, "getPayParam() -> onSuccess()");
-                    dismissLoading();
+                    showLoading(false);
                     if (isNonNull()) {
                         mViewRef.get().onPayParamResult(entity);
                     }
@@ -113,7 +102,7 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "getPayParam() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
+                    showLoading(false);
                     WToastUtil.show(errCodeDes);
                 }
             });
@@ -122,15 +111,9 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
         }
     }
 
-    private void showLoading() {
+    private void showLoading(boolean show) {
         if (isNonNull()) {
-            mViewRef.get().showLoading();
-        }
-    }
-
-    private void dismissLoading() {
-        if (isNonNull()) {
-            mViewRef.get().dismissLoading();
+            mViewRef.get().showLoading(show);
         }
     }
 }

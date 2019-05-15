@@ -27,9 +27,7 @@ public interface LeaveHospitalContract {
     }
 
     interface IView {
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
 
         void onCy0006Result(Cy0006Entity entity);
 

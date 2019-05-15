@@ -31,7 +31,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailCo
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.presenter.RecordDetailPresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout;
 
 import java.util.ArrayList;
@@ -54,7 +53,6 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     private PayItemLayout plPersonalPay;
     private PayItemLayout plYiBaoPay;
     private RecyclerView recyclerView;
-    private LoadingView mLoading;
     private List<FeeBillDetailsBean> mDetails;
     private String mOrgCode;
     private String payPlatTradeNo;
@@ -82,9 +80,6 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
 
     @SuppressLint("SetTextI18n")
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
-
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
@@ -188,24 +183,7 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mLoading != null) {
-            mLoading.dispose();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 }

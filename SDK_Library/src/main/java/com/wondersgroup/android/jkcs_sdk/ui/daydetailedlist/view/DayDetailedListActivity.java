@@ -28,7 +28,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.presenter.DayDetaile
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener.OnDateSetListener;
@@ -49,7 +48,6 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     private TextView tvBeforeDay;
     private TextView tvToday;
     private LinearLayout llTotalFee;
-    private LoadingView mLoading;
     private DayDetailedListAdapter mDayDetailedListAdapter;
     private List<Cy0005Entity.DetailsBean> mDetails;
     private long mLastTime = System.currentTimeMillis();
@@ -82,9 +80,6 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     }
 
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
-
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
@@ -269,17 +264,8 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     @SuppressLint("SetTextI18n")

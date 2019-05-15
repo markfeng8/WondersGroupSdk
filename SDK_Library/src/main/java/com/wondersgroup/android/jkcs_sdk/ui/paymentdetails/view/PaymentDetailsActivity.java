@@ -45,7 +45,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.SettleUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.SelectPayTypeWindow;
 import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 
@@ -77,7 +76,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private PaymentDetailsAdapter mAdapter;
     private List<Object> mItemList = new ArrayList<>();
     private DetailPayBean mDetailPayBean = new DetailPayBean();
-    private LoadingView mLoading;
     private SelectPayTypeWindow mSelectPayTypeWindow;
     private int mPaymentType = 1;
     private String mFeeTotal;
@@ -136,10 +134,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
         mHandler = new Handler();
-
         mSelectPayTypeWindow = new SelectPayTypeWindow.Builder(this)
                 .setDropView(activityView)
                 .setListener(onLoadingListener)
@@ -189,7 +184,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      */
     private void toPayMoney() {
         // 判断是否已经在结算中，就提示，防止再次点击！
-        if (mLoading != null && mLoading.isShowing()) {
+        if (mBaseLoading != null && mBaseLoading.isShowing()) {
             WToastUtil.show("正在处理中，请勿重复点击！");
             return;
         }
@@ -426,13 +421,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     @Override
     public void onPayParamResult(PayParamEntity body) {
         if (body != null) {
-            showLoading();
+            showLoading(true);
             // 发起万达统一支付，支付现金部分
             WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
                     mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
                         @Override
                         public void onSuccess() {
-                            dismissLoading();
+                            showLoading(false);
                             WToastUtil.show("支付成功~");
                             // 支付成功后发起正式结算
                             onCashPaySuccess();
@@ -440,7 +435,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
                         @Override
                         public void onFailed(String errMsg) {
-                            dismissLoading();
+                            showLoading(false);
                             WToastUtil.show(errMsg);
                         }
                     });
@@ -501,7 +496,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                             mOfficeSettleTimes++;
                             waitingAndOnceAgain();
                         } else {
-                            dismissLoading();
+                            showLoading(false);
                             PaymentDetailsActivity.this.finish();
                         }
                         break;
@@ -532,7 +527,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     private void waitingAndOnceAgain() {
-        showLoading();
+        showLoading(true);
         mHandler.postDelayed(() -> {
             mCurrentToState = TO_STATE2;
             sendOfficialPay(false);
@@ -570,17 +565,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     /**

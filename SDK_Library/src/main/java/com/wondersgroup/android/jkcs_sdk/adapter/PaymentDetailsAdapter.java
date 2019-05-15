@@ -43,13 +43,28 @@ import java.util.List;
 public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "PaymentDetailsAdapter";
-    private static final int TYPE_HEADER = 1;  // 头部信息类型
-    private static final int TYPE_LIST = 2;    // 未缴清账单类型
-    private static final int TYPE_PAY = 3;    // 支付视图类型
+    /**
+     * 头部信息类型
+     */
+    private static final int TYPE_HEADER = 1;
+    /**
+     * 未缴清账单类型
+     */
+    private static final int TYPE_LIST = 2;
+    /**
+     * 支付视图类型
+     */
+    private static final int TYPE_PAY = 3;
     private Context mContext;
     private List<Object> mItemList;
-    private LayoutInflater mLayoutInflater; // 初始化布局加载器
-    private int mCurrentType = -1; // 当前Item的类型
+    /**
+     * 初始化布局加载器
+     */
+    private LayoutInflater mLayoutInflater;
+    /**
+     * 当前Item的类型
+     */
+    private int mCurrentType = -1;
 
     public PaymentDetailsAdapter(Context context, List<Object> itemList) {
         this.mContext = context;

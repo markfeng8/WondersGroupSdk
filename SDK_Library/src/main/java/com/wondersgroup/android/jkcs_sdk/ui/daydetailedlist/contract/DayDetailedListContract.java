@@ -21,9 +21,7 @@ public interface DayDetailedListContract {
     }
 
     interface IView {
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
 
         void onCy0005Result(Cy0005Entity entity);
     }

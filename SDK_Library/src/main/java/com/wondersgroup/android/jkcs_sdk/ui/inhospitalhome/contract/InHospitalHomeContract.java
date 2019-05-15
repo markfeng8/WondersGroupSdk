@@ -22,9 +22,7 @@ public interface InHospitalHomeContract {
     }
 
     interface IView {
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
 
         void onHospitalListResult(HospitalEntity body);
 

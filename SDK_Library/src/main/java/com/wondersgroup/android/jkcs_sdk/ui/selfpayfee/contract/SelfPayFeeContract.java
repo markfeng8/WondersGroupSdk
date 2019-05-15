@@ -23,9 +23,7 @@ public interface SelfPayFeeContract {
 
     interface IView {
 
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
 
         void onHospitalListResult(HospitalEntity body);
 

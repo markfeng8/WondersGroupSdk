@@ -37,7 +37,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -81,7 +80,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private String mInHosId;
     private String mInHosArea;
     private String mInHosDate;
-    private LoadingView mLoading;
     private Cy0001Entity mCy0001Entity;
 
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
@@ -118,8 +116,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     @SuppressLint("SetTextI18n")
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
@@ -366,17 +362,8 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     public static void actionStart(Context context) {
@@ -388,11 +375,4 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mLoading != null) {
-            mLoading.dispose();
-        }
-    }
 }

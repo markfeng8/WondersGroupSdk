@@ -8,14 +8,12 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.presenter;
 
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0005Entity;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.contract.DayDetailedListContract;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.model.DayDetailedListModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -30,15 +28,12 @@ public class DayDetailedListPresenter<T extends DayDetailedListContract.IView>
 
     @Override
     public void requestCy0005(String orgCode, String jzlsh, String startDate) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mModel.requestCy0005(orgCode, jzlsh, startDate, new HttpRequestCallback<Cy0005Entity>() {
             @Override
             public void onSuccess(Cy0005Entity entity) {
                 LogUtil.i(TAG, "requestCy0005 success~");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onCy0005Result(entity);
                 }
@@ -47,7 +42,7 @@ public class DayDetailedListPresenter<T extends DayDetailedListContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "requestCy0005 failed!" + errCodeDes);
-                dismissLoading();
+                showLoading(false);
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
                     mViewRef.get().onCy0005Result(null);
@@ -56,15 +51,9 @@ public class DayDetailedListPresenter<T extends DayDetailedListContract.IView>
         });
     }
 
-    private void showLoading() {
+    private void showLoading(boolean show) {
         if (isNonNull()) {
-            mViewRef.get().showLoading();
-        }
-    }
-
-    private void dismissLoading() {
-        if (isNonNull()) {
-            mViewRef.get().dismissLoading();
+            mViewRef.get().showLoading(show);
         }
     }
 }

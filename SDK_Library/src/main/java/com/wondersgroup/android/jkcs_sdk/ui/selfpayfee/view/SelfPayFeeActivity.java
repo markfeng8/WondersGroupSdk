@@ -225,17 +225,8 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     public static void actionStart(Context context) {
@@ -247,11 +238,4 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mLoading != null) {
-            mLoading.dispose();
-        }
-    }
 }

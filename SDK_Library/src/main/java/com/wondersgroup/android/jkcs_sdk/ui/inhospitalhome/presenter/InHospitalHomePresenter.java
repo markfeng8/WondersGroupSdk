@@ -8,7 +8,6 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter;
 
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
@@ -18,7 +17,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.model.InHospitalHomeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -34,15 +32,12 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
 
     @Override
     public void getHospitalList(String version, String type) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mModel.getHospitalList(version, type, new HttpRequestCallback<HospitalEntity>() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get defaultHospital list success~");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(body);
                 }
@@ -51,7 +46,7 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "get defaultHospital list failed!");
-                dismissLoading();
+                showLoading(false);
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(null);
@@ -62,15 +57,12 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
 
     @Override
     public void requestCy0001(String orgCode, String inState) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mInHosModel.requestCy0001(orgCode, inState, new HttpRequestCallback<Cy0001Entity>() {
             @Override
             public void onSuccess(Cy0001Entity entity) {
                 LogUtil.i(TAG, "requestCy0001() -> success~");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onCy0001Result(entity);
                 }
@@ -79,7 +71,7 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
             @Override
             public void onFailed(String errMsg) {
                 LogUtil.e(TAG, "requestCy0001() -> failed!");
-                dismissLoading();
+                showLoading(false);
                 WToastUtil.show(errMsg);
                 if (isNonNull()) {
                     mViewRef.get().onCy0001Result(null);
@@ -93,15 +85,9 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
         mModel.requestYd0002();
     }
 
-    private void showLoading() {
+    private void showLoading(boolean show) {
         if (isNonNull()) {
-            mViewRef.get().showLoading();
-        }
-    }
-
-    private void dismissLoading() {
-        if (isNonNull()) {
-            mViewRef.get().dismissLoading();
+            mViewRef.get().showLoading(show);
         }
     }
 }

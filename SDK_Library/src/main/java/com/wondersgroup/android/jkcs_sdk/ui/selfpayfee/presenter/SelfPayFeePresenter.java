@@ -8,7 +8,6 @@
 
 package com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.presenter;
 
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
@@ -16,9 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract.SelfPayFeeContract;
-import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.model.SelfPayFeeModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -29,20 +26,16 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
         extends MvpBasePresenter<T> implements SelfPayFeeContract.IPresenter {
 
     private static final String TAG = "SelfPayFeePresenter";
-    private SelfPayFeeContract.IModel mModel = new SelfPayFeeModel();
     private AfterPayHomeContract.IModel mHospitalModel = new AfterPayHomeModel();
 
     @Override
     public void getHospitalList(String version, String type) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mHospitalModel.getHospitalList(version, type, new HttpRequestCallback<HospitalEntity>() {
             @Override
             public void onSuccess(HospitalEntity body) {
                 LogUtil.i(TAG, "get defaultHospital list success~");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(body);
                 }
@@ -51,7 +44,7 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "get defaultHospital list failed!");
-                dismissLoading();
+                showLoading(false);
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
                     mViewRef.get().onHospitalListResult(null);
@@ -62,15 +55,12 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
 
     @Override
     public void requestYd0003(String orgCode) {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-            showLoading();
-        }
-
+        showLoading(true);
         mHospitalModel.requestYd0003(orgCode, new HttpRequestCallback<FeeBillEntity>() {
             @Override
             public void onSuccess(FeeBillEntity entity) {
                 LogUtil.i(TAG, "requestYd0003() -> onSuccess()");
-                dismissLoading();
+                showLoading(false);
                 if (isNonNull()) {
                     mViewRef.get().onYd0003Result(entity);
                 }
@@ -79,7 +69,7 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
             @Override
             public void onFailed(String errCodeDes) {
                 LogUtil.e(TAG, "requestYd0003() -> onFailed()===" + errCodeDes);
-                dismissLoading();
+                showLoading(false);
                 WToastUtil.show(errCodeDes);
                 if (isNonNull()) {
                     mViewRef.get().onYd0003Result(null);
@@ -88,15 +78,9 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
         });
     }
 
-    private void showLoading() {
+    private void showLoading(boolean show) {
         if (isNonNull()) {
-            mViewRef.get().showLoading();
-        }
-    }
-
-    private void dismissLoading() {
-        if (isNonNull()) {
-            mViewRef.get().dismissLoading();
+            mViewRef.get().showLoading(show);
         }
     }
 }

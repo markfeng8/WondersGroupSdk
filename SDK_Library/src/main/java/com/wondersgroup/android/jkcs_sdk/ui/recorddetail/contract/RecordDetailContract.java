@@ -24,9 +24,7 @@ public interface RecordDetailContract {
     }
 
     interface IView {
-        void showLoading();
-
-        void dismissLoading();
+        void showLoading(boolean show);
 
         void onOrderDetailsResult(OrderDetailsEntity entity);
 

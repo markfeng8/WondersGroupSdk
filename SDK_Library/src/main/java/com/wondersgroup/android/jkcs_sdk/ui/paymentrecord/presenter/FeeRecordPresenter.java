@@ -2,7 +2,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.presenter;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.cons.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeRecordEntity;
@@ -10,7 +9,6 @@ import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.contract.FeeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.model.FeeRecordModel;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
 /**
@@ -27,15 +25,12 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
     public void getFeeRecord(String feeState, String startDate, String endDate,
                              String pageNumber, String pageSize) {
         if (!TextUtils.isEmpty(feeState)) {
-            if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-                showLoading();
-            }
-
+            showLoading(true);
             mModel.getFeeRecord(feeState, startDate, endDate, pageNumber, pageSize, new HttpRequestCallback<FeeRecordEntity>() {
                 @Override
                 public void onSuccess(FeeRecordEntity entity) {
                     LogUtil.i(TAG, "requestYd0008() -> onSuccess()");
-                    dismissLoading();
+                    showLoading(false);
                     if (isNonNull()) {
                         mViewRef.get().onFeeRecordResult(entity);
                     }
@@ -44,7 +39,7 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
                 @Override
                 public void onFailed(String errCodeDes) {
                     LogUtil.e(TAG, "requestYd0008() -> onFailed()===" + errCodeDes);
-                    dismissLoading();
+                    showLoading(false);
                     WToastUtil.show(errCodeDes);
                 }
             });
@@ -53,15 +48,9 @@ public class FeeRecordPresenter<T extends FeeRecordContract.IView>
         }
     }
 
-    private void showLoading() {
+    private void showLoading(boolean show) {
         if (isNonNull()) {
-            mViewRef.get().showLoading();
-        }
-    }
-
-    private void dismissLoading() {
-        if (isNonNull()) {
-            mViewRef.get().dismissLoading();
+            mViewRef.get().showLoading(show);
         }
     }
 }

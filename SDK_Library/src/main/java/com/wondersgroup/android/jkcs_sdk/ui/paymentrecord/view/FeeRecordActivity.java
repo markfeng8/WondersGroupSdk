@@ -19,7 +19,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivi
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.DateScrollerDialog;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.data.Type;
 import com.wondersgroup.android.jkcs_sdk.widget.timepicker.listener.OnDateSetListener;
@@ -50,7 +49,6 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
      * 每页的条数
      */
     private String mPageSize = "100";
-    private LoadingView mLoading;
     private List<FeeRecordEntity.DetailsBean> mDetails;
     private PaymentFeeRecordAdapter mPaymentFeeRecordAdapter;
 
@@ -85,9 +83,6 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     }
 
     private void initSomeData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
-
         mStartDate = DateUtils.getBefore30Date();
         mEndDate = DateUtils.getCurrentDate();
         tvStartDate.setText(mStartDate);
@@ -171,17 +166,8 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     private void setAdapter() {
@@ -207,11 +193,4 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mLoading != null) {
-            mLoading.dispose();
-        }
-    }
 }

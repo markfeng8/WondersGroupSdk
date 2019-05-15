@@ -36,7 +36,6 @@ import com.wondersgroup.android.jkcs_sdk.utils.PaymentUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -64,7 +63,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private RadioButton rbAlipay;
     private RadioButton rbWeChatPay;
     private RadioButton rbUnionPay;
-    private LoadingView mLoading;
     private ConstraintLayout clBody;
 
     private String mOrgCode;
@@ -129,10 +127,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
         mHandler = new Handler();
-
         rbAlipay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_alipay)));
         rbWeChatPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_wechat_pay)));
         rbUnionPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_union_pay)));
@@ -218,17 +213,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     @Override
-    public void showLoading() {
-        if (mLoading != null) {
-            mLoading.showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void dismissLoading() {
-        if (mLoading != null) {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(boolean show) {
+        showLoadingView(show);
     }
 
     @SuppressLint("SetTextI18n")
@@ -256,13 +242,13 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     @Override
     public void onPayParamResult(PayParamEntity body) {
-        showLoading();
+        showLoading(true);
         // 发起万达统一支付，支付现金部分
         WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
                 mOrgName, mPayPlatTradeNo, mPaymentType, mFeeNeedCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
                     @Override
                     public void onSuccess() {
-                        dismissLoading();
+                        showLoading(false);
                         WToastUtil.show("支付成功~");
                         mCurrentToState = TO_STATE2;
                         // 支付成功后发起正式结算
@@ -271,7 +257,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
                     @Override
                     public void onFailed(String errMsg) {
-                        dismissLoading();
+                        showLoading(false);
                         WToastUtil.show(errMsg);
                     }
                 });
@@ -316,7 +302,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                                 mOfficeSettleTimes++;
                                 waitingAndOnceAgain();
                             } else {
-                                dismissLoading();
+                                showLoading(false);
                                 LeaveHospitalActivity.this.finish();
                             }
                             break;
@@ -340,7 +326,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private void waitingAndOnceAgain() {
-        showLoading();
+        showLoading(true);
         // 住院部分，如果再结算中 10 秒钟发起一次请求
         mHandler.postDelayed(() -> {
             mCurrentToState = TO_STATE2;
