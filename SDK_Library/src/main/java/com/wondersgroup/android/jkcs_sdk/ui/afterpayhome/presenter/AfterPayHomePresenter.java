@@ -63,7 +63,6 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
     @Override
     public void requestYd0001() {
         showLoading(true);
-
         mModel.requestYd0001(new HttpRequestCallback<Yd0001Entity>() {
             @Override
             public void onSuccess(Yd0001Entity entity) {
@@ -79,9 +78,6 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 LogUtil.e(TAG, "requestYd0001() -> onFailed()===" + errCodeDes);
                 showLoading(false);
                 WToastUtil.show(errCodeDes);
-                if (isNonNull()) {
-                    mViewRef.get().onYd0003Result(null);
-                }
             }
         });
     }

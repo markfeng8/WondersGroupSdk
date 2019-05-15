@@ -51,6 +51,7 @@ import cn.com.epsoft.zjessc.callback.ResultType;
 import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
+import io.reactivex.Observable;
 
 /**
  * Created by x-sir on 2018/8/10 :)
@@ -233,19 +234,22 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     @Override
-    public void onYd0001Result(Yd0001Entity entity) {
-        if (entity != null) {
-            // 电子社保卡状态：00 未开通 01 已开通
-            String eleCardStatus = entity.getEleCardStatus();
-            LogUtil.i(TAG, "eleCardStatus===" + eleCardStatus);
-            mHeaderBean.setEleCardStatus(eleCardStatus);
-            SpUtil.getInstance().save(SpKey.ELE_CARD_STATUS, eleCardStatus);
-            refreshAdapter();
-            // 如果已开通，保存签发号
-            if ("01".equals(eleCardStatus)) {
-                String signNo = entity.getSignNo();
-                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-            }
+    public void onYd0001Result(final Yd0001Entity entity) {
+        Observable
+                .just(entity)
+                .doOnNext(this::saveEleCardData)
+                .subscribe(s -> refreshAdapter());
+    }
+
+    private void saveEleCardData(Yd0001Entity entity) {
+        // 电子社保卡状态：00 未开通 01 已开通
+        String eleCardStatus = entity.getEleCardStatus();
+        LogUtil.i(TAG, "eleCardStatus===" + eleCardStatus);
+        mHeaderBean.setEleCardStatus(eleCardStatus);
+        SpUtil.getInstance().save(SpKey.ELE_CARD_STATUS, eleCardStatus);
+        // 如果已开通，保存签发号
+        if ("01".equals(eleCardStatus)) {
+            SpUtil.getInstance().save(SpKey.SIGN_NO, entity.getSignNo());
         }
     }
 
