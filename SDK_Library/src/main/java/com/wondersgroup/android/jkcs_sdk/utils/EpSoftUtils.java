@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
+import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 
 /**
  * Created by x-sir on 2018/12/20 :)
@@ -71,17 +72,10 @@ public class EpSoftUtils {
                 return;
             }
 
-//            AuthCall.getToken(activity, MakeArgsFactory.getTokenArgs(), result -> {
-//                LogUtil.iLogging(TAG, "result===" + result);
-//                if (!TextUtils.isEmpty(result)) {
-//                    GetTokenBean bean = new Gson().fromJson(result, GetTokenBean.class);
-//                    String siCardCode = bean.getSiCardCode();
-//                    LogUtil.iLogging(TAG, "siCardCode===" + siCardCode);
-//                    if (listener != null) {
-//                        listener.onResult(siCardCode);
-//                    }
-//                }
-//            });
+            if(activity instanceof PaymentDetailsActivity) {
+                ((PaymentDetailsActivity) activity).requestTryToSettleToken();
+            }
+
         } else if ("2".equals(cardType)) {
             if (listener != null) {
                 listener.onResult("0");

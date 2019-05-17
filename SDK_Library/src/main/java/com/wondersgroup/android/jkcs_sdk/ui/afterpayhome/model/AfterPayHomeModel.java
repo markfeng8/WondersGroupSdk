@@ -24,7 +24,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.Yd0001Service;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
@@ -55,7 +55,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     @SuppressWarnings("RedundantCollectionOperation")
     @Override
     public void requestXy0001(HashMap<String, String> map, HttpRequestCallback<AfterPayStateEntity> callback) {
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0001);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -120,7 +120,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0001);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -188,7 +188,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
 
         HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
-        param.put(MapKey.SID, ProduceUtil.getSid());
+        param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0002);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -262,7 +262,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.PAGE_NUMBER, pageNumber);
         map.put(MapKey.PAGE_SIZE, pageSize);
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -332,7 +332,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     @Deprecated
     public void getHospitalListOld(HttpRequestCallback<HospitalEntity> callback) {
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -390,7 +390,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     @Override
     public void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback) {
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(8);
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);

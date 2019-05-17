@@ -2,19 +2,24 @@ package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.model;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.wondersgroup.android.jkcs_sdk.WondersSdk;
 import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
 import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.constants.RequestUrl;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.constants.TranCode;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Maps;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
 import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.api.Converter;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
+import com.wondersgroup.android.jkcs_sdk.net.service.EleCardService;
 import com.wondersgroup.android.jkcs_sdk.net.service.FeeBillService;
 import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.net.service.LockOrderService;
@@ -23,7 +28,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.SettleService;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -62,7 +67,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.PAGE_NUMBER, pageNumber);
         map.put(MapKey.PAGE_SIZE, pageSize);
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -127,7 +132,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 
     @Override
     public void lockOrder(HashMap<String, Object> map, int totalCount, HttpRequestCallback<LockOrderEntity> callback) {
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0005);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -197,7 +202,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     @Override
     public void getOrderDetails(String hisOrderNo, String orgCode, HttpRequestCallback<OrderDetailsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -257,7 +262,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     @Override
     public void tryToSettle(String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback) {
         String adviceDateTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -318,7 +323,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     @Override
     public void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -380,7 +385,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
         LogUtil.i(TAG, "adviceDateTime===" + adviceDateTime + ",payPlatTradeNo===" + payPlatTradeNo);
 
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0007);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -430,6 +435,73 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 
                     @Override
                     public void onFailure(Call<SettleEntity> call, Throwable t) {
+                        String error = t.getMessage();
+                        if (!TextUtils.isEmpty(error)) {
+                            LogUtil.e(TAG, error);
+                            if (callback != null) {
+                                callback.onFailed(error);
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void applyElectronicSocialSecurityCardToken(HttpRequestCallback<EleCardTokenEntity> callback) {
+        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
+        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+        map.put(MapKey.FUNCTION, OrgConfig.CREATE_TOKEN);
+        map.put(MapKey.VERSION, "1.0.0");
+        map.put(MapKey.SIGN_TYPE, "RSA");
+        map.put(MapKey.RANDOM_STR, RandomUtils.getRandomStr(30));
+        map.put(MapKey.SER_TYPE, OrgConfig.SRY);
+        map.put(MapKey.SYS_ID, OrgConfig.YIBAO_SYS_ID);
+        map.put(MapKey.CERT_NO, mIdNum);
+        map.put(MapKey.NAME, mName);
+        map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_SMS);
+        map.put(MapKey.SIGN_NO, signNo);
+        //map.put(MapKey.BUSI_SEQ, "1002344440101D15600000");
+        map.put(MapKey.SIGN, SignUtil.createSignWithRsa(map));
+
+        String json = new Gson().toJson(map);
+        LogUtil.i(TAG, "json===" + json);
+
+        RetrofitHelper
+                .getInstance()
+                .createService(EleCardService.class)
+                .getToken(RequestUrl.CHECK_SIGN_API, map)
+                .enqueue(new Callback<EleCardTokenEntity>() {
+                    @Override
+                    public void onResponse(Call<EleCardTokenEntity> call, Response<EleCardTokenEntity> response) {
+                        int code = response.code();
+                        boolean successful = response.isSuccessful();
+                        if (code == 200 && successful) {
+                            EleCardTokenEntity body = response.body();
+                            if (body != null) {
+                                String returnCode = body.getCode();
+                                if ("0".equals(returnCode)) {
+                                    if (callback != null) {
+                                        callback.onSuccess(body);
+                                    }
+                                } else {
+                                    String errCodeDes = body.getErrCode();
+                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                        if (callback != null) {
+                                            callback.onFailed(errCodeDes);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailed("服务器异常！");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<EleCardTokenEntity> call, Throwable t) {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);

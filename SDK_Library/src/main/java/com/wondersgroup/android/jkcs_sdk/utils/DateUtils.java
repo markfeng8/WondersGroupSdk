@@ -18,6 +18,7 @@ public class DateUtils {
     private static final String TAG = "DateUtils";
     private static final String PATTERN_YYYY_MM_DD_HH_MM_SS1 = "yyyyMMddHHmmss";
     private static final String PATTERN_YYYY_MM_DD_HH_MM_SS2 = "yyyy-MM-dd HH:mm:ss";
+    private static final String PATTERN_YYYY_MM_DD_HH_MM_SSS3 = "yyyyMMddHHmmsss";
     private static final String PATTERN_YYYY_MM_DD = "yyyy-MM-dd";
 
     /**
@@ -40,6 +41,14 @@ public class DateUtils {
         }
     };
 
+    private static final ThreadLocal<DateFormat> THREAD_LOCAL_DATE_FORMAT4 = new ThreadLocal<DateFormat>() {
+        @SuppressLint("SimpleDateFormat")
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat(PATTERN_YYYY_MM_DD_HH_MM_SSS3);
+        }
+    };
+
     private static final ThreadLocal<DateFormat> THREAD_LOCAL_DATE_FORMAT3 = new ThreadLocal<DateFormat>() {
         @SuppressLint("SimpleDateFormat")
         @Override
@@ -56,6 +65,16 @@ public class DateUtils {
     public static String getTheNearestSecondTime() {
         Date date = new Date(System.currentTimeMillis());
         return getDateFormat(THREAD_LOCAL_DATE_FORMAT1).format(date);
+    }
+
+    /**
+     * 返回如下格式的当前时间（精确到秒）
+     *
+     * @return 20180803093610
+     */
+    public static String getTheNearestSecondTime2() {
+        Date date = new Date(System.currentTimeMillis());
+        return getDateFormat(THREAD_LOCAL_DATE_FORMAT4).format(date);
     }
 
     public static long getScrollMinTime() {

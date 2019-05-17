@@ -1,5 +1,6 @@
 package com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract;
 
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -27,6 +28,8 @@ public interface PaymentDetailsContract {
         void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback);
 
         void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback);
+
+        void applyElectronicSocialSecurityCardToken(HttpRequestCallback<EleCardTokenEntity> callback);
     }
 
     interface IView {
@@ -41,6 +44,8 @@ public interface PaymentDetailsContract {
         void onPayParamResult(PayParamEntity body);
 
         void onOfficialSettleResult(SettleEntity body);
+
+        void onApplyElectronicSocialSecurityCardToken(EleCardTokenEntity body);
 
         void showLoading(boolean show);
     }
@@ -57,5 +62,7 @@ public interface PaymentDetailsContract {
         void getPayParam(String orgCode);
 
         void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map);
+
+        void applyElectronicSocialSecurityCardToken();
     }
 }

@@ -15,7 +15,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.net.service.UpdatePhoneService;
 import com.wondersgroup.android.jkcs_sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
@@ -41,7 +41,7 @@ public class SettingsModel implements SettingsContract.IModel {
 
     @Override
     public void sendOpenRequest(HashMap<String, String> map, HttpRequestCallback<BaseEntity> callback) {
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0003);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -101,7 +101,7 @@ public class SettingsModel implements SettingsContract.IModel {
     @Override
     public void sendVerifyCode(String phone, String idenClass, HttpRequestCallback<SmsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -159,7 +159,7 @@ public class SettingsModel implements SettingsContract.IModel {
 
     @Override
     public void termination(HashMap<String, String> map, HttpRequestCallback<BaseEntity> callback) {
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);

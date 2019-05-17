@@ -28,6 +28,7 @@ import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
@@ -492,6 +493,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         }
     }
 
+    @Override
+    public void onApplyElectronicSocialSecurityCardToken(EleCardTokenEntity body) {
+        String token = body.getToken();
+        LogUtil.i(TAG, "token===" + token);
+        tryToSettle(token);
+    }
+
     /**
      * 解析正式结算结果
      */
@@ -654,4 +662,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         }
     }
 
+    public void requestTryToSettleToken() {
+        mPresenter.applyElectronicSocialSecurityCardToken();
+    }
 }

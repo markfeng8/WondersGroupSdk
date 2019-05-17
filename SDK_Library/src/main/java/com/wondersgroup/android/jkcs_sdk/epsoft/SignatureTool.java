@@ -19,7 +19,7 @@ import com.wondersgroup.android.jkcs_sdk.net.RetrofitHelper;
 import com.wondersgroup.android.jkcs_sdk.net.service.SignatureService;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
@@ -52,7 +52,7 @@ public class SignatureTool {
         activity.showLoadingView(true);
 
         HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
-        param.put(MapKey.SID, ProduceUtil.getSid());
+        param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_SIGN);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);

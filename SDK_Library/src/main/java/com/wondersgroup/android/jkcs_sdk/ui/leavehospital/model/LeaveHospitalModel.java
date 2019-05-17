@@ -26,7 +26,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.GetPayParamService;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -56,7 +56,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         String jzlsh = SpUtil.getInstance().getString(SpKey.JZLSH, "");
 
         HashMap<String, String> param = new HashMap<>();
-        param.put(MapKey.SID, ProduceUtil.getSid());
+        param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0006);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -127,7 +127,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         String payStartTime = SpUtil.getInstance().getString(SpKey.PAY_START_TIME, "");
 
         HashMap<String, String> param = new HashMap<>();
-        param.put(MapKey.SID, ProduceUtil.getSid());
+        param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0007);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -195,7 +195,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
     @Override
     public void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);

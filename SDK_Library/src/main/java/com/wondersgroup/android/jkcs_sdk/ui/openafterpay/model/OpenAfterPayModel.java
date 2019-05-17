@@ -14,7 +14,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.SendSmsService;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -52,7 +52,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
     @Override
     public void sendSmsCode(String phone, HttpRequestCallback<SmsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
@@ -109,7 +109,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
     @Override
     public void openAfterPay(String phone, String idenCode, HttpRequestCallback<SmsEntity> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(MapKey.SID, ProduceUtil.getSid());
+        map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0002);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);

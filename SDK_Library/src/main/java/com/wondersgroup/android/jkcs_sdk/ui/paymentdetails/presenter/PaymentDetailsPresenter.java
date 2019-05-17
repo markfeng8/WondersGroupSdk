@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.constants.Exceptions;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
@@ -188,6 +189,29 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
         } else {
             LogUtil.eLogging(TAG, "sendOfficialPay():" + Exceptions.PARAM_IS_NULL);
         }
+    }
+
+    @Override
+    public void applyElectronicSocialSecurityCardToken() {
+        showLoading(true);
+        mModel.applyElectronicSocialSecurityCardToken(new HttpRequestCallback<EleCardTokenEntity>() {
+            @Override
+            public void onSuccess(EleCardTokenEntity eleCardTokenEntity) {
+                LogUtil.i(TAG, "applyElectronicSocialSecurityCardToken() -> onSuccess()");
+                showLoading(false);
+                if (isNonNull()) {
+                    // 传 null 表示正式结算失败！
+                    mViewRef.get().onApplyElectronicSocialSecurityCardToken(eleCardTokenEntity);
+                }
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                LogUtil.e(TAG, "applyElectronicSocialSecurityCardToken() -> onFailed()===" + errMsg);
+                showLoading(false);
+                WToastUtil.show(errMsg);
+            }
+        });
     }
 
     private void showLoading(boolean show) {

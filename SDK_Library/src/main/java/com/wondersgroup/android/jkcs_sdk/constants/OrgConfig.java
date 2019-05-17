@@ -67,5 +67,41 @@ public class OrgConfig {
      * 全部
      */
     public static final String IN_STATE2 = "2";
+    /**
+     * 结算
+     */
+    public static final String SRJ = "SRJ";
+    /**
+     * 预结算
+     */
+    public static final String SRY = "SRY";
+    /**
+     * 退费
+     */
+    public static final String SRT = "SRT";
+    /**
+     * 业务系统编号(1001 代表医保系统)
+     */
+    public static final String YIBAO_SYS_ID = "1001";
+    /**
+     * 密码验证
+     */
+    public static final String SCENE_TYPE_PWD = "004";
+    /**
+     * 手机短信验证
+     */
+    public static final String SCENE_TYPE_SMS = "005";
+    /**
+     * 人脸识别验证
+     */
+    public static final String SCENE_TYPE_FACE = "008";
+    /**
+     * 电子社保卡身份校验接口
+     */
+    public static final String IDENTITY_CHECK = "com.esicard.identity.check";
+    /**
+     * 获取预结算 token 接口
+     */
+    public static final String CREATE_TOKEN = "com.esicard.token.create";
 
 }

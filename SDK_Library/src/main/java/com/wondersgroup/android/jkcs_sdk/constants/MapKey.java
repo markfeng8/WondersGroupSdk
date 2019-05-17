@@ -170,4 +170,32 @@ public class MapKey {
      * 独立扫码登录服务
      */
     public static final String QR_CODE = "qrCode";
+    /**
+     * 业务类型
+     */
+    public static final String SER_TYPE = "serType";
+    /**
+     * 业务系统编号
+     */
+    public static final String SYS_ID = "sysId";
+    /**
+     * 社会保障号码
+     */
+    public static final String CERT_NO = "certNo";
+    /**
+     * 触发功能编号
+     */
+    public static final String SCENE_TYPE = "sceneType";
+    /**
+     * 接口代码
+     */
+    public static final String FUNCTION = "function";
+    /**
+     * 接口代码
+     */
+    public static final String SIGN_TYPE = "signType";
+    /**
+     * 接口代码
+     */
+    public static final String RANDOM_STR = "randomStr";
 }

@@ -22,7 +22,7 @@ import com.wondersgroup.android.jkcs_sdk.net.service.Cy0001Service;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.ProduceUtil;
+import com.wondersgroup.android.jkcs_sdk.utils.RandomUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.SignUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -52,7 +52,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         String phone = SpUtil.getInstance().getString(SpKey.PASS_PHONE, "");
 
         HashMap<String, String> param = new HashMap<>();
-        param.put(MapKey.SID, ProduceUtil.getSid());
+        param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0001);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
