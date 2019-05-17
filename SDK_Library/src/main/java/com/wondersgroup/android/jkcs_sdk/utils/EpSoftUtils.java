@@ -11,6 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.utils;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 
@@ -73,7 +74,7 @@ public class EpSoftUtils {
             }
 
             if(activity instanceof PaymentDetailsActivity) {
-                ((PaymentDetailsActivity) activity).requestTryToSettleToken();
+                ((PaymentDetailsActivity) activity).requestTryToSettleToken(OrgConfig.SRY);
             }
 
         } else if ("2".equals(cardType)) {
@@ -113,32 +114,9 @@ public class EpSoftUtils {
              * 如果是第一次需要弹出医保键盘获取 token，获取之后，如果在没退出页面，则此 token 30 min 内有效，
              * 如果退出页面，则需要再次弹出键盘获取 token
              */
-//            AuthCall.getToken(activity, MakeArgsFactory.getKeyboardArgs(),
-//                    result -> {
-//                        LogUtil.iLogging(TAG, "result===" + result);
-//                        if (!TextUtils.isEmpty(result)) {
-//                            KeyboardBean keyboardBean = new Gson().fromJson(result, KeyboardBean.class);
-//                            if (keyboardBean != null) {
-//                                String code = keyboardBean.getCode();
-//                                if ("0".equals(code)) {
-//                                    /*
-//                                     * 获取 token 后，重新保存医保 token 和 token 时间
-//                                     */
-//                                    String token = keyboardBean.getToken();
-//                                    SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, token);
-//                                    SpUtil.getInstance().save(SpKey.TOKEN_TIME, DateUtils.getCurrentMillis());
-//
-//                                    if (listener != null) {
-//                                        listener.onResult(token);
-//                                    }
-//
-//                                } else {
-//                                    String msg = keyboardBean.getMsg();
-//                                    WToastUtil.show(String.valueOf(msg));
-//                                }
-//                            }
-//                        }
-//                    });
+            if(activity instanceof PaymentDetailsActivity) {
+                ((PaymentDetailsActivity) activity).checkElectronicSocialSecurityCardPassword();
+            }
 
         } else if ("2".equals(cardType)) {
             if (listener != null) {

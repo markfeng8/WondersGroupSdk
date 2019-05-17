@@ -344,7 +344,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 独立服务回调处理
      */
     private void handleScene(String data) {
-        Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
+        WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String sceneType = eleCardEntity.getSceneType();
         switch (sceneType) {

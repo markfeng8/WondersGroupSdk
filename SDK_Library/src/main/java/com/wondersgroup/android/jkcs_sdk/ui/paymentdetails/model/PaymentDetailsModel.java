@@ -447,7 +447,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void applyElectronicSocialSecurityCardToken(HttpRequestCallback<EleCardTokenEntity> callback) {
+    public void applyElectronicSocialSecurityCardToken(String businessType, HttpRequestCallback<EleCardTokenEntity> callback) {
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
@@ -455,13 +455,22 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.VERSION, "1.0.0");
         map.put(MapKey.SIGN_TYPE, "RSA");
         map.put(MapKey.RANDOM_STR, RandomUtils.getRandomStr(30));
-        map.put(MapKey.SER_TYPE, OrgConfig.SRY);
+        map.put(MapKey.SER_TYPE, businessType);
         map.put(MapKey.SYS_ID, OrgConfig.YIBAO_SYS_ID);
         map.put(MapKey.CERT_NO, mIdNum);
         map.put(MapKey.NAME, mName);
-        map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_SMS);
+
+        if (OrgConfig.SRY.equals(businessType)) {
+            map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_SMS);
+        } else if (OrgConfig.SRJ.equals(businessType)) {
+            map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_PWD);
+        }
+
         map.put(MapKey.SIGN_NO, signNo);
-        //map.put(MapKey.BUSI_SEQ, "1002344440101D15600000");
+        if (OrgConfig.SRJ.equals(businessType)) {
+            String busiSeq = SpUtil.getInstance().getString(SpKey.BUSI_SEQ, "");
+            map.put(MapKey.BUSI_SEQ, busiSeq);
+        }
         map.put(MapKey.SIGN, SignUtil.createSignWithRsa(map));
 
         String json = new Gson().toJson(map);

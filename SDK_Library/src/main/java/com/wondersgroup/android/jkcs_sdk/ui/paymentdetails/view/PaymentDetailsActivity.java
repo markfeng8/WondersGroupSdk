@@ -18,23 +18,30 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.WondersSdk;
 import com.wondersgroup.android.jkcs_sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.constants.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CombineDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailHeadBean;
 import com.wondersgroup.android.jkcs_sdk.entity.DetailPayBean;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.LockOrderEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Maps;
 import com.wondersgroup.android.jkcs_sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.SettleEntity;
+import com.wondersgroup.android.jkcs_sdk.epsoft.SignatureTool;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity;
@@ -54,6 +61,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.com.epsoft.zjessc.ZjEsscSDK;
+import cn.com.epsoft.zjessc.callback.ResultType;
+import cn.com.epsoft.zjessc.callback.SdkCallBack;
+import cn.com.epsoft.zjessc.tools.ZjBiap;
+import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import cn.wd.checkout.api.WDPay;
 
 /**
@@ -108,6 +120,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private static final String TO_STATE1 = "1";
     private static final String TO_STATE2 = "2";
     private String mCurrentToState;
+    private String mBusinessType;
 
     private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
@@ -227,17 +240,19 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     private void getOfficialToSettleToken() {
-        EpSoftUtils.getOfficialToSettleToken(this, token -> {
-            mYiBaoToken = token;
-            LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
-            if (!TextUtils.isEmpty(mFeeCashTotal)) {
-                // 发起正式结算保存 token
-                mCurrentToState = TO_STATE1;
-                sendOfficialPay(false);
-            } else {
-                LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
-            }
-        });
+        EpSoftUtils.getOfficialToSettleToken(this, this::officialSettle);
+    }
+
+    private void officialSettle(String token) {
+        mYiBaoToken = token;
+        LogUtil.i(TAG, "onYiBaoTokenResult() -> token===" + token);
+        if (!TextUtils.isEmpty(mFeeCashTotal)) {
+            // 发起正式结算保存 token
+            mCurrentToState = TO_STATE1;
+            sendOfficialPay(false);
+        } else {
+            LogUtil.e(TAG, "to pay money failed, because mFeeCashTotal is null!");
+        }
     }
 
     private void showAlertDialog() {
@@ -497,7 +512,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     public void onApplyElectronicSocialSecurityCardToken(EleCardTokenEntity body) {
         String token = body.getToken();
         LogUtil.i(TAG, "token===" + token);
-        tryToSettle(token);
+        if (OrgConfig.SRY.equals(mBusinessType)) {
+            tryToSettle(token);
+        } else if (OrgConfig.SRJ.equals(mBusinessType)) {
+            officialSettle(token);
+        }
     }
 
     /**
@@ -662,7 +681,128 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         }
     }
 
-    public void requestTryToSettleToken() {
-        mPresenter.applyElectronicSocialSecurityCardToken();
+    public void requestTryToSettleToken(String businessType) {
+        mBusinessType = businessType;
+        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType);
+    }
+
+    public void checkElectronicSocialSecurityCardPassword() {
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
+
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
+        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+        map.put(MapKey.AAC002, idNum);
+        map.put(MapKey.AAC003, name);
+        map.put(MapKey.AAB301, "湖州市");
+        map.put(MapKey.SIGN_NO, signNo);
+
+        SignatureTool.getSign(this, map, s -> startSdk(idNum, name, s));
+    }
+
+    /**
+     * 启动SDK
+     *
+     * @param idCard 身份证
+     * @param name   姓名
+     * @param s      签名
+     */
+    private void startSdk(final String idCard, final String name, String s) {
+        LogUtil.i(TAG, "idCard===" + idCard + ",name===" + name + ",s===" + s);
+        String url = ZjBiap.getInstance().getValidPwd();
+        LogUtil.i(TAG, "url===" + url);
+
+        // 662701
+        ZjEsscSDK.startSdk(PaymentDetailsActivity.this, idCard, name, url, s, new SdkCallBack() {
+            @Override
+            public void onLoading(boolean show) {
+                showLoading(show);
+            }
+
+            @Override
+            public void onResult(@ResultType int type, String data) {
+                if (type == ResultType.ACTION) {
+                    handleAction(data);
+                } else if (type == ResultType.SCENE) {
+                    handleScene(data);
+                }
+            }
+
+            @Override
+            public void onError(String code, ZjEsscException e) {
+                LogUtil.i(TAG, "onError():code===" + code + ",errorMsg===" + e.getMessage());
+                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     * 签发回调处理
+     */
+    private void handleAction(String data) {
+        WToastUtil.show(data);
+        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
+        String actionType = eleCardEntity.getActionType();
+        switch (actionType) {
+            // 表示一级签发
+            case "001":
+                String signNo = eleCardEntity.getSignNo();
+                String aab301 = eleCardEntity.getAab301();
+                LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
+                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
+                //requestYd0002();
+                break;
+            // 密码重置完成
+            case "002":
+
+                break;
+            // 表示解除关联
+            case "003":
+
+                break;
+            // 部平台密码校验完成
+            case "004":
+
+                break;
+            // 表示开通缴费结算功能
+            case "005":
+
+                break;
+            // 表示提供给SDK用户信息，不需要处理
+            case "006":
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 独立服务回调处理
+     */
+    private void handleScene(String data) {
+        WToastUtil.show(data);
+        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
+        String sceneType = eleCardEntity.getSceneType();
+        switch (sceneType) {
+            // 密码验证
+            case "004":
+                ZjEsscSDK.closeSDK();
+                String busiSeq = eleCardEntity.getBusiSeq();
+                SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);
+                // {"busiSeq":"fa6f1f67f5fa49f086a4db2aeaff880b","sceneType":"004"}
+                requestTryToSettleToken(OrgConfig.SRJ);
+                break;
+            // 短信验证
+            case "005":
+                ZjEsscSDK.closeSDK();
+                break;
+            // 人脸识别验证
+            case "008":
+                ZjEsscSDK.closeSDK();
+                break;
+            default:
+                break;
+        }
     }
 }

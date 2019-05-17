@@ -98,4 +98,8 @@ public class SpKey {
      * mock yd0003
      */
     public static final String MOCK_YD0003 = "Mock_yd0003";
+    /**
+     * 电子社保卡操作串
+     */
+    public static final String BUSI_SEQ = "busiSeq";
 }

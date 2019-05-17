@@ -192,9 +192,9 @@ public class PaymentDetailsPresenter<T extends PaymentDetailsContract.IView>
     }
 
     @Override
-    public void applyElectronicSocialSecurityCardToken() {
+    public void applyElectronicSocialSecurityCardToken(String businessType) {
         showLoading(true);
-        mModel.applyElectronicSocialSecurityCardToken(new HttpRequestCallback<EleCardTokenEntity>() {
+        mModel.applyElectronicSocialSecurityCardToken(businessType, new HttpRequestCallback<EleCardTokenEntity>() {
             @Override
             public void onSuccess(EleCardTokenEntity eleCardTokenEntity) {
                 LogUtil.i(TAG, "applyElectronicSocialSecurityCardToken() -> onSuccess()");
