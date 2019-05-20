@@ -18,7 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
@@ -722,59 +721,16 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
             @Override
             public void onResult(@ResultType int type, String data) {
-                if (type == ResultType.ACTION) {
-                    handleAction(data);
-                } else if (type == ResultType.SCENE) {
+                if (type == ResultType.SCENE) {
                     handleScene(data);
                 }
             }
 
             @Override
             public void onError(String code, ZjEsscException e) {
-                LogUtil.i(TAG, "onError():code===" + code + ",errorMsg===" + e.getMessage());
-                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                LogUtil.e(TAG, "onError():code===" + code + ",errorMsg===" + e.getMessage());
             }
         });
-    }
-
-    /**
-     * 签发回调处理
-     */
-    private void handleAction(String data) {
-        WToastUtil.show(data);
-        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
-        String actionType = eleCardEntity.getActionType();
-        switch (actionType) {
-            // 表示一级签发
-            case "001":
-                String signNo = eleCardEntity.getSignNo();
-                String aab301 = eleCardEntity.getAab301();
-                LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
-                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-                //requestYd0002();
-                break;
-            // 密码重置完成
-            case "002":
-
-                break;
-            // 表示解除关联
-            case "003":
-
-                break;
-            // 部平台密码校验完成
-            case "004":
-
-                break;
-            // 表示开通缴费结算功能
-            case "005":
-
-                break;
-            // 表示提供给SDK用户信息，不需要处理
-            case "006":
-                break;
-            default:
-                break;
-        }
     }
 
     /**
@@ -784,25 +740,13 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String sceneType = eleCardEntity.getSceneType();
-        switch (sceneType) {
-            // 密码验证
-            case "004":
-                ZjEsscSDK.closeSDK();
-                String busiSeq = eleCardEntity.getBusiSeq();
-                SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);
-                // {"busiSeq":"fa6f1f67f5fa49f086a4db2aeaff880b","sceneType":"004"}
-                requestTryToSettleToken(OrgConfig.SRJ);
-                break;
-            // 短信验证
-            case "005":
-                ZjEsscSDK.closeSDK();
-                break;
-            // 人脸识别验证
-            case "008":
-                ZjEsscSDK.closeSDK();
-                break;
-            default:
-                break;
+        // 密码验证
+        if ("004".equals(sceneType)) {
+            ZjEsscSDK.closeSDK();
+            String busiSeq = eleCardEntity.getBusiSeq();
+            SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);
+            // {"busiSeq":"fa6f1f67f5fa49f086a4db2aeaff880b","sceneType":"004"}
+            requestTryToSettleToken(OrgConfig.SRJ);
         }
     }
 }
