@@ -52,6 +52,8 @@ import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/8/10 :)
@@ -95,6 +97,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private List<Object> mItemList = new ArrayList<>();
 
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -235,10 +238,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onYd0001Result(final Yd0001Entity entity) {
-        Observable
+        Disposable disposable = Observable
                 .just(entity)
                 .doOnNext(this::saveEleCardData)
                 .subscribe(s -> refreshAdapter());
+
+        mCompositeDisposable.add(disposable);
     }
 
     private void saveEleCardData(Yd0001Entity entity) {
@@ -287,8 +292,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             public void onResult(@ResultType int type, String data) {
                 if (type == ResultType.ACTION) {
                     handleAction(data);
-                } else if (type == ResultType.SCENE) {
-                    handleScene(data);
                 }
             }
 
@@ -307,61 +310,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
-        switch (actionType) {
-            // 表示一级签发
-            case "001":
-                String signNo = eleCardEntity.getSignNo();
-                String aab301 = eleCardEntity.getAab301();
-                LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
-                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-                requestYd0002();
-                break;
-            // 密码重置完成
-            case "002":
-
-                break;
-            // 表示解除关联
-            case "003":
-
-                break;
-            // 部平台密码校验完成
-            case "004":
-
-                break;
-            // 表示开通缴费结算功能
-            case "005":
-
-                break;
-            // 表示提供给SDK用户信息，不需要处理
-            case "006":
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * 独立服务回调处理
-     */
-    private void handleScene(String data) {
-        WToastUtil.show(data);
-        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
-        String sceneType = eleCardEntity.getSceneType();
-        switch (sceneType) {
-            // 密码验证
-            case "004":
-                ZjEsscSDK.closeSDK();
-                break;
-            // 短信验证
-            case "005":
-                ZjEsscSDK.closeSDK();
-                break;
-            // 人脸识别验证
-            case "008":
-                ZjEsscSDK.closeSDK();
-                break;
-            default:
-                break;
+        // 表示一级签发
+        if ("001".equals(actionType)) {
+            String signNo = eleCardEntity.getSignNo();
+            String aab301 = eleCardEntity.getAab301();
+            LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
+            SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
+            requestYd0002();
         }
     }
 
@@ -385,6 +340,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             llNeedPay.setVisibility(View.GONE);
         }
         refreshAdapter();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mCompositeDisposable.clear();
     }
 
     @Override

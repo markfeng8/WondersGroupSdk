@@ -200,7 +200,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      */
     private void toPayMoney() {
         // 判断是否已经在结算中，就提示，防止再次点击！
-        if (mBaseLoading != null && mBaseLoading.isShowing()) {
+        if (mLoading != null && mLoading.isShowing()) {
             WToastUtil.show("正在处理中，请勿重复点击！");
             return;
         }
@@ -605,12 +605,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     @Override
-    public void showLoading(boolean show) {
-        if (show) {
-            mLoading.showLoadingDialog();
-        } else {
-            mLoading.dismissLoadingDialog();
-        }
+    public void showLoading(final boolean show) {
+        runOnUiThread(() -> {
+            if (show) {
+                mLoading.showLoadingDialog();
+            } else {
+                mLoading.dismissLoadingDialog();
+            }
+        });
     }
 
     /**

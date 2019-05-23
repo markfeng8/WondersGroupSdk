@@ -9,8 +9,7 @@ android {
         versionName "1.8.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
-            //'armeabi', 'x86', 'x86_64'
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
         }
     }
 
