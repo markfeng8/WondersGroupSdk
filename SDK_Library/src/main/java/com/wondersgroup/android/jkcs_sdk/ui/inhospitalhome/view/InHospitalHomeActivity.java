@@ -11,6 +11,8 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.Group;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,23 +20,24 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.WondersApplication;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.CityBean;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Yd0001Entity;
+import com.wondersgroup.android.jkcs_sdk.epsoft.ElectronicSocialSecurityCard;
 import com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter.InHospitalHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.utils.DateUtils;
-import com.wondersgroup.android.jkcs_sdk.utils.EpSoftUtils;
+import com.wondersgroup.android.jkcs_sdk.utils.DensityUtils;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
-import com.wondersgroup.android.jkcs_sdk.utils.NetworkUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
@@ -42,6 +45,8 @@ import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerVie
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
 
 import java.util.List;
+
+import cn.com.epsoft.zjessc.callback.ResultType;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -120,7 +125,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
         String start = idNum.substring(0, 10);
-        String end = idNum.substring(idNum.length() - 4, idNum.length());
+        String end = idNum.substring(idNum.length() - 4);
         tvIdNum.setText(start + "****" + end);
     }
 
@@ -146,7 +151,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     private void initListener() {
         // 去开通医保移动支付
-        tvMobPayState.setOnClickListener(view -> openYiBaoMobPay());
+        tvMobPayState.setOnClickListener(view -> applyElectronicSocialSecurityCard());
         // 选择医院
         tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList("V1.1", "02"));
         // 预交金充值
@@ -257,16 +262,36 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         }
     }
 
+    public void applyElectronicSocialSecurityCard() {
+        new ElectronicSocialSecurityCard().enter(this, (type, data) -> {
+            if (type == ResultType.ACTION) {
+                handleAction(data);
+            }
+        });
+    }
+
     /**
-     * 开通医保移动支付
+     * 签发回调处理
      */
-    private void openYiBaoMobPay() {
-        if (NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
-//            AuthCall.businessProcess(InHospitalHomeActivity.this,
-//                    MakeArgsFactory.getOpenArgs(), WToastUtil::show);
-        } else {
-            WToastUtil.show("网络连接错误，请检查您的网络连接！");
+    private void handleAction(String data) {
+        WToastUtil.show(data);
+        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
+        String actionType = eleCardEntity.getActionType();
+        // 表示一级签发
+        if ("001".equals(actionType)) {
+            String signNo = eleCardEntity.getSignNo();
+            String aab301 = eleCardEntity.getAab301();
+            LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
+            SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
+            requestYd0002();
         }
+    }
+
+    /**
+     * 上传电子社保卡开通状态
+     */
+    private void requestYd0002() {
+        mPresenter.requestYd0002();
     }
 
     @Override
@@ -311,7 +336,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                     if ("0".equals(cardType)) {
                         tvPaymentType.setText("医保");
                         // 如果是医保才去查询，自费不需要查询
-                        queryYiBaoOpenStatus();
+                        requestYd0001();
                     } else if ("2".equals(cardType)) {
                         tvPaymentType.setText("自费");
                     }
@@ -326,19 +351,31 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         }
     }
 
-    private void queryYiBaoOpenStatus() {
-        EpSoftUtils.queryYiBaoOpenStatus(this, status -> {
-            if ("01".equals(status)) { // 已开通
-                // 上传开通状态
-                mPresenter.uploadMobilePayState();
-            }
+    /**
+     * 查询电子社保卡申领状态
+     */
+    private void requestYd0001() {
+        mPresenter.requestYd0001();
+    }
 
-            if ("00".equals(status)) { // 00 未签约
-                setMobilePayState(true);
-            } else if ("01".equals(status)) { // 01 已签约
-                setMobilePayState(false);
-            }
-        });
+    @Override
+    public void onYd0001Result(final Yd0001Entity entity) {
+        // 电子社保卡状态：00 未开通 01 已开通
+        String eleCardStatus = entity.getEleCardStatus();
+        LogUtil.i(TAG, "eleCardStatus===" + eleCardStatus);
+        SpUtil.getInstance().save(SpKey.ELE_CARD_STATUS, eleCardStatus);
+        // 如果已开通，保存签发号
+        if ("01".equals(eleCardStatus)) {
+            SpUtil.getInstance().save(SpKey.SIGN_NO, entity.getSignNo());
+        }
+
+        // 00 未签约
+        if ("00".equals(eleCardStatus)) {
+            setEleCardState(true);
+            // 01 已签约
+        } else if ("01".equals(eleCardStatus)) {
+            setEleCardState(false);
+        }
     }
 
     private void setViewVisibility(boolean hasDetail) {
@@ -347,17 +384,33 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     /**
-     * 设置医保移动付状态
+     * 设置电子社保卡开通状态
      */
-    private void setMobilePayState(boolean enable) {
+    private void setEleCardState(boolean enable) {
         tvMobPayState.setVisibility(View.VISIBLE);
         if (enable) {
+            // 分别为开始颜色，结束颜色
+            int[] colors = new int[]{Color.parseColor("#f2c700"), Color.parseColor("#fea127")};
+            GradientDrawable linearDrawable = new GradientDrawable();
+            linearDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+            linearDrawable.setColors(colors);
+            linearDrawable.setCornerRadius(DensityUtils.dp2px(this, 20));
+            linearDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+
+            tvMobPayState.setBackground(linearDrawable);
             tvMobPayState.setText(getString(R.string.wonders_to_open_mobile_pay));
-            tvMobPayState.setEnabled(true);
+            tvMobPayState.setTextColor(getResources().getColor(R.color.wonders_rgb_color_ffffff));
             tvMobPayState.setCompoundDrawables(null, null, null, null);
+
         } else {
+            GradientDrawable gd = new GradientDrawable();
+            gd.setCornerRadius(DensityUtils.dp2px(this, 20));
+            gd.setGradientType(GradientDrawable.RECTANGLE);
+            gd.setColor(Color.parseColor("#6B45BFDB"));
+
+            tvMobPayState.setBackground(gd);
             tvMobPayState.setText(getString(R.string.wonders_open_mobile_pay));
-            tvMobPayState.setEnabled(false);
+            tvMobPayState.setTextColor(getResources().getColor(R.color.wonders_rgb_color_386fb9));
         }
     }
 

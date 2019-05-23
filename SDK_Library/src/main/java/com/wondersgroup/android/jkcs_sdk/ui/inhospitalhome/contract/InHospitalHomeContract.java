@@ -10,6 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Yd0001Entity;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
 /**
@@ -27,6 +28,8 @@ public interface InHospitalHomeContract {
         void onHospitalListResult(HospitalEntity body);
 
         void onCy0001Result(Cy0001Entity entity);
+
+        void onYd0001Result(Yd0001Entity entity);
     }
 
     interface IPresenter {
@@ -34,6 +37,8 @@ public interface InHospitalHomeContract {
 
         void requestCy0001(String orgCode, String inState);
 
-        void uploadMobilePayState();
+        void requestYd0001();
+
+        void requestYd0002();
     }
 }

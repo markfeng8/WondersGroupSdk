@@ -32,7 +32,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.contract.SelfPayFeeContra
 import com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.presenter.SelfPayFeePresenter;
 import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
-import com.wondersgroup.android.jkcs_sdk.widget.LoadingView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickListener;
@@ -52,7 +51,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private TextView tvPayMoney;
     private LinearLayout llNeedPay;
     private RecyclerView recyclerView;
-    private LoadingView mLoading;
     private SelfPayFeeAdapter mSelfPayFeeAdapter;
     private List<Object> mItemList = new ArrayList<>();
     /**
@@ -81,8 +79,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     private void initData() {
-        mLoading = new LoadingView.Builder(this)
-                .build();
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         mSelfPayHeaderBean = new SelfPayHeaderBean();
@@ -120,7 +116,8 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
             mItemList.clear();
         }
         mSelfPayHeaderBean.setHospitalName("湖州市");
-        mItemList.add(mSelfPayHeaderBean); // 选择医院后添加数据
+        // 选择医院后添加数据
+        mItemList.add(mSelfPayHeaderBean);
         refreshAdapter();
     }
 
@@ -132,7 +129,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
-            //recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         }
     }
 
@@ -167,7 +163,8 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
                 if (mItemList.size() > 0) {
                     mItemList.clear();
                 }
-                mItemList.add(mSelfPayHeaderBean); // 选择医院后添加数据
+                // 选择医院后添加数据
+                mItemList.add(mSelfPayHeaderBean);
                 refreshAdapter();
                 requestYd0003();
             }

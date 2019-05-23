@@ -11,6 +11,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.presenter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBasePresenter;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Yd0001Entity;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.model.AfterPayHomeModel;
@@ -81,7 +82,29 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
     }
 
     @Override
-    public void uploadMobilePayState() {
+    public void requestYd0001() {
+        showLoading(true);
+        mModel.requestYd0001(new HttpRequestCallback<Yd0001Entity>() {
+            @Override
+            public void onSuccess(Yd0001Entity entity) {
+                LogUtil.i(TAG, "requestYd0001() -> onSuccess()");
+                showLoading(false);
+                if (isNonNull()) {
+                    mViewRef.get().onYd0001Result(entity);
+                }
+            }
+
+            @Override
+            public void onFailed(String errCodeDes) {
+                LogUtil.e(TAG, "requestYd0001() -> onFailed()===" + errCodeDes);
+                showLoading(false);
+                WToastUtil.show(errCodeDes);
+            }
+        });
+    }
+
+    @Override
+    public void requestYd0002() {
         mModel.requestYd0002();
     }
 

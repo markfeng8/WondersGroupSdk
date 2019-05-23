@@ -24,41 +24,6 @@ public class EpSoftUtils {
     private static final String TAG = "EpSoftUtils";
 
     /**
-     * 查询医保移动支付开通状态
-     *
-     * @param activity
-     * @param listener
-     */
-    public static void queryYiBaoOpenStatus(Activity activity, final OnOpenStatusListener listener) {
-        if (activity == null) {
-            return;
-        }
-
-//        SignatureTool.getSign(activity,);
-
-//        AuthCall.queryOpenStatus(activity, MakeArgsFactory.getOpenStatusArgs(), result -> {
-//            String mobPayStatus = "00";
-//            if (!TextUtils.isEmpty(result)) {
-//                LogUtil.i(TAG, "result===" + result);
-//                OpenStatusBean statusBean = new Gson().fromJson(result, OpenStatusBean.class);
-//                int isYbPay = statusBean.getIsYbPay();
-//                if (isYbPay == 1) { // 已开通
-//                    mobPayStatus = "01";
-//                } else { // 未开通
-//                    mobPayStatus = "00";
-//                }
-//            }
-//
-//            // 保存医保移动支付开通状态
-//            SpUtil.getInstance().save(SpKey.ELE_CARD_STATUS, mobPayStatus);
-//
-//            if (listener != null) {
-//                listener.onResult(mobPayStatus);
-//            }
-//        });
-    }
-
-    /**
      * 获取试结算 token
      *
      * @param activity
@@ -73,7 +38,7 @@ public class EpSoftUtils {
                 return;
             }
 
-            if(activity instanceof PaymentDetailsActivity) {
+            if (activity instanceof PaymentDetailsActivity) {
                 ((PaymentDetailsActivity) activity).requestTryToSettleToken(OrgConfig.SRY);
             }
 
@@ -114,7 +79,7 @@ public class EpSoftUtils {
              * 如果是第一次需要弹出医保键盘获取 token，获取之后，如果在没退出页面，则此 token 30 min 内有效，
              * 如果退出页面，则需要再次弹出键盘获取 token
              */
-            if(activity instanceof PaymentDetailsActivity) {
+            if (activity instanceof PaymentDetailsActivity) {
                 ((PaymentDetailsActivity) activity).checkElectronicSocialSecurityCardPassword();
             }
 
@@ -127,9 +92,5 @@ public class EpSoftUtils {
 
     public interface OnTokenListener {
         void onResult(String token);
-    }
-
-    public interface OnOpenStatusListener {
-        void onResult(String status);
     }
 }

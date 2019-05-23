@@ -9,16 +9,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
-import com.wondersgroup.android.jkcs_sdk.WondersSdk;
 import com.wondersgroup.android.jkcs_sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.constants.Exceptions;
 import com.wondersgroup.android.jkcs_sdk.constants.IntentExtra;
-import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.jkcs_sdk.entity.AfterPayStateEntity;
@@ -28,10 +25,9 @@ import com.wondersgroup.android.jkcs_sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.jkcs_sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalBean;
 import com.wondersgroup.android.jkcs_sdk.entity.HospitalEntity;
-import com.wondersgroup.android.jkcs_sdk.entity.Maps;
 import com.wondersgroup.android.jkcs_sdk.entity.SerializableHashMap;
 import com.wondersgroup.android.jkcs_sdk.entity.Yd0001Entity;
-import com.wondersgroup.android.jkcs_sdk.epsoft.SignatureTool;
+import com.wondersgroup.android.jkcs_sdk.epsoft.ElectronicSocialSecurityCard;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
@@ -46,11 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.com.epsoft.zjessc.ZjEsscSDK;
 import cn.com.epsoft.zjessc.callback.ResultType;
-import cn.com.epsoft.zjessc.callback.SdkCallBack;
-import cn.com.epsoft.zjessc.tools.ZjBiap;
-import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -259,46 +251,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     public void applyElectronicSocialSecurityCard() {
-        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-
-        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
-        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.AAC002, idNum);
-        map.put(MapKey.AAC003, name);
-
-        SignatureTool.getSign(this, map, s -> startSdk(idNum, name, s));
-    }
-
-    /**
-     * 启动SDK
-     *
-     * @param idCard 身份证
-     * @param name   姓名
-     * @param s      签名
-     */
-    private void startSdk(final String idCard, final String name, String s) {
-        LogUtil.i(TAG, "idCard===" + idCard + ",name===" + name + ",s===" + s);
-        String url = ZjBiap.getInstance().getIndexUrl();
-        LogUtil.i(TAG, "url===" + url);
-
-        ZjEsscSDK.startSdk(AfterPayHomeActivity.this, idCard, name, url, s, new SdkCallBack() {
-            @Override
-            public void onLoading(boolean show) {
-                showLoading(show);
-            }
-
-            @Override
-            public void onResult(@ResultType int type, String data) {
-                if (type == ResultType.ACTION) {
-                    handleAction(data);
-                }
-            }
-
-            @Override
-            public void onError(String code, ZjEsscException e) {
-                LogUtil.i(TAG, "onError():code===" + code + ",errorMsg===" + e.getMessage());
-                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        new ElectronicSocialSecurityCard().enter(this, (type, data) -> {
+            if (type == ResultType.ACTION) {
+                handleAction(data);
             }
         });
     }
