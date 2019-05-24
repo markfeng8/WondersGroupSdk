@@ -40,6 +40,10 @@ import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickLi
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by x-sir on 2018/12/18 :)
  * Function:住院历史列表页面
@@ -62,6 +66,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private void requestCY0001() {
         mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE1);
@@ -147,16 +152,15 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        if (body != null) {
-            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
-            if (details != null && details.size() > 0) {
-                String json = new Gson().toJson(details);
-                LogUtil.i(TAG, "json===" + json);
-                showWheelDialog(json);
-            }
-        } else {
-            LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
-        }
+        Disposable disposable =
+                Observable
+                        .just(body)
+                        .map(HospitalEntity::getDetails)
+                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
+                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
+                        .subscribe(this::showWheelDialog);
+
+        mCompositeDisposable.add(disposable);
     }
 
     @SuppressLint("SetTextI18n")
@@ -204,6 +208,12 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
         } else {
             LogUtil.e(TAG, "context is null!");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
     }
 
 }

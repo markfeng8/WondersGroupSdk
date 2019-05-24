@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -59,6 +58,7 @@ import com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cn.com.epsoft.zjessc.ZjEsscSDK;
 import cn.com.epsoft.zjessc.callback.ResultType;
@@ -66,6 +66,10 @@ import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import cn.wd.checkout.api.WDPay;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/9/9 :)
@@ -120,7 +124,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private static final String TO_STATE2 = "2";
     private String mCurrentToState;
     private String mBusinessType;
-
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
@@ -129,7 +133,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             mOnCheckedCallback.onSelected(mPaymentType);
         }
     };
-    private Handler mHandler;
     private SelectPayTypeWindow.OnLoadingListener onLoadingListener =
             () -> BrightnessManager.lighton(PaymentDetailsActivity.this);
     private List<FeeBillDetailsBean> details;
@@ -150,7 +153,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     private void initData() {
         mLoading = new LoadingView.Builder(this).build();
-        mHandler = new Handler();
         mSelectPayTypeWindow = new SelectPayTypeWindow.Builder(this)
                 .setDropView(activityView)
                 .setListener(onLoadingListener)
@@ -568,10 +570,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     private void waitingAndOnceAgain() {
         showLoading(true);
-        mHandler.postDelayed(() -> {
-            mCurrentToState = TO_STATE2;
-            sendOfficialPay(false);
-        }, 5000);
+        Disposable disposable =
+                Observable
+                        .timer(5, TimeUnit.SECONDS)
+                        .subscribe(aLong -> {
+                            mCurrentToState = TO_STATE2;
+                            sendOfficialPay(false);
+                        });
+
+        mCompositeDisposable.add(disposable);
     }
 
     /**
@@ -605,14 +612,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     }
 
     @Override
-    public void showLoading(final boolean show) {
-        runOnUiThread(() -> {
-            if (show) {
-                mLoading.showLoadingDialog();
-            } else {
-                mLoading.dismissLoadingDialog();
-            }
-        });
+    public void showLoading(boolean show) {
+        Disposable disposable =
+                Observable
+                        .just(show)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                mLoading.showLoadingDialog();
+                            } else {
+                                mLoading.dismissLoadingDialog();
+                            }
+                        });
+
+        mCompositeDisposable.add(disposable);
     }
 
     /**
@@ -676,7 +689,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
-        mHandler.removeCallbacksAndMessages(null);
+        mCompositeDisposable.clear();
         if (mLoading != null) {
             mLoading.dispose();
         }

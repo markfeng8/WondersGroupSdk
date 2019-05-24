@@ -298,28 +298,21 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        mCompositeDisposable.clear();
-    }
-
-    @Override
     public void showLoading(boolean show) {
         showLoadingView(show);
     }
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        if (body != null) {
-            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
-            if (details != null && details.size() > 0) {
-                String json = new Gson().toJson(details);
-                LogUtil.json(TAG, json);
-                showWheelDialog(json);
-            }
-        } else {
-            LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
-        }
+        Disposable disposable =
+                Observable
+                        .just(body)
+                        .map(HospitalEntity::getDetails)
+                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
+                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
+                        .subscribe(this::showWheelDialog);
+
+        mCompositeDisposable.add(disposable);
     }
 
     /**
@@ -411,4 +404,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
+    }
 }

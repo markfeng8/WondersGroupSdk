@@ -46,9 +46,6 @@ public class SelfPayFeePresenter<T extends SelfPayFeeContract.IView>
                 LogUtil.e(TAG, "get defaultHospital list failed!");
                 showLoading(false);
                 WToastUtil.show(errCodeDes);
-                if (isNonNull()) {
-                    mViewRef.get().onHospitalListResult(null);
-                }
             }
         });
     }

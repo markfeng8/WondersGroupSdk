@@ -135,9 +135,6 @@ public class AfterPayHomePresenter<T extends AfterPayHomeContract.IView>
                 LogUtil.e(TAG, "get defaultHospital list failed!" + errCodeDes);
                 showLoading(false);
                 WToastUtil.show(errCodeDes);
-                if (isNonNull()) {
-                    mViewRef.get().onHospitalListResult(null);
-                }
             }
         });
     }

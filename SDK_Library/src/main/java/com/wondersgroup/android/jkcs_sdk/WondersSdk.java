@@ -23,7 +23,7 @@ import cn.com.epsoft.zjessc.ZjEsscSDK;
 public class WondersSdk {
 
     private static final String TAG = "WondersSdk";
-    private static final String CHANNEL_NO = "3305000003"; // 3300000001 3305000003
+    private static final String CHANNEL_NO = "3305000003";
 
     private WondersSdk() {
     }

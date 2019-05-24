@@ -39,6 +39,10 @@ import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickLi
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by x-sir on 2018/10/31 :)
  * Function:自费卡类型页面
@@ -64,6 +68,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private String mAreaName = "湖州市";
     private SelfPayHeaderBean mSelfPayHeaderBean;
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     protected SelfPayFeePresenter<SelfPayFeeContract.IView> createPresenter() {
@@ -209,16 +214,15 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        if (body != null) {
-            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
-            if (details != null && details.size() > 0) {
-                String json = new Gson().toJson(details);
-                LogUtil.i(TAG, "json===" + json);
-                showWheelDialog(json);
-            }
-        } else {
-            LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
-        }
+        Disposable disposable =
+                Observable
+                        .just(body)
+                        .map(HospitalEntity::getDetails)
+                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
+                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
+                        .subscribe(this::showWheelDialog);
+
+        mCompositeDisposable.add(disposable);
     }
 
     @Override
@@ -235,4 +239,9 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
+    }
 }
