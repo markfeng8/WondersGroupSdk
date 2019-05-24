@@ -10,6 +10,7 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract;
 
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
 import com.wondersgroup.android.jkcs_sdk.net.callback.HttpRequestCallback;
 
@@ -36,6 +37,8 @@ public interface LeaveHospitalContract {
         void onPayParamResult(PayParamEntity body);
 
         void timeoutAfter60s();
+
+        void onApplyElectronicSocialSecurityCardToken(EleCardTokenEntity body);
     }
 
     interface IPresenter {
@@ -44,5 +47,7 @@ public interface LeaveHospitalContract {
         void requestCy0007(String orgCode, String toState, String token, String xxjje, String payChl);
 
         void getPayParam(String orgCode);
+
+        void applyElectronicSocialSecurityCardToken(String businessType);
     }
 }

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
+import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 
 /**
@@ -40,6 +41,8 @@ public class EpSoftUtils {
 
             if (activity instanceof PaymentDetailsActivity) {
                 ((PaymentDetailsActivity) activity).requestTryToSettleToken(OrgConfig.SRY);
+            } else if (activity instanceof LeaveHospitalActivity) {
+                ((LeaveHospitalActivity) activity).requestTryToSettleToken(OrgConfig.SRY);
             }
 
         } else if ("2".equals(cardType)) {
@@ -81,6 +84,8 @@ public class EpSoftUtils {
              */
             if (activity instanceof PaymentDetailsActivity) {
                 ((PaymentDetailsActivity) activity).checkElectronicSocialSecurityCardPassword();
+            } else if (activity instanceof LeaveHospitalActivity) {
+                ((LeaveHospitalActivity) activity).checkElectronicSocialSecurityCardPassword();
             }
 
         } else if ("2".equals(cardType)) {

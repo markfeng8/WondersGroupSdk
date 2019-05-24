@@ -11,7 +11,6 @@ package com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.text.Html;
 import android.text.TextUtils;
@@ -20,13 +19,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.wondersgroup.android.jkcs_sdk.R;
+import com.wondersgroup.android.jkcs_sdk.WondersSdk;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.constants.IntentExtra;
+import com.wondersgroup.android.jkcs_sdk.constants.MapKey;
+import com.wondersgroup.android.jkcs_sdk.constants.OrgConfig;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.jkcs_sdk.entity.Cy0007Entity;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.EleCardTokenEntity;
+import com.wondersgroup.android.jkcs_sdk.entity.Maps;
 import com.wondersgroup.android.jkcs_sdk.entity.PayParamEntity;
+import com.wondersgroup.android.jkcs_sdk.epsoft.SignatureTool;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivity;
@@ -36,6 +43,18 @@ import com.wondersgroup.android.jkcs_sdk.utils.PaymentUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WdCommonPayUtils;
+
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import cn.com.epsoft.zjessc.ZjEsscSDK;
+import cn.com.epsoft.zjessc.callback.ResultType;
+import cn.com.epsoft.zjessc.callback.SdkCallBack;
+import cn.com.epsoft.zjessc.tools.ZjBiap;
+import cn.com.epsoft.zjessc.tools.ZjEsscException;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -74,7 +93,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private String feeYbTotal;
     private String feeTotal;
     private String feePrepayTotal;
-    private Handler mHandler;
 
     /**
      * 支付类型，默认为支付宝
@@ -90,6 +108,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private static final String TO_STATE1 = "1";
     private static final String TO_STATE2 = "2";
     private String mCurrentToState;
+    private String mBusinessType;
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -127,7 +147,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     }
 
     private void initData() {
-        mHandler = new Handler();
         rbAlipay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_alipay)));
         rbWeChatPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_wechat_pay)));
         rbUnionPay.setText(Html.fromHtml(getResources().getString(R.string.wonders_text_union_pay)));
@@ -158,7 +177,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         }
 
         // 获取试结算 token，并发起 cy0006 请求
-        EpSoftUtils.getTryToSettleToken(this, token -> mPresenter.requestCy0006(mOrgCode, token));
+        EpSoftUtils.getTryToSettleToken(this, this::tryToSettle);
     }
 
     private void initListener() {
@@ -180,36 +199,109 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         });
     }
 
-    private void getOfficialToSettleToken() {
-        EpSoftUtils.getOfficialToSettleToken(this, token -> {
-            mYiBaoToken = token;
-            boolean isSelfFeeCard = "0".equals(token);
-            // 如果 token 是 0，说明是自费卡，不需要保存 token，否则是社保卡，先发起保存 token
-            mCurrentToState = isSelfFeeCard ? TO_STATE2 : TO_STATE1;
-            if (isSelfFeeCard) {
-                if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
-                    mPresenter.getPayParam(mOrgCode);
-                } else {
-                    requestCy0007();
-                }
+    public void requestTryToSettleToken(String businessType) {
+        mBusinessType = businessType;
+        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType);
+    }
+
+    @Override
+    public void onApplyElectronicSocialSecurityCardToken(EleCardTokenEntity body) {
+        String token = body.getToken();
+        LogUtil.i(TAG, "token===" + token);
+        if (OrgConfig.SRY.equals(mBusinessType)) {
+            tryToSettle(token);
+        } else if (OrgConfig.SRJ.equals(mBusinessType)) {
+            officialSettle(token);
+        }
+    }
+
+    private void officialSettle(String token) {
+        mYiBaoToken = token;
+        boolean isSelfFeeCard = "0".equals(token);
+        // 如果 token 是 0，说明是自费卡，不需要保存 token，否则是社保卡，先发起保存 token
+        mCurrentToState = isSelfFeeCard ? TO_STATE2 : TO_STATE1;
+        if (isSelfFeeCard) {
+            if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
+                mPresenter.getPayParam(mOrgCode);
             } else {
                 requestCy0007();
+            }
+        } else {
+            requestCy0007();
+        }
+    }
+
+    private void tryToSettle(String token) {
+        mPresenter.requestCy0006(mOrgCode, token);
+    }
+
+    public void checkElectronicSocialSecurityCardPassword() {
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
+
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
+        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+        map.put(MapKey.AAC002, idNum);
+        map.put(MapKey.AAC003, name);
+        map.put(MapKey.AAB301, "湖州市");
+        map.put(MapKey.SIGN_NO, signNo);
+
+        SignatureTool.getSign(this, map, s -> startSdk(idNum, name, s));
+    }
+
+    /**
+     * 启动SDK
+     *
+     * @param idCard 身份证
+     * @param name   姓名
+     * @param s      签名
+     */
+    private void startSdk(final String idCard, final String name, String s) {
+        LogUtil.i(TAG, "idCard===" + idCard + ",name===" + name + ",s===" + s);
+        String url = ZjBiap.getInstance().getValidPwd();
+        LogUtil.i(TAG, "url===" + url);
+
+        // 662701
+        ZjEsscSDK.startSdk(LeaveHospitalActivity.this, idCard, name, url, s, new SdkCallBack() {
+            @Override
+            public void onLoading(boolean show) {
+                showLoading(show);
+            }
+
+            @Override
+            public void onResult(@ResultType int type, String data) {
+                if (type == ResultType.SCENE) {
+                    handleScene(data);
+                }
+            }
+
+            @Override
+            public void onError(String code, ZjEsscException e) {
+                LogUtil.e(TAG, "onError():code===" + code + ",errorMsg===" + e.getMessage());
             }
         });
     }
 
-    public static void actionStart(Context context, String orgCode, String orgName, String inHosId, String inHosDate, String inHosArea) {
-        if (context != null) {
-            Intent intent = new Intent(context, LeaveHospitalActivity.class);
-            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-            intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
-            intent.putExtra(IntentExtra.IN_HOS_DATE, inHosDate);
-            intent.putExtra(IntentExtra.IN_HOS_AREA, inHosArea);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+    /**
+     * 独立服务回调处理
+     */
+    private void handleScene(String data) {
+        WToastUtil.show(data);
+        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
+        String sceneType = eleCardEntity.getSceneType();
+        // 密码验证
+        if ("004".equals(sceneType)) {
+            ZjEsscSDK.closeSDK();
+            String busiSeq = eleCardEntity.getBusiSeq();
+            SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);
+            // {"busiSeq":"fa6f1f67f5fa49f086a4db2aeaff880b","sceneType":"004"}
+            requestTryToSettleToken(OrgConfig.SRJ);
         }
+    }
+
+    private void getOfficialToSettleToken() {
+        EpSoftUtils.getOfficialToSettleToken(this, this::officialSettle);
     }
 
     @Override
@@ -296,7 +388,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                 String payState = entity.getPayState();
                 if (!TextUtils.isEmpty(payState)) {
                     switch (payState) {
-                        case "1": // 1、后台正在异步结算（前台等待）
+                        // 1、后台正在异步结算（前台等待）
+                        case "1":
                             // 重试 3 次，如果还是失败就返回首页
                             if (mOfficeSettleTimes < 3) {
                                 mOfficeSettleTimes++;
@@ -306,10 +399,12 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
                                 LeaveHospitalActivity.this.finish();
                             }
                             break;
-                        case "2": // 2、结算完成（返回成功页面）
+                        // 2、结算完成（返回成功页面）
+                        case "2":
                             jumpToLeaveHospitalResultPager(true);
                             break;
-                        case "3": // 3、结算失败（包括超时自动处理）
+                        // 3、结算失败（包括超时自动处理）
+                        case "3":
                             jumpToLeaveHospitalResultPager(false);
                             break;
                         default:
@@ -328,10 +423,15 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private void waitingAndOnceAgain() {
         showLoading(true);
         // 住院部分，如果再结算中 10 秒钟发起一次请求
-        mHandler.postDelayed(() -> {
-            mCurrentToState = TO_STATE2;
-            requestCy0007();
-        }, 10000);
+        Disposable disposable =
+                Observable
+                        .timer(10, TimeUnit.SECONDS)
+                        .subscribe(aLong -> {
+                            mCurrentToState = TO_STATE2;
+                            requestCy0007();
+                        });
+
+        mCompositeDisposable.add(disposable);
     }
 
     private void jumpToLeaveHospitalResultPager(boolean isSuccess) {
@@ -340,12 +440,25 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         finish();
     }
 
+    public static void actionStart(Context context, String orgCode, String orgName, String inHosId, String inHosDate, String inHosArea) {
+        if (context == null) {
+            return;
+        }
+        Intent intent = new Intent(context, LeaveHospitalActivity.class);
+        intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+        intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
+        intent.putExtra(IntentExtra.IN_HOS_DATE, inHosDate);
+        intent.putExtra(IntentExtra.IN_HOS_AREA, inHosArea);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
-        mHandler.removeCallbacksAndMessages(null);
+        mCompositeDisposable.clear();
     }
 }
