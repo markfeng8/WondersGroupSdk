@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

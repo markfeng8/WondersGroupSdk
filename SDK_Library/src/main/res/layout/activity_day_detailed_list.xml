@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.daydetailedlist.view.DayDetailedListActivity">
 
-    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/wonders_day_detailed_list"

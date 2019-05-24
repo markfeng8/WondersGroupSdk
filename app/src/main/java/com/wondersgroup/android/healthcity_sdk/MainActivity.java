@@ -24,11 +24,11 @@ import android.widget.ToggleButton;
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.jkcs_sdk.api.WondersGroup;
-import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
-import com.wondersgroup.android.jkcs_sdk.entity.UserBuilder;
-import com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity;
-import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.api.WondersGroup;
+import com.wondersgroup.android.sdk.constants.SpKey;
+import com.wondersgroup.android.sdk.entity.UserBuilder;
+import com.wondersgroup.android.sdk.net.mock.MockActivity;
+import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;

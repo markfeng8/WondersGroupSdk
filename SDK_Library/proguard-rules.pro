@@ -271,16 +271,16 @@
 
 #--------------------------------- 项目个性化配置 start ------------------------------------
 # 保留所有实体类不被混淆
--keep class com.wondersgroup.android.jkcs_sdk.entity.**{*;}
+-keep class com.wondersgroup.android.sdk.entity.**{*;}
 
 # 保持对外的 SDK 初始化的类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
--keep class com.wondersgroup.android.jkcs_sdk.WondersSdk {
+-keep class com.wondersgroup.android.sdk.WondersSdk {
     public static com.wondersgroup.android.jkcs_sdk.WondersSdk getInstance();
     public void init(android.content.Context, com.wondersgroup.android.jkcs_sdk.entity.ConfigOption);
 }
 
 # 保持对外的调用类 WondersGroup 的类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
--keep class com.wondersgroup.android.jkcs_sdk.api.WondersGroup {
+-keep class com.wondersgroup.android.sdk.api.WondersGroup {
     public static void startBusiness(android.content.Context, com.wondersgroup.android.jkcs_sdk.entity.UserBuilder, int);
 }
 #--------------------------------- 项目个性化配置 end --------------------------------------

@@ -12,7 +12,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/wonders_recharge_record"

@@ -56,19 +56,19 @@
             android:textOn="" />
     </LinearLayout>
 
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
         android:id="@+id/plTotalMoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
         android:id="@+id/plPersonalPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
         android:id="@+id/plYiBaoPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

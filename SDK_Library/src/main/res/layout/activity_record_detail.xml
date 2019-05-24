@@ -13,7 +13,7 @@
     android:background="@color/wonders_rgb_color_ffffff"
     android:orientation="vertical">
 
-    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/wonders_pay_bill_detail"
@@ -89,17 +89,17 @@
         android:layout_height="1px"
         android:background="@color/wonders_rgb_color_e0e0e0" />
 
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
         android:id="@+id/plTotalMoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
         android:id="@+id/plPersonalPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
         android:id="@+id/plYiBaoPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

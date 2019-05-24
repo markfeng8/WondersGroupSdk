@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wondersgroup.android.jkcs_sdk">
+    package="com.wondersgroup.android.sdk">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -24,67 +24,67 @@
 
     <application>
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.settingspage.view.SettingsActivity"
+            android:name="com.wondersgroup.android.sdk.ui.settingspage.view.SettingsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.openafterpay.view.OpenAfterPayActivity"
+            android:name="com.wondersgroup.android.sdk.ui.openafterpay.view.OpenAfterPayActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentresult.view.PaymentResultActivity"
+            android:name="com.wondersgroup.android.sdk.ui.paymentresult.view.PaymentResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayhome.view.AfterPayHomeActivity"
+            android:name="com.wondersgroup.android.sdk.ui.afterpayhome.view.AfterPayHomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentdetails.view.PaymentDetailsActivity"
+            android:name="com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity"
+            android:name="com.wondersgroup.android.sdk.ui.paymentrecord.view.FeeRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.afterpayrules.AfterPayRuleActivity"
+            android:name="com.wondersgroup.android.sdk.ui.afterpayrules.AfterPayRuleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.selfpayfee.view.SelfPayFeeActivity"
+            android:name="com.wondersgroup.android.sdk.ui.selfpayfee.view.SelfPayFeeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.daydetailedlist.view.DayDetailedListActivity"
+            android:name="com.wondersgroup.android.sdk.ui.daydetailedlist.view.DayDetailedListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalhome.view.InHospitalHomeActivity"
+            android:name="com.wondersgroup.android.sdk.ui.inhospitalhome.view.InHospitalHomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity"
+            android:name="com.wondersgroup.android.sdk.ui.prepayfeerecharge.view.PrepayFeeRechargeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.view.RechargeRecordActivity"
+            android:name="com.wondersgroup.android.sdk.ui.rechargerecord.view.RechargeRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.leavehospital.view.LeaveHospitalActivity"
+            android:name="com.wondersgroup.android.sdk.ui.leavehospital.view.LeaveHospitalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalrecord.view.InHospitalRecordActivity"
+            android:name="com.wondersgroup.android.sdk.ui.inhospitalrecord.view.InHospitalRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.recorddetail.view.RecordDetailActivity"
+            android:name="com.wondersgroup.android.sdk.ui.recorddetail.view.RecordDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.qrcodepage.QrCodeActivity"
+            android:name="com.wondersgroup.android.sdk.ui.qrcodepage.QrCodeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity"
+            android:name="com.wondersgroup.android.sdk.ui.eleinvoice.EleInvoiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.leavehosresult.LeaveHosResultActivity"
+            android:name="com.wondersgroup.android.sdk.ui.leavehosresult.LeaveHosResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory"
+            android:name="com.wondersgroup.android.sdk.ui.inhospitalhistory.view.InHospitalHistory"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.jkcs_sdk.net.mock.MockActivity"
+            android:name="com.wondersgroup.android.sdk.net.mock.MockActivity"
             android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->

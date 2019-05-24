@@ -3,8 +3,8 @@ package com.wondersgroup.android.healthcity_sdk;
 import android.app.Application;
 
 import com.tencent.bugly.crashreport.CrashReport;
-import com.wondersgroup.android.jkcs_sdk.WondersSdk;
-import com.wondersgroup.android.jkcs_sdk.entity.ConfigOption;
+import com.wondersgroup.android.sdk.WondersSdk;
+import com.wondersgroup.android.sdk.entity.ConfigOption;
 
 /**
  * Created by x-sir on 2018/8/1 :)

@@ -7,7 +7,7 @@
     android:background="@color/wonders_rgb_color_ffffff"
     android:orientation="vertical">
 
-    <com.wondersgroup.android.jkcs_sdk.widget.TitleBarLayout
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/wonders_in_hospital_list"
