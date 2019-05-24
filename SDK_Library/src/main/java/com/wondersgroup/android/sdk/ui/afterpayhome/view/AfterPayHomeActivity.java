@@ -32,6 +32,7 @@ import com.wondersgroup.android.sdk.ui.afterpayhome.contract.AfterPayHomeContrac
 import com.wondersgroup.android.sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.RxUtils;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.widget.selecthospital.CityConfig;
@@ -41,6 +42,7 @@ import com.wondersgroup.android.sdk.widget.selecthospital.OnCityItemClickListene
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cn.com.epsoft.zjessc.callback.ResultType;
 import io.reactivex.Observable;
@@ -131,8 +133,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
-        tvPayMoney.setOnClickListener(v -> PaymentDetailsActivity.actionStart(
-                AfterPayHomeActivity.this, mOrgCode, mOrgName, false));
+        Disposable disposable =
+                RxUtils.clickView(tvPayMoney)
+                        .throttleFirst(1, TimeUnit.SECONDS)
+                        .subscribe(s -> PaymentDetailsActivity.actionStart(
+                                AfterPayHomeActivity.this, mOrgCode, mOrgName, false));
+
+        mCompositeDisposable.add(disposable);
     }
 
     private void initData() {

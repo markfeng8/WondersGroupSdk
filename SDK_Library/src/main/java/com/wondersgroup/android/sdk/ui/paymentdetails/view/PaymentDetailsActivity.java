@@ -346,7 +346,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                         })
                         .map(LockOrderEntity::getPayplat_tradno)
                         .subscribe(s -> {
-                            WToastUtil.show(s);
                             mPayPlatTradeNo = s;
                             // 锁单成功后刷新订单号
                             mHeadBean.setOrderNum(s);

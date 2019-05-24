@@ -32,10 +32,12 @@ import com.wondersgroup.android.sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.sdk.utils.DensityUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.RxUtils;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by x-sir on 2018/8/24 :)
@@ -172,17 +174,34 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private void initListener() {
             // 点击选择医院
-            tvHospitalName.setOnClickListener(v -> getHospitalList());
+            RxUtils.clickView(tvHospitalName)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(s -> getHospitalList());
+
             // 点击缴费记录
-            llPayRecord.setOnClickListener(v -> FeeRecordActivity.actionStart(mContext));
+            RxUtils.clickView(llPayRecord)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(s -> FeeRecordActivity.actionStart(mContext));
+
             // 点击医后付首页顶部的 "点击缴纳"
-            llToPayFee.setOnClickListener(v -> requestYd0003());
+            RxUtils.clickView(llToPayFee)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(s -> requestYd0003());
+
             // 点击去开通医后付(前提是开通医保移动支付)
-            tvAfterPayState.setOnClickListener(v -> openAfterPay());
+            RxUtils.clickView(tvAfterPayState)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(s -> openAfterPay());
+
             // 申领(查看)电子社保卡
-            tvMobilePayState.setOnClickListener(v -> electronicSocialSecurityCard());
+            RxUtils.clickView(tvMobilePayState)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(s -> electronicSocialSecurityCard());
+
             // 点击跳转到 "设置" 页面
-            llSettings.setOnClickListener(v -> jumpToSetting());
+            RxUtils.clickView(llSettings)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(s -> jumpToSetting());
         }
 
         private void jumpToSetting() {
