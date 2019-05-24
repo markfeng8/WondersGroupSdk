@@ -25,7 +25,6 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.constants.IntentExtra;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.inhospitalhistory.view.InHospitalHistory;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 
@@ -152,19 +151,18 @@ public class LeaveHosResultActivity extends AppCompatActivity {
 
     public static void actionStart(Context context, boolean isSuccess, String orgCode, String orgName, String feeTotal,
                                    String feeCashTotal, String feeYbTotal, String feePrepayTotal, String feeNeedCashTotal) {
-        if (context != null) {
-            Intent intent = new Intent(context, LeaveHosResultActivity.class);
-            intent.putExtra(IntentExtra.IS_SUCCESS, isSuccess);
-            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-            intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
-            intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
-            intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
-            intent.putExtra(IntentExtra.FEE_PREPAY_TOTAL, feePrepayTotal);
-            intent.putExtra(IntentExtra.FEE_NEEDCASH_TOTAL, feeNeedCashTotal);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, LeaveHosResultActivity.class);
+        intent.putExtra(IntentExtra.IS_SUCCESS, isSuccess);
+        intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+        intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
+        intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
+        intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
+        intent.putExtra(IntentExtra.FEE_PREPAY_TOTAL, feePrepayTotal);
+        intent.putExtra(IntentExtra.FEE_NEEDCASH_TOTAL, feeNeedCashTotal);
+        context.startActivity(intent);
     }
 }

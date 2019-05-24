@@ -250,17 +250,16 @@ public class DayDetailedListActivity extends MvpBaseActivity<DayDetailedListCont
      * @param maxMillis 时间控件的最大时间
      */
     public static void actionStart(Context context, String orgCode, String inHosId, String flag, long minMillis, long maxMillis) {
-        if (context != null) {
-            Intent intent = new Intent(context, DayDetailedListActivity.class);
-            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-            intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
-            intent.putExtra(IntentExtra.ACTIVITY_TAG, flag);
-            intent.putExtra(IntentExtra.MIN_MILLIS, minMillis);
-            intent.putExtra(IntentExtra.MAX_MILLIS, maxMillis);
-            context.startActivity(intent);
-        } else {
-            throw new NullPointerException("context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, DayDetailedListActivity.class);
+        intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+        intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
+        intent.putExtra(IntentExtra.ACTIVITY_TAG, flag);
+        intent.putExtra(IntentExtra.MIN_MILLIS, minMillis);
+        intent.putExtra(IntentExtra.MAX_MILLIS, maxMillis);
+        context.startActivity(intent);
     }
 
     @Override

@@ -231,12 +231,11 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     public static void actionStart(Context context) {
-        if (context != null) {
-            Intent intent = new Intent(context, SelfPayFeeActivity.class);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, SelfPayFeeActivity.class);
+        context.startActivity(intent);
     }
 
     @Override

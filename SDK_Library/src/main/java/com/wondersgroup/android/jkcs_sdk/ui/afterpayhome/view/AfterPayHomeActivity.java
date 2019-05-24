@@ -380,24 +380,21 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     public static void actionStart(Context context, HashMap<String, String> param) {
-        if (context != null) {
-            if (param != null && !param.isEmpty()) {
-                // 传递数据
-                SerializableHashMap sMap = new SerializableHashMap();
-                // 将 map 数据添加到封装的 sMap 中
-                sMap.setMap(param);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(IntentExtra.SERIALIZABLE_MAP, sMap);
-                Intent intent = new Intent(context, AfterPayHomeActivity.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            } else {
-                throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
-            }
-
-        } else {
-            throw new IllegalArgumentException(Exceptions.PARAM_CONTEXT_NULL);
+        if (context == null) {
+            return;
         }
+        if (param == null || param.isEmpty()) {
+            throw new IllegalArgumentException(Exceptions.MAP_SET_NULL);
+        }
+        // 传递数据
+        SerializableHashMap sMap = new SerializableHashMap();
+        // 将 map 数据添加到封装的 sMap 中
+        sMap.setMap(param);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(IntentExtra.SERIALIZABLE_MAP, sMap);
+        Intent intent = new Intent(context, AfterPayHomeActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     @Override

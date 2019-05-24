@@ -297,12 +297,11 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     }
 
     public static void actionStart(Context context) {
-        if (context != null) {
-            Intent intent = new Intent(context, SettingsActivity.class);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, SettingsActivity.class);
+        context.startActivity(intent);
     }
 
     @Override

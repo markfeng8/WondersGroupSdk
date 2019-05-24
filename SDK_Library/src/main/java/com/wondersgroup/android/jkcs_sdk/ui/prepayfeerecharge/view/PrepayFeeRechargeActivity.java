@@ -21,7 +21,6 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.contract.PrepayFeeRechargeContract;
 import com.wondersgroup.android.jkcs_sdk.ui.prepayfeerecharge.presenter.PrepayFeeRechargePresenter;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
  * Created by x-sir on 2018/11/8 :)
@@ -86,11 +85,10 @@ public class PrepayFeeRechargeActivity extends MvpBaseActivity<PrepayFeeRecharge
     }
 
     public static void actionStart(Context context) {
-        if (context != null) {
-            Intent intent = new Intent(context, PrepayFeeRechargeActivity.class);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, PrepayFeeRechargeActivity.class);
+        context.startActivity(intent);
     }
 }

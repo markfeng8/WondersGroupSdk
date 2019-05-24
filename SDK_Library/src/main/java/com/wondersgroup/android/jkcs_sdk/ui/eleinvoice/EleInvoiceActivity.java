@@ -119,13 +119,12 @@ public class EleInvoiceActivity extends AppCompatActivity {
     }
 
     public static void actionStart(Context context, String payPlatTradeNo) {
-        if (context != null) {
-            Intent intent = new Intent(context, EleInvoiceActivity.class);
-            intent.putExtra(IntentExtra.PAY_PLAT_TRADE_NO, payPlatTradeNo);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, EleInvoiceActivity.class);
+        intent.putExtra(IntentExtra.PAY_PLAT_TRADE_NO, payPlatTradeNo);
+        context.startActivity(intent);
     }
 
     @Override

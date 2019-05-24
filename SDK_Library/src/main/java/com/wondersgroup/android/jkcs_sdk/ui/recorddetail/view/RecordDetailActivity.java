@@ -29,7 +29,6 @@ import com.wondersgroup.android.jkcs_sdk.ui.eleinvoice.EleInvoiceActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.qrcodepage.QrCodeActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.contract.RecordDetailContract;
 import com.wondersgroup.android.jkcs_sdk.ui.recorddetail.presenter.RecordDetailPresenter;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.PayItemLayout;
 
@@ -167,19 +166,18 @@ public class RecordDetailActivity extends MvpBaseActivity<RecordDetailContract.I
 
     public static void actionStart(Context context, String orgCode, String orgName, String shopOrderTime,
                                    String payPlatTradeNo, String feeTotal, String feeCashTotal, String feeYbTotal) {
-        if (context != null) {
-            Intent intent = new Intent(context, RecordDetailActivity.class);
-            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-            intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            intent.putExtra(IntentExtra.SHOP_ORDER_TIME, shopOrderTime);
-            intent.putExtra(IntentExtra.PAY_PLAT_TRADE_NO, payPlatTradeNo);
-            intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
-            intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
-            intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, RecordDetailActivity.class);
+        intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+        intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        intent.putExtra(IntentExtra.SHOP_ORDER_TIME, shopOrderTime);
+        intent.putExtra(IntentExtra.PAY_PLAT_TRADE_NO, payPlatTradeNo);
+        intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
+        intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
+        intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
+        context.startActivity(intent);
     }
 
     @Override

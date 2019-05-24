@@ -37,7 +37,10 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     private TextView tvEndDate;
     private TextView tvQuery;
     private RecyclerView recyclerView;
-    private long mLastTime = System.currentTimeMillis(); // 上次设置的时间
+    /**
+     * 上次设置的时间
+     */
+    private long mLastTime = System.currentTimeMillis();
     private boolean isStartTime = true;
     private String mStartDate;
     private String mEndDate;
@@ -94,8 +97,9 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
     }
 
     private void getFeeState() {
+        // 01 已完成订单
         mPresenter.getFeeRecord(OrgConfig.FEE_STATE01, mStartDate,
-                mEndDate, mPageNumber, mPageSize); // 01 已完成订单
+                mEndDate, mPageNumber, mPageSize);
     }
 
     private void initListener() {
@@ -123,10 +127,8 @@ public class FeeRecordActivity extends MvpBaseActivity<FeeRecordContract.IView,
                 .setCallback(mOnDateSetListener)
                 .build();
 
-        if (dialog != null) {
-            if (!dialog.isAdded()) {
-                dialog.show(getSupportFragmentManager(), "year_month_day");
-            }
+        if (dialog != null && !dialog.isAdded()) {
+            dialog.show(getSupportFragmentManager(), "year_month_day");
         }
     }
 

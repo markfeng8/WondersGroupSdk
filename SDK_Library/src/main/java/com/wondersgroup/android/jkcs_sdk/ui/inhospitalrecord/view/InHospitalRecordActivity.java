@@ -140,14 +140,13 @@ public class InHospitalRecordActivity extends MvpBaseActivity<InHospitalRecordCo
     }
 
     public static void actionStart(Context context, Cy0001Entity.DetailsBean detailsBean) {
-        if (context != null) {
-            Intent intent = new Intent(context, InHospitalRecordActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(IntentExtra.SERIALIZABLE_DETAILS_BEAN, detailsBean);
-            intent.putExtras(bundle);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, InHospitalRecordActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(IntentExtra.SERIALIZABLE_DETAILS_BEAN, detailsBean);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

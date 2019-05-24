@@ -15,7 +15,6 @@ import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.jkcs_sdk.ui.openafterpay.presenter.OpenAfterPayPresenter;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.WToastUtil;
 
@@ -127,11 +126,10 @@ public class OpenAfterPayActivity extends MvpBaseActivity<OpenAfterPayContract.I
     }
 
     public static void actionStart(Context context) {
-        if (context != null) {
-            Intent intent = new Intent(context, OpenAfterPayActivity.class);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, OpenAfterPayActivity.class);
+        context.startActivity(intent);
     }
 }

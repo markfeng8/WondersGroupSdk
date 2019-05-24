@@ -340,43 +340,56 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void lockOrderResult(LockOrderEntity entity) {
-        if (entity != null) {
-            String lockStartTime = entity.getLock_start_time();
-            mPayPlatTradeNo = entity.getPayplat_tradno();
-            LogUtil.i(TAG, "lockStartTime===" + lockStartTime + ",mPayPlatTradeNo===" + mPayPlatTradeNo);
-            SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockStartTime);
-            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, mPayPlatTradeNo);
-            // 锁单成功后刷新订单号
-            mHeadBean.setOrderNum(mPayPlatTradeNo);
-            refreshAdapter();
+        Disposable disposable =
+                Observable
+                        .just(entity)
+                        .doOnNext(lockOrderEntity -> {
+                            SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockOrderEntity.getLock_start_time());
+                            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, lockOrderEntity.getPayplat_tradno());
+                        })
+                        .map(LockOrderEntity::getPayplat_tradno)
+                        .subscribe(s -> {
+                            WToastUtil.show(s);
+                            mPayPlatTradeNo = s;
+                            // 锁单成功后刷新订单号
+                            mHeadBean.setOrderNum(s);
+                            refreshAdapter();
+                            continueSettle();
+                        });
 
-            // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
-            String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-            if ("0".equals(cardType)) {
-                queryEleCardOpenStatus();
-            } else {
-                // 显示需要结算的金额
-                tvPayName.setText("需现金支付：");
-                // 显示现金需要支付的金额
-                tvTextYuan.setVisibility(View.VISIBLE);
-                tvMoneyNum.setText(mFeeCashTotal);
+        mCompositeDisposable.add(disposable);
+    }
 
-                mDetailPayBean.setTotalPay(mFeeTotal);
-                mDetailPayBean.setPersonalPay(mFeeCashTotal);
-                mDetailPayBean.setYibaoPay(mFeeYbTotal);
+    /**
+     * 锁单成功后继续发起结算
+     */
+    private void continueSettle() {
+        // 如果是门诊才需要进行试结算，如果是自费卡不需要试结算
+        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        if ("0".equals(cardType)) {
+            queryEleCardOpenStatus();
+        } else {
+            // 显示需要结算的金额
+            tvPayName.setText("需现金支付：");
+            // 显示现金需要支付的金额
+            tvTextYuan.setVisibility(View.VISIBLE);
+            tvMoneyNum.setText(mFeeCashTotal);
 
-                // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
-                if (mItemList.size() > 0) {
-                    mItemList.clear();
-                }
-                // 先添加头部数据
-                mItemList.add(mHeadBean);
-                // 再添加 List 数据
-                mItemList.addAll(mCombineList);
-                // 添加支付数据
-                mItemList.add(mDetailPayBean);
-                refreshAdapter();
+            mDetailPayBean.setTotalPay(mFeeTotal);
+            mDetailPayBean.setPersonalPay(mFeeCashTotal);
+            mDetailPayBean.setYibaoPay(mFeeYbTotal);
+
+            // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+            if (mItemList.size() > 0) {
+                mItemList.clear();
             }
+            // 先添加头部数据
+            mItemList.add(mHeadBean);
+            // 再添加 List 数据
+            mItemList.addAll(mCombineList);
+            // 添加支付数据
+            mItemList.add(mDetailPayBean);
+            refreshAdapter();
         }
     }
 
@@ -448,26 +461,24 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void onPayParamResult(PayParamEntity body) {
-        if (body != null) {
-            showLoading(true);
-            // 发起万达统一支付，支付现金部分
-            WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
-                    mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
-                        @Override
-                        public void onSuccess() {
-                            showLoading(false);
-                            WToastUtil.show("支付成功~");
-                            // 支付成功后发起正式结算
-                            onCashPaySuccess();
-                        }
+        showLoading(true);
+        // 发起万达统一支付，支付现金部分
+        WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
+                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
+                    @Override
+                    public void onSuccess() {
+                        showLoading(false);
+                        WToastUtil.show("支付成功~");
+                        // 支付成功后发起正式结算
+                        onCashPaySuccess();
+                    }
 
-                        @Override
-                        public void onFailed(String errMsg) {
-                            showLoading(false);
-                            WToastUtil.show(errMsg);
-                        }
-                    });
-        }
+                    @Override
+                    public void onFailed(String errMsg) {
+                        showLoading(false);
+                        WToastUtil.show(errMsg);
+                    }
+                });
     }
 
     private void onCashPaySuccess() {
@@ -668,16 +679,15 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * @param isFinish 是否需要销毁跳转前的页面
      */
     public static void actionStart(Context context, String orgCode, String orgName, boolean isFinish) {
-        if (context != null) {
-            Intent intent = new Intent(context, PaymentDetailsActivity.class);
-            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-            intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            context.startActivity(intent);
-            if (isFinish) {
-                ((Activity) context).finish();
-            }
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
+        }
+        Intent intent = new Intent(context, PaymentDetailsActivity.class);
+        intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+        intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        context.startActivity(intent);
+        if (isFinish) {
+            ((Activity) context).finish();
         }
     }
 

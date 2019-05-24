@@ -196,18 +196,17 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     public static void actionStart(Context context, String orgCode, String orgName) {
-        if (context != null) {
-            Intent intent = new Intent(context, InHospitalHistory.class);
-            if (!TextUtils.isEmpty(orgCode)) {
-                intent.putExtra(IntentExtra.ORG_CODE, orgCode);
-            }
-            if (!TextUtils.isEmpty(orgCode)) {
-                intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            }
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, InHospitalHistory.class);
+        if (!TextUtils.isEmpty(orgCode)) {
+            intent.putExtra(IntentExtra.ORG_CODE, orgCode);
+        }
+        if (!TextUtils.isEmpty(orgCode)) {
+            intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        }
+        context.startActivity(intent);
     }
 
     @Override

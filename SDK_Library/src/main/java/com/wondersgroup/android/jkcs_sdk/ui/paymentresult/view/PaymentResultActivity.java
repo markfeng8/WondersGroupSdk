@@ -20,7 +20,6 @@ import com.wondersgroup.android.jkcs_sdk.constants.SpKey;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.contract.PaymentResultContract;
 import com.wondersgroup.android.jkcs_sdk.ui.paymentresult.presenter.PaymentResultPresenter;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.jkcs_sdk.utils.SpUtil;
 import com.wondersgroup.android.jkcs_sdk.widget.PayResultLayout;
@@ -50,7 +49,10 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
     private String mFeeTotal = "";
     private String mFeeCashTotal = "";
     private String mFeeYbTotal = "";
-    private boolean mIsSuccess = false; // 是否支付成功
+    /**
+     * 是否支付成功
+     */
+    private boolean mIsSuccess = false;
 
     @Override
     protected PaymentResultPresenter<PaymentResultContract.IView> createPresenter() {
@@ -163,19 +165,18 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
      */
     public static void actionStart(Context context, boolean isSuccess, boolean isFinish, String orgName,
                                    String feeTotal, String feeCashTotal, String feeYbTotal) {
-        if (context != null) {
-            Intent intent = new Intent(context, PaymentResultActivity.class);
-            intent.putExtra(IntentExtra.IS_SUCCESS, isSuccess);
-            intent.putExtra(IntentExtra.ORG_NAME, orgName);
-            intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
-            intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
-            intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
-            context.startActivity(intent);
-            if (isFinish) {
-                ((Activity) context).finish();
-            }
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
+        }
+        Intent intent = new Intent(context, PaymentResultActivity.class);
+        intent.putExtra(IntentExtra.IS_SUCCESS, isSuccess);
+        intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        intent.putExtra(IntentExtra.FEE_TOTAL, feeTotal);
+        intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
+        intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
+        context.startActivity(intent);
+        if (isFinish) {
+            ((Activity) context).finish();
         }
     }
 

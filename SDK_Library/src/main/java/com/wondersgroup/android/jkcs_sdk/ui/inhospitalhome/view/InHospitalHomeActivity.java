@@ -47,6 +47,9 @@ import com.wondersgroup.android.jkcs_sdk.widget.selecthospital.OnCityItemClickLi
 import java.util.List;
 
 import cn.com.epsoft.zjessc.callback.ResultType;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -88,6 +91,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private Cy0001Entity mCy0001Entity;
 
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
      * 住院状态：00 在院 01 预出院 10 已出院
@@ -296,16 +300,15 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        if (body != null) {
-            List<HospitalEntity.DetailsBeanX> details = body.getDetails();
-            if (details != null && details.size() > 0) {
-                String json = new Gson().toJson(details);
-                LogUtil.i(TAG, "json===" + json);
-                showWheelDialog(json);
-            }
-        } else {
-            LogUtil.w(TAG, "onHospitalListResult() -> body is null!");
-        }
+        Disposable disposable =
+                Observable
+                        .just(body)
+                        .map(HospitalEntity::getDetails)
+                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
+                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
+                        .subscribe(this::showWheelDialog);
+
+        mCompositeDisposable.add(disposable);
     }
 
     @SuppressLint("SetTextI18n")
@@ -420,12 +423,16 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     public static void actionStart(Context context) {
-        if (context != null) {
-            Intent intent = new Intent(context, InHospitalHomeActivity.class);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, InHospitalHomeActivity.class);
+        context.startActivity(intent);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
+    }
 }

@@ -16,7 +16,6 @@ import com.wondersgroup.android.jkcs_sdk.R;
 import com.wondersgroup.android.jkcs_sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.contract.RechargeRecordContract;
 import com.wondersgroup.android.jkcs_sdk.ui.rechargerecord.presenter.RechargeRecordPresenter;
-import com.wondersgroup.android.jkcs_sdk.utils.LogUtil;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -44,11 +43,10 @@ public class RechargeRecordActivity extends MvpBaseActivity<RechargeRecordContra
     }
 
     public static void actionStart(Context context) {
-        if (context != null) {
-            Intent intent = new Intent(context, RechargeRecordActivity.class);
-            context.startActivity(intent);
-        } else {
-            LogUtil.e(TAG, "context is null!");
+        if (context == null) {
+            return;
         }
+        Intent intent = new Intent(context, RechargeRecordActivity.class);
+        context.startActivity(intent);
     }
 }
