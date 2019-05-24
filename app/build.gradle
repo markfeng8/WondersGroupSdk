@@ -64,7 +64,7 @@ dependencies {
         exclude group: "com.android.support"
     })
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation 'com.tencent.bugly:crashreport:2.8.6.0'
+    implementation 'com.tencent.bugly:crashreport:3.0.0'
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'

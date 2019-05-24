@@ -36,7 +36,7 @@ public class RxUtils {
 
         private View view;
 
-        ViewClickOnSubscribe(View view) {
+        public ViewClickOnSubscribe(View view) {
             this.view = view;
         }
 

@@ -155,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tvMock:
                 MockActivity.actionStart(this, REQUEST_CODE);
                 break;
+            default:
+                break;
         }
     }
 
@@ -186,13 +188,20 @@ public class MainActivity extends AppCompatActivity {
 
         // 设置需要传递的参数，所有参数都为必须！！！
         UserBuilder userBuilder = new UserBuilder()
-                .setName(name) // 姓名
-                .setPhone(phone) // 手机号
-                .setIdType(idType) // 证件类型(01：身份证)
-                .setIdNum(idNum) // 证件号码
-                .setCardType(cardType) // 就诊卡类型(0：社保卡 2：自费卡)
-                .setCardNum(cardNum) // 就诊卡号
-                .setAddress(homeAddress); // 家庭地址
+                // 姓名
+                .setName(name)
+                // 手机号
+                .setPhone(phone)
+                // 证件类型(01：身份证)
+                .setIdType(idType)
+                // 证件号码
+                .setIdNum(idNum)
+                // 就诊卡类型(0：社保卡 2：自费卡)
+                .setCardType(cardType)
+                // 就诊卡号
+                .setCardNum(cardNum)
+                // 家庭地址
+                .setAddress(homeAddress);
 
         WondersGroup.startBusiness(MainActivity.this, userBuilder, flag);
     }
