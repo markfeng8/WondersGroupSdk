@@ -12,7 +12,7 @@ package com.wondersgroup.android.sdk.constants;
  * Created by x-sir on 2019-05-24 :)
  * Function:支付类型枚举类
  */
-public enum PaymentType {
+public enum PaymentTypeEnum {
     /**
      * 支付宝，微信，银联
      */

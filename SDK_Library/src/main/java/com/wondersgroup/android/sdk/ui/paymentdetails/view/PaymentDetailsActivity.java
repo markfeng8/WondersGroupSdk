@@ -101,10 +101,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private String mPayPlatTradeNo;
     private LoadingView mLoading;
     private boolean tryToSettleIsSuccess = false;
-    /**
-     * 记录点击的 Item 的位置
-     */
-    private int mClickItemPos = -1;
+    private int mClickItemPosition = -1;
     /**
      * 是否是试结算失败时需要去结算
      */
@@ -402,8 +399,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             List<OrderDetailsEntity.DetailsBean> details = entity.getDetails();
             if (details.size() > 0) {
                 // List 数据从 1 开始，需要减去头部的位置 1
-                mCombineList.get(mClickItemPos - 1).setOpenDetails(details);
-                mCombineList.get(mClickItemPos - 1).setSpread(true);
+                mCombineList.get(mClickItemPosition - 1).setOpenDetails(details);
+                mCombineList.get(mClickItemPosition - 1).setSpread(true);
                 // 刷新适配器
                 refreshAdapter();
             }
@@ -666,7 +663,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 获取账单明细
      */
     public void getOrderDetails(String hisOrderNo, int position) {
-        mClickItemPos = position;
+        mClickItemPosition = position;
         mPresenter.getOrderDetails(hisOrderNo, mOrgCode);
     }
 
