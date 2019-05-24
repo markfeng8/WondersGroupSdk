@@ -193,47 +193,43 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onXy0001Result(AfterPayStateEntity entity) {
-        if (entity != null) {
-            LogUtil.json(TAG, new Gson().toJson(entity));
-            String signingStatus = entity.getSigning_status();
-            String paymentStatus = entity.getOne_payment_status();
-            String phone = entity.getPhone();
-            String signDate = entity.getCt_date();
-            String feeTotal = entity.getFee_total();
-            LogUtil.iLogging(TAG, "feeTotal===" + feeTotal);
-            mOrgCode = entity.getOrg_code();
-            mOrgName = entity.getOrg_name();
+        String signingStatus = entity.getSigning_status();
+        String paymentStatus = entity.getOne_payment_status();
+        String phone = entity.getPhone();
+        String signDate = entity.getCt_date();
+        String feeTotal = entity.getFee_total();
+        mOrgCode = entity.getOrg_code();
+        mOrgName = entity.getOrg_name();
 
-            if (!TextUtils.isEmpty(feeTotal)) {
-                tvMoneyNum.setText(feeTotal);
-            }
-
-            SpUtil.getInstance().save(SpKey.SIGNING_STATUS, signingStatus);
-            SpUtil.getInstance().save(SpKey.PAYMENT_STATUS, paymentStatus);
-            SpUtil.getInstance().save(SpKey.PHONE, phone);
-            SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
-            SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
-
-            mHeaderBean.setOrgCode(mOrgCode);
-            mHeaderBean.setOrgName(mOrgName);
-            mHeaderBean.setSigningStatus(signingStatus);
-            mHeaderBean.setPaymentStatus(paymentStatus);
-            mHeaderBean.setFeeTotal(feeTotal);
-            refreshAdapter();
-
-            // 重置医后付开通标志
-            if (mAfterPayOpenSuccess) {
-                SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
-            }
+        if (!TextUtils.isEmpty(feeTotal)) {
+            tvMoneyNum.setText(feeTotal);
         }
+
+        SpUtil.getInstance().save(SpKey.SIGNING_STATUS, signingStatus);
+        SpUtil.getInstance().save(SpKey.PAYMENT_STATUS, paymentStatus);
+        SpUtil.getInstance().save(SpKey.PHONE, phone);
+        SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
+        SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
+        // 重置医后付开通标志
+        if (mAfterPayOpenSuccess) {
+            SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
+        }
+
+        mHeaderBean.setOrgCode(mOrgCode);
+        mHeaderBean.setOrgName(mOrgName);
+        mHeaderBean.setSigningStatus(signingStatus);
+        mHeaderBean.setPaymentStatus(paymentStatus);
+        mHeaderBean.setFeeTotal(feeTotal);
+        refreshAdapter();
     }
 
     @Override
     public void onYd0001Result(final Yd0001Entity entity) {
-        Disposable disposable = Observable
-                .just(entity)
-                .doOnNext(this::saveEleCardData)
-                .subscribe(s -> refreshAdapter());
+        Disposable disposable =
+                Observable
+                        .just(entity)
+                        .doOnNext(this::saveEleCardData)
+                        .subscribe(s -> refreshAdapter());
 
         mCompositeDisposable.add(disposable);
     }

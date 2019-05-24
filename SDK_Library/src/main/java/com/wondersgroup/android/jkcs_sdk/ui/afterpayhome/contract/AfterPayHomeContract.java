@@ -20,6 +20,12 @@ public interface AfterPayHomeContract {
 
         void requestYd0001(HttpRequestCallback<Yd0001Entity> callback);
 
+        /**
+         * 门诊账单基本信息查询
+         *
+         * @param orgCode  组织机构(医院)编码
+         * @param callback 结果的回调
+         */
         void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback);
 
         void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback);
@@ -46,6 +52,11 @@ public interface AfterPayHomeContract {
 
         void requestYd0001();
 
+        /**
+         * 门诊账单基本信息查询
+         *
+         * @param orgCode 组织机构(医院)编码
+         */
         void requestYd0003(String orgCode);
 
         void getHospitalList(String version, String type);
