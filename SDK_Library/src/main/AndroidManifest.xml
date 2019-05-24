@@ -136,7 +136,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="cn.wd.checkout.api.WDVertifyActivity"
-            android:label="@string/title_activity_vertify"
+            android:label="@string/title_activity_verify"
             android:launchMode="singleTask">
 
             <!-- 要想在别的App上能成功调起App，必须添加intent过滤器 -->

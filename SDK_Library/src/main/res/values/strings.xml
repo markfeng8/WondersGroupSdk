@@ -7,7 +7,7 @@
     <string name="wonders_text_phone_number_nullable">手机号为空或非法！</string>
     <string name="invoke_js_method">调用js方法</string>
     <string name="wonders_common_pay_platform">万达统一支付平台示例</string>
-    <string name="title_activity_vertify">VertifyActivity</string>
+    <string name="title_activity_verify">VerifyActivity</string>
     <string name="wonders_pay_name">支付名称</string>
     <string name="wonders_detail_introduce">详细介绍</string>
     <string name="wonders_personal_pay_complete">个人账户支付0.00元已完成！</string>
