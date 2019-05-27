@@ -114,7 +114,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '1.解决数据请求问题;\n2.修复一些bug;'
+    return '1.完成医保新SDK替换;\n2.修复一些bug;'
 }
 
 task("uploadApk") {
