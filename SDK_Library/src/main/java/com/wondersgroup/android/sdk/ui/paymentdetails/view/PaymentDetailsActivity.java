@@ -68,7 +68,6 @@ import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import cn.wd.checkout.api.WDPay;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -121,7 +120,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private static final String TO_STATE2 = "2";
     private String mCurrentToState;
     private String mBusinessType;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private PaymentDetailsAdapter.OnCheckedCallback mOnCheckedCallback;
 
     private SelectPayTypeWindow.OnCheckedListener mCheckedListener = type -> {
@@ -695,7 +693,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
-        mCompositeDisposable.clear();
         if (mLoading != null) {
             mLoading.dispose();
         }

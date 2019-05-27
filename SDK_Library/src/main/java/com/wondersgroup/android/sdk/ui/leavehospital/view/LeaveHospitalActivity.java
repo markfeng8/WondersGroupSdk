@@ -53,7 +53,6 @@ import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -109,7 +108,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private static final String TO_STATE2 = "2";
     private String mCurrentToState;
     private String mBusinessType;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -459,6 +457,5 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
-        mCompositeDisposable.clear();
     }
 }

@@ -58,7 +58,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvOpen;
     private TextView tvPhoneNum;
     private TextView tvGetSmsCode;
-
     private PopupWindow popupWindow;
     private CountdownView countDownView;
     private View popupView;
@@ -67,7 +66,10 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private String mCardNo;
     private String mPhone;
     private String mSignDate;
-    private int mFlag = -1; // 标志是哪个弹窗， 1 为修改通知手机号，2 为解约医后付
+    /**
+     * 标志是哪个弹窗， 1 为修改通知手机号，2 为解约医后付
+     */
+    private int mPopupWindowFlag = -1;
     private String mNoticePhone;
 
     @Override
@@ -102,7 +104,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     @Override
     public void onUpdateSuccessResult() {
         // 刷新显示手机号
-        if (mFlag == 1) {
+        if (mPopupWindowFlag == 1) {
             if (!TextUtils.isEmpty(mNoticePhone)) {
                 tvPhone.setText(mNoticePhone);
                 SpUtil.getInstance().save(SpKey.PHONE, mNoticePhone);
@@ -155,13 +157,13 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
     private void initListener() {
         ivEditPhone.setOnClickListener(v -> {
-            mFlag = 1;
+            mPopupWindowFlag = 1;
             showPopupWindow();
             BrightnessManager.lightoff(SettingsActivity.this);
         });
         // 解约医后付
         tvTermination.setOnClickListener(v -> {
-            mFlag = 2;
+            mPopupWindowFlag = 2;
             showPopupWindow();
             BrightnessManager.lightoff(SettingsActivity.this);
         });
@@ -208,7 +210,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
             // 获取验证码
             tvGetSmsCode.setOnClickListener(v -> {
-                if (mFlag == 1) {
+                if (mPopupWindowFlag == 1) {
                     mNoticePhone = etPhone.getText().toString();
                     if (!TextUtils.isEmpty(mNoticePhone) && mNoticePhone.length() == 11) {
                         tvGetSmsCode.setVisibility(View.GONE);
@@ -218,7 +220,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                     } else {
                         WToastUtil.show("手机号为空或不正确！");
                     }
-                } else if (mFlag == 2) {
+                } else if (mPopupWindowFlag == 2) {
                     tvGetSmsCode.setVisibility(View.GONE);
                     countDownView.setVisibility(View.VISIBLE);
                     countDownView.start(60000);
@@ -245,7 +247,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                     param.put(MapKey.IDEN_CODE, verifyCode);
                     param.put(MapKey.ID_NO, mIdNo);
                     param.put(MapKey.CARD_NO, mCardNo);
-                    if (mFlag == 1) { // 修改手机号
+                    if (mPopupWindowFlag == 1) { // 修改手机号
                         String phone = etPhone.getText().toString();
                         if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
                             param.put(MapKey.PHONE, phone);
@@ -254,7 +256,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                         } else {
                             WToastUtil.show("手机号为空或非法！");
                         }
-                    } else if (mFlag == 2) { // 解约医后付
+                    } else if (mPopupWindowFlag == 2) { // 解约医后付
                         param.put(MapKey.PHONE, mPhone);
                         mPresenter.termination(param);
                     }
@@ -269,7 +271,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             etVerifyCode.setText("");
         }
 
-        if (mFlag == 1) {
+        if (mPopupWindowFlag == 1) {
             ivBackground.setImageResource(R.drawable.wonders_group_pop_window2);
             tvUpdateTitle.setText(getString(R.string.wonders_update_notification_phone));
             String phoneText = getString(R.string.wonders_original_phone) + mPhone;
@@ -278,7 +280,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             tvOpen.setText("确认修改");
             tvPhoneNum.setVisibility(View.GONE);
             llPhone.setVisibility(View.VISIBLE);
-        } else if (mFlag == 2) {
+        } else if (mPopupWindowFlag == 2) {
             ivBackground.setImageResource(R.drawable.wonders_group_pop_window1);
             tvUpdateTitle.setText(getString(R.string.wonders_cancel_after_pay));
             tvOriginalPhone.setVisibility(View.INVISIBLE);

@@ -7,6 +7,8 @@ import android.view.WindowManager;
 
 import com.wondersgroup.android.sdk.widget.LoadingView;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 /**
  * Created by xpf on 2018/8/1 :)
  * Function:Activity的基类
@@ -15,6 +17,7 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
 
     public T mPresenter;
     protected LoadingView mBaseLoading;
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -63,5 +66,6 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
             mBaseLoading.dispose();
         }
         mPresenter.detachView();
+        mCompositeDisposable.clear();
     }
 }

@@ -48,7 +48,6 @@ import java.util.List;
 
 import cn.com.epsoft.zjessc.callback.ResultType;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -91,7 +90,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private Cy0001Entity mCy0001Entity;
 
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
      * 住院状态：00 在院 01 预出院 10 已出院
@@ -430,9 +428,4 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         context.startActivity(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.clear();
-    }
 }

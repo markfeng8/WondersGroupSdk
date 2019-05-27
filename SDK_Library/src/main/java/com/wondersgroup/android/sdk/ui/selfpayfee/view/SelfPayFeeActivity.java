@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -68,7 +67,6 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     private String mAreaName = "湖州市";
     private SelfPayHeaderBean mSelfPayHeaderBean;
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     protected SelfPayFeePresenter<SelfPayFeeContract.IView> createPresenter() {
@@ -238,9 +236,4 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
         context.startActivity(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.clear();
-    }
 }

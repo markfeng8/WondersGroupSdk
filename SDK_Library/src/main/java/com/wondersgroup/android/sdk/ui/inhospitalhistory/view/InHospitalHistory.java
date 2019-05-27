@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -66,7 +65,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private void requestCY0001() {
         mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE1);
@@ -207,12 +205,6 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
             intent.putExtra(IntentExtra.ORG_NAME, orgName);
         }
         context.startActivity(intent);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.clear();
     }
 
 }

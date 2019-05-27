@@ -46,7 +46,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.com.epsoft.zjessc.callback.ResultType;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -91,7 +90,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     private List<Object> mItemList = new ArrayList<>();
 
     private HospitalPickerView mCityPickerView = new HospitalPickerView();
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -404,9 +402,4 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         context.startActivity(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.clear();
-    }
 }
