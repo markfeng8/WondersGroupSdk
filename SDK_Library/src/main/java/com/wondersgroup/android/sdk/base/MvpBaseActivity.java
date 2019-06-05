@@ -33,8 +33,7 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
     }
 
     private void initLoading() {
-        mBaseLoading = new LoadingView.Builder(this)
-                .build();
+        mBaseLoading = new LoadingView.Builder(this).build();
     }
 
     /**
