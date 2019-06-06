@@ -41,7 +41,7 @@ public class WdCommonPayUtils {
      * @param amount   支付金额
      */
     public static void toPay(Activity activity, String appId, String subMerNo, String apiKey,
-                             String orgName, String tradeNo, int payType, String amount, OnPaymentResultListener listener) {
+                             String orgName, String tradeNo, int payType, String amount, OnPaymentListener listener) {
         String errMsg = "";
 
         /*
@@ -50,7 +50,7 @@ public class WdCommonPayUtils {
         if (!NetworkUtil.isNetworkAvailable(WondersApplication.getsContext())) {
             errMsg = "无法连接到互联网，请检查您的网络连接！";
             if (listener != null) {
-                listener.onFailed(errMsg);
+                listener.onResult(errMsg);
             }
             return;
         }
@@ -61,7 +61,7 @@ public class WdCommonPayUtils {
         if (TextUtils.isEmpty(amount)) {
             errMsg = "需支付的的金额非法！";
             if (listener != null) {
-                listener.onFailed(errMsg);
+                listener.onResult(errMsg);
             }
             return;
         }
@@ -74,7 +74,7 @@ public class WdCommonPayUtils {
         if (context == null) {
             errMsg = "context is null!";
             if (listener != null) {
-                listener.onFailed(errMsg);
+                listener.onResult(errMsg);
             }
             return;
         }
@@ -85,7 +85,7 @@ public class WdCommonPayUtils {
         if (!isNumeric(String.valueOf(getFormatCent(amount)))) {
             errMsg = "请输入正确的交易金额（单位：分）!";
             if (listener != null) {
-                listener.onFailed(errMsg);
+                listener.onResult(errMsg);
             }
             return;
         }
@@ -96,7 +96,7 @@ public class WdCommonPayUtils {
         if ((payType == 2) && (!AppInfoUtil.isWeChatAppInstalled(WondersApplication.getsContext()))) {
             errMsg = "您没有安装微信客户端，请先安装微信客户端！";
             if (listener != null) {
-                listener.onFailed(errMsg);
+                listener.onResult(errMsg);
             }
             return;
         }
@@ -111,55 +111,46 @@ public class WdCommonPayUtils {
                 subMerNo, orgName, describe, getFormatCent(amount), tradeNo, describe, null,
                 wdResult -> {
                     final WDPayResult bcPayResult = (WDPayResult) wdResult;
-                    context.runOnUiThread(() -> {
+                    String result = bcPayResult.getResult();
+                    String payResultMsg = "";
+                    LogUtil.i(TAG, "done result=" + result);
 
-                        String payResultMsg = "";
-                        String result = bcPayResult.getResult();
-                        LogUtil.i(TAG, "done result=" + result);
+                    switch (result) {
+                        case WDPayResult.RESULT_SUCCESS:
+                            payResultMsg = "SUCCESS";
+                            break;
+                        case WDPayResult.RESULT_CANCEL:
+                            payResultMsg = "用户取消支付";
+                            break;
+                        case WDPayResult.RESULT_FAIL:
+                            payResultMsg = "支付失败, 原因: " + bcPayResult.getErrMsg() + ", " + bcPayResult.getDetailInfo();
+                            break;
+                        case WDPayResult.FAIL_UNKNOWN_WAY:
+                            payResultMsg = "未知支付渠道";
+                            break;
+                        case WDPayResult.FAIL_WEIXIN_VERSION_ERROR:
+                            payResultMsg = "针对微信支付版本错误（版本不支持）";
+                            break;
+                        case WDPayResult.FAIL_EXCEPTION:
+                            payResultMsg = "支付过程中的Exception";
+                            break;
+                        case WDPayResult.FAIL_ERR_FROM_CHANNEL:
+                            payResultMsg = "从第三方app支付渠道返回的错误信息，原因: " + bcPayResult.getErrMsg();
+                            break;
+                        case WDPayResult.FAIL_INVALID_PARAMS:
+                            payResultMsg = "参数不合法造成的支付失败";
+                            break;
+                        case WDPayResult.RESULT_PAYING_UNCONFIRMED:
+                            payResultMsg = "表示支付中，未获取确认信息";
+                            break;
+                        default:
+                            payResultMsg = "invalid return";
+                            break;
+                    }
 
-                        switch (result) {
-                            case WDPayResult.RESULT_SUCCESS:
-                                payResultMsg = "SUCCESS";
-                                break;
-                            case WDPayResult.RESULT_CANCEL:
-                                payResultMsg = "用户取消支付";
-                                break;
-                            case WDPayResult.RESULT_FAIL:
-                                payResultMsg = "支付失败, 原因: " + bcPayResult.getErrMsg() + ", " + bcPayResult.getDetailInfo();
-                                break;
-                            case WDPayResult.FAIL_UNKNOWN_WAY:
-                                payResultMsg = "未知支付渠道";
-                                break;
-                            case WDPayResult.FAIL_WEIXIN_VERSION_ERROR:
-                                payResultMsg = "针对微信支付版本错误（版本不支持）";
-                                break;
-                            case WDPayResult.FAIL_EXCEPTION:
-                                payResultMsg = "支付过程中的Exception";
-                                break;
-                            case WDPayResult.FAIL_ERR_FROM_CHANNEL:
-                                payResultMsg = "从第三方app支付渠道返回的错误信息，原因: " + bcPayResult.getErrMsg();
-                                break;
-                            case WDPayResult.FAIL_INVALID_PARAMS:
-                                payResultMsg = "参数不合法造成的支付失败";
-                                break;
-                            case WDPayResult.RESULT_PAYING_UNCONFIRMED:
-                                payResultMsg = "表示支付中，未获取确认信息";
-                                break;
-                            default:
-                                payResultMsg = "invalid return";
-                                break;
-                        }
-
-                        if (!TextUtils.isEmpty(payResultMsg) && "SUCCESS".equals(payResultMsg)) {
-                            if (listener != null) {
-                                listener.onSuccess();
-                            }
-                        } else {
-                            if (listener != null) {
-                                listener.onFailed(payResultMsg);
-                            }
-                        }
-                    });
+                    if (listener != null) {
+                        listener.onResult(payResultMsg);
+                    }
                 });
     }
 
@@ -180,9 +171,8 @@ public class WdCommonPayUtils {
         return s != null && !"".equals(s.trim()) && s.matches("^[0-9]+(.[0-9]{1,2})?$");
     }
 
-    public interface OnPaymentResultListener {
-        void onSuccess();
+    public interface OnPaymentListener {
 
-        void onFailed(String errMsg);
+        void onResult(String result);
     }
 }

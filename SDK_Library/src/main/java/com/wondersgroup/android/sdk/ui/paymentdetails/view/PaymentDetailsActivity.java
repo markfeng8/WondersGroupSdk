@@ -458,21 +458,19 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         showLoading(true);
         // 发起万达统一支付，支付现金部分
         WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
-                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal, new WdCommonPayUtils.OnPaymentResultListener() {
-                    @Override
-                    public void onSuccess() {
-                        showLoading(false);
-                        WToastUtil.show("支付成功~");
-                        // 支付成功后发起正式结算
-                        onCashPaySuccess();
-                    }
-
-                    @Override
-                    public void onFailed(String errMsg) {
-                        showLoading(false);
-                        WToastUtil.show(errMsg);
-                    }
-                });
+                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal, result ->
+                        Observable
+                                .just(result)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(s -> {
+                                    showLoading(false);
+                                    WToastUtil.show("SUCCESS".equals(s) ? "支付成功~" : s);
+                                    if ("SUCCESS".equals(s)) {
+                                        // 支付成功后发起正式结算
+                                        onCashPaySuccess();
+                                    }
+                                })
+        );
     }
 
     private void onCashPaySuccess() {
