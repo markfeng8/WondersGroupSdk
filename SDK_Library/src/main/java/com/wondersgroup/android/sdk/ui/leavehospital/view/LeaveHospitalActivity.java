@@ -52,6 +52,7 @@ import cn.com.epsoft.zjessc.callback.ResultType;
 import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
+import cn.wd.checkout.api.WDPay;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -372,7 +373,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onCy0007Result(Cy0007Entity entity) {
         if (TO_STATE1.equals(mCurrentToState)) {
-
             if (!TextUtils.isEmpty(mFeeNeedCashTotal) && Double.parseDouble(mFeeNeedCashTotal) > 0) {
                 // 获取支付参数
                 mPresenter.getPayParam(mOrgCode);
@@ -454,6 +454,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // 统一支付平台，调用结束
+        WDPay.ReleasePayserver();
         // 页面销毁将保存的 mYiBaoToken 和 mYiBaoToken time 清空
         SpUtil.getInstance().save(SpKey.YIBAO_TOKEN, "");
         SpUtil.getInstance().save(SpKey.TOKEN_TIME, "");
