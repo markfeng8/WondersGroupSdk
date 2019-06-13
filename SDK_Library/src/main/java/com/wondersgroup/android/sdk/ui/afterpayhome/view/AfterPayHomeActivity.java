@@ -34,7 +34,6 @@ import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivit
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RxUtils;
 import com.wondersgroup.android.sdk.utils.SpUtil;
-import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.sdk.widget.selecthospital.HospitalPickerView;
 import com.wondersgroup.android.sdk.widget.selecthospital.OnCityItemClickListener;
@@ -55,7 +54,7 @@ import io.reactivex.disposables.Disposable;
 public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.IView,
         AfterPayHomePresenter<AfterPayHomeContract.IView>> implements AfterPayHomeContract.IView {
 
-    private static final String TAG = AfterPayHomeActivity.class.getSimpleName();
+    private static final String TAG = "AfterPayHomeActivity";
     private RecyclerView recyclerView;
     private TextView tvMoneyNum;
     private TextView tvPayMoney;
@@ -230,13 +229,12 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onYd0001Result(final Yd0001Entity entity) {
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .just(entity)
                         .doOnNext(this::saveEleCardData)
-                        .subscribe(s -> refreshAdapter());
-
-        mCompositeDisposable.add(disposable);
+                        .subscribe(s -> refreshAdapter())
+        );
     }
 
     private void saveEleCardData(Yd0001Entity entity) {
@@ -263,7 +261,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 签发回调处理
      */
     private void handleAction(String data) {
-        WToastUtil.show(data);
+        LogUtil.i(TAG, "data===" + data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
         // 表示一级签发
@@ -305,15 +303,14 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .just(body)
                         .map(HospitalEntity::getDetails)
                         .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
                         .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
-                        .subscribe(this::showWheelDialog);
-
-        mCompositeDisposable.add(disposable);
+                        .subscribe(this::showWheelDialog)
+        );
     }
 
     /**
