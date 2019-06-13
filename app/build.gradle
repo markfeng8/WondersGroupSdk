@@ -6,8 +6,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 96
-        versionName "2.8.5"
+        versionCode 97
+        versionName "2.8.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -114,7 +114,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '1.完成医保新SDK替换;\n2.修复一些bug;'
+    return '1.优化医保新SDK;\n2.修复一些bug;'
 }
 
 task("uploadApk") {

@@ -39,6 +39,6 @@ public interface InHospitalHomeContract {
 
         void requestYd0001();
 
-        void requestYd0002();
+        void requestYd0002(String state);
     }
 }

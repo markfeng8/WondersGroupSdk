@@ -97,7 +97,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
      */
     @Override
     public void terminationSuccess() {
-        SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, true);
         finish();
     }
 
@@ -128,9 +127,11 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
         String state = "";
         String signingStatus = SpUtil.getInstance().getString(SpKey.SIGNING_STATUS, "");
-        if ("00".equals(signingStatus)) { // 00未签约（医后付状态给NULL）
+        // 00未签约（医后付状态给NULL）
+        if ("00".equals(signingStatus)) {
             state = "未签约";
-        } else if ("01".equals(signingStatus)) { // 01已签约
+            // 01已签约
+        } else if ("01".equals(signingStatus)) {
             /*
              * 1：正常（缴清或未使用医后付服务）2：欠费(医后付后有欠费的概要信)
              */
@@ -140,17 +141,21 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             } else if ("2".equals(paymentStatus)) {
                 state = "欠费";
             }
-        } else if ("02".equals(signingStatus)) { // 02 其他
+            // 02 其他
+        } else if ("02".equals(signingStatus)) {
             state = "其他";
         }
         tvAfterPayState.setText(state);
 
         String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
-        if ("00".equals(mobPayStatus)) { // 00 未签约
+        // 00 未签约
+        if ("00".equals(mobPayStatus)) {
             tvMobilePayState.setText("未开通");
-        } else if ("01".equals(mobPayStatus)) { // 01已签约
+            // 01已签约
+        } else if ("01".equals(mobPayStatus)) {
             tvMobilePayState.setText("已开通");
-        } else if ("02".equals(mobPayStatus)) { // 02 其他
+            // 02 其他
+        } else if ("02".equals(mobPayStatus)) {
             tvMobilePayState.setText("其他");
         }
     }
@@ -247,7 +252,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                     param.put(MapKey.IDEN_CODE, verifyCode);
                     param.put(MapKey.ID_NO, mIdNo);
                     param.put(MapKey.CARD_NO, mCardNo);
-                    if (mPopupWindowFlag == 1) { // 修改手机号
+                    // 修改手机号
+                    if (mPopupWindowFlag == 1) {
                         String phone = etPhone.getText().toString();
                         if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
                             param.put(MapKey.PHONE, phone);
@@ -256,7 +262,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                         } else {
                             WToastUtil.show("手机号为空或非法！");
                         }
-                    } else if (mPopupWindowFlag == 2) { // 解约医后付
+                        // 解约医后付
+                    } else if (mPopupWindowFlag == 2) {
                         param.put(MapKey.PHONE, mPhone);
                         mPresenter.termination(param);
                     }

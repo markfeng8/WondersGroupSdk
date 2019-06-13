@@ -16,6 +16,7 @@ import com.wondersgroup.android.sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.Exceptions;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
+import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.sdk.entity.AfterPayStateEntity;
@@ -70,7 +71,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 选择器默认的地区
      */
     private String mAreaName = "湖州市";
-    private boolean mAfterPayOpenSuccess;
     /**
      * 头部数据类型
      */
@@ -107,10 +107,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     protected void onRestart() {
         super.onRestart();
         LogUtil.i(TAG, "onRestart()");
-        mAfterPayOpenSuccess = SpUtil.getInstance().getBoolean(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
-        if (mAfterPayOpenSuccess) {
-            requestXy0001();
-        }
         backRefreshPager();
     }
 
@@ -214,10 +210,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         SpUtil.getInstance().save(SpKey.PHONE, phone);
         SpUtil.getInstance().save(SpKey.SIGN_DATE, signDate);
         SpUtil.getInstance().save(SpKey.FEE_TOTAL, feeTotal);
-        // 重置医后付开通标志
-        if (mAfterPayOpenSuccess) {
-            SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, false);
-        }
 
         mHeaderBean.setOrgCode(mOrgCode);
         mHeaderBean.setOrgName(mOrgName);
@@ -251,6 +243,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     public void applyElectronicSocialSecurityCard() {
         new ElectronicSocialSecurityCard().enter(this, (type, data) -> {
+            LogUtil.i(TAG, "type===" + type + ",data===" + data);
+            // type===2,data==={"busiSeq":"3a0485b7813f4465a04f26e96d9e29ff","sceneType":"004"}
+            // type===1,data==={"signLevel":"1","signNo":"3138FBC7EBEC7245F020AA078CA87FB6","aab301":"330599","actionType":"003"}
             if (type == ResultType.ACTION) {
                 handleAction(data);
             }
@@ -261,16 +256,18 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 签发回调处理
      */
     private void handleAction(String data) {
-        LogUtil.i(TAG, "data===" + data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
-        // 表示一级签发
+        // 电子社保卡申领完成（一级签发）
         if ("001".equals(actionType)) {
             String signNo = eleCardEntity.getSignNo();
             String aab301 = eleCardEntity.getAab301();
             LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
             SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-            requestYd0002();
+            requestYd0002(OrgConfig.STATE_OPEN);
+            // 解除绑定完成
+        } else if ("003".equals(actionType)) {
+            requestYd0002(OrgConfig.STATE_CLOSE);
         }
     }
 
@@ -363,8 +360,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     /**
      * 上传电子社保卡开通状态
      */
-    private void requestYd0002() {
-        mPresenter.requestYd0002();
+    private void requestYd0002(String state) {
+        mPresenter.requestYd0002(state);
     }
 
     /**

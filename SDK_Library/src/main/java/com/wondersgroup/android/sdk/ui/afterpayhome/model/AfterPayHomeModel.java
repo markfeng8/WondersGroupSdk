@@ -182,7 +182,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void requestYd0002() {
+    public void requestYd0002(String state) {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
@@ -200,9 +200,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         param.put(MapKey.CARD_TYPE, cardType);
         param.put(MapKey.MOBILE_PAY_TIME, DateUtils.getCurrentDate());
         // 01 代表开通
-        param.put(MapKey.MOBILE_PAY_STATUS, "01");
+        param.put(MapKey.MOBILE_PAY_STATUS, state);
         // 01 已开通 00：未开通
-        param.put(MapKey.ELE_CARD_STATUS, "01");
+        param.put(MapKey.ELE_CARD_STATUS, state);
         // 签发号
         param.put(MapKey.SIGNATURE_NO, signNo);
         param.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
@@ -327,7 +327,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
     /**
      * 旧版本获取医院列表接口
-     * recommend use {@link AfterPayHomeModel#getHospitalList(String version, String type, HttpRequestCallback callback)}
+     * recommend use {@link AfterPayHomeModel}
      */
     @Deprecated
     public void getHospitalListOld(HttpRequestCallback<HospitalEntity> callback) {

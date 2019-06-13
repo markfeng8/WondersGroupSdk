@@ -25,8 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     private static final String TAG = "RetrofitHelper";
-    private static final String BASE_URL = RequestUrl.HOST; // host
-    private static final long DEFAULT_TIMEOUT = 60000L; // timeout millis
+    private static final String BASE_URL = RequestUrl.HOST;
+    private static final long DEFAULT_TIMEOUT = 60000L;
     private Retrofit mRetrofit;
 
     public static RetrofitHelper getInstance() {
@@ -44,8 +44,8 @@ public class RetrofitHelper {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(getOkhttpClient())
-                .addConverterFactory(GsonConverterFactory.create()) // 添加 Gson 解析
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 添加rxJava
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 

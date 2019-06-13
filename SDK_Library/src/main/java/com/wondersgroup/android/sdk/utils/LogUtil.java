@@ -14,7 +14,7 @@ import java.util.Collection;
 public class LogUtil {
 
     private static final String DEFAULT_TAG = "HZ-SDK-LOG";
-    private static boolean IS_NEED_PRINT_LOG = false; // default
+    private static boolean IS_NEED_PRINT_LOG = false;
 
     public static void setIsNeedPrintLog(boolean isNeedPrintLog) {
         IS_NEED_PRINT_LOG = isNeedPrintLog;

@@ -108,7 +108,6 @@ public class OpenAfterPayActivity extends MvpBaseActivity<OpenAfterPayContract.I
 
     @Override
     public void onAfterPayOpenSuccess() {
-        SpUtil.getInstance().save(SpKey.AFTER_PAY_OPEN_SUCCESS, true);
         llOpenPager.setVisibility(View.GONE);
         llOpenSuccess.setVisibility(View.VISIBLE);
     }

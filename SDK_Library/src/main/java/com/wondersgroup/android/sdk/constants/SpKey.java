@@ -59,10 +59,6 @@ public class SpKey {
      */
     public static final String ELE_CARD_STATUS = "eleCardStatus";
     /**
-     * 医后付开通状态
-     */
-    public static final String AFTER_PAY_OPEN_SUCCESS = "afterPayOpenSuccess";
-    /**
      * sdk 是否时调试模式
      */
     public static final String SDK_DEBUG = "sdkDebug";

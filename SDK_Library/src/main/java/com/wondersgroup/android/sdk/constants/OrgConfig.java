@@ -43,6 +43,14 @@ public class OrgConfig {
      */
     public static final String FEE_STATE01 = "01";
     /**
+     * 开通状态
+     */
+    public static final String STATE_OPEN = "01";
+    /**
+     * 解约/未开通状态
+     */
+    public static final String STATE_CLOSE = "00";
+    /**
      * 02 全部已结算（仅当天查询，作保留）
      */
     public static final String FEE_STATE02 = "02";
