@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release' // bintray plugin
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -75,7 +76,8 @@ dependencies {
 //    implementation 'com.squareup.okhttp3:mockwebserver:3.8.1'
 
     // jar 包会自动打进 aar 包中
-    compileOnly files('libs/libammsdk.jar')
+    //compileOnly files('libs/libammsdk.jar')
+    implementation files('libs/libammsdk.jar')
     implementation files('libs/WDPay-3.6.0.jar')
     implementation files('libs/UPPayAssistEx.jar')
     implementation files('libs/UPPayPluginExPro.jar')
@@ -119,6 +121,75 @@ static def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
 
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// 发布到 bintray 的版本号
+def releaseVersion = '0.1.0'
+
+publish {
+    repoName = 'WondersGroupSdk' // bintray 仓库名
+    userOrg = 'wondersgroupandroid863' // bintray 注册的用户名
+    groupId = 'com.wondersgroup.android' // implementation 引用时的第 1 部分 groupId
+    artifactId = 'WondersGroupSdk' // implementation 引用时的第 2 部分项目名
+    publishVersion = releaseVersion // implementation 引用时的第 3 部分版本号
+    desc = 'WondersGroupSdk project' // 描述信息
+    website = 'https://github.com/google/gson' // 此处一般为项目的地址，因为它不能识别码云的项目地址，所以此处随便填一个 github 项目地址即可
+}
+
+def readProperties(key) {
+    File file = rootProject.file('local.properties')
+    if (file.exists()) {
+        InputStream inputStream = rootProject.file('local.properties').newDataInputStream()
+        Properties properties = new Properties()
+        properties.load(inputStream)
+
+        if (properties.containsKey(key)) {
+            return properties.getProperty(key)
+        }
+    }
+}
+
+task("uploadBintray") {
+    doLast {
+        def command = "../gradlew clean build bintrayUpload -PbintrayUser=wondersgroupandroid863 -PbintrayKey=${readProperties('BINTRAY_KEY')} -PdryRun=false"
+        println "command:" + command
+        try {
+            exec {
+                ExecSpec execSpec ->
+                    executable 'bash'
+                    args '-c', command
+            }
+            println "uploadBintray success~"
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+    }
+}
+
 /*
  * 打开Terminal输入命令:
  * ./gradlew assemble
@@ -131,4 +202,10 @@ static def releaseTime() {
  * git log看看分支历史：
  * git log --graph --pretty=oneline --abbrev-commit
  * git branch -d feature1
+ *
+ * 发布到 bintray
+ * Mac 执行如下命令：
+ * ./gradlew :SDK_Library:uploadBintray
+ * Windows 执行如下命令：
+ * gradlew clean build bintrayUpload -PbintrayUser=wondersgroupandroid863 -PbintrayKey=e4ba8b931617cb82f6ec1459cd26163a1de695b3 -PdryRun=false
  */
