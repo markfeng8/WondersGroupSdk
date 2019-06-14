@@ -69,6 +69,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
     implementation 'com.xsir:PgyerAndroidAppUpdate:0.9.8'
+
     implementation(name: 'PALiveDetect1.0.0', ext: 'aar')
     implementation(name: 'zj_essc_sdk-1.0.5', ext: 'aar')
     implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.1'

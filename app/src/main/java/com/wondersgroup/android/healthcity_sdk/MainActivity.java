@@ -25,10 +25,8 @@ import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.sdk.api.WondersGroup;
-import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.net.mock.MockActivity;
-import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -103,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initListener() {
         tbEnable.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SpUtil.getInstance().save(SpKey.IS_MOCK, isChecked);
+            //SpUtil.getInstance().save(SpKey.IS_MOCK, isChecked);
         });
     }
 
     private void initData() {
         // 默认模拟数据是关闭的状态
-        SpUtil.getInstance().save(SpKey.IS_MOCK, false);
+        //SpUtil.getInstance().save(SpKey.IS_MOCK, false);
         String version = AppInfoUtil.getVersionName(this);
         String versionName = "demo 版本：V" + version;
         tvVersion.setText(versionName);
