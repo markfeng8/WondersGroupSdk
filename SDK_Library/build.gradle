@@ -35,7 +35,10 @@ android {
     }
 
     lintOptions {
+        // 即使有报错也不会停止打包
         abortOnError false
+        // 打包Release版本的时候也不进行Lint检测
+        checkReleaseBuilds false
     }
 }
 
@@ -82,8 +85,8 @@ dependencies {
     implementation files('libs/alipaySdk-20160120.jar')
 
     // 此种方式不会将 libs 中的 aar 包打进 aar 包中
-    implementation(name: 'PALiveDetect1.0.0', ext: 'aar')
-    implementation(name: 'zj_essc_sdk-1.0.5', ext: 'aar')
+    compileOnly(name: 'PALiveDetect1.0.0', ext: 'aar')
+    compileOnly(name: 'zj_essc_sdk-1.0.5', ext: 'aar')
 }
 
 /**
@@ -131,6 +134,7 @@ task sourcesJar(type: Jar) {
 }
 
 task javadoc(type: Javadoc) {
+    failOnError false
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
@@ -146,7 +150,7 @@ artifacts {
 }
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.0'
+def releaseVersion = '0.1.1'
 
 publish {
     repoName = 'WondersGroupSdk' // bintray 仓库名

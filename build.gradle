@@ -28,14 +28,15 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         flatDir { dirs 'libs', '../SDK_Library/libs' }
         // 添加 bintray 私有仓库地址
-//        maven {
-//            url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk"
-//        }
+        maven {
+            url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk"
+        }
     }
-    // 项目中如果有中文文档注释需要天下如下 task
+    // 项目中如果有中文文档注释需要添加如下 task
     tasks.withType(Javadoc) {
         options {
             encoding "UTF-8"
@@ -44,6 +45,10 @@ allprojects {
         }
     }
 }
+
+//kotlin类库上传
+//非常重要 要不它不认识你的项目.kt文件名 其中airpurgeview是你的library名
+//tasks.getByPath(":airpurgeview:releaseAndroidJavadocs").enabled = false
 
 task clean(type: Delete) {
     delete rootProject.buildDir
