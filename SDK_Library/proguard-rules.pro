@@ -180,6 +180,22 @@
 # Epsoft
 -keep class com.epsoft.**{*;}
 -keep class com.itsea.cplusplus.** {*;}
+# 保留annotation， 例如 @JavascriptInterface 等 annotation
+-keepattributes *Annotation*
+# 保留跟 javascript 相关的属性
+-keepattributes *JavascriptInterface*
+# 保留 JavascriptInterface 中的方法
+-keepclassmembers class * {@android.webkit.JavascriptInterface <methods>;}
+-dontwarn cn.com.epsoft.zjessc.**
+-keep class cn.com.epsoft.zjessc.**{*;}
+-dontwarn hc.mhis.paic.com.essclibrary.**
+-keep class hc.mhis.paic.com.essclibrary.** { *;}
+-dontwarn com.pingan.ai.**
+-keep class com.pingan.ai.** { *;}
+-dontwarn pingan.ai.**
+-keep class pingan.ai.** { *;}
+-dontwarn com.google.zxing.**
+-keep class com.google.zxing.**{*;}
 #--------------------------------- Epsoft(医保 SDK 相关) end ------------------------------------
 
 #------------------------- 万达统一支付 start --------------------------------------------
