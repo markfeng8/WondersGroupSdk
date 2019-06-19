@@ -2,13 +2,8 @@ package com.wondersgroup.android.sdk.net;
 
 import com.wondersgroup.android.sdk.BuildConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
-import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.net.interceptor.LoggerInterceptor;
-import com.wondersgroup.android.sdk.net.mock.MockInterceptor;
-import com.wondersgroup.android.sdk.net.mock.MockService;
-import com.wondersgroup.android.sdk.net.mock.Mocker;
 import com.wondersgroup.android.sdk.net.service.ApiService;
-import com.wondersgroup.android.sdk.utils.SpUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -60,25 +55,15 @@ public class RetrofitHelper {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        return new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 //.hostnameVerifier(HttpsUtils.getHostnameVerifier())
-                //.addInterceptor(new HeaderInterceptor()) // 添加请求头
-                .addNetworkInterceptor(loggingInterceptor) // 添加日志打印拦截器
+                //.addInterceptor(new HeaderInterceptor())
+                .addNetworkInterceptor(loggingInterceptor)
                 .build();
-
-        // 是否需要设置模拟请求数据
-        boolean isMock = SpUtil.getInstance().getBoolean(SpKey.IS_MOCK, false);
-        if (isMock) {
-            okHttpClient = okHttpClient.newBuilder()
-                    .addInterceptor(new MockInterceptor(Mocker.create(MockService.class)))
-                    .build();
-        }
-
-        return okHttpClient;
     }
 
     /**

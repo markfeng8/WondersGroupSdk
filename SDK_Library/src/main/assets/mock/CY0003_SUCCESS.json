@@ -1,7 +1,0 @@
-{
-  "return_code": "SUCCESS",
-  "return_msg": "响应成功",
-  "result_code": "FAIL",
-  "err_code": "pay_client值域错误",
-  "err_code_des": "pay_client值域错误"
-}
