@@ -18,24 +18,20 @@ import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.api.Converter;
+import com.wondersgroup.android.sdk.net.callback.AbstractSubscriber;
+import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
-import com.wondersgroup.android.sdk.net.service.EleCardService;
-import com.wondersgroup.android.sdk.net.service.FeeBillService;
-import com.wondersgroup.android.sdk.net.service.GetPayParamService;
-import com.wondersgroup.android.sdk.net.service.LockOrderService;
-import com.wondersgroup.android.sdk.net.service.OrderDetailsService;
-import com.wondersgroup.android.sdk.net.service.SettleService;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 
 import java.util.HashMap;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -50,6 +46,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     private String mIdNum;
     private String mCardType;
     private String mCardNum;
+    private BusinessService mService;
 
     public PaymentDetailsModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
@@ -57,12 +54,13 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         mCardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        mService = RetrofitHelper.getInstance().createService(BusinessService.class);
     }
 
     @Override
     public void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback) {
-        String pageNumber = "1"; // 页数
-        String pageSize = "100"; // 每页的条数
+        String pageNumber = "1";
+        String pageSize = "100";
         HashMap<String, String> map = new HashMap<>();
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.PAGE_NUMBER, pageNumber);
@@ -82,52 +80,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.END_DATE, DateUtils.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(FeeBillService.class)
-                .getBillInfo(RequestUrl.YD0003, map)
-                .enqueue(new Callback<FeeBillEntity>() {
-                    @Override
-                    public void onResponse(Call<FeeBillEntity> call, Response<FeeBillEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            FeeBillEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<FeeBillEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getBillInfo(RequestUrl.YD0003, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -145,52 +100,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TOTAL_COUNT, String.valueOf(totalCount));
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(LockOrderService.class)
-                .lockOrder(RequestUrl.YD0005, Converter.toBody(map))
-                .enqueue(new Callback<LockOrderEntity>() {
-                    @Override
-                    public void onResponse(Call<LockOrderEntity> call, Response<LockOrderEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            LockOrderEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LockOrderEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.lockOrder(RequestUrl.YD0005, Converter.toBody(map))
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     /**
@@ -211,52 +123,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.HIS_ORDER_NO, hisOrderNo);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(OrderDetailsService.class)
-                .getOrderDetails(RequestUrl.YD0004, map)
-                .enqueue(new Callback<OrderDetailsEntity>() {
-                    @Override
-                    public void onResponse(Call<OrderDetailsEntity> call, Response<OrderDetailsEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            OrderDetailsEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<OrderDetailsEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getOrderDetails(RequestUrl.YD0004, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -272,52 +141,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.ADVICE_DATE_TIME, adviceDateTime);
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(SettleService.class)
-                .toSettle(RequestUrl.YD0006, Converter.toBody(map))
-                .enqueue(new Callback<SettleEntity>() {
-                    @Override
-                    public void onResponse(Call<SettleEntity> call, Response<SettleEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            SettleEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SettleEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.toSettle(RequestUrl.YD0006, Converter.toBody(map))
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -331,52 +157,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(GetPayParamService.class)
-                .getPayParams(RequestUrl.YD0010, map)
-                .enqueue(new Callback<PayParamEntity>() {
-                    @Override
-                    public void onResponse(Call<PayParamEntity> call, Response<PayParamEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            PayParamEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<PayParamEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getPayParams(RequestUrl.YD0010, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -398,52 +181,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.PAY_PLAT_TRADE_NO, isPureYiBao ? "0" : payPlatTradeNo);
         map.put(MapKey.SIGN, SignUtil.getSignWithObject(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(SettleService.class)
-                .toSettle(RequestUrl.YD0007, Converter.toBody(map))
-                .enqueue(new Callback<SettleEntity>() {
-                    @Override
-                    public void onResponse(Call<SettleEntity> call, Response<SettleEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            SettleEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SettleEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.toSettle(RequestUrl.YD0007, Converter.toBody(map))
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -476,13 +216,11 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         String json = new Gson().toJson(map);
         LogUtil.i(TAG, "json===" + json);
 
-        RetrofitHelper
-                .getInstance()
-                .createService(EleCardService.class)
-                .getToken(RequestUrl.CHECK_SIGN_API, map)
-                .enqueue(new Callback<EleCardTokenEntity>() {
+        mService.getToken(RequestUrl.CHECK_SIGN_API, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new AbstractSubscriber<Response<EleCardTokenEntity>>() {
                     @Override
-                    public void onResponse(Call<EleCardTokenEntity> call, Response<EleCardTokenEntity> response) {
+                    public void onNext(Response<EleCardTokenEntity> response) {
                         int code = response.code();
                         boolean successful = response.isSuccessful();
                         if (code == 200 && successful) {
@@ -510,7 +248,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                     }
 
                     @Override
-                    public void onFailure(Call<EleCardTokenEntity> call, Throwable t) {
+                    public void onError(Throwable t) {
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);

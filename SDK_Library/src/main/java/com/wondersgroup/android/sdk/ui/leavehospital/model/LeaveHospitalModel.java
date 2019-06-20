@@ -8,8 +8,6 @@
 
 package com.wondersgroup.android.sdk.ui.leavehospital.model;
 
-import android.text.TextUtils;
-
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -19,22 +17,17 @@ import com.wondersgroup.android.sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
+import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
-import com.wondersgroup.android.sdk.net.service.Cy0006Service;
-import com.wondersgroup.android.sdk.net.service.Cy0007Service;
-import com.wondersgroup.android.sdk.net.service.GetPayParamService;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
-import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/11/9 :)
@@ -42,9 +35,10 @@ import retrofit2.Response;
  */
 public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
 
-    private static final String TAG = "LeaveHospitalModel";
+    private BusinessService mService;
 
     public LeaveHospitalModel() {
+        mService = RetrofitHelper.getInstance().createService(BusinessService.class);
     }
 
     @Override
@@ -71,49 +65,9 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.ADVICE_DATE_TIME, DateUtils.getCurrentDateTime());
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(Cy0006Service.class)
-                .cy0006(RequestUrl.CY0006, param)
-                .enqueue(new Callback<Cy0006Entity>() {
-                    @Override
-                    public void onResponse(Call<Cy0006Entity> call, Response<Cy0006Entity> response) {
-                        int code = response.code();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && successful) {
-                            Cy0006Entity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            LogUtil.e("服务器异常！");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Cy0006Entity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.cy0006(RequestUrl.CY0006, param)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -144,52 +98,13 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.PAY_PLAT_TRADE_NO, payPlatTradeNo);
         param.put(MapKey.PAY_TRAN_DATE_TIME, payStartTime);
         param.put(MapKey.PAY_CHL, payChl);
-        param.put(MapKey.PAY_CLIENT, "01"); // 01 代表 Android APP
+        // 01 代表 Android APP
+        param.put(MapKey.PAY_CLIENT, "01");
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(Cy0007Service.class)
-                .cy0007(RequestUrl.CY0007, param)
-                .enqueue(new Callback<Cy0007Entity>() {
-                    @Override
-                    public void onResponse(Call<Cy0007Entity> call, Response<Cy0007Entity> response) {
-                        int code = response.code();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && successful) {
-                            Cy0007Entity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            LogUtil.e("服务器异常！");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Cy0007Entity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.cy0007(RequestUrl.CY0007, param)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -203,52 +118,9 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(GetPayParamService.class)
-                .getPayParams(RequestUrl.YD0010, map)
-                .enqueue(new Callback<PayParamEntity>() {
-                    @Override
-                    public void onResponse(Call<PayParamEntity> call, Response<PayParamEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            PayParamEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<PayParamEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getPayParams(RequestUrl.YD0010, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
 }

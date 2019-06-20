@@ -16,19 +16,18 @@ import com.wondersgroup.android.sdk.constants.RequestUrl;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
-import com.wondersgroup.android.sdk.net.service.SignatureService;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.utils.DateUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.HashMap;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by x-sir on 2019/3/29 :)
@@ -62,21 +61,21 @@ public class SignatureTool {
 
         LogUtil.i(TAG, "json===" + new Gson().toJson(param));
 
-        Disposable disposable = RetrofitHelper
-                .getInstance()
-                .createService(SignatureService.class)
-                .getSign(RequestUrl.SIGN, param)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(() -> activity.showLoadingView(false))
-                .subscribe(body -> {
-                    String returnCode = body.getReturn_code();
-                    String resultCode = body.getResult_code();
-                    if (SUCCESS.equals(returnCode) && SUCCESS.equals(resultCode)) {
-                        consumer.accept(body.getSign());
-                    } else {
-                        WToastUtil.show(body.getErr_code_des());
-                    }
-                });
+        Disposable disposable =
+                RetrofitHelper
+                        .getInstance()
+                        .createService(BusinessService.class)
+                        .getSign(RequestUrl.SIGN, param)
+                        .compose(RxThreadUtils.observableToMain())
+                        .doFinally(() -> activity.showLoadingView(false))
+                        .subscribe(body -> {
+                            String returnCode = body.getReturn_code();
+                            String resultCode = body.getResult_code();
+                            if (SUCCESS.equals(returnCode) && SUCCESS.equals(resultCode)) {
+                                consumer.accept(body.getSign());
+                            } else {
+                                WToastUtil.show(body.getErr_code_des());
+                            }
+                        });
     }
 }

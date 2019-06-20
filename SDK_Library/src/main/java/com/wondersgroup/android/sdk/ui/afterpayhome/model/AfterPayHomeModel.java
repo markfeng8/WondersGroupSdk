@@ -2,7 +2,6 @@ package com.wondersgroup.android.sdk.ui.afterpayhome.model;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -12,28 +11,19 @@ import com.wondersgroup.android.sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.sdk.entity.HospitalEntity;
 import com.wondersgroup.android.sdk.entity.Maps;
-import com.wondersgroup.android.sdk.entity.MobilePayEntity;
 import com.wondersgroup.android.sdk.entity.Yd0001Entity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
+import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
-import com.wondersgroup.android.sdk.net.service.AfterPayStateService;
-import com.wondersgroup.android.sdk.net.service.FeeBillService;
-import com.wondersgroup.android.sdk.net.service.HospitalService;
-import com.wondersgroup.android.sdk.net.service.MobilePayService;
-import com.wondersgroup.android.sdk.net.service.Yd0001Service;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
-import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
-import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/8/10 :)
@@ -41,15 +31,17 @@ import retrofit2.Response;
  */
 public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
-    private static final String TAG = AfterPayHomeModel.class.getSimpleName();
+    private static final String TAG = "AfterPayHomeModel";
     private String mName;
     private String mIdType;
     private String mIdNum;
+    private BusinessService mService;
 
     public AfterPayHomeModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
         mIdType = SpUtil.getInstance().getString(SpKey.ID_TYPE, "");
         mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        mService = RetrofitHelper.getInstance().createService(BusinessService.class);
     }
 
     @SuppressWarnings("RedundantCollectionOperation")
@@ -66,52 +58,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         }
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(AfterPayStateService.class)
-                .findAfterPayState(RequestUrl.XY0001, map)
-                .enqueue(new Callback<AfterPayStateEntity>() {
-                    @Override
-                    public void onResponse(Call<AfterPayStateEntity> call, Response<AfterPayStateEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            AfterPayStateEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<AfterPayStateEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.findAfterPayState(RequestUrl.XY0001, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -133,52 +82,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        String json = new Gson().toJson(map);
-        LogUtil.i(TAG, "json:" + json);
-
-        RetrofitHelper
-                .getInstance()
-                .createService(Yd0001Service.class)
-                .yd0001(RequestUrl.YD0001, map)
-                .enqueue(new Callback<Yd0001Entity>() {
-                    @Override
-                    public void onResponse(Call<Yd0001Entity> call, Response<Yd0001Entity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            Yd0001Entity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            LogUtil.e("服务器异常！");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Yd0001Entity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            LogUtil.e(TAG, "移动医保状态上报失败~");
-                            WToastUtil.show(error);
-                        }
-                    }
-                });
+        mService.yd0001(RequestUrl.YD0001, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -208,46 +114,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         param.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(MobilePayService.class)
-                .findMobilePayState(RequestUrl.YD0002, param)
-                .enqueue(new Callback<MobilePayEntity>() {
-                    @Override
-                    public void onResponse(Call<MobilePayEntity> call, Response<MobilePayEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            MobilePayEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    LogUtil.i(TAG, "电子社保卡状态上报成功~");
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        LogUtil.e(TAG, "电子社保卡状态上报失败！" + errCodeDes);
-                                        WToastUtil.show(errCodeDes);
-                                    }
-                                }
-                            }
-                        } else {
-                            LogUtil.e("服务器异常！");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<MobilePayEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            LogUtil.e(TAG, "移动医保状态上报失败~");
-                            WToastUtil.show(error);
-                        }
-                    }
-                });
+        mService.findMobilePayState(RequestUrl.YD0002, param)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>());
     }
 
     @Override
@@ -277,52 +146,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.END_DATE, DateUtils.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(FeeBillService.class)
-                .getBillInfo(RequestUrl.YD0003, map)
-                .enqueue(new Callback<FeeBillEntity>() {
-                    @Override
-                    public void onResponse(Call<FeeBillEntity> call, Response<FeeBillEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            FeeBillEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<FeeBillEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getBillInfo(RequestUrl.YD0003, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     /**
@@ -339,52 +165,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(HospitalService.class)
-                .getHosList(RequestUrl.XY0008, map)
-                .enqueue(new Callback<HospitalEntity>() {
-                    @Override
-                    public void onResponse(Call<HospitalEntity> call, Response<HospitalEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            HospitalEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<HospitalEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getHosList(RequestUrl.XY0008, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -402,52 +185,9 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TYPE, type);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(HospitalService.class)
-                .getHosList(RequestUrl.XY0008, map)
-                .enqueue(new Callback<HospitalEntity>() {
-                    @Override
-                    public void onResponse(Call<HospitalEntity> call, Response<HospitalEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            HospitalEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<HospitalEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.getHosList(RequestUrl.XY0008, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
 }

@@ -1,7 +1,5 @@
 package com.wondersgroup.android.sdk.ui.settingspage.model;
 
-import android.text.TextUtils;
-
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -10,21 +8,17 @@ import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.BaseEntity;
 import com.wondersgroup.android.sdk.entity.SmsEntity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
+import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
-import com.wondersgroup.android.sdk.net.service.SendSmsService;
-import com.wondersgroup.android.sdk.net.service.UpdatePhoneService;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.settingspage.contract.SettingsContract;
-import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.DateUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
-import com.wondersgroup.android.sdk.utils.DateUtils;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/8/1 :)
@@ -32,11 +26,12 @@ import retrofit2.Response;
  */
 public class SettingsModel implements SettingsContract.IModel {
 
-    private static final String TAG = SettingsModel.class.getSimpleName();
     private String mCardType;
+    private BusinessService mService;
 
     public SettingsModel() {
         mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
+        mService = RetrofitHelper.getInstance().createService(BusinessService.class);
     }
 
     @Override
@@ -50,52 +45,9 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(UpdatePhoneService.class)
-                .update(RequestUrl.XY0003, map)
-                .enqueue(new Callback<BaseEntity>() {
-                    @Override
-                    public void onResponse(Call<BaseEntity> call, Response<BaseEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            BaseEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<BaseEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.updatePhone(RequestUrl.XY0003, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -111,50 +63,9 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.IDEN_CLASS, idenClass);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(SendSmsService.class)
-                .sendSmsCode(RequestUrl.XY0006, map)
-                .enqueue(new Callback<SmsEntity>() {
-                    @Override
-                    public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            SmsEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SmsEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (callback != null) {
-                            callback.onFailed(error);
-                        }
-                    }
-                });
+        mService.sendSmsCode(RequestUrl.XY0006, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -168,49 +79,8 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(UpdatePhoneService.class)
-                .update(RequestUrl.XY0004, map)
-                .enqueue(new Callback<BaseEntity>() {
-                    @Override
-                    public void onResponse(Call<BaseEntity> call, Response<BaseEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            BaseEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<BaseEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (callback != null) {
-                            callback.onFailed(error);
-                        }
-                    }
-                });
+        mService.updatePhone(RequestUrl.XY0004, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 }

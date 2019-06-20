@@ -27,54 +27,103 @@ import retrofit2.http.Url;
  */
 public interface ApiService {
 
-    // GET 无参数请求
+    /**
+     * GET 无参数请求
+     *
+     * @param url
+     * @return
+     */
     @GET("{url}")
     Call<ResponseBody> getRequest(
             @Path("url") String url);
 
-    // GET 带参数请求
+    /**
+     * GET 带参数请求
+     *
+     * @param url
+     * @param maps
+     * @return
+     */
     @GET("{url}")
     Call<ResponseBody> getMapParam(
             @Path("url") String url,
             @QueryMap Map<String, String> maps);
 
-    //  POST Map body 请求
+    /**
+     * POST Map body 请求
+     *
+     * @param url
+     * @param maps
+     * @return
+     */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
     Call<ResponseBody> postMapBody(
             @Path(value = "url", encoded = true) String url,
             @Body Map<String, String> maps);
 
-    // POST RequestBody 必须要设置 encoded = true, 否则 url 有编码问题
-    // 使用@Path时，path对应的路径不能包含”/”，否则会将其转化为%2F，在遇到想动态的拼接多节url时，还是使用@Url吧
+    /**
+     * POST RequestBody 必须要设置 encoded = true, 否则 url 有编码问题
+     * 使用@Path时，path对应的路径不能包含”/”，否则会将其转化为%2F，在遇到想动态的拼接多节url时，还是使用@Url吧
+     *
+     * @param url
+     * @param body
+     * @return
+     */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
     Call<ResponseBody> postRequestBody(
             @Path(value = "url", encoded = true) String url,
             @Body RequestBody body);
 
-    //  POST Url body 请求(适用于动态域名访问，当url为全域名时，会使用url的全域访问，当为非全域时，会拼接到BASE_URL的后面)
+    /**
+     * POST Url body 请求(适用于动态域名访问，当url为全域名时，会使用url的全域访问，当为非全域时，会拼接到BASE_URL的后面)
+     *
+     * @param url
+     * @param maps
+     * @return
+     */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST
     Call<ResponseBody> postUrlBody(
             @Url String url,
             @Body Map<String, String> maps);
 
-    // 提交 FORM 表单数据
+    /**
+     * 提交 FORM 表单数据
+     *
+     * @param url
+     * @param params
+     * @return
+     */
     @FormUrlEncoded
     @POST("{url}")
     Call<ResponseBody> postFormData(
             @Path("url") String url,
             @FieldMap Map<String, String> params);
 
-    // 单文件/图片上传
+    /**
+     * 单文件/图片上传
+     *
+     * @param url
+     * @param requestBody
+     * @return
+     */
     @Multipart
     @POST("{url}")
     Observable<ResponseBody> upLoadFile(
             @Path("url") String url,
             @Part("image\"; filename=\"image.jpg") RequestBody requestBody);
 
-    // 多文件/图片上传
+    /**
+     * 多文件/图片上传
+     *
+     * @param url
+     * @param headers
+     * @param description
+     * @param maps
+     * @return
+     */
     @POST("{url}")
     Call<ResponseBody> uploadFiles(
             @Path("url") String url,
@@ -82,7 +131,12 @@ public interface ApiService {
             @Part("filename") String description,
             @PartMap() Map<String, RequestBody> maps);
 
-    // 文件下载
+    /**
+     * 文件下载
+     *
+     * @param fileUrl
+     * @return
+     */
     @Streaming
     @GET
     Observable<ResponseBody> downloadFile(

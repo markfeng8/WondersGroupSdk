@@ -8,8 +8,6 @@
 
 package com.wondersgroup.android.sdk.ui.inhospitalhome.model;
 
-import android.text.TextUtils;
-
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -17,20 +15,17 @@ import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.Cy0001Entity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
+import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
-import com.wondersgroup.android.sdk.net.service.Cy0001Service;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
-import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -38,10 +33,10 @@ import retrofit2.Response;
  */
 public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
 
-    private static final String TAG = "InHospitalHomeModel";
+    private BusinessService mService;
 
     public InHospitalHomeModel() {
-
+        mService = RetrofitHelper.getInstance().createService(BusinessService.class);
     }
 
     @Override
@@ -67,48 +62,8 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         param.put(MapKey.END_DATE, DateUtils.getCurrentDate());
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(Cy0001Service.class)
-                .cy0001(RequestUrl.CY0001, param)
-                .enqueue(new Callback<Cy0001Entity>() {
-                    @Override
-                    public void onResponse(Call<Cy0001Entity> call, Response<Cy0001Entity> response) {
-                        int code = response.code();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && successful) {
-                            Cy0001Entity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            LogUtil.e("服务器异常！");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Cy0001Entity> call, Throwable t) {
-                        String error = t.getMessage();
-                        if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
-                            if (callback != null) {
-                                callback.onFailed(error);
-                            }
-                        }
-                    }
-                });
+        mService.cy0001(RequestUrl.CY0001, param)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 }

@@ -1,7 +1,5 @@
 package com.wondersgroup.android.sdk.ui.openafterpay.model;
 
-import android.text.TextUtils;
-
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -9,20 +7,17 @@ import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.SmsEntity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
+import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
-import com.wondersgroup.android.sdk.net.service.SendSmsService;
+import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.openafterpay.contract.OpenAfterPayContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
-import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
+import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by x-sir on 2018/8/1 :)
@@ -30,14 +25,13 @@ import retrofit2.Response;
  */
 public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
 
-    private static final String TAG = OpenAfterPayModel.class.getSimpleName();
     private String mName;
     private String mIdType;
     private String mIdNum;
     private String mCardType;
     private String mCardNum;
-    private String mPhone;
     private String mHomeAddress;
+    private BusinessService mService;
 
     public OpenAfterPayModel() {
         mName = SpUtil.getInstance().getString(SpKey.NAME, "");
@@ -45,8 +39,8 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
         mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         mCardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        mPhone = SpUtil.getInstance().getString(SpKey.PHONE, "");
         mHomeAddress = SpUtil.getInstance().getString(SpKey.HOME_ADDRESS, "");
+        mService = RetrofitHelper.getInstance().createService(BusinessService.class);
     }
 
     @Override
@@ -62,48 +56,9 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
         map.put(MapKey.IDEN_CLASS, OrgConfig.IDEN_CLASS1);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(SendSmsService.class)
-                .sendSmsCode(RequestUrl.XY0006, map)
-                .enqueue(new Callback<SmsEntity>() {
-                    @Override
-                    public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            SmsEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (callback != null) {
-                                        callback.onFailed(errCodeDes);
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SmsEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (callback != null) {
-                            callback.onFailed(error);
-                        }
-                    }
-                });
+        mService.sendSmsCode(RequestUrl.XY0006, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 
     @Override
@@ -127,49 +82,8 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
         map.put(MapKey.HEALTH_CARE_STATUS, OrgConfig.HEALTH_CARE_STATUS);
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
-        RetrofitHelper
-                .getInstance()
-                .createService(SendSmsService.class)
-                .sendSmsCode(RequestUrl.XY0002, map)
-                .enqueue(new Callback<SmsEntity>() {
-                    @Override
-                    public void onResponse(Call<SmsEntity> call, Response<SmsEntity> response) {
-                        int code = response.code();
-                        String message = response.message();
-                        boolean successful = response.isSuccessful();
-                        if (code == 200 && "OK".equals(message) && successful) {
-                            SmsEntity body = response.body();
-                            if (body != null) {
-                                String returnCode = body.getReturn_code();
-                                String resultCode = body.getResult_code();
-                                if ("SUCCESS".equals(returnCode) && "SUCCESS".equals(resultCode)) {
-                                    if (callback != null) {
-                                        callback.onSuccess(body);
-                                    }
-                                } else {
-                                    String errCodeDes = body.getErr_code_des();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
-                                        if (callback != null) {
-                                            callback.onFailed(errCodeDes);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFailed("服务器异常！");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SmsEntity> call, Throwable t) {
-                        String error = t.getMessage();
-                        LogUtil.e(TAG, error);
-                        if (callback != null) {
-                            callback.onFailed(error);
-                        }
-                    }
-                });
+        mService.sendSmsCode(RequestUrl.XY0002, map)
+                .compose(RxThreadUtils.flowableToMain())
+                .subscribe(new ApiSubscriber<>(callback));
     }
 }
