@@ -37,7 +37,9 @@ public class SpUtil {
      */
     @SuppressLint("ApplySharedPref")
     public void save(String key, Object value) {
-        if (value == null) return;
+        if (value == null) {
+            return;
+        }
         if (value instanceof String) {
             mSp.edit().putString(key, (String) value).commit();
         } else if (value instanceof Boolean) {

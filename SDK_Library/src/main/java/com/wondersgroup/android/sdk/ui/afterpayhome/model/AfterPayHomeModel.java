@@ -31,7 +31,6 @@ import java.util.HashMap;
  */
 public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
 
-    private static final String TAG = "AfterPayHomeModel";
     private String mName;
     private String mIdType;
     private String mIdNum;

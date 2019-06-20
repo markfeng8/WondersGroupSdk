@@ -46,7 +46,8 @@ public class SettleUtil {
             FeeBillDetailsBean detailsBean = details.get(i);
             HashMap<String, String> detailItem = new HashMap<>();
             detailItem.put(MapKey.HIS_ORDER_NO, detailsBean.getHis_order_no());
-            detailItem.put(MapKey.ORDER_NO, "1"); // 正式结算 order_no 传 1
+            // 正式结算 order_no 传 1
+            detailItem.put(MapKey.ORDER_NO, "1");
             detailsList.add(detailItem);
         }
 

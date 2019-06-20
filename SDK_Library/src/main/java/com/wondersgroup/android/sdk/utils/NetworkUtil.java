@@ -16,12 +16,26 @@ import java.util.Enumeration;
 
 public class NetworkUtil {
 
-    public static int NET_CNNT_BAIDU_OK = 1; // NetworkAvailable
-    public static int NET_CNNT_BAIDU_TIMEOUT = 2; // no NetworkAvailable
-    public static int NET_NOT_PREPARE = 3; // Net no ready
-    public static int NET_ERROR = 4; // net error
-    private static int TIMEOUT = 3000; // TIMEOUT
-
+    /**
+     * NetworkAvailable
+     */
+    private static final int NET_CNNT_BAIDU_OK = 1;
+    /**
+     * no NetworkAvailable
+     */
+    private static final int NET_CNNT_BAIDU_TIMEOUT = 2;
+    /**
+     * Net no ready
+     */
+    private static final int NET_NOT_PREPARE = 3;
+    /**
+     * net error
+     */
+    private static final int NET_ERROR = 4;
+    /**
+     * TIMEOUT
+     */
+    private static final int TIMEOUT = 3000;
 
     /**
      * check NetworkAvailable
@@ -32,12 +46,11 @@ public class NetworkUtil {
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getApplicationContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
-        if (null == manager)
+        if (null == manager) {
             return false;
+        }
         NetworkInfo info = manager.getActiveNetworkInfo();
-        if (null == info || !info.isAvailable())
-            return false;
-        return true;
+        return null != info && info.isAvailable();
     }
 
     /**
@@ -77,10 +90,11 @@ public class NetworkUtil {
                 NetworkInfo networkinfo = connectivity.getActiveNetworkInfo();
                 if (networkinfo != null) {
                     if (networkinfo.isAvailable() && networkinfo.isConnected()) {
-                        if (!connectionNetwork())
+                        if (!connectionNetwork()) {
                             return NET_CNNT_BAIDU_TIMEOUT;
-                        else
+                        } else {
                             return NET_CNNT_BAIDU_OK;
+                        }
                     } else {
                         return NET_NOT_PREPARE;
                     }

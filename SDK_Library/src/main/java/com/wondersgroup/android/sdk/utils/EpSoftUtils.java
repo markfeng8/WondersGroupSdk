@@ -23,6 +23,14 @@ import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivit
 public class EpSoftUtils {
 
     private static final String TAG = "EpSoftUtils";
+    /**
+     * 0 是社保卡
+     */
+    private static final String CARD_0 = "0";
+    /**
+     * 2 是自费卡
+     */
+    private static final String CARD_2 = "2";
 
     /**
      * 获取试结算 token
@@ -33,8 +41,7 @@ public class EpSoftUtils {
     public static void getTryToSettleToken(Activity activity, OnTokenListener listener) {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         // 0 是社保卡，2 是自费卡
-        if ("0".equals(cardType)) {
-
+        if (CARD_0.equals(cardType)) {
             if (activity == null) {
                 return;
             }
@@ -45,7 +52,7 @@ public class EpSoftUtils {
                 ((LeaveHospitalActivity) activity).requestTryToSettleToken(OrgConfig.SRY);
             }
 
-        } else if ("2".equals(cardType)) {
+        } else if (CARD_2.equals(cardType)) {
             if (listener != null) {
                 listener.onResult("0");
             }
@@ -61,7 +68,7 @@ public class EpSoftUtils {
     public static void getOfficialToSettleToken(Activity activity, OnTokenListener listener) {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         // 0 是社保卡，2 是自费卡
-        if ("0".equals(cardType)) {
+        if (CARD_0.equals(cardType)) {
             String yiBaoToken = SpUtil.getInstance().getString(SpKey.YIBAO_TOKEN, "");
             String tokenTime = SpUtil.getInstance().getString(SpKey.TOKEN_TIME, "");
 
@@ -88,7 +95,7 @@ public class EpSoftUtils {
                 ((LeaveHospitalActivity) activity).checkElectronicSocialSecurityCardPassword();
             }
 
-        } else if ("2".equals(cardType)) {
+        } else if (CARD_2.equals(cardType)) {
             if (listener != null) {
                 listener.onResult("0");
             }
