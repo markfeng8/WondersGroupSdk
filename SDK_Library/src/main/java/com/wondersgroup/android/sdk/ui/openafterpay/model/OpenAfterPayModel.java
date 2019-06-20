@@ -5,6 +5,7 @@ import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
+import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.SmsEntity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
@@ -45,7 +46,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
 
     @Override
     public void sendSmsCode(String phone, HttpRequestCallback<SmsEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0006);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -63,7 +64,7 @@ public class OpenAfterPayModel implements OpenAfterPayContract.IModel {
 
     @Override
     public void openAfterPay(String phone, String idenCode, HttpRequestCallback<SmsEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0002);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

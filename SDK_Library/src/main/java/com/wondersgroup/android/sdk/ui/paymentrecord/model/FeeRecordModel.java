@@ -6,6 +6,7 @@ import com.wondersgroup.android.sdk.constants.RequestUrl;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.FeeRecordEntity;
+import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
@@ -44,7 +45,7 @@ public class FeeRecordModel implements FeeRecordContract.IModel {
     @Override
     public void getFeeRecord(String feeState, String startDate, String endDate, String pageNumber,
                              String pageSize, HttpRequestCallback<FeeRecordEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0008);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

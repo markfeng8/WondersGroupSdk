@@ -15,4 +15,5 @@ import com.wondersgroup.android.sdk.ui.inhospitalhistory.contract.InHosHisContra
  * Function:
  */
 public class InHosHisModel implements InHosHisContract.IModel {
+
 }

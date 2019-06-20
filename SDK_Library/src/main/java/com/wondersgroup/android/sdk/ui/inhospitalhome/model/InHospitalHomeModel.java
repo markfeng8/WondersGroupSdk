@@ -14,6 +14,7 @@ import com.wondersgroup.android.sdk.constants.RequestUrl;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.Cy0001Entity;
+import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
@@ -46,7 +47,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String phone = SpUtil.getInstance().getString(SpKey.PASS_PHONE, "");
 
-        HashMap<String, String> param = new HashMap<>();
+        HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
         param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0001);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

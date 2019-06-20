@@ -61,7 +61,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     public void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback) {
         String pageNumber = "1";
         String pageSize = "100";
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.ORG_CODE, orgCode);
         map.put(MapKey.PAGE_NUMBER, pageNumber);
         map.put(MapKey.PAGE_SIZE, pageSize);
@@ -113,7 +113,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
      */
     @Override
     public void getOrderDetails(String hisOrderNo, String orgCode, HttpRequestCallback<OrderDetailsEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0004);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -148,7 +148,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 
     @Override
     public void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

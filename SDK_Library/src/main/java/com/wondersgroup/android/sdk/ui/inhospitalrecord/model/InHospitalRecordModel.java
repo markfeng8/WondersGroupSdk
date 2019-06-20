@@ -15,4 +15,5 @@ import com.wondersgroup.android.sdk.ui.inhospitalrecord.contract.InHospitalRecor
  * Function:
  */
 public class InHospitalRecordModel implements InHospitalRecordContract.IModel {
+
 }

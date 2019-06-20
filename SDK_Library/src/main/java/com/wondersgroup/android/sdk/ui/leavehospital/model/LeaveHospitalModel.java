@@ -15,6 +15,7 @@ import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.sdk.entity.Cy0007Entity;
+import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
@@ -49,7 +50,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String jzlsh = SpUtil.getInstance().getString(SpKey.JZLSH, "");
 
-        HashMap<String, String> param = new HashMap<>();
+        HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
         param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0006);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -80,7 +81,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
         String payStartTime = SpUtil.getInstance().getString(SpKey.PAY_START_TIME, "");
 
-        HashMap<String, String> param = new HashMap<>();
+        HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
         param.put(MapKey.SID, RandomUtils.getSid());
         param.put(MapKey.TRAN_CODE, TranCode.TRAN_CY0007);
         param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
@@ -109,7 +110,7 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
 
     @Override
     public void getPayParam(String orgCode, HttpRequestCallback<PayParamEntity> callback) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0010);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);

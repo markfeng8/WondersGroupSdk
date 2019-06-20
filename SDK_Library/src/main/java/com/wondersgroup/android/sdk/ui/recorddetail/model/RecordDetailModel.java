@@ -32,7 +32,6 @@ import java.util.HashMap;
  */
 public class RecordDetailModel implements RecordDetailContract.IModel {
 
-    private static final String TAG = "RecordDetailModel";
     private BusinessService mService;
 
     public RecordDetailModel() {
@@ -41,7 +40,7 @@ public class RecordDetailModel implements RecordDetailContract.IModel {
 
     @Override
     public void requestYd0009(String tradeNo, HttpRequestCallback<FeeBillEntity> callback) {
-        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(7);
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         map.put(MapKey.SID, RandomUtils.getSid());
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0009);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
