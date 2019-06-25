@@ -16,7 +16,7 @@ public class RandomUtils {
      * 获取流水号
      * 交易机构编码 + yyyyMMddHH24mmss + 6位随机数
      *
-     * @return
+     * @return result string
      */
     public static String getSid() {
         int num = (int) ((Math.random() * 9 + 1) * 100000);

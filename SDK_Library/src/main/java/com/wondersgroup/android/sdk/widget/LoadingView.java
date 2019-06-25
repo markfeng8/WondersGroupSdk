@@ -183,7 +183,7 @@ public class LoadingView {
     /**
      * Loading is or not showing.
      *
-     * @return
+     * @return result that current popupWindow is isShowing
      */
     public boolean isShowing() {
         return isShowing;

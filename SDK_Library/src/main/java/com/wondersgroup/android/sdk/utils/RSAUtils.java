@@ -294,10 +294,10 @@ public final class RSAUtils {
     /**
      * 通过公钥 byte[](publicKey.getEncoded()) 将公钥还原，适用于 RSA 算法
      *
-     * @param keyBytes
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @param keyBytes keyBytes
+     * @return result
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
+     * @throws InvalidKeySpecException InvalidKeySpecException
      */
     public static PublicKey getPublicKey(byte[] keyBytes) throws NoSuchAlgorithmException,
             InvalidKeySpecException {
@@ -390,8 +390,8 @@ public final class RSAUtils {
      * 从字符串中加载私钥
      * 加载时使用的是 PKCS8EncodedKeySpec（PKCS#8编码的Key指令）
      *
-     * @param privateKeyStr
-     * @return
+     * @param privateKeyStr privateKeyStr
+     * @return result
      */
     public static PrivateKey loadPrivateKey(String privateKeyStr) {
         try {

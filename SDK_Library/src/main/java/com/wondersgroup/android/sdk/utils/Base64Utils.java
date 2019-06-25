@@ -72,8 +72,8 @@ public class Base64Utils {
     /**
      * 解码
      *
-     * @param str
-     * @return
+     * @param str 密文
+     * @return 明文
      */
     public static byte[] decode(String str) {
         try {
