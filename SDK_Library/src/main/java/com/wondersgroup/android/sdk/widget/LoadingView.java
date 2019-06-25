@@ -216,8 +216,8 @@ public class LoadingView {
         /**
          * Set content text.
          *
-         * @param text
-         * @return
+         * @param text text
+         * @return Builder
          */
         public Builder setText(String text) {
             this.text = text;
@@ -227,8 +227,8 @@ public class LoadingView {
         /**
          * Set text size.
          *
-         * @param textSize
-         * @return
+         * @param textSize textSize
+         * @return Builder
          */
         public Builder setTextSize(int textSize) {
             this.textSize = textSize;
@@ -238,8 +238,8 @@ public class LoadingView {
         /**
          * Set text margin top dimen.
          *
-         * @param textMarginTop
-         * @return
+         * @param textMarginTop textMarginTop
+         * @return Builder
          */
         public Builder setTextMarginTop(int textMarginTop) {
             this.textMarginTop = textMarginTop;
@@ -249,8 +249,8 @@ public class LoadingView {
         /**
          * Set gif loadingView width.
          *
-         * @param loadingWidth
-         * @return
+         * @param loadingWidth loadingWidth
+         * @return Builder
          */
         public Builder setLoadingWidth(int loadingWidth) {
             this.loadingWidth = loadingWidth;
@@ -260,8 +260,8 @@ public class LoadingView {
         /**
          * Set gif loadingView height.
          *
-         * @param loadingHeight
-         * @return
+         * @param loadingHeight loadingHeight
+         * @return Builder
          */
         public Builder setLoadingHeight(int loadingHeight) {
             this.loadingHeight = loadingHeight;
@@ -271,8 +271,8 @@ public class LoadingView {
         /**
          * Set text color.
          *
-         * @param textColor
-         * @return
+         * @param textColor textColor
+         * @return Builder
          */
         public Builder setTextColor(String textColor) {
             this.textColor = textColor;
@@ -282,8 +282,8 @@ public class LoadingView {
         /**
          * Set loadingView corner radius.
          *
-         * @param cornerRadius
-         * @return
+         * @param cornerRadius cornerRadius
+         * @return Builder
          */
         public Builder setCornerRadius(int cornerRadius) {
             this.cornerRadius = cornerRadius;
@@ -293,8 +293,8 @@ public class LoadingView {
         /**
          * Set loadingView background color.
          *
-         * @param loadingBgColor
-         * @return
+         * @param loadingBgColor loadingBgColor
+         * @return Builder
          */
         public Builder setLoadingBgColor(String loadingBgColor) {
             this.loadingBgColor = loadingBgColor;
@@ -304,8 +304,8 @@ public class LoadingView {
         /**
          * set on popupWindow dismissLoadingDialog listener.
          *
-         * @param listener
-         * @return
+         * @param listener listener
+         * @return Builder
          */
         public Builder setListener(OnLoadingListener listener) {
             this.listener = listener;
@@ -342,8 +342,8 @@ public class LoadingView {
     /**
      * dp convert to px.
      *
-     * @param dpValue
-     * @return
+     * @param dpValue dpValue
+     * @return result
      */
     private int dp2px(float dpValue) {
         float scale = mContext.getResources().getDisplayMetrics().density;

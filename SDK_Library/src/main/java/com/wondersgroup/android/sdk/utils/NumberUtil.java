@@ -16,8 +16,8 @@ public class NumberUtil {
     /**
      * 保留两位小数，四舍五入的一个老土的方法
      *
-     * @param d
-     * @return
+     * @param d parameter
+     * @return result
      */
     public static double formatDouble1(double d) {
         return (double) Math.round(d * 100) / 100;
@@ -26,8 +26,8 @@ public class NumberUtil {
     /**
      * The BigDecimal class provides operations for arithmetic, scale manipulation, rounding, comparison, hashing, and format conversion.
      *
-     * @param d
-     * @return
+     * @param d parameter
+     * @return result
      */
     public static double formatDouble2(double d) {
         // 旧方法，已经不再推荐使用
@@ -41,8 +41,8 @@ public class NumberUtil {
      * NumberFormat is the abstract base class for all number formats.
      * This class provides the interface for formatting and parsing numbers.
      *
-     * @param d
-     * @return
+     * @param d parameter
+     * @return result
      */
     public static String formatDouble3(double d) {
         NumberFormat nf = NumberFormat.getNumberInstance();
@@ -57,8 +57,8 @@ public class NumberUtil {
      * 这个方法挺简单的。
      * DecimalFormat is a concrete subclass of NumberFormat that formats decimal numbers.
      *
-     * @param d
-     * @return
+     * @param d parameter
+     * @return result
      */
     public static String formatDouble4(double d) {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -68,20 +68,22 @@ public class NumberUtil {
     /**
      * 保留两位小数
      *
-     * @param num
-     * @return
+     * @param num parameter
+     * @return result
      */
     public static String twoBitDecimal(String num) {
-        DecimalFormat df = new DecimalFormat("0.00");// 格式化小数
-        return df.format(Double.parseDouble(num));//返回的是String类型
+        // 格式化小数
+        DecimalFormat df = new DecimalFormat("0.00");
+        // 返回的是String类型
+        return df.format(Double.parseDouble(num));
     }
 
     /**
      * 如果只是用于程序中的格式化数值然后输出，那么这个方法还是挺方便的。
      * 应该是这样使用：System.out.println(String.format("%.2f", d));
      *
-     * @param d
-     * @return
+     * @param d parameter
+     * @return result
      */
     @SuppressLint("DefaultLocale")
     public static String formatDouble5(double d) {

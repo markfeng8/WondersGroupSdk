@@ -10,7 +10,8 @@ android {
         versionName "1.8.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            // 'armeabi'
         }
     }
 
@@ -68,7 +69,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.yanzhenjie:permission:2.0.0-rc12'
-    implementation 'com.alibaba:fastjson:1.2.49'
+    implementation 'com.alibaba:fastjson:1.2.57'
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
 
 //    implementation 'com.jakewharton.rxbinding:rxbinding:1.0.1'
@@ -155,16 +156,23 @@ artifacts {
 }
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.1'
+def releaseVersion = '0.1.2'
 
 publish {
-    repoName = 'WondersGroupSdk' // bintray 仓库名
-    userOrg = 'wondersgroupandroid863' // bintray 注册的用户名
-    groupId = 'com.wondersgroup.android' // implementation 引用时的第 1 部分 groupId
-    artifactId = 'WondersGroupSdk' // implementation 引用时的第 2 部分项目名
-    publishVersion = releaseVersion // implementation 引用时的第 3 部分版本号
-    desc = 'WondersGroupSdk project' // 描述信息
-    website = 'https://github.com/google/gson' // 此处一般为项目的地址，因为它不能识别码云的项目地址，所以此处随便填一个 github 项目地址即可
+    // bintray 仓库名
+    repoName = 'WondersGroupSdk'
+    // bintray 注册的用户名
+    userOrg = 'wondersgroupandroid863'
+    // implementation 引用时的第 1 部分 groupId
+    groupId = 'com.wondersgroup.android'
+    // implementation 引用时的第 2 部分项目名
+    artifactId = 'WondersGroupSdk'
+    // implementation 引用时的第 3 部分版本号
+    publishVersion = releaseVersion
+    // 描述信息
+    desc = 'WondersGroupSdk project'
+    // 此处一般为项目的地址，因为它不能识别码云的项目地址，所以此处随便填一个 github 项目地址即可
+    website = 'https://github.com/google/gson'
 }
 
 def readProperties(key) {

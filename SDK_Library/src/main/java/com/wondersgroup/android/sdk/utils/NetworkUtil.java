@@ -40,8 +40,8 @@ public class NetworkUtil {
     /**
      * check NetworkAvailable
      *
-     * @param context
-     * @return
+     * @param context application context
+     * @return result
      */
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getApplicationContext().getSystemService(
@@ -56,7 +56,7 @@ public class NetworkUtil {
     /**
      * getLocalIpAddress
      *
-     * @return
+     * @return current ip address
      */
     public static String getLocalIpAddress() {
         String ret = "";
@@ -79,8 +79,8 @@ public class NetworkUtil {
     /**
      * 返回当前网络状态
      *
-     * @param context
-     * @return
+     * @param context application context
+     * @return result that network state.
      */
     public static int getNetState(Context context) {
         try {

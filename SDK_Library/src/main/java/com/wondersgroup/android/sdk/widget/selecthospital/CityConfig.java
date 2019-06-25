@@ -105,9 +105,6 @@ public class CityConfig {
 
     /**
      * 默认显示的城市数据，只包含省市区名称
-     */
-
-    /**
      * 定义显示省市区三种滚轮的显示状态
      * PRO:只显示省份的一级选择器
      * PRO_CITY:显示省份和城市二级联动的选择器
@@ -475,8 +472,8 @@ public class CityConfig {
         /**
          * 是否显示港澳台城市数据，默认不显示
          *
-         * @param showGAT
-         * @return
+         * @param showGAT showGAT
+         * @return Builder
          */
         public Builder setShowGAT(boolean showGAT) {
             this.showGAT = showGAT;
@@ -486,8 +483,8 @@ public class CityConfig {
         /**
          * 中间线的宽度
          *
-         * @param lineHeight
-         * @return
+         * @param lineHeight lineHeight
+         * @return Builder
          */
         public Builder setLineHeight(int lineHeight) {
             this.lineHeight = lineHeight;
@@ -497,8 +494,8 @@ public class CityConfig {
         /**
          * 中间线的颜色
          *
-         * @param lineColor
-         * @return
+         * @param lineColor lineColor
+         * @return Builder
          */
         public Builder setLineColor(String lineColor) {
             this.lineColor = lineColor;
@@ -508,8 +505,8 @@ public class CityConfig {
         /**
          * 是否显示滚轮上面的模糊阴影效果
          *
-         * @param drawShadows
-         * @return
+         * @param drawShadows drawShadows
+         * @return Builder
          */
         public Builder drawShadows(boolean drawShadows) {
             this.drawShadows = drawShadows;
@@ -519,8 +516,8 @@ public class CityConfig {
         /**
          * 设置标题背景颜色
          *
-         * @param colorBg
-         * @return
+         * @param colorBg colorBg
+         * @return Builder
          */
         public Builder titleBackgroundColor(String colorBg) {
             this.titleBackgroundColorStr = colorBg;
@@ -530,8 +527,8 @@ public class CityConfig {
         /**
          * 设置标题字体颜色
          *
-         * @param titleTextColorStr
-         * @return
+         * @param titleTextColorStr titleTextColorStr
+         * @return Builder
          */
         public Builder titleTextColor(String titleTextColorStr) {
             this.titleTextColorStr = titleTextColorStr;
@@ -541,8 +538,8 @@ public class CityConfig {
         /**
          * 设置标题字体大小
          *
-         * @param titleTextSize
-         * @return
+         * @param titleTextSize titleTextSize
+         * @return Builder
          */
         public Builder titleTextSize(int titleTextSize) {
             this.titleTextSize = titleTextSize;
@@ -552,8 +549,8 @@ public class CityConfig {
         /**
          * 设置标题
          *
-         * @param title
-         * @return
+         * @param title title
+         * @return Builder
          */
         public Builder title(String title) {
             this.mTitle = title;
@@ -563,8 +560,8 @@ public class CityConfig {
         /**
          * 确认按钮文字
          *
-         * @param confirmTextSize
-         * @return
+         * @param confirmTextSize confirmTextSize
+         * @return Builder
          */
         public Builder confirmTextSize(int confirmTextSize) {
             this.confirmTextSize = confirmTextSize;
@@ -574,8 +571,8 @@ public class CityConfig {
         /**
          * 确认按钮文字
          *
-         * @param confirmText
-         * @return
+         * @param confirmText confirmText
+         * @return Builder
          */
         public Builder confirmText(String confirmText) {
             this.confirmText = confirmText;
@@ -585,8 +582,8 @@ public class CityConfig {
         /**
          * 确认按钮文字颜色
          *
-         * @param color
-         * @return
+         * @param color color
+         * @return Builder
          */
         public Builder confirTextColor(String color) {
             this.confirmTextColorStr = color;
@@ -596,8 +593,8 @@ public class CityConfig {
         /**
          * 取消按钮文字颜色
          *
-         * @param color
-         * @return
+         * @param color color
+         * @return Builder
          */
         public Builder cancelTextColor(String color) {
             this.cancelTextColorStr = color;
@@ -607,8 +604,8 @@ public class CityConfig {
         /**
          * 取消按钮文字大小
          *
-         * @param cancelTextSize
-         * @return
+         * @param cancelTextSize cancelTextSize
+         * @return Builder
          */
         public Builder cancelTextSize(int cancelTextSize) {
             this.cancelTextSize = cancelTextSize;
@@ -618,8 +615,8 @@ public class CityConfig {
         /**
          * 取消按钮文字
          *
-         * @param cancelText
-         * @return
+         * @param cancelText cancelText
+         * @return Builder
          */
         public Builder cancelText(String cancelText) {
             this.cancelText = cancelText;
@@ -629,8 +626,8 @@ public class CityConfig {
         /**
          * 滚轮显示的item个数
          *
-         * @param visibleItems
-         * @return
+         * @param visibleItems visibleItems
+         * @return Builder
          */
         public Builder visibleItemsCount(int visibleItems) {
             this.visibleItems = visibleItems;
@@ -640,8 +637,8 @@ public class CityConfig {
         /**
          * 省滚轮是否循环滚动
          *
-         * @param isProvinceCyclic
-         * @return
+         * @param isProvinceCyclic isProvinceCyclic
+         * @return Builder
          */
         public Builder provinceCyclic(boolean isProvinceCyclic) {
             this.isProvinceCyclic = isProvinceCyclic;
@@ -651,8 +648,8 @@ public class CityConfig {
         /**
          * 市滚轮是否循环滚动
          *
-         * @param isCityCyclic
-         * @return
+         * @param isCityCyclic isCityCyclic
+         * @return Builder
          */
         public Builder cityCyclic(boolean isCityCyclic) {
             this.isCityCyclic = isCityCyclic;
@@ -662,8 +659,8 @@ public class CityConfig {
         /**
          * 区滚轮是否循环滚动
          *
-         * @param isDistrictCyclic
-         * @return
+         * @param isDistrictCyclic isDistrictCyclic
+         * @return Builder
          */
         public Builder districtCyclic(boolean isDistrictCyclic) {
             this.isDistrictCyclic = isDistrictCyclic;
@@ -676,8 +673,8 @@ public class CityConfig {
          * PRO_CITY:显示省份和城市二级联动的选择器
          * PRO_CITY_DIS:显示省份和城市和县区三级联动的选择器
          *
-         * @param wheelType
-         * @return
+         * @param wheelType wheelType
+         * @return Builder
          */
         public Builder setCityWheelType(CityConfig.WheelType wheelType) {
             this.mWheelType = wheelType;
@@ -687,8 +684,8 @@ public class CityConfig {
         /**
          * 第一次默认的显示省份，一般配合定位，使用
          *
-         * @param defaultProvinceName
-         * @return
+         * @param defaultProvinceName defaultProvinceName
+         * @return Builder
          */
         public Builder defaultCity(String defaultProvinceName) {
             this.defaultProvinceName = defaultProvinceName;
@@ -698,8 +695,8 @@ public class CityConfig {
         /**
          * 第一次默认得显示城市，一般配合定位，使用
          *
-         * @param defaultCityName
-         * @return
+         * @param defaultCityName defaultCityName
+         * @return Builder
          */
         public Builder defaultHospital(String defaultCityName) {
             this.defaultCityName = defaultCityName;
@@ -709,8 +706,8 @@ public class CityConfig {
         /**
          * 是否显示半透明的背景
          *
-         * @param isShowBackground
-         * @return
+         * @param isShowBackground isShowBackground
+         * @return Builder
          */
         public Builder showBackground(boolean isShowBackground) {
             this.isShowBackground = isShowBackground;
@@ -720,8 +717,8 @@ public class CityConfig {
         /**
          * 自定义item布局
          *
-         * @param itemLayout
-         * @return
+         * @param itemLayout itemLayout
+         * @return Builder
          */
         public Builder setCustomItemLayout(Integer itemLayout) {
             this.customItemLayout = itemLayout;
@@ -731,8 +728,8 @@ public class CityConfig {
         /**
          * 自定义item布局中的id
          *
-         * @param setCustomItemTextViewId
-         * @return
+         * @param setCustomItemTextViewId setCustomItemTextViewId
+         * @return result
          */
         public Builder setCustomItemTextViewId(Integer setCustomItemTextViewId) {
             this.customItemTextViewId = setCustomItemTextViewId;

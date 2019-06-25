@@ -15,8 +15,8 @@ public class AppInfoUtil {
     /**
      * get package name.
      *
-     * @param context
-     * @return
+     * @param context application context
+     * @return current app's package name.
      */
     public static String getPackageName(Context context) {
         String packageName = "";

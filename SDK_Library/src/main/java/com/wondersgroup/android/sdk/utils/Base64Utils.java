@@ -33,8 +33,8 @@ public class Base64Utils {
     /**
      * 编码
      *
-     * @param data
-     * @return
+     * @param data 明文
+     * @return 密文
      */
     public static String encode(byte[] data) {
         StringBuffer sb = new StringBuffer();

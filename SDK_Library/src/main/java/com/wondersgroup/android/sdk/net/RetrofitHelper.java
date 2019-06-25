@@ -69,7 +69,7 @@ public class RetrofitHelper {
     /**
      * default service.
      *
-     * @return
+     * @return api interface object.
      */
     public ApiService createService() {
         return createService(ApiService.class);
@@ -78,9 +78,9 @@ public class RetrofitHelper {
     /**
      * 这里返回一个泛型类，主要返回的是定义的接口类
      *
-     * @param clazz
-     * @param <T>
-     * @return
+     * @param clazz Class that interface class.
+     * @param <T>   generic type
+     * @return api interface object.
      */
     public <T> T createService(Class<T> clazz) {
         if (clazz == null) {

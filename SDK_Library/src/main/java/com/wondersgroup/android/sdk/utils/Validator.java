@@ -147,8 +147,8 @@ public class Validator {
     /**
      * 校验IP地址
      *
-     * @param ipAddress
-     * @return
+     * @param ipAddress current ip address
+     * @return result
      */
     public static boolean isIPAddress(String ipAddress) {
         return Pattern.matches(REGEX_IP_ADDR, ipAddress);

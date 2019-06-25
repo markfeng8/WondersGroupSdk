@@ -30,8 +30,8 @@ public interface ApiService {
     /**
      * GET 无参数请求
      *
-     * @param url
-     * @return
+     * @param url request url
+     * @return result that request
      */
     @GET("{url}")
     Call<ResponseBody> getRequest(
@@ -40,9 +40,9 @@ public interface ApiService {
     /**
      * GET 带参数请求
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @GET("{url}")
     Call<ResponseBody> getMapParam(
@@ -52,9 +52,9 @@ public interface ApiService {
     /**
      * POST Map body 请求
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -66,9 +66,9 @@ public interface ApiService {
      * POST RequestBody 必须要设置 encoded = true, 否则 url 有编码问题
      * 使用@Path时，path对应的路径不能包含”/”，否则会将其转化为%2F，在遇到想动态的拼接多节url时，还是使用@Url吧
      *
-     * @param url
-     * @param body
-     * @return
+     * @param url  request url
+     * @param body request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -79,9 +79,9 @@ public interface ApiService {
     /**
      * POST Url body 请求(适用于动态域名访问，当url为全域名时，会使用url的全域访问，当为非全域时，会拼接到BASE_URL的后面)
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST
@@ -92,9 +92,9 @@ public interface ApiService {
     /**
      * 提交 FORM 表单数据
      *
-     * @param url
-     * @param params
-     * @return
+     * @param url    request url
+     * @param params request parameters
+     * @return result that request
      */
     @FormUrlEncoded
     @POST("{url}")
@@ -105,9 +105,9 @@ public interface ApiService {
     /**
      * 单文件/图片上传
      *
-     * @param url
-     * @param requestBody
-     * @return
+     * @param url         request url
+     * @param requestBody request parameters
+     * @return result that request
      */
     @Multipart
     @POST("{url}")
@@ -118,11 +118,11 @@ public interface ApiService {
     /**
      * 多文件/图片上传
      *
-     * @param url
-     * @param headers
-     * @param description
-     * @param maps
-     * @return
+     * @param url         request url
+     * @param headers     request headers.
+     * @param description request description that file
+     * @param maps        request parameters
+     * @return result that request
      */
     @POST("{url}")
     Call<ResponseBody> uploadFiles(
@@ -134,8 +134,8 @@ public interface ApiService {
     /**
      * 文件下载
      *
-     * @param fileUrl
-     * @return
+     * @param fileUrl request file url
+     * @return result that request
      */
     @Streaming
     @GET

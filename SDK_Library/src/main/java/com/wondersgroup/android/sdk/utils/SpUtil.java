@@ -87,9 +87,9 @@ public class SpUtil {
     /**
      * 读取 String 类型数据
      *
-     * @param key
-     * @param defValue
-     * @return
+     * @param key      key name
+     * @param defValue default value
+     * @return result
      */
     public String getString(String key, String defValue) {
         return getSpObject().getString(key, defValue);
@@ -98,9 +98,9 @@ public class SpUtil {
     /**
      * 读取 boolean 类型数据
      *
-     * @param key
-     * @param defValue
-     * @return
+     * @param key      key name
+     * @param defValue default value
+     * @return result
      */
     public boolean getBoolean(String key, boolean defValue) {
         return getSpObject().getBoolean(key, defValue);
@@ -109,9 +109,9 @@ public class SpUtil {
     /**
      * 读取 int 类型数据
      *
-     * @param key
-     * @param defValue
-     * @return
+     * @param key      key name
+     * @param defValue default value
+     * @return result
      */
     public int getInt(String key, int defValue) {
         return getSpObject().getInt(key, defValue);
@@ -120,9 +120,9 @@ public class SpUtil {
     /**
      * 读取 float 类型数据
      *
-     * @param key
-     * @param defValue
-     * @return
+     * @param key      key name
+     * @param defValue default value
+     * @return result
      */
     public float getFloat(String key, float defValue) {
         return getSpObject().getFloat(key, defValue);
@@ -131,9 +131,9 @@ public class SpUtil {
     /**
      * 读取 long 类型数据
      *
-     * @param key
-     * @param defValue
-     * @return
+     * @param key      key name
+     * @param defValue default value
+     * @return result
      */
     public long getLong(String key, long defValue) {
         return getSpObject().getLong(key, defValue);

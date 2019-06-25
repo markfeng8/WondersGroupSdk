@@ -124,9 +124,9 @@ public final class RSAUtils {
     /**
      * 公钥加密
      *
-     * @param data
-     * @param privateKey
-     * @return
+     * @param data data
+     * @param privateKey privateKey
+     * @return result
      */
     public static String encryptByPrivateKey(String data, PrivateKey privateKey) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -311,9 +311,9 @@ public final class RSAUtils {
      * 通过私钥byte[]将公钥还原，适用于RSA算法
      *
      * @param keyBytes byte[]
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @return result
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
+     * @throws InvalidKeySpecException InvalidKeySpecException
      */
     public static PrivateKey getPrivateKey(byte[] keyBytes) throws NoSuchAlgorithmException,
             InvalidKeySpecException {
@@ -326,11 +326,11 @@ public final class RSAUtils {
     /**
      * 使用N、e值还原公钥
      *
-     * @param modulus
-     * @param publicExponent
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @param modulus modulus
+     * @param publicExponent publicExponent
+     * @return result
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
+     * @throws InvalidKeySpecException InvalidKeySpecException
      */
     public static PublicKey getPublicKey(String modulus, String publicExponent)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -345,11 +345,11 @@ public final class RSAUtils {
     /**
      * 使用N、d值还原私钥
      *
-     * @param modulus
-     * @param privateExponent
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
+     * @param modulus modulus
+     * @param privateExponent privateExponent
+     * @return result
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
+     * @throws InvalidKeySpecException InvalidKeySpecException
      */
     public static PrivateKey getPrivateKey(String modulus, String privateExponent)
             throws NoSuchAlgorithmException, InvalidKeySpecException {

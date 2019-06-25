@@ -134,7 +134,7 @@ public class SelectPayTypeWindow {
     /**
      * PopupWindow is or not showing.
      *
-     * @return
+     * @return current popupWindow is showing
      */
     public boolean isShowing() {
         return mPopupWindow != null && mPopupWindow.isShowing();
@@ -159,8 +159,8 @@ public class SelectPayTypeWindow {
         /**
          * Set location at parent view, because popupWindow must be dependency activity.
          *
-         * @param view
-         * @return
+         * @param view view
+         * @return result
          */
         public Builder setDropView(View view) {
             if (view != null) {
@@ -174,8 +174,8 @@ public class SelectPayTypeWindow {
         /**
          * set on popupWindow dismissLoadingDialog listener.
          *
-         * @param listener
-         * @return
+         * @param listener listener
+         * @return result
          */
         public Builder setListener(OnLoadingListener listener) {
             this.listener = listener;
@@ -185,8 +185,8 @@ public class SelectPayTypeWindow {
         /**
          * set on popupWindow checked listener.
          *
-         * @param listener
-         * @return
+         * @param listener listener
+         * @return result
          */
         public Builder setCheckedListener(OnCheckedListener listener) {
             this.checkedListener = listener;

@@ -48,9 +48,9 @@ public interface BusinessService {
     /**
      * 查询医后付状态
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -61,9 +61,9 @@ public interface BusinessService {
     /**
      * 查询账单信息
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -74,9 +74,9 @@ public interface BusinessService {
     /**
      * 获取医院列表
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -87,9 +87,9 @@ public interface BusinessService {
     /**
      * 查询移动支付状态
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -100,9 +100,9 @@ public interface BusinessService {
     /**
      * yd0001 查询电子社保卡开通状态
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -113,9 +113,9 @@ public interface BusinessService {
     /**
      * 锁单接口
      *
-     * @param url
-     * @param body
-     * @return
+     * @param url  request url
+     * @param body request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -126,9 +126,9 @@ public interface BusinessService {
     /**
      * 获取账单明细
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -139,9 +139,9 @@ public interface BusinessService {
     /**
      * 发起试结算、正式结算
      *
-     * @param url
-     * @param body
-     * @return
+     * @param url  request url
+     * @param body request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -152,9 +152,9 @@ public interface BusinessService {
     /**
      * 获取支付参数（要素）
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -165,9 +165,9 @@ public interface BusinessService {
     /**
      * 获取电子社保卡 token
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST
@@ -178,9 +178,9 @@ public interface BusinessService {
     /**
      * cy0001 查询住院信息
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -191,9 +191,9 @@ public interface BusinessService {
     /**
      * cy0005
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -204,9 +204,9 @@ public interface BusinessService {
     /**
      * cy0006
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -217,9 +217,9 @@ public interface BusinessService {
     /**
      * cy0007
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")
@@ -230,9 +230,9 @@ public interface BusinessService {
     /**
      * 获取缴费记录
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -243,9 +243,9 @@ public interface BusinessService {
     /**
      * 获取短信验证码
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -256,9 +256,9 @@ public interface BusinessService {
     /**
      * 修改手机号
      *
-     * @param url
-     * @param maps
-     * @return
+     * @param url  request url
+     * @param maps request parameters
+     * @return result that request
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("{url}")
@@ -271,6 +271,7 @@ public interface BusinessService {
      *
      * @param url  请求的 url，适用于动态域名访问，当url为全域名时，会使用url的全域访问，当为非全域时，会拼接到BASE_URL的后面
      * @param maps 签名数据
+     * @return result that request
      */
     @Headers({"Content-Type:application/json", "Accept:application/json"})
     @POST("{url}")

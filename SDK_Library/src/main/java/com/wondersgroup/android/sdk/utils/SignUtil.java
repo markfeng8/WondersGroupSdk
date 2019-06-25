@@ -53,8 +53,8 @@ public class SignUtil {
     /**
      * 获取一般 Json 数据的签名
      *
-     * @param map
-     * @return
+     * @param map parameter
+     * @return result
      */
     public static String getSign(HashMap<String, String> map) {
         return createSign(map, OrgConfig.KEY);
@@ -63,8 +63,8 @@ public class SignUtil {
     /**
      * 获取带数组对象 Json 数据的签名
      *
-     * @param param
-     * @return
+     * @param param parameter
+     * @return result
      */
     public static String getSignWithObject(HashMap<String, Object> param) {
         List<Map.Entry<String, Object>> infoIds = new ArrayList<>(param.entrySet());
@@ -127,9 +127,9 @@ public class SignUtil {
     /**
      * 获取 json 数组中对象是 Map 的排序字符串
      *
-     * @param suffixKey
-     * @param param
-     * @return
+     * @param suffixKey suffix key name.
+     * @param param     parameter
+     * @return result
      */
     private static String getMapObjectSort(String suffixKey, Map param) {
         @SuppressWarnings("unchecked")
@@ -155,9 +155,9 @@ public class SignUtil {
     /**
      * 生成签名
      *
-     * @param param
-     * @param key
-     * @return
+     * @param param parameter
+     * @param key key
+     * @return result
      */
     private static String createSign(HashMap<String, String> param, String key) {
         List<Map.Entry<String, String>> infoIds = new ArrayList<>(param.entrySet());
@@ -185,8 +185,8 @@ public class SignUtil {
     /**
      * 生成 RSA 签名
      *
-     * @param sortedParam
-     * @return
+     * @param sortedParam parameter
+     * @return result
      */
     public static String createSignWithRsa(Map sortedParam) {
         StringBuilder content = new StringBuilder();
