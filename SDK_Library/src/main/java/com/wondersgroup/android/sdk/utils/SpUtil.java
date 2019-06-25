@@ -1,8 +1,6 @@
 package com.wondersgroup.android.sdk.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.wondersgroup.android.sdk.WondersApplication;
 
@@ -17,16 +15,20 @@ public class SpUtil {
 
     private static final String WONDERS_GROUP = "WondersGroup";
     private static SpUtil instance = new SpUtil();
-    private static SharedPreferences mSp = null;
+    private SecuritySharedPreference mSp;
 
     private SpUtil() {
     }
 
     public static SpUtil getInstance() {
-        if (mSp == null) {
-            mSp = WondersApplication.getsContext().getSharedPreferences(WONDERS_GROUP, Context.MODE_PRIVATE);
-        }
         return instance;
+    }
+
+    private SecuritySharedPreference getSpObject() {
+        if (mSp == null) {
+            mSp = new SecuritySharedPreference(WondersApplication.getsContext(), WONDERS_GROUP, Context.MODE_PRIVATE);
+        }
+        return mSp;
     }
 
     /**
@@ -35,25 +37,30 @@ public class SpUtil {
      * @param key   键
      * @param value 值
      */
-    @SuppressLint("ApplySharedPref")
     public void save(String key, Object value) {
-        if (value == null) {
-            return;
-        }
+        SecuritySharedPreference.SecurityEditor editor = getSpObject().edit();
         if (value instanceof String) {
-            mSp.edit().putString(key, (String) value).commit();
+            editor.putString(key, (String) value);
         } else if (value instanceof Boolean) {
-            mSp.edit().putBoolean(key, (Boolean) value).commit();
+            editor.putBoolean(key, (Boolean) value);
         } else if (value instanceof Integer) {
-            mSp.edit().putInt(key, (Integer) value).commit();
+            editor.putInt(key, (Integer) value);
+        } else if (value instanceof Float) {
+            editor.putFloat(key, (Float) value);
+        } else if (value instanceof Long) {
+            editor.putLong(key, (Long) value);
+        } else {
+            editor.putString(key, value != null ? value.toString() : "");
         }
+
+        editor.apply();
     }
 
     /**
      * 保存一个 HashMap 集合
      */
     public void save(HashMap<String, Object> map) {
-        SharedPreferences.Editor editor = mSp.edit();
+        SecuritySharedPreference.SecurityEditor editor = getSpObject().edit();
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
@@ -65,6 +72,12 @@ public class SpUtil {
                 editor.putBoolean(key, (Boolean) value);
             } else if (value instanceof Integer) {
                 editor.putInt(key, (Integer) value);
+            } else if (value instanceof Float) {
+                editor.putFloat(key, (Float) value);
+            } else if (value instanceof Long) {
+                editor.putLong(key, (Long) value);
+            } else {
+                editor.putString(key, value != null ? value.toString() : "");
             }
         }
 
@@ -72,44 +85,104 @@ public class SpUtil {
     }
 
     /**
-     * 读取String类型数据
+     * 读取 String 类型数据
      *
      * @param key
      * @param defValue
      * @return
      */
     public String getString(String key, String defValue) {
-        return mSp.getString(key, defValue);
+        return getSpObject().getString(key, defValue);
     }
 
     /**
-     * 读取boolean类型数据
+     * 读取 boolean 类型数据
      *
      * @param key
      * @param defValue
      * @return
      */
     public boolean getBoolean(String key, boolean defValue) {
-        return mSp.getBoolean(key, defValue);
+        return getSpObject().getBoolean(key, defValue);
     }
 
     /**
-     * 读取boolean类型数据
+     * 读取 int 类型数据
      *
      * @param key
      * @param defValue
      * @return
      */
     public int getInt(String key, int defValue) {
-        return mSp.getInt(key, defValue);
+        return getSpObject().getInt(key, defValue);
+    }
+
+    /**
+     * 读取 float 类型数据
+     *
+     * @param key
+     * @param defValue
+     * @return
+     */
+    public float getFloat(String key, float defValue) {
+        return getSpObject().getFloat(key, defValue);
+    }
+
+    /**
+     * 读取 long 类型数据
+     *
+     * @param key
+     * @param defValue
+     * @return
+     */
+    public long getLong(String key, long defValue) {
+        return getSpObject().getLong(key, defValue);
     }
 
     /**
      * 清空sp存储的数据(xxx.xml仍然存在，但是内部没有数据)
      */
-    @SuppressLint("ApplySharedPref")
     public void clearAll() {
-        mSp.edit().clear().commit();
+        getSpObject().edit().clear().apply();
+    }
+
+    /**
+     * 移除某个key值已经对应的值
+     *
+     * @param key string key
+     */
+    public void remove(String key) {
+        getSpObject().edit().remove(key).apply();
+    }
+
+    /**
+     * 查询某个key是否已经存在
+     *
+     * @param key string key
+     * @return result of local persist storage.
+     */
+    public boolean contains(String key) {
+        return getSpObject().contains(key);
+    }
+
+    /**
+     * 返回所有的键值对
+     *
+     * @return result of local persist storage.
+     */
+    public Map<String, ?> getAll() {
+        return getSpObject().getAll();
+    }
+
+    /**
+     * 处理加密过渡（从未加密过渡到加密数据，在下次升级前调用一次即可）
+     */
+    public void handleTransition() {
+        boolean handleTransition = getBoolean("handleTransition", false);
+        if (!handleTransition) {
+            getSpObject().handleTransition();
+            save("handleTransition", true);
+        }
     }
 
 }
