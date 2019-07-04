@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.healthcity_sdk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.wondersgroup.android.healthcity_sdk.activity.HealthCardActivity;
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelfPayHome;
     @BindView(R.id.btnInHospitalHome)
     Button btnInHospitalHome;
+    @BindView(R.id.btnHealthCard)
+    Button btnHealthCard;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
     @BindView(R.id.recyclerView)
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome})
+    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.btnHealthCard})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -132,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnInHospitalHome:
                 startBusiness(2);
+                break;
+            case R.id.btnHealthCard:
+                Intent intent = new Intent(MainActivity.this, HealthCardActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
