@@ -160,6 +160,12 @@
 -keep class org.apache.http.**{ *;}
 -dontwarn org.apache.http.**
 
+-keep class cn.hutool.**{ *;}
+-dontwarn cn.hutool.**
+
+-keep class org.bouncycastle.**{ *;}
+-dontwarn org.bouncycastle.**
+
 #-dontwarn okio.**
 
 -keepclassmembers class * {
