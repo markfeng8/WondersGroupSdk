@@ -27,9 +27,7 @@
 -verbose
 -printmapping proguardMapping.txt
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
--keepattributes *Annotation*,InnerClasses
--keepattributes Signature
--keepattributes SourceFile,LineNumberTable
+-keepattributes *Annotation*,*JavascriptInterface*,InnerClasses,Signature,SourceFile,LineNumberTable
 -ignorewarning
 #--------------------------------- 基本指令区 start ----------------------------------
 
@@ -180,10 +178,7 @@
 # Epsoft
 -keep class com.epsoft.**{*;}
 -keep class com.itsea.cplusplus.** {*;}
-# 保留annotation， 例如 @JavascriptInterface 等 annotation
--keepattributes *Annotation*
-# 保留跟 javascript 相关的属性
--keepattributes *JavascriptInterface*
+
 # 保留 JavascriptInterface 中的方法
 -keepclassmembers class * {@android.webkit.JavascriptInterface <methods>;}
 -dontwarn cn.com.epsoft.zjessc.**
@@ -196,6 +191,19 @@
 -keep class pingan.ai.** { *;}
 -dontwarn com.google.zxing.**
 -keep class com.google.zxing.**{*;}
+-dontwarn com.esscpermission.**
+-keep class com.esscpermission.**{*;}
+
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+    public *;
+}
+-keepclassmembers class * extends android.webkit.WebViewClient {
+    public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
+    public boolean *(android.webkit.WebView, java.lang.String);
+}
+-keepclassmembers class * extends android.webkit.WebViewClient {
+    public void *(android.webkit.WebView, java.lang.String);
+}
 #--------------------------------- Epsoft(医保 SDK 相关) end ------------------------------------
 
 #------------------------- 万达统一支付 start --------------------------------------------
