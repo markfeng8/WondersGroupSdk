@@ -33,8 +33,8 @@ public class TitleBarLayout extends LinearLayout {
     private int mTextColor;
     private OnMenuClickListener mListener;
     private OnBackClickListener mOnBackListener;
-    private static final String DEFAULT_TEXT = "Title"; // default text.
-    private static final int DEFAULT_TEXT_SIZE = 18; // default text size.
+    private static final String DEFAULT_TEXT = "Title";
+    private static final int DEFAULT_TEXT_SIZE = 18;
     private static final String TAG = "TitleBarLayout";
 
     public TitleBarLayout(Context context) {

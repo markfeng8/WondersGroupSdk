@@ -33,7 +33,6 @@ import com.wondersgroup.android.sdk.ui.paymentrecord.view.FeeRecordActivity;
 import com.wondersgroup.android.sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.sdk.utils.DensityUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
-import com.wondersgroup.android.sdk.utils.RxUtils;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
@@ -187,35 +186,35 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             mCompositeDisposable.add(
                     // 点击缴费记录
-                    RxUtils.clickView(llPayRecord)
+                    RxView.clicks(llPayRecord)
                             .throttleFirst(1, TimeUnit.SECONDS)
                             .subscribe(s -> FeeRecordActivity.actionStart(mContext))
             );
 
             mCompositeDisposable.add(
                     // 点击医后付首页顶部的 "点击缴纳"
-                    RxUtils.clickView(llToPayFee)
+                    RxView.clicks(llToPayFee)
                             .throttleFirst(1, TimeUnit.SECONDS)
                             .subscribe(s -> requestYd0003())
             );
 
             mCompositeDisposable.add(
                     // 点击去开通医后付(前提是开通医保移动支付)
-                    RxUtils.clickView(tvAfterPayState)
+                    RxView.clicks(tvAfterPayState)
                             .throttleFirst(1, TimeUnit.SECONDS)
                             .subscribe(s -> openAfterPay())
             );
 
             mCompositeDisposable.add(
                     // 申领(查看)电子社保卡
-                    RxUtils.clickView(tvMobilePayState)
+                    RxView.clicks(tvMobilePayState)
                             .throttleFirst(1, TimeUnit.SECONDS)
                             .subscribe(s -> electronicSocialSecurityCard())
             );
 
             mCompositeDisposable.add(
                     // 点击跳转到 "设置" 页面
-                    RxUtils.clickView(llSettings)
+                    RxView.clicks(llSettings)
                             .throttleFirst(1, TimeUnit.SECONDS)
                             .subscribe(s -> jumpToSetting())
             );

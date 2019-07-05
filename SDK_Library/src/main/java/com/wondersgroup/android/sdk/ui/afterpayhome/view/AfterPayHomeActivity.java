@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.adapter.AfterPayHomeAdapter;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
@@ -33,7 +34,6 @@ import com.wondersgroup.android.sdk.ui.afterpayhome.contract.AfterPayHomeContrac
 import com.wondersgroup.android.sdk.ui.afterpayhome.presenter.AfterPayHomePresenter;
 import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.sdk.utils.LogUtil;
-import com.wondersgroup.android.sdk.utils.RxUtils;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.wondersgroup.android.sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.sdk.widget.selecthospital.HospitalPickerView;
@@ -46,7 +46,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.com.epsoft.zjessc.callback.ResultType;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/8/10 :)
@@ -88,7 +87,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private List<Object> mItemList = new ArrayList<>();
 
-    private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private HospitalPickerView mCityPickerView;
 
     @Override
     protected AfterPayHomePresenter<AfterPayHomeContract.IView> createPresenter() {
@@ -126,16 +125,16 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     private void initListener() {
-        Disposable disposable =
-                RxUtils.clickView(tvPayMoney)
+        mCompositeDisposable.add(
+                RxView.clicks(tvPayMoney)
                         .throttleFirst(1, TimeUnit.SECONDS)
                         .subscribe(s -> PaymentDetailsActivity.actionStart(
-                                AfterPayHomeActivity.this, mOrgCode, mOrgName, false));
-
-        mCompositeDisposable.add(disposable);
+                                AfterPayHomeActivity.this, mOrgCode, mOrgName, false))
+        );
     }
 
     private void initData() {
+        mCityPickerView = new HospitalPickerView(this);
         initHeaderData();
         getIntentAndFindAfterPayState();
     }
@@ -315,7 +314,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private void showWheelDialog(String json) {
         // 预先加载仿iOS滚轮实现的全部数据
-        mCityPickerView.init(this, json);
+        mCityPickerView.init(json);
 
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)

@@ -13,6 +13,8 @@ import com.wondersgroup.android.sdk.utils.LogCatStrategy;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
 
+import java.util.Locale;
+
 import cn.com.epsoft.zjessc.ZjEsscSDK;
 
 /**
@@ -24,6 +26,7 @@ public class WondersSdk {
 
     private static final String TAG = "WondersSdk";
     private static final String CHANNEL_NO = "3305000003";
+    private static final String TEST = "test";
 
     private WondersSdk() {
     }
@@ -79,7 +82,7 @@ public class WondersSdk {
             isDebug = option.isDebug();
             String env = option.getEnv();
             SpUtil.getInstance().save(SpKey.SDK_DEBUG, isDebug);
-            if (!TextUtils.isEmpty(env) && "test".equals(env.toLowerCase())) {
+            if (!TextUtils.isEmpty(env) && TEST.equals(env.toLowerCase(Locale.US))) {
                 SpUtil.getInstance().save(SpKey.SDK_ENV, env);
             } else {
                 SpUtil.getInstance().save(SpKey.SDK_ENV, "");

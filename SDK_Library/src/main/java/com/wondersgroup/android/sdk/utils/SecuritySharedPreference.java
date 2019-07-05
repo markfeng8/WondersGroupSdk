@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.sdk.utils;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -183,6 +184,7 @@ public class SecuritySharedPreference implements SharedPreferences {
         /**
          * constructor
          */
+        @SuppressLint("CommitPrefEdits")
         private SecurityEditor() {
             mEditor = mSharedPreferences.edit();
         }

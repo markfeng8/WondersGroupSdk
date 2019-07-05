@@ -64,7 +64,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private String mAreaName = "湖州市";
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
-    private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private HospitalPickerView mCityPickerView = new HospitalPickerView(this);
 
     private void requestCY0001() {
         mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE1);
@@ -116,7 +116,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
      */
     private void showWheelDialog(String json) {
         // 预先加载仿iOS滚轮实现的全部数据
-        mCityPickerView.init(this, json);
+        mCityPickerView.init(json);
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)
                 .defaultHospital(mOrgName)

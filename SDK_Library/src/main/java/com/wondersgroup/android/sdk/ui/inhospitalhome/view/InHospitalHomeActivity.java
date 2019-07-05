@@ -89,7 +89,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private String mInHosDate;
     private Cy0001Entity mCy0001Entity;
 
-    private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private HospitalPickerView mCityPickerView;
 
     /**
      * 住院状态：00 在院 01 预出院 10 已出院
@@ -123,6 +123,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     @SuppressLint("SetTextI18n")
     private void initData() {
+        mCityPickerView = new HospitalPickerView(this);
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
@@ -191,7 +192,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      */
     private void showWheelDialog(String json) {
         // 预先加载仿iOS滚轮实现的全部数据
-        mCityPickerView.init(this, json);
+        mCityPickerView.init(json);
 
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)

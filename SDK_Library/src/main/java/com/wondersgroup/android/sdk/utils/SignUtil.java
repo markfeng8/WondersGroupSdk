@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.crypto.Mac;
@@ -251,12 +252,12 @@ public class SignUtil {
         StringBuilder hs = new StringBuilder();
         String tmpStr;
         for (int n = 0; b != null && n < b.length; n++) {
-            tmpStr = Integer.toHexString(b[n] & 0XFF);
+            tmpStr = Integer.toHexString(b[n] & 0xFF);
             if (tmpStr.length() == 1) {
                 hs.append('0');
             }
             hs.append(tmpStr);
         }
-        return hs.toString().toLowerCase();
+        return hs.toString().toLowerCase(Locale.US);
     }
 }

@@ -12,11 +12,13 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.sdk.constants.SpKey;
+import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.ui.inhospitalhome.view.InHospitalHomeActivity;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by x-sir on 2019/1/22 :)
@@ -71,11 +73,11 @@ public class InHospitalBusiness extends AbstractBusiness {
     public void saveUserInfo(UserBuilder builder) {
         super.saveUserInfo(builder);
 
-        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> map = Maps.newHashMapWithExpectedSize(7);
         map.put(SpKey.NAME, builder.getName());
         map.put(SpKey.PASS_PHONE, builder.getPhone());
         map.put(SpKey.ID_TYPE, builder.getIdType());
-        map.put(SpKey.ID_NUM, builder.getIdNum().toUpperCase());
+        map.put(SpKey.ID_NUM, builder.getIdNum().toUpperCase(Locale.US));
         map.put(SpKey.CARD_TYPE, "");
         map.put(SpKey.CARD_NUM, "");
         map.put(SpKey.HOME_ADDRESS, builder.getAddress());

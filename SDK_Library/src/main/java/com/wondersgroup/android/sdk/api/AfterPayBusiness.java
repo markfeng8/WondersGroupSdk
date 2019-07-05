@@ -19,6 +19,7 @@ import com.wondersgroup.android.sdk.ui.afterpayhome.view.AfterPayHomeActivity;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by x-sir on 2019/1/22 :)
@@ -87,7 +88,7 @@ public class AfterPayBusiness extends AbstractBusiness {
         map.put(SpKey.NAME, builder.getName());
         map.put(SpKey.PASS_PHONE, builder.getPhone());
         map.put(SpKey.ID_TYPE, builder.getIdType());
-        map.put(SpKey.ID_NUM, builder.getIdNum().toUpperCase());
+        map.put(SpKey.ID_NUM, builder.getIdNum().toUpperCase(Locale.US));
         map.put(SpKey.CARD_TYPE, builder.getCardType());
         map.put(SpKey.CARD_NUM, builder.getCardNum());
         map.put(SpKey.HOME_ADDRESS, builder.getAddress());

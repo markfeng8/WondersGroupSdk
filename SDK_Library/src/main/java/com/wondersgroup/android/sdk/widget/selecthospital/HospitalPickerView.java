@@ -11,6 +11,7 @@ package com.wondersgroup.android.sdk.widget.selecthospital;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ import java.util.List;
  * Created by x-sir on 2019/1/21 :)
  * Function:自定义选择医院二级联动视图
  */
-public class HospitalPickerView implements OnWheelChangedListener {
+public class HospitalPickerView extends LinearLayout implements OnWheelChangedListener {
 
     private static final String TAG = "HospitalPickerView";
     private PopupWindow mPopupWindow;
@@ -41,7 +42,7 @@ public class HospitalPickerView implements OnWheelChangedListener {
     private WheelView mViewProvince;
     private WheelView mViewCity;
     private WheelView mViewDistrict;
-    private TextView mTvOK;
+    private TextView mTvOk;
     private TextView mTvCancel;
     private OnCityItemClickListener mBaseListener;
 
@@ -55,10 +56,19 @@ public class HospitalPickerView implements OnWheelChangedListener {
     }
 
     /**
-     * provide public empty parameters constructor.
+     * provide public constructor.
      */
-    public HospitalPickerView() {
+    public HospitalPickerView(Context context) {
+        this(context, null);
+    }
 
+    public HospitalPickerView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public HospitalPickerView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.mContext = context;
     }
 
     /**
@@ -73,12 +83,15 @@ public class HospitalPickerView implements OnWheelChangedListener {
     /**
      * 初始化，默认解析城市数据，提升加载速度
      */
-    public void init(Context context, String json) {
-        this.mContext = context;
+    public void init(String json) {
+        getParseHelper().initData(json);
+    }
+
+    private ParseHelper getParseHelper() {
         if (mParseHelper == null) {
             mParseHelper = new ParseHelper();
         }
-        mParseHelper.initData(json);
+        return mParseHelper;
     }
 
     /**
@@ -90,20 +103,16 @@ public class HospitalPickerView implements OnWheelChangedListener {
         }
 
         // 解析初始数据
-        if (mParseHelper == null) {
-            mParseHelper = new ParseHelper();
-            if (mParseHelper.getmCityBeanArrayList().isEmpty()) {
-                throw new IllegalArgumentException("please call init() method in your Activity!");
-            }
+        if (getParseHelper().getmCityBeanArrayList().isEmpty()) {
+            throw new IllegalArgumentException("please call init() method in your Activity!");
         }
 
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        mPopupView = layoutInflater.inflate(R.layout.wonders_group_pop_citypicker, null);
+        mPopupView = LayoutInflater.from(mContext).inflate(R.layout.wonders_group_pop_citypicker, this);
 
         mViewProvince = mPopupView.findViewById(R.id.id_province);
         mViewCity = mPopupView.findViewById(R.id.id_city);
         mViewDistrict = mPopupView.findViewById(R.id.id_district);
-        mTvOK = mPopupView.findViewById(R.id.tv_confirm);
+        mTvOk = mPopupView.findViewById(R.id.tv_confirm);
         mTvCancel = mPopupView.findViewById(R.id.tv_cancel);
 
         mPopupWindow = new PopupWindow(mPopupView, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -145,7 +154,7 @@ public class HospitalPickerView implements OnWheelChangedListener {
         });
 
         // 确认选择
-        mTvOK.setOnClickListener(v -> {
+        mTvOk.setOnClickListener(v -> {
             if (mParseHelper != null) {
                 if (mConfig.getWheelType() == CityConfig.WheelType.PRO) {
                     mBaseListener.onSelected(mParseHelper.getmCityBean(), new HospitalBean());

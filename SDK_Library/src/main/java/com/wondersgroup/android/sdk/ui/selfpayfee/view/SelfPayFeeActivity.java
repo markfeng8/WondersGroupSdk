@@ -66,7 +66,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
      */
     private String mAreaName = "湖州市";
     private SelfPayHeaderBean mSelfPayHeaderBean;
-    private HospitalPickerView mCityPickerView = new HospitalPickerView();
+    private HospitalPickerView mCityPickerView;
 
     @Override
     protected SelfPayFeePresenter<SelfPayFeeContract.IView> createPresenter() {
@@ -82,6 +82,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     private void initData() {
+        mCityPickerView = new HospitalPickerView(this);
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         mSelfPayHeaderBean = new SelfPayHeaderBean();
@@ -144,7 +145,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
      */
     private void showWheelDialog(String json) {
         // 预先加载仿iOS滚轮实现的全部数据
-        mCityPickerView.init(this, json);
+        mCityPickerView.init(json);
 
         CityConfig cityConfig = new CityConfig.Builder()
                 .defaultCity(mAreaName)
