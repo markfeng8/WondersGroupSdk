@@ -28,7 +28,9 @@ public class HealthCardActivity extends AppCompatActivity {
 
     private static final String TAG = "HealthCardActivity";
     private static final String URL = "http://115.238.228.2:8000/hcbmp/management/h5/index?appId=5a2d3137f400494dacd73ceaf6e332a3&cipherText=";
-    // 公钥截取前面16位作为报文加密密钥 e815d21106a59ac5e1fb305ededaf9cb
+    /**
+     * 公钥截取前面16位作为报文加密密钥 e815d21106a59ac5e1fb305ededaf9cb
+     */
     private static final String PUBLIC_KEY = "e815d21106a59ac5";
     @BindView(R.id.etName)
     EditText etName;
