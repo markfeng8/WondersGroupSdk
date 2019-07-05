@@ -36,7 +36,7 @@ public class EncryptUtil {
     private EncryptUtil(Context context) {
         String serialNo = getDeviceSerialNumber(context);
         // 加密随机字符串生成 AES key
-        key = SHA(serialNo + "#$ERDTS$D%F^Gojikbh").substring(0, 16);
+        key = sha(serialNo + "#$ERDTS$D%F^Gojikbh").substring(0, 16);
         LogUtil.e(TAG, key);
     }
 
@@ -85,20 +85,20 @@ public class EncryptUtil {
      * SHA加密
      *
      * @param strText 明文
-     * @return
+     * @return result
      */
-    private String SHA(final String strText) {
+    private String sha(final String strText) {
         // 返回值
         String strResult = null;
         // 是否是有效字符串
         if (strText != null && strText.length() > 0) {
             try {
-                // SHA 加密开始
-                MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+                // sha 加密开始
+                MessageDigest messageDigest = MessageDigest.getInstance("sha-256");
                 // 传入要加密的字符串
                 messageDigest.update(strText.getBytes());
-                byte byteBuffer[] = messageDigest.digest();
-                StringBuffer strHexString = new StringBuffer();
+                byte[] byteBuffer = messageDigest.digest();
+                StringBuilder strHexString = new StringBuilder();
                 for (byte b : byteBuffer) {
                     String hex = Integer.toHexString(0xff & b);
                     if (hex.length() == 1) {
@@ -124,9 +124,10 @@ public class EncryptUtil {
      */
     public String encrypt(String plainText) {
         try {
+            @SuppressLint("GetInstance")
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), "AES");
-            cipher.init(Cipher.ENCRYPT_MODE, keyspec);
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
             byte[] encrypted = cipher.doFinal(plainText.getBytes());
             return Base64.encodeToString(encrypted, Base64.NO_WRAP);
         } catch (Exception e) {
@@ -144,12 +145,12 @@ public class EncryptUtil {
     public String decrypt(String cipherText) {
         try {
             byte[] encrypted1 = Base64.decode(cipherText, Base64.NO_WRAP);
+            @SuppressLint("GetInstance")
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), "AES");
-            cipher.init(Cipher.DECRYPT_MODE, keyspec);
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
+            cipher.init(Cipher.DECRYPT_MODE, keySpec);
             byte[] original = cipher.doFinal(encrypted1);
-            String originalString = new String(original);
-            return originalString;
+            return new String(original);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

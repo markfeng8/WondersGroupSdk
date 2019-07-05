@@ -1,5 +1,6 @@
 package com.wondersgroup.android.sdk;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
@@ -11,6 +12,7 @@ import com.wondersgroup.android.sdk.constants.Exceptions;
  */
 public class WondersApplication extends Application {
 
+    @SuppressLint("StaticFieldLeak")
     static Context sContext;
 
     public WondersApplication() {

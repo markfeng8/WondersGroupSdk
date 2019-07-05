@@ -9,10 +9,8 @@
 package com.wondersgroup.android.sdk.utils;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -262,13 +260,8 @@ public class SecuritySharedPreference implements SharedPreferences {
          * an asynchronous commit to disk and you won't be notified of any failures.
          */
         @Override
-        @TargetApi(Build.VERSION_CODES.GINGERBREAD)
         public void apply() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                mEditor.apply();
-            } else {
-                commit();
-            }
+            mEditor.apply();
         }
     }
 }
