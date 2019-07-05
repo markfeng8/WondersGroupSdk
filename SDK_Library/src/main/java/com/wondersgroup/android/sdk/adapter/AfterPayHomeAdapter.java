@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.AfterHeaderBean;
@@ -39,13 +40,15 @@ import com.wondersgroup.android.sdk.utils.WToastUtil;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 /**
  * Created by x-sir on 2018/8/24 :)
  * Function:医后付首页数据的 Adapter
  */
 public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = AfterPayHomeAdapter.class.getSimpleName();
+    private static final String TAG = "AfterPayHomeAdapter";
     /**
      * 头部信息类型
      */
@@ -68,6 +71,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int mCurrentType = -1;
     private Context mContext;
     private List<Object> mItemList;
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     public AfterPayHomeAdapter(Context context, List<Object> itemList) {
         this.mContext = context;
@@ -99,6 +103,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             default:
                 break;
         }
+
         return viewHolder;
     }
 
@@ -173,35 +178,47 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         private void initListener() {
-            // 点击选择医院
-            RxUtils.clickView(tvHospitalName)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribe(s -> getHospitalList());
+            mCompositeDisposable.add(
+                    // 点击选择医院
+                    RxView.clicks(tvHospitalName)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .subscribe(s -> getHospitalList())
+            );
 
-            // 点击缴费记录
-            RxUtils.clickView(llPayRecord)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribe(s -> FeeRecordActivity.actionStart(mContext));
+            mCompositeDisposable.add(
+                    // 点击缴费记录
+                    RxUtils.clickView(llPayRecord)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .subscribe(s -> FeeRecordActivity.actionStart(mContext))
+            );
 
-            // 点击医后付首页顶部的 "点击缴纳"
-            RxUtils.clickView(llToPayFee)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribe(s -> requestYd0003());
+            mCompositeDisposable.add(
+                    // 点击医后付首页顶部的 "点击缴纳"
+                    RxUtils.clickView(llToPayFee)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .subscribe(s -> requestYd0003())
+            );
 
-            // 点击去开通医后付(前提是开通医保移动支付)
-            RxUtils.clickView(tvAfterPayState)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribe(s -> openAfterPay());
+            mCompositeDisposable.add(
+                    // 点击去开通医后付(前提是开通医保移动支付)
+                    RxUtils.clickView(tvAfterPayState)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .subscribe(s -> openAfterPay())
+            );
 
-            // 申领(查看)电子社保卡
-            RxUtils.clickView(tvMobilePayState)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribe(s -> electronicSocialSecurityCard());
+            mCompositeDisposable.add(
+                    // 申领(查看)电子社保卡
+                    RxUtils.clickView(tvMobilePayState)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .subscribe(s -> electronicSocialSecurityCard())
+            );
 
-            // 点击跳转到 "设置" 页面
-            RxUtils.clickView(llSettings)
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribe(s -> jumpToSetting());
+            mCompositeDisposable.add(
+                    // 点击跳转到 "设置" 页面
+                    RxUtils.clickView(llSettings)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .subscribe(s -> jumpToSetting())
+            );
         }
 
         private void jumpToSetting() {
@@ -385,14 +402,12 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     class ListViewHolder extends RecyclerView.ViewHolder {
         private TextView tvFeeName;
-        private TextView tvDepartment;
         private TextView tvTimestamp;
         private TextView tvMoney;
 
         ListViewHolder(View itemView) {
             super(itemView);
             tvFeeName = itemView.findViewById(R.id.tvFeeName);
-            tvDepartment = itemView.findViewById(R.id.tvDepartment);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
             tvMoney = itemView.findViewById(R.id.tvMoney);
         }
@@ -419,7 +434,13 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void setData(String info) {
+            LogUtil.i(TAG, "info:" + info);
+        }
+    }
 
+    public void clear() {
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
         }
     }
 }

@@ -396,4 +396,11 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         context.startActivity(intent);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAdapter != null) {
+            mAdapter.clear();
+        }
+    }
 }
