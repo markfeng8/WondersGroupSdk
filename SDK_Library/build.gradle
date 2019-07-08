@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release' // bintray plugin
-apply plugin: "com.github.spotbugs"
+//apply plugin: "com.github.spotbugs"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 24
-        versionName "1.8.4"
+        versionCode 25
+        versionName "1.8.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -162,7 +162,7 @@ artifacts {
 }
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.4'
+def releaseVersion = '0.1.5'
 
 publish {
     // bintray 仓库名

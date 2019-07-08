@@ -97,10 +97,10 @@
 -dontwarn com.shrb.wallet.**
 -dontwarn com.shrb.walletsdk.**
 
--keep class cn.keyou.**{ *;}
+-keep class cn.keyou.**{*;}
 -dontwarn cn.keyou.**
 
--keep class com.alibaba.fastjson.**{ *;}
+-keep class com.alibaba.fastjson.**{*;}
 -dontwarn com.alibaba.fastjson.**
 
 -keep class okhttp3.**{ *;}
@@ -144,21 +144,17 @@ public <methods>;
 
 -keep class com.alipay.** {*;}
 
-# ########## ͳһ����̨   ###########
 -dontwarn cn.wd.checkout.**
 -keep class cn.wd.checkout.** {*;}
 
-# ########## gson ##########
 -keep class com.google.**{*;}
 
-# ########## 链支付 ##########
 -dontwarn cn.wanda.lianpay.**
 -keep class cn.wanda.lianpay.** {*;}
 -keep class cn.wanda.processor.** {*;}
 -keep class cn.wanda.support.** {*;}
 -dontwarn cn.wanda.processor.**
 
-# ########## 支付宝 ##########
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
@@ -166,7 +162,6 @@ public <methods>;
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 
-# ########## 银联 ##########
 -dontwarn org.simalliance.openmobileapi.**
 -dontwarn org.simalliance.openmobileapi.service.**
 
@@ -234,13 +229,12 @@ public <methods>;
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
-########## 统一支付 end ##################---------------------------------
 
 # ########### epsoft start ##############---------------------------------
 -keep class com.epsoft.**{*;}
 -keep class com.itsea.cplusplus.** { *; }
 
-#保留JavascriptInterface中的方法
+# 保留 JavascriptInterface 中的方法
 -keepclassmembers class * {@android.webkit.JavascriptInterface <methods>;}
 
 -dontwarn cn.com.epsoft.zjessc.**
