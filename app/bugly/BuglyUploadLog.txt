@@ -1,0 +1,4 @@
+file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/outputs/mapping/release/mapping.txt
+sha1=7cbe15bbcb0ca3a3b92c4ef0cbd113c52658f82a
+appId=0010f85d4e
+

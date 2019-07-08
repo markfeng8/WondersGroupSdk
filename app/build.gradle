@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: "com.github.spotbugs"
+apply plugin: 'bugly'
+
+bugly {
+    // 注册时分配的 App ID
+    appId = '0010f85d4e'
+    // 注册时分配的 App Key
+    appKey = 'a63c1421-aa92-4920-9628-3a6653bc119e'
+}
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -12,8 +20,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
-            // 'armeabi'
+            abiFilters 'armeabi-v7a'
+            // 'armeabi', 'arm64-v8a'
         }
     }
 
