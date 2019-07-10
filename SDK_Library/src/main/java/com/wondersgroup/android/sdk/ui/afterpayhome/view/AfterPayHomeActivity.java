@@ -94,6 +94,10 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         return new AfterPayHomePresenter<>();
     }
 
+    /**
+     * current package {@link com.wondersgroup.android.sdk.ui.afterpayhome.view} <br/>
+     * bind layout content, initialize some data and views you can do it.
+     */
     @Override
     protected void bindView() {
         setContentView(R.layout.wonders_group_activity_after_pay_home);
@@ -102,6 +106,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         initListener();
     }
 
+    /**
+     * activity lifecycle method onRestart, you can do some operator in it.
+     */
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -361,21 +368,22 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     /**
-     * 上传电子社保卡开通状态
+     * Upload electronic society card open state to server.
      */
     private void requestYd0002(String state) {
         mPresenter.requestYd0002(state);
     }
 
     /**
-     * 请求 yd0003 接口
+     * request yd0003 api interface.
      */
     private void requestYd0003() {
         mPresenter.requestYd0003(mOrgCode);
     }
 
     /**
-     * 获取医院列表
+     * Get hospital list from network, you can pass No.1 param that api version,
+     * No.2 param that data type on received data.
      */
     public void getHospitalList() {
         mPresenter.getHospitalList("V1.1", "01");
