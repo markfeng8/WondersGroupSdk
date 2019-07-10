@@ -114,7 +114,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private void backRefreshPager() {
         // 回来就隐藏付款的布局
-        llNeedPay.setVisibility(View.GONE);
+        setNeedPayViewVisible(false);
         // 刷新医后付&医保移动支付状态
         requestXy0001();
         requestYd0001();
@@ -275,7 +275,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         // 先移除旧的门诊账单数据
         mItemList.removeAll(mFeeBillList);
         if (entity != null) {
-            llNeedPay.setVisibility(View.VISIBLE);
+            setNeedPayViewVisible(true);
             String feeTotal = entity.getFeeTotal();
             // 00 未结算 01 正在结算
             String payState = entity.getPayState();
@@ -287,9 +287,13 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
             mFeeBillList = entity.getDetails();
             mItemList.addAll(1, mFeeBillList);
         } else {
-            llNeedPay.setVisibility(View.GONE);
+            setNeedPayViewVisible(false);
         }
         refreshAdapter();
+    }
+
+    private void setNeedPayViewVisible(boolean visible) {
+        llNeedPay.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
