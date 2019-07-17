@@ -8,13 +8,14 @@
 
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/13 :)
  * Function:缴费详情 List 数据的组合类(默认数据和展开数据)
  */
-public class CombineDetailsBean {
+public class CombineDetailsBean implements Serializable {
 
     private FeeBillDetailsBean defaultDetails;
     private List<OrderDetailsEntity.DetailsBean> openDetails;

@@ -10,11 +10,13 @@ package com.wondersgroup.android.sdk.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2019/4/26 :)
  * Function:
  */
-public class EleCardEntity {
+public class EleCardEntity implements Serializable {
 
     /**
      * 签发类回执

@@ -8,11 +8,13 @@
 
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2019-05-15 :)
  * Function:电子社保获取 token 的实体类
  */
-public class EleCardTokenEntity {
+public class EleCardTokenEntity implements Serializable {
 
     /**
      * code : 0 响应码： -1：系统错误 0：成功 1：业务异常 2：单点登录 3：拦截重复请求 4:授权过期

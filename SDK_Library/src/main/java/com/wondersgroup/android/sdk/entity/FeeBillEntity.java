@@ -2,13 +2,14 @@ package com.wondersgroup.android.sdk.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/8/23 :)
  * Function:缴费详情、缴费记录展开 Item 响应的 Bean
  */
-public class FeeBillEntity extends BaseEntity {
+public class FeeBillEntity extends BaseEntity implements Serializable {
 
     /**
      * fee_total : 539.15
@@ -19,6 +20,9 @@ public class FeeBillEntity extends BaseEntity {
     private String feeTotal;
     @SerializedName("pay_state")
     private String payState;
+    /**
+     * 如果接口返回的数据中有 List，那么需要泛型类实现序列化接口
+     */
     private List<FeeBillDetailsBean> details;
 
     public String getPayState() {

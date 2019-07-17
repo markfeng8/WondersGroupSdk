@@ -1,10 +1,12 @@
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2018/9/17 :)
  * Function:
  */
-public class PayParamEntity extends BaseEntity {
+public class PayParamEntity extends BaseEntity implements Serializable {
 
     private String version;
     private String appid;

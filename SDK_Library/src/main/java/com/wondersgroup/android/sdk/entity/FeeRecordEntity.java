@@ -1,12 +1,13 @@
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/18 :)
  * Function:缴费记录的响应的 Bean
  */
-public class FeeRecordEntity extends BaseEntity {
+public class FeeRecordEntity extends BaseEntity implements Serializable{
 
     private List<DetailsBean> details;
 
@@ -18,7 +19,7 @@ public class FeeRecordEntity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean implements Serializable {
 
         /**
          * "org_name": "湖州市中心医院",

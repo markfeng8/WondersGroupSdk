@@ -10,13 +10,14 @@ package com.wondersgroup.android.sdk.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by x-sir on 2019/1/10 :)
  * Function:
  */
-public class Cy0005Entity extends BaseEntity {
+public class Cy0005Entity extends BaseEntity implements Serializable {
 
     private String rqdzje;
 
@@ -38,7 +39,7 @@ public class Cy0005Entity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean implements Serializable {
         @SerializedName("itemnum")
         private String itemNum;
         @SerializedName("customerfeeid")

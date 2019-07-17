@@ -3,13 +3,14 @@ package com.wondersgroup.android.sdk.entity;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.wondersgroup.android.sdk.adapter.ExpandableItemAdapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/13 :)
  * Function:
  */
-public class OrderDetailsEntity extends BaseEntity {
+public class OrderDetailsEntity extends BaseEntity implements Serializable {
 
     /**
      * fee_order : 10.00
@@ -55,7 +56,7 @@ public class OrderDetailsEntity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean implements MultiItemEntity {
+    public static class DetailsBean implements MultiItemEntity, Serializable {
         /**
          * billingdoctor :
          * billingdepartment : 急诊内科

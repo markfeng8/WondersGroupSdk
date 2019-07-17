@@ -2,13 +2,14 @@ package com.wondersgroup.android.sdk.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by x-sir on 2018/9/9 :)
  * Function:试结算、正式结算响应的 Bean
  */
-public class SettleEntity extends BaseEntity {
+public class SettleEntity extends BaseEntity implements Serializable {
 
     private String fee_total;
     private String fee_cash_total;
@@ -57,7 +58,7 @@ public class SettleEntity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean implements Serializable {
         private String his_order_no;
         private String order_name;
         private String fee_order;

@@ -1,10 +1,12 @@
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2018/8/1 :)
  * Function:短信验证码实体类
  */
-public class SmsEntity extends BaseEntity {
+public class SmsEntity extends BaseEntity implements Serializable {
 
     /**
      * iden_code : 277334

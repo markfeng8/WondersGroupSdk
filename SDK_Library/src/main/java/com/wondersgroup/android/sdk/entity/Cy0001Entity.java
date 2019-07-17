@@ -17,7 +17,7 @@ import java.util.List;
  * Created by x-sir on 2018/11/29 :)
  * Function:
  */
-public class Cy0001Entity extends BaseEntity {
+public class Cy0001Entity extends BaseEntity implements Serializable {
 
     private List<DetailsBean> details;
 

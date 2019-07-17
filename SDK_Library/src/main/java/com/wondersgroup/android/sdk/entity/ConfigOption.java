@@ -6,8 +6,14 @@ package com.wondersgroup.android.sdk.entity;
  */
 public class ConfigOption {
 
-    private boolean isDebug; // 是否是调试模式
-    private String env; // 设置环境（"test"为测试环境，为空或其他为正式环境）
+    /**
+     * 是否是调试模式
+     */
+    private boolean isDebug;
+    /**
+     * 设置环境（"test"为测试环境，为空或其他为正式环境）
+     */
+    private String env;
 
     public ConfigOption() {
     }

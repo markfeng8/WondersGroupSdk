@@ -12,11 +12,13 @@ import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.wondersgroup.android.sdk.adapter.ExpandableItemAdapter;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2018/12/28 :)
  * Function:
  */
-public class FeeBillDetailsBean extends AbstractExpandableItem<OrderDetailsEntity.DetailsBean> implements MultiItemEntity {
+public class FeeBillDetailsBean extends AbstractExpandableItem<OrderDetailsEntity.DetailsBean> implements MultiItemEntity, Serializable {
 
     /**
      * his_order_no : CF20839351

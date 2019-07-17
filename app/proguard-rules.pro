@@ -250,7 +250,7 @@ public <methods>;
 -dontwarn com.esscpermission.**
 -keep class com.esscpermission.**{*;}
 
-#okhttp
+#okhttp3
 -dontwarn okhttp3.**
 -keep class okhttp3.**{*;}
 
@@ -261,7 +261,6 @@ public <methods>;
 #okgo
 -dontwarn com.lzy.okgo.**
 -keep class com.lzy.okgo.**{*;}
-#-keep class com.google.gson.**{*;}
 -keep class com.orhanobut.logger.**{*;}
 
 -dontwarn com.tencent.bugly.**
@@ -365,13 +364,39 @@ public <methods>;
     @butterknife.* <methods>;
 }
 
-# Gson
--keep class com.google.gson.**{*;}
--keep interface com.google.gson.**{*;}
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
 
-# Retrofit
--dontwarn okio.**
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-dontwarn sun.misc.**
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod
+
+# Application classes that will be serialized/deserialized over Gson
+-keep class com.wondersgroup.android.jkcs_sdk.entity.** { <fields>; }
+
+# Prevent proguard from stripping interface information from TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+
+##---------------End: proguard configuration for Gson  ----------
+
+# Retrofit2
 -dontwarn javax.annotation.**
+-dontwarn javax.inject.**
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
 # Platform used when running on RoboVM on iOS. Will not be used at runtime.

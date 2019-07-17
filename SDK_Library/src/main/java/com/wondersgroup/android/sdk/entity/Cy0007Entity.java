@@ -10,11 +10,13 @@ package com.wondersgroup.android.sdk.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2018/12/6 :)
  * Function:
  */
-public class Cy0007Entity extends BaseEntity {
+public class Cy0007Entity extends BaseEntity implements Serializable {
 
     @SerializedName("pay_state")
     private String payState;

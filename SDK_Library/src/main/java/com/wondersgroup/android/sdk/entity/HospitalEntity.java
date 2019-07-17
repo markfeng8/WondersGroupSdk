@@ -1,5 +1,6 @@
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class HospitalEntity extends BaseEntity {
         this.details = details;
     }
 
-    public static class DetailsBeanX {
+    public static class DetailsBeanX implements Serializable {
         /**
          * details : [{"org_code":"47117170333050211A1001","org_name":"湖州市中心医院"},{"org_code":"47117166633050211A1001","org_name":"湖州市第一人民医院"},{"org_code":"47117169033050211A5201","org_name":"湖州市第三人民医院"},{"org_code":"47117172X33050211G1001","org_name":"湖州市妇幼保健院"},{"org_code":"47117171133050211A2101","org_name":"湖州市中医院"}]
          * area : 330500

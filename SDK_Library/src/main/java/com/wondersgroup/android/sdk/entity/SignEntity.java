@@ -8,11 +8,13 @@
 
 package com.wondersgroup.android.sdk.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by x-sir on 2018/11/29 :)
  * Function:
  */
-public class SignEntity extends BaseEntity {
+public class SignEntity extends BaseEntity implements Serializable {
 
     private String sign;
 
