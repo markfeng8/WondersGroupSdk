@@ -48,7 +48,6 @@ import java.util.List;
 
 import cn.com.epsoft.zjessc.callback.ResultType;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/11/7 :)
@@ -156,7 +155,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         // 去开通医保移动支付
         tvMobPayState.setOnClickListener(view -> applyElectronicSocialSecurityCard());
         // 选择医院
-        tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList("V1.1", "02"));
+        tvHospitalName.setOnClickListener(view -> mPresenter.getHospitalList(OrgConfig.GLOBAL_API_VERSION, "02"));
         // 预交金充值
         tvPrepayFee.setOnClickListener(view -> {
             comingSoon();
@@ -302,15 +301,14 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .just(body)
                         .map(HospitalEntity::getDetails)
-                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
-                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
-                        .subscribe(this::showWheelDialog);
-
-        mCompositeDisposable.add(disposable);
+                        .filter(detailsBean -> detailsBean != null && detailsBean.size() > 0)
+                        .map(detailsBean -> new Gson().toJson(detailsBean))
+                        .subscribe(this::showWheelDialog, throwable -> LogUtil.e(TAG, "onError:" + throwable.getMessage()))
+        );
     }
 
     @SuppressLint("SetTextI18n")

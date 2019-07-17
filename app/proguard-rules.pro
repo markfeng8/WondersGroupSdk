@@ -227,7 +227,7 @@ public <methods>;
 }
 
 -keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
+    public static final android.os.Parcelable$Creator *;
 }
 
 # ########### epsoft start ##############---------------------------------
@@ -325,7 +325,34 @@ public <methods>;
 # ########### epsoft end ##############
 
 # 保留所有实体类不被混淆
--keep class com.wondersgroup.android.jkcs_sdk.entity.**{*;}
+-keep class com.wondersgroup.android.jkcs_sdk.entity.** { *; }
+
+# 不混淆接口数据响应实体类的内部类
+-keep class com.wondersgroup.android.sdk.entity.HospitalEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.FeeRecordEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.Cy0001Entity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.Cy0005Entity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.FeeRecordEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.OrderDetailsEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.SettleEntity$* {
+    *;
+}
+
+# 不混淆实现 Parcelable 接口的类
+-keep public class com.wondersgroup.android.sdk.entity.CityBean { *; }
+-keep public class com.wondersgroup.android.sdk.entity.HospitalBean { *; }
 
 # ButterKnife
 -keep class butterknife.** { *; }

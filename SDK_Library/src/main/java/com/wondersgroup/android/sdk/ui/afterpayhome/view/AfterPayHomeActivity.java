@@ -314,9 +314,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 Observable
                         .just(body)
                         .map(HospitalEntity::getDetails)
-                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
-                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
-                        .subscribe(this::showWheelDialog)
+                        .filter(detailsBean -> detailsBean != null && detailsBean.size() > 0)
+                        .map(detailsBean -> new Gson().toJson(detailsBean))
+                        .subscribe(this::showWheelDialog, throwable -> LogUtil.e(TAG, "onError:" + throwable.getMessage()))
         );
     }
 
@@ -324,7 +324,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * 弹出选择器
      */
     private void showWheelDialog(String json) {
-        // 预先加载仿iOS滚轮实现的全部数据
+        // 预先加载仿 iOS 滚轮实现的全部数据
         mCityPickerView.init(json);
 
         CityConfig cityConfig = new CityConfig.Builder()
@@ -386,7 +386,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      * No.2 param that data type on received data.
      */
     public void getHospitalList() {
-        mPresenter.getHospitalList("V1.1", "01");
+        mPresenter.getHospitalList(OrgConfig.GLOBAL_API_VERSION, "01");
     }
 
     public static void actionStart(Context context, HashMap<String, String> param) {

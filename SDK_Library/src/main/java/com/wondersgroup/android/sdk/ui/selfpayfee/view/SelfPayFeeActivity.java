@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.adapter.SelfPayFeeAdapter;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
+import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.CityBean;
 import com.wondersgroup.android.sdk.entity.FeeBillDetailsBean;
@@ -40,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/10/31 :)
@@ -137,7 +137,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
     }
 
     public void getHospitalList() {
-        mPresenter.getHospitalList("V1.1", "01");
+        mPresenter.getHospitalList(OrgConfig.GLOBAL_API_VERSION, "01");
     }
 
     /**
@@ -213,15 +213,14 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
 
     @Override
     public void onHospitalListResult(HospitalEntity body) {
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .just(body)
                         .map(HospitalEntity::getDetails)
-                        .filter(detailsBeanXES -> detailsBeanXES != null && detailsBeanXES.size() > 0)
-                        .map(detailsBeanXES -> new Gson().toJson(detailsBeanXES))
-                        .subscribe(this::showWheelDialog);
-
-        mCompositeDisposable.add(disposable);
+                        .filter(detailsBean -> detailsBean != null && detailsBean.size() > 0)
+                        .map(detailsBean -> new Gson().toJson(detailsBean))
+                        .subscribe(this::showWheelDialog, throwable -> LogUtil.e(TAG, "onError:" + throwable.getMessage()))
+        );
     }
 
     @Override

@@ -29,6 +29,7 @@ import com.wondersgroup.android.sdk.widget.timepicker.wheel.WheelView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by x-sir on 2019/1/21 :)
@@ -359,10 +360,8 @@ public class HospitalPickerView extends LinearLayout implements OnWheelChangedLi
             updateAreas();
         } else if (wheel == mViewDistrict) {
             if (mParseHelper != null && mParseHelper.getmCityHosMap() != null) {
-
-                HospitalBean mDistrictBean = mParseHelper.getmCityHosMap()
-                        .get(mParseHelper.getmCityBean().getArea_name() + mParseHelper.getmHospitalBean().getOrg_name())[newValue];
-
+                HospitalBean mDistrictBean = Objects.requireNonNull(mParseHelper.getmCityHosMap()
+                        .get(mParseHelper.getmCityBean().getArea_name() + mParseHelper.getmHospitalBean().getOrg_name()))[newValue];
                 mParseHelper.setmHospitalBean(mDistrictBean);
             }
         }

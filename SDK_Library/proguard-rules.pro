@@ -65,7 +65,7 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 -keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
+    public static final android.os.Parcelable$Creator *;
 }
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
@@ -86,7 +86,7 @@
 
 #--------------------------------- webview start ------------------------------------
 -keepclassmembers class fqcn.of.javascript.interface.for.Webview {
-   public *;
+    public *;
 }
 -keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
@@ -184,11 +184,11 @@
 -dontwarn cn.com.epsoft.zjessc.**
 -keep class cn.com.epsoft.zjessc.**{*;}
 -dontwarn hc.mhis.paic.com.essclibrary.**
--keep class hc.mhis.paic.com.essclibrary.** { *;}
+-keep class hc.mhis.paic.com.essclibrary.** {*;}
 -dontwarn com.pingan.ai.**
--keep class com.pingan.ai.** { *;}
+-keep class com.pingan.ai.** {*;}
 -dontwarn pingan.ai.**
--keep class pingan.ai.** { *;}
+-keep class pingan.ai.** {*;}
 -dontwarn com.google.zxing.**
 -keep class com.google.zxing.**{*;}
 -dontwarn com.esscpermission.**
@@ -296,6 +296,33 @@
 #--------------------------------- 项目个性化配置 start ------------------------------------
 # 保留所有实体类不被混淆
 -keep class com.wondersgroup.android.sdk.entity.**{*;}
+
+# 不混淆接口数据响应实体类的内部类
+-keep class com.wondersgroup.android.sdk.entity.HospitalEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.FeeRecordEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.Cy0001Entity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.Cy0005Entity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.FeeRecordEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.OrderDetailsEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.SettleEntity$* {
+    *;
+}
+
+# 不混淆实现 Parcelable 接口的类
+-keep public class com.wondersgroup.android.sdk.entity.CityBean { *; }
+-keep public class com.wondersgroup.android.sdk.entity.HospitalBean { *; }
 
 # 保持对外的 SDK 初始化的类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
 -keep class com.wondersgroup.android.sdk.WondersSdk {

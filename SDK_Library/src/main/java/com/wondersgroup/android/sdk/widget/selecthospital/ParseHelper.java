@@ -123,8 +123,6 @@ public class ParseHelper {
      * 初始化数据，解析 json 数据
      */
     public void initData(String json) {
-        LogUtil.i(TAG, "json===" + json);
-
         Type type = new TypeToken<ArrayList<CityBean>>() {
         }.getType();
 
@@ -135,11 +133,16 @@ public class ParseHelper {
             return;
         }
 
+        int citySize = mCityBeanArrayList.size();
+        LogUtil.i(TAG, "citySize===" + citySize);
         // 4.创建一个城市数量大小的集合，你可以理解为有多少个城市的组合，每个组合下又有医院
-        mHospitalBeanArrayList = new ArrayList<>(mCityBeanArrayList.size());
+        mHospitalBeanArrayList = new ArrayList<>(citySize);
+
+        // 6.创建一个城市地区数量长度的空数组
+        mCityBeanArray = new CityBean[citySize];
 
         // 5.初始化默认选中的市、医院，默认选中第一个市区中的第一个医院
-        if (mCityBeanArrayList != null && !mCityBeanArrayList.isEmpty()) {
+        if (!mCityBeanArrayList.isEmpty()) {
             // 取出第一个地区
             mCityBean = mCityBeanArrayList.get(0);
             // 取出第一个地区的医院列表
@@ -150,11 +153,8 @@ public class ParseHelper {
             }
         }
 
-        // 6.创建一个城市地区数量长度的空数组
-        mCityBeanArray = new CityBean[mCityBeanArrayList.size()];
-
         // 7.遍历每个城市地区
-        for (int i = 0; i < mCityBeanArrayList.size(); i++) {
+        for (int i = 0; i < citySize; i++) {
             CityBean city = mCityBeanArrayList.get(i);
             // 取出城市对应下面的医院的集合
             List<HospitalBean> hospitalList = city.getDetails();
