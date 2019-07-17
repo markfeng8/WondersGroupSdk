@@ -98,3 +98,7 @@ file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/ou
 sha1=b68f7d8795ed8179bbe588749d642e9e3a531bb5
 appId=0010f85d4e
 
+file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/outputs/mapping/release/mapping.txt
+sha1=b68f7d8795ed8179bbe588749d642e9e3a531bb5
+appId=0010f85d4e
+
