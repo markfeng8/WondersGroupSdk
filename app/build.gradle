@@ -15,8 +15,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 104
-        versionName "2.9.3"
+        versionCode 105
+        versionName "2.9.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
