@@ -39,6 +39,7 @@ android {
     lintOptions {
         // 即使有报错也不会停止打包
         abortOnError false
+        disable 'ProtectedPermissions'
         // 打包Release版本的时候也不进行Lint检测
         checkReleaseBuilds false
     }
