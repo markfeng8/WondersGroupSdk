@@ -15,8 +15,8 @@ android {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 105
-        versionName "2.9.4"
+        versionCode 106
+        versionName "2.9.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -121,7 +121,7 @@ def readProperties(key) {
 }
 
 static def getUpdateDescription() {
-    return '1.重新配置混淆;\n2.修复一些bug;'
+    return '1.修改电子健康卡密钥;\n2.修复一些bug;'
 }
 
 task("uploadApk") {

@@ -27,11 +27,17 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 public class HealthCardActivity extends AppCompatActivity {
 
     private static final String TAG = "HealthCardActivity";
-    private static final String URL = "http://115.238.228.2:8000/hcbmp/management/h5/index?appId=5a2d3137f400494dacd73ceaf6e332a3&cipherText=";
+    //private static final String URL = "http://115.238.228.2:8000/hcbmp/management/h5/index?appId=5a2d3137f400494dacd73ceaf6e332a3&cipherText=";
+    private static final String URL = "http://115.238.228.2:8000/hcbmp/management/h5/index?appId=050b1e9c8dd34d478518a9eafffa99ba&cipherText=";
     /**
      * 公钥截取前面16位作为报文加密密钥 e815d21106a59ac5e1fb305ededaf9cb
      */
-    private static final String PUBLIC_KEY = "e815d21106a59ac5";
+    //private static final String PUBLIC_KEY = "e815d21106a59ac5";
+    /**
+     * 公钥截取前面16位作为报文加密密钥 dd80ec7b658a4ea660ae9bc7315fb227
+     */
+    private static final String PUBLIC_KEY = "dd80ec7b658a4ea6";
+
     @BindView(R.id.etName)
     EditText etName;
     @BindView(R.id.etIdNum)
