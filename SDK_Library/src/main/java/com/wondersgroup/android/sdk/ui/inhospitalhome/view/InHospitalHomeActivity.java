@@ -87,7 +87,6 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     private String mInHosArea;
     private String mInHosDate;
     private Cy0001Entity mCy0001Entity;
-
     private HospitalPickerView mCityPickerView;
 
     /**

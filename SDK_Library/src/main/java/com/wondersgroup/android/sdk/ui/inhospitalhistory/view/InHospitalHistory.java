@@ -64,7 +64,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     private String mAreaName = "湖州市";
     private HosHistoryAdapter mHosHistoryAdapter;
     private List<Cy0001Entity.DetailsBean> mDetails = new ArrayList<>();
-    private HospitalPickerView mCityPickerView = new HospitalPickerView(this);
+    private HospitalPickerView mCityPickerView;
 
     private void requestCY0001() {
         mPresenter.requestCy0001(mOrgCode, OrgConfig.IN_STATE1);
@@ -91,6 +91,7 @@ public class InHospitalHistory extends MvpBaseActivity<InHosHisContract.IView,
     }
 
     private void initData() {
+        mCityPickerView = new HospitalPickerView(this);
         Intent intent = getIntent();
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
