@@ -43,7 +43,8 @@ public class WondersSdk {
         WondersApplication.sContext = context.getApplicationContext();
         // 处理过渡到加密数据
         SpUtil.getInstance().handleTransition();
-        initEpSoft(context, getIsDebug(option));
+        //initEpSoft(context, getIsDebug(option));
+        initEpSoft(context, false);
         initLogger(getIsDebug(option));
         LogUtil.i(TAG, "WondersSdk initialize success~");
     }
@@ -52,6 +53,7 @@ public class WondersSdk {
      * 集成省电子社保卡
      */
     private void initEpSoft(Context context, boolean isDebug) {
+        // isDebug 为 true 时是测试环境，false 时为正式环境
         ZjEsscSDK.init(isDebug, (Application) context, CHANNEL_NO);
         // 设置主题颜色
         ZjEsscSDK.setTitleColor("#1E90FF");
