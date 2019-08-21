@@ -170,3 +170,15 @@ file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/ou
 sha1=3c893f2ada85e8d2ddf590b818c24a9daf1f55b5
 appId=0010f85d4e
 
+file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/outputs/mapping/release/mapping.txt
+sha1=21bad07994ba1349dcabb2c9827cdb92cab0f04e
+appId=0010f85d4e
+
+file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/outputs/mapping/release/mapping.txt
+sha1=a256595e883a3a335326ad481ae988928e092f04
+appId=0010f85d4e
+
+file=/Users/pengfeixin/AndroidStudioProjects/HealthCity_SDK_Wonders/app/build/outputs/mapping/release/mapping.txt
+sha1=3889c6f5fdc83f24135e8fc3ed7509798b65d9a2
+appId=0010f85d4e
+

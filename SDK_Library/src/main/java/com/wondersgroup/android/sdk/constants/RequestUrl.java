@@ -63,9 +63,10 @@ public class RequestUrl {
     public static final String EPSOFT_SIGN_API = (isTestEnv() ? "http://115.236.191.153:9090/" : "http://dzsbk.zjhrss.gov.cn:8080/") + "sdk/csb/signTest";
 
     /**
-     * 验签测试接口
+     * 市平台获取试结算、正式结算 Token 的接口
      */
-    public static final String CHECK_SIGN_API = "http://61.153.183.132:9025/access/api/gateway";
+    //public static final String CHECK_SIGN_API = (isTestEnv() ? "http://61.153.183.132:9025" : "http://61.153.183.130:8026") + "/access/api/gateway";
+    public static final String CHECK_SIGN_API = "http://61.153.183.130:8026/access/api/gateway";
 
     private static boolean isTestEnv() {
         boolean isTestEnv = false;

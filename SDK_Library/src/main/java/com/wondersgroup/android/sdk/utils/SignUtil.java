@@ -36,20 +36,41 @@ public class SignUtil {
             "laGqVXBp1CZ6exV4yk/5v3CpHc4jNetH8YM+7tVXNkSoYajXQ2gdd6FG2rm7IF2z\n" +
             "fLOEmxq17n5yG8m8pwIDAQAB";
 
-    private static final String PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKb+V57TW5R3mQKG\n" +
-            "i4okL16DjBDGyGylwPkYpRi6GQQrrzPO2q0ZhhsVZ4DE+lVs5/b34WDFS/kMjNFN\n" +
-            "TsBAVUXvvnOVoapVcGnUJnp7FXjKT/m/cKkdziM160fxgz7u1Vc2RKhhqNdDaB13\n" +
-            "oUbaubsgXbN8s4SbGrXufnIbybynAgMBAAECgYAQKj7BGSScUpd1LyEC1k3fkExW\n" +
-            "s2djXQg5FLGmmx0g0jm7giKY7weUR5YlWOwCqPArcANZIsAf858OA7XD1nZqjqqU\n" +
-            "HSauvtIC6+skhTSLd55xHd3vUb8VNkxPvJh7Geg3FFBsSdBh/GMB29yIGHe7TY2O\n" +
-            "p8Dyu4WPjVIL5/8wQQJBANCYNdLdpgMxbguDQ8+yZKlcc5WNWKmQL8wf5Kx9ngFG\n" +
-            "53lP7Ui0Dfqm9OsYmZFKx4jZTa8PBZWWlukrefef6QsCQQDM8dTairg8Q27K+bZ+\n" +
-            "eK5FWnm48ASaZliQJi5KLavOwRSEzfeywU3FzxxTyB0a9CBAUd4AqjTqEG0HMlCD\n" +
-            "RZRVAkEAx3qYFlRS20Dc/POF2My/yNqZyk4GmPlDTFC/rVjfzlbRK8kMoPdXWvlo\n" +
-            "xJ6c1T4O/UbaLGwQKhJ9tPQXyn/JKwJAce29tf+Hi3ixDoTivku4FTXGlNhYtrxO\n" +
-            "X1PaR8I70CPllC4rlGOBKIWJ6clE5MbxZtAb6aK056lZ8rY1q8PyQQJBAMfYLfrr\n" +
-            "8j6Fs+srS2+U7pFU53RHCjh9/m66toReaD8J1bRwAtnHBxjOTZGyfYsBjEvGu5kV\n" +
-            "H2+8MYkh52Mv1TI=";
+    /**
+     * 测试环境公钥
+     */
+//    private static final String PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKb+V57TW5R3mQKG\n" +
+//            "i4okL16DjBDGyGylwPkYpRi6GQQrrzPO2q0ZhhsVZ4DE+lVs5/b34WDFS/kMjNFN\n" +
+//            "TsBAVUXvvnOVoapVcGnUJnp7FXjKT/m/cKkdziM160fxgz7u1Vc2RKhhqNdDaB13\n" +
+//            "oUbaubsgXbN8s4SbGrXufnIbybynAgMBAAECgYAQKj7BGSScUpd1LyEC1k3fkExW\n" +
+//            "s2djXQg5FLGmmx0g0jm7giKY7weUR5YlWOwCqPArcANZIsAf858OA7XD1nZqjqqU\n" +
+//            "HSauvtIC6+skhTSLd55xHd3vUb8VNkxPvJh7Geg3FFBsSdBh/GMB29yIGHe7TY2O\n" +
+//            "p8Dyu4WPjVIL5/8wQQJBANCYNdLdpgMxbguDQ8+yZKlcc5WNWKmQL8wf5Kx9ngFG\n" +
+//            "53lP7Ui0Dfqm9OsYmZFKx4jZTa8PBZWWlukrefef6QsCQQDM8dTairg8Q27K+bZ+\n" +
+//            "eK5FWnm48ASaZliQJi5KLavOwRSEzfeywU3FzxxTyB0a9CBAUd4AqjTqEG0HMlCD\n" +
+//            "RZRVAkEAx3qYFlRS20Dc/POF2My/yNqZyk4GmPlDTFC/rVjfzlbRK8kMoPdXWvlo\n" +
+//            "xJ6c1T4O/UbaLGwQKhJ9tPQXyn/JKwJAce29tf+Hi3ixDoTivku4FTXGlNhYtrxO\n" +
+//            "X1PaR8I70CPllC4rlGOBKIWJ6clE5MbxZtAb6aK056lZ8rY1q8PyQQJBAMfYLfrr\n" +
+//            "8j6Fs+srS2+U7pFU53RHCjh9/m66toReaD8J1bRwAtnHBxjOTZGyfYsBjEvGu5kV\n" +
+//            "H2+8MYkh52Mv1TI=";
+
+    /**
+     * 正式环境公钥
+     */
+    private static final String PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBALRo4hgpOHJawm9R\n" +
+            "BYVQFPzoyPqbK28Vfs8WgkHworlvFtOOfZ9HVH3EJmVcLMkl0g+BBsPEYWvQWg6V\n" +
+            "tQKtHVZWFPfB9gt58wD5Sbls3K5gks8id/60ZjyD+LXTG6oUCn2nJ45zqDnCAA1c\n" +
+            "fN29cPv9MkL0/PMOre70hE+3F6sbAgMBAAECgYBgIr/Qli6hKWIRBYDGoHz+pGFs\n" +
+            "wcEsaazwV5ND5iIgZGUqiPTCKrWIazz2qF6pNYExh9T9/yjW1ekXeolBitRlZokR\n" +
+            "drASZ3K/qMmHWxPQIHYslR/lwg+H3AjGDSAnOZHi/zkB6dSFW7ftOH4Jlf6iFUAe\n" +
+            "R9fgZ9z+n+lt4JDhOQJBAOouA2q7XEGJuUpbehAivgJNSeGz18FeH3IKyDWyAd18\n" +
+            "ayb/Rbn5CRIpdnDorKoS4nAClaIiE/Hd87K7ymknSrcCQQDFOEVOk0733agnqyLz\n" +
+            "0c4l2sCzUKevtQJeWCUuHvNFb1Tp0WGMG6Rq7EX5iLny6gtNUnw7buKpkW1vqBev\n" +
+            "fI69AkAFn9FJMPLISCyBEq1d0dfKalzJ5O3boQ0UShoA4COXVDOmnh7oloiXPROx\n" +
+            "JoVvGEED+6voVvUvq+r8cfIskFsFAkBcx4cbWwOIadeEqebsiyQO/OUwtl3ctCvk\n" +
+            "FFWRZ/AMFz78LItWbV6hCnw00xSfaWldu9ND5nttSEQShiJ2ZQOFAkEA0s+B6sB4\n" +
+            "LWKHzRPi0tPvei3dmd5r6jSbPa9dwIUQJmyQbsRNgwabSchqfdoYODZy8yKTkMt6\n" +
+            "CUhriNVIPVsVWQ==";
 
     /**
      * 获取一般 Json 数据的签名
@@ -157,7 +178,7 @@ public class SignUtil {
      * 生成签名
      *
      * @param param parameter
-     * @param key key
+     * @param key   key
      * @return result
      */
     private static String createSign(HashMap<String, String> param, String key) {
