@@ -8,14 +8,23 @@ bugly {
     appKey = 'a63c1421-aa92-4920-9628-3a6653bc119e'
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+def appVersionCode = 113 // code 每次 + 1 递增
+def appVersionName = '2.9.12' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
+
+static def getUpdateDescription() {
+    return '1.修改界面文案显示;\n2.修复一些bug;'
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         applicationId "com.wondersgroup.android.healthcity_sdk"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 112
-        versionName "2.9.11"
+        versionCode appVersionCode
+        versionName appVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -117,10 +126,6 @@ def readProperties(key) {
             return properties.getProperty(key)
         }
     }
-}
-
-static def getUpdateDescription() {
-    return '1.处理002上报signNo;\n2.修复一些bug;'
 }
 
 task("uploadApk") {
