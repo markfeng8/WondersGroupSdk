@@ -34,6 +34,7 @@ import com.wondersgroup.android.sdk.ui.settingspage.view.SettingsActivity;
 import com.wondersgroup.android.sdk.utils.DensityUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.List;
@@ -154,7 +155,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private LinearLayout llPayRecord;
         private TextView tvHospitalName;
         private TextView tvTreatName;
-        private TextView tvSocialNum;
+        private TextView tvIdNum;
         private TextView tvAfterPayState;
         private TextView tvMobilePayState;
         private TextView tvToPay;
@@ -168,7 +169,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             llPayRecord = itemView.findViewById(R.id.llPayRecord);
             tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
             tvTreatName = itemView.findViewById(R.id.tvTreatName);
-            tvSocialNum = itemView.findViewById(R.id.tvSocialNum);
+            tvIdNum = itemView.findViewById(R.id.tvIdNum);
             tvAfterPayState = itemView.findViewById(R.id.tvAfterPayState);
             tvMobilePayState = itemView.findViewById(R.id.tvMobilePayState);
             tvToPay = itemView.findViewById(R.id.tvToPay);
@@ -295,7 +296,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void setData(AfterHeaderBean afterHeaderBean) {
             if (afterHeaderBean != null) {
                 String name = afterHeaderBean.getName();
-                String cardNo = afterHeaderBean.getSocialNum();
+                String idNum = afterHeaderBean.getIdNum();
                 String signingStatus = afterHeaderBean.getSigningStatus();
                 String eleCardStatus = afterHeaderBean.getEleCardStatus();
                 String hospitalName = afterHeaderBean.getHospitalName();
@@ -306,7 +307,9 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (!TextUtils.isEmpty(hospitalName)) {
                     tvHospitalName.setText(hospitalName);
                 }
-                tvSocialNum.setText(mContext.getString(R.string.wonders_text_social_number) + cardNo);
+                String idNumContent = mContext.getString(R.string.wonders_id_number)
+                        + StringUtils.getMosaicIdNum(idNum);
+                tvIdNum.setText(idNumContent);
 
                 // 00未签约（医后付状态给NULL）
                 if ("00".equals(signingStatus)) {

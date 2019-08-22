@@ -148,9 +148,9 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void initHeaderData() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String socialNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         mHeaderBean.setName(name);
-        mHeaderBean.setSocialNum(socialNum);
+        mHeaderBean.setIdNum(idNum);
         // 第一次添加头部数据
         mItemList.add(mHeaderBean);
         // 第二次添加门诊账单数据

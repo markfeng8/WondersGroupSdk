@@ -39,6 +39,7 @@ import com.wondersgroup.android.sdk.utils.DateUtils;
 import com.wondersgroup.android.sdk.utils.DensityUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.widget.selecthospital.CityConfig;
 import com.wondersgroup.android.sdk.widget.selecthospital.HospitalPickerView;
@@ -119,15 +120,12 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         requestCY0001();
     }
 
-    @SuppressLint("SetTextI18n")
     private void initData() {
         mCityPickerView = new HospitalPickerView(this);
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         tvName.setText(name);
-        String start = idNum.substring(0, 10);
-        String end = idNum.substring(idNum.length() - 4);
-        tvIdNum.setText(start + "****" + end);
+        tvIdNum.setText(StringUtils.getMosaicIdNum(idNum));
     }
 
     private void findViews() {

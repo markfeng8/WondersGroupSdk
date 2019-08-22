@@ -7,7 +7,7 @@ package com.wondersgroup.android.sdk.entity;
 public class AfterHeaderBean {
 
     private String name;
-    private String socialNum;
+    private String idNum;
     private String hospitalName;
     /**
      * 医后付付费状态(已签约)
@@ -30,7 +30,7 @@ public class AfterHeaderBean {
                            String orgName, String feeState, String feeTotals, String feeCashTotal,
                            String feeYbTotal, String feeOrgName, String feeOrgCode, int yd0008Size) {
         this.name = name;
-        this.socialNum = socialNum;
+        this.idNum = socialNum;
         this.hospitalName = hospitalName;
         this.paymentStatus = paymentStatus;
         this.signingStatus = signingStatus;
@@ -80,12 +80,12 @@ public class AfterHeaderBean {
         this.name = name;
     }
 
-    public String getSocialNum() {
-        return socialNum;
+    public String getIdNum() {
+        return idNum;
     }
 
-    public void setSocialNum(String socialNum) {
-        this.socialNum = socialNum;
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
     }
 
     public String getHospitalName() {
@@ -116,7 +116,7 @@ public class AfterHeaderBean {
     public String toString() {
         return "AfterHeaderBean{" +
                 "name='" + name + '\'' +
-                ", socialNum='" + socialNum + '\'' +
+                ", idNum='" + idNum + '\'' +
                 ", hospitalName='" + hospitalName + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", signingStatus='" + signingStatus + '\'' +

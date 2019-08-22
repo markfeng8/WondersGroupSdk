@@ -66,36 +66,6 @@
         app:layout_constraintTop_toBottomOf="@id/icNum" />
 
     <TextView
-        android:id="@+id/socialNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wonders_margin_16dp"
-        android:text="@string/wonders_social_card_number"
-        android:textColor="@color/wonders_rgb_color_666666"
-        android:textSize="@dimen/wonders_text_size_16sp"
-        app:layout_constraintStart_toStartOf="@id/icNum"
-        app:layout_constraintTop_toBottomOf="@id/view2" />
-
-    <TextView
-        android:id="@+id/tvSocialNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/wonders_margin_16dp"
-        android:text="A78797"
-        android:textColor="@color/wonders_rgb_color_333333"
-        android:textSize="@dimen/wonders_text_size_16sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/socialNum"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="@dimen/wonders_margin_16dp"
-        android:background="@color/wonders_rgb_color_e0e0e0"
-        app:layout_constraintTop_toBottomOf="@id/socialNum" />
-
-    <TextView
         android:id="@+id/signDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,8 +73,8 @@
         android:text="@string/wonders_sign_date"
         android:textColor="@color/wonders_rgb_color_666666"
         android:textSize="@dimen/wonders_text_size_16sp"
-        app:layout_constraintStart_toStartOf="@id/socialNum"
-        app:layout_constraintTop_toBottomOf="@id/view3" />
+        app:layout_constraintStart_toStartOf="@id/icNum"
+        app:layout_constraintTop_toBottomOf="@id/view2" />
 
     <TextView
         android:id="@+id/tvSignDate"

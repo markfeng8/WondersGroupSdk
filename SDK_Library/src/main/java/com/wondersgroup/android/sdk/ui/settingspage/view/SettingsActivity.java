@@ -1,6 +1,5 @@
 package com.wondersgroup.android.sdk.ui.settingspage.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,7 +40,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private static final String TAG = SettingsActivity.class.getSimpleName();
     private TextView tvName;
     private TextView tvIcNum;
-    private TextView tvSocialNum;
     private TextView tvSignDate;
     private TextView tvPhone;
     private TextView tvAfterPayState;
@@ -121,7 +119,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
 
         tvName.setText(mName);
         tvIcNum.setText(mIdNo);
-        tvSocialNum.setText(mCardNo);
         tvPhone.setText(mPhone);
         tvSignDate.setText(mSignDate);
 
@@ -180,7 +177,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private void findViews() {
         tvName = findViewById(R.id.tvName);
         tvIcNum = findViewById(R.id.tvIcNum);
-        tvSocialNum = findViewById(R.id.tvSocialNum);
         tvSignDate = findViewById(R.id.tvSignDate);
         tvPhone = findViewById(R.id.tvPhone);
         ivEditPhone = findViewById(R.id.ivEditPhone);
@@ -190,7 +186,6 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvTermination = findViewById(R.id.tvTermination);
     }
 
-    @SuppressLint("SetTextI18n")
     private void showPopupWindow() {
         LogUtil.i(TAG, "popupWindow == null ? " + (popupWindow == null));
         if (popupWindow == null) {
@@ -294,7 +289,8 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
             tvOpen.setText("确认取消");
             tvPhoneNum.setVisibility(View.VISIBLE);
             llPhone.setVisibility(View.GONE);
-            tvPhoneNum.setText("手机号：" + mPhone);
+            String phoneContent = "手机号：" + mPhone;
+            tvPhoneNum.setText(phoneContent);
         }
 
         if (popupWindow.isShowing()) {

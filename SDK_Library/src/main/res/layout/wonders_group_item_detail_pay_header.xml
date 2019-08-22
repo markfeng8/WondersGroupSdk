@@ -27,11 +27,11 @@
                 android:textSize="@dimen/wonders_text_size_16sp" />
 
             <TextView
-                android:id="@+id/tvSocialNum"
+                android:id="@+id/tvIdNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/wonders_margin_8dp"
-                android:text="A0486807X"
+                android:text="000000000000000000"
                 android:textColor="@color/wonders_rgb_color_666666"
                 android:textSize="@dimen/wonders_text_size_12sp" />
         </LinearLayout>

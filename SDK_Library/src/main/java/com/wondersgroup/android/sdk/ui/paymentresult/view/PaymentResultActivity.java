@@ -80,14 +80,14 @@ public class PaymentResultActivity extends MvpBaseActivity<PaymentResultContract
 
         // 设置不管是全部完成支付还是全部未完成支付时需要显示的数据
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String lockStartTime = SpUtil.getInstance().getString(SpKey.LOCK_START_TIME, "");
         String payPlatTradeNo = SpUtil.getInstance().getString(SpKey.PAY_PLAT_TRADE_NO, "");
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
 
         PayResultLayout payResultLayout = new PayResultLayout(this);
         payResultLayout.setTreatName(name);
-        payResultLayout.setSocialNum("2".equals(cardType) ? null : cardNum);
+        payResultLayout.setSocialNum(idNum);
         payResultLayout.setHospitalName(mOrgName);
         payResultLayout.setBillDate(lockStartTime);
         payResultLayout.setBillNo(payPlatTradeNo);

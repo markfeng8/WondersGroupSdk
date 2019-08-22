@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wondersgroup.android.sdk.R;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 
 /**
  * Created by x-sir on 2018/9/27 :)
@@ -57,7 +58,7 @@ public class PayResultLayout extends LinearLayout {
 
     public void setSocialNum(String socialNum) {
         if (!TextUtils.isEmpty(socialNum)) {
-            tvSocialNum.setText(socialNum);
+            tvSocialNum.setText(StringUtils.getMosaicIdNum(socialNum));
         } else {
             // 如果是 null 则不显示社保卡号项
             llSocialNum.setVisibility(View.GONE);

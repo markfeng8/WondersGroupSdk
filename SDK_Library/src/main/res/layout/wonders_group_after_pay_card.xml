@@ -33,7 +33,7 @@
                 android:textSize="@dimen/wonders_text_size_18sp" />
 
             <TextView
-                android:id="@+id/tvSocialNum"
+                android:id="@+id/tvIdNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/wonders_margin_10dp"

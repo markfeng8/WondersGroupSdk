@@ -30,6 +30,7 @@ import com.wondersgroup.android.sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.widget.FeeDetailLayout;
 import com.wondersgroup.android.sdk.widget.PayItemLayout;
@@ -147,14 +148,14 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      */
     class HeaderViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
-        private TextView tvSocialNum;
+        private TextView tvIdNum;
         private TextView tvHospitalName;
         private TextView tvOrderNum;
 
         HeaderViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-            tvSocialNum = itemView.findViewById(R.id.tvSocialNum);
+            tvIdNum = itemView.findViewById(R.id.tvIdNum);
             tvHospitalName = itemView.findViewById(R.id.tvHospitalName);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
         }
@@ -171,13 +172,8 @@ public class PaymentDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             if (!TextUtils.isEmpty(socialNum)) {
                 // 如果是门诊显示社保卡号，如果是自费卡显示身份证号
-                String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-                if ("0".equals(cardType)) {
-                    tvSocialNum.setText("社保卡号：" + socialNum);
-                } else if ("2".equals(cardType)) {
-                    String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-                    tvSocialNum.setText("身份证号：" + idNum);
-                }
+                String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+                tvIdNum.setText("身份证号：" + StringUtils.getMosaicIdNum(idNum));
             }
 
             if (!TextUtils.isEmpty(hospitalName)) {
