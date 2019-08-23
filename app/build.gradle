@@ -173,9 +173,7 @@ task("launchApp") {
 
         try {
             exec {
-                ExecSpec execSpec ->
-                    executable 'bash'
-                    args '-c', command
+                ExecSpec execSpec -> executable 'bash' args '-c', command
             }
             println "installApk success"
         } catch (Exception e) {

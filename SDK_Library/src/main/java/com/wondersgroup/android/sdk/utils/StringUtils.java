@@ -24,7 +24,7 @@ public class StringUtils {
      */
     public static String getMosaicIdNum(String idNum) {
         if (!TextUtils.isEmpty(idNum) && idNum.length() == 18) {
-            String start = idNum.substring(0, 10);
+            String start = idNum.substring(0, 6);
             String end = idNum.substring(idNum.length() - 4);
             return start + "****" + end;
         } else {
