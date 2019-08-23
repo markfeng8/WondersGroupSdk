@@ -341,8 +341,8 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     // 01 已签约
                 } else if ("01".equals(eleCardStatus)) {
                     setEleCardState(false);
-                } else {
                     // 02 无数据的情况
+                } else if ("02".equals(eleCardStatus)) {
                     setEleCardState(true);
                 }
             }
