@@ -124,7 +124,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         setNeedPayViewVisible(false);
         // 刷新医后付&医保移动支付状态
         requestXy0001();
-        requestYd0001();
         // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
         mHeaderBean.setHospitalName("请选择医院");
         mItemList.removeAll(mFeeBillList);
@@ -184,7 +183,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 if (sMap != null) {
                     mPassParamMap = sMap.getMap();
                     requestXy0001();
-                    requestYd0001();
                 }
             }
         }
@@ -223,6 +221,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         mHeaderBean.setPaymentStatus(paymentStatus);
         mHeaderBean.setFeeTotal(feeTotal);
         refreshAdapter();
+
+        requestYd0001();
     }
 
     @Override

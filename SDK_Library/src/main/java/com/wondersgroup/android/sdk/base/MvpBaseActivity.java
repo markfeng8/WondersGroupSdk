@@ -26,14 +26,9 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
         mPresenter = createPresenter();
         mPresenter.attachView((V) this);
         bindView();
-        initLoading();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-    }
-
-    private void initLoading() {
-        mBaseLoading = new LoadingView.Builder(this).build();
     }
 
     /**
@@ -42,13 +37,13 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
     protected abstract T createPresenter();
 
     /**
-     * 绑定视图让子Activity去实现
+     * 绑定视图让子 Activity 去实现
      */
     protected abstract void bindView();
 
     public void showLoadingView(boolean show) {
         if (mBaseLoading == null) {
-            return;
+            mBaseLoading = new LoadingView.Builder(this).build();
         }
 
         if (show) {
@@ -65,6 +60,8 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
             mBaseLoading.dispose();
         }
         mPresenter.detachView();
-        mCompositeDisposable.clear();
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
+        }
     }
 }
