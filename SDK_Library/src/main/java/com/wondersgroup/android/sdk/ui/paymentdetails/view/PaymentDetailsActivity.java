@@ -706,11 +706,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
 
-        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(5);
         map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
         map.put(MapKey.AAC002, idNum);
         map.put(MapKey.AAC003, name);
-        map.put(MapKey.AAB301, "湖州市");
+        map.put(MapKey.AAB301, "330500");
         map.put(MapKey.SIGN_NO, signNo);
 
         SignatureTool.getSign(this, map, s -> startSdk(idNum, name, s));
