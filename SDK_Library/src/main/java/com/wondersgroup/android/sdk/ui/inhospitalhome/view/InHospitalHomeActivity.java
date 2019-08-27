@@ -255,7 +255,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
 
         LogUtil.i(TAG, "mInState===" + mInState);
         if ("01".equals(mInState) && viewGroup.getVisibility() == View.VISIBLE) {
-            LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this, mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea);
+            LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this,
+                    mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea
+            );
         } else {
             WToastUtil.show("您当前不是预出院状态！");
         }
@@ -273,19 +275,25 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      * 签发回调处理
      */
     private void handleAction(String data) {
-        WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
-        // 电子社保卡申领完成（一级签发）
-        if ("001".equals(actionType)) {
-            String signNo = eleCardEntity.getSignNo();
-            String aab301 = eleCardEntity.getAab301();
-            LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
-            SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-            requestYd0002(OrgConfig.STATE_OPEN);
+        switch (actionType) {
+            // 电子社保卡申领完成（一级签发）
+            case "001":
+                // 其他申领成功的情况，和 001 一样需要上传 signNo
+            case "002":
+                String signNo = eleCardEntity.getSignNo();
+                String aab301 = eleCardEntity.getAab301();
+                LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
+                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
+                requestYd0002(OrgConfig.STATE_OPEN);
+                break;
             // 解除绑定完成
-        } else if ("003".equals(actionType)) {
-            requestYd0002(OrgConfig.STATE_CLOSE);
+            case "003":
+                requestYd0002(OrgConfig.STATE_CLOSE);
+                break;
+            default:
+                break;
         }
     }
 
