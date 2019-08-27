@@ -18,6 +18,7 @@ static def getUpdateDescription() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         applicationId "com.wondersgroup.android.healthcity_sdk"
@@ -75,6 +76,7 @@ android {
 
     lintOptions {
         abortOnError false
+        disable 'GoogleAppIndexingWarning'
     }
 }
 

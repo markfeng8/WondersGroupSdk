@@ -761,7 +761,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             ZjEsscSDK.closeSDK();
             String busiSeq = eleCardEntity.getBusiSeq();
             SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);
-            // {"busiSeq":"fa6f1f67f5fa49f086a4db2aeaff880b","sceneType":"004"}
             requestTryToSettleToken(OrgConfig.SRJ);
         }
     }

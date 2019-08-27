@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release' // bintray plugin
-//apply plugin: "com.github.spotbugs"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -39,9 +38,9 @@ android {
     lintOptions {
         // 即使有报错也不会停止打包
         abortOnError false
-        disable 'ProtectedPermissions'
         // 打包Release版本的时候也不进行Lint检测
         checkReleaseBuilds false
+        disable 'ProtectedPermissions'
     }
 
     packagingOptions {
