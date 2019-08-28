@@ -43,7 +43,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
     private TextView tvSignDate;
     private TextView tvPhone;
     private TextView tvAfterPayState;
-    private TextView tvMobilePayState;
+    private TextView tvElectronicCardState;
     private TextView tvLookRule;
     private TextView tvTermination;
     private ImageView ivEditPhone;
@@ -147,13 +147,13 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
         // 00 未签约
         if ("00".equals(mobPayStatus)) {
-            tvMobilePayState.setText("未开通");
+            tvElectronicCardState.setText("未开通");
             // 01已签约
         } else if ("01".equals(mobPayStatus)) {
-            tvMobilePayState.setText("已开通");
+            tvElectronicCardState.setText("已开通");
             // 02 其他
         } else if ("02".equals(mobPayStatus)) {
-            tvMobilePayState.setText("其他");
+            tvElectronicCardState.setText("其他");
         }
     }
 
@@ -181,7 +181,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         tvPhone = findViewById(R.id.tvPhone);
         ivEditPhone = findViewById(R.id.ivEditPhone);
         tvAfterPayState = findViewById(R.id.tvAfterPayState);
-        tvMobilePayState = findViewById(R.id.tvMobilePayState);
+        tvElectronicCardState = findViewById(R.id.tvElectronicCardState);
         tvLookRule = findViewById(R.id.tvLookRule);
         tvTermination = findViewById(R.id.tvTermination);
     }
