@@ -753,7 +753,6 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 独立服务回调处理
      */
     private void handleScene(String data) {
-        WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String sceneType = eleCardEntity.getSceneType();
         // 密码验证
