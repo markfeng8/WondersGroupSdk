@@ -137,9 +137,7 @@ task("uploadApk") {
 
         try {
             exec {
-                ExecSpec execSpec ->
-                    executable 'bash'
-                    args '-c', command
+                ExecSpec execSpec -> executable 'bash' args '-c', command
             }
             println "uploadApk success~"
         } catch (Exception e) {
@@ -157,11 +155,9 @@ task("installApk") {
 
         try {
             exec {
-                ExecSpec execSpec ->
-                    executable 'bash'
-                    args '-c', command
+                ExecSpec execSpec -> executable 'bash' args '-c', command
             }
-            println "installApk success"
+            println "installApk success~"
         } catch (Exception e) {
             e.printStackTrace()
         }
@@ -177,7 +173,7 @@ task("launchApp") {
             exec {
                 ExecSpec execSpec -> executable 'bash' args '-c', command
             }
-            println "installApk success"
+            println "installApk success~"
         } catch (Exception e) {
             e.printStackTrace()
         }
