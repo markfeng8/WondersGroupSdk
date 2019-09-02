@@ -280,13 +280,11 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         switch (actionType) {
             // 电子社保卡申领完成（一级签发）
             case "001":
-                // 其他申领成功的情况，和 001 一样需要上传 signNo
+                parseResult(eleCardEntity);
+                break;
+            // 其他申领成功的情况，和 001 一样需要上传 signNo
             case "002":
-                String signNo = eleCardEntity.getSignNo();
-                String aab301 = eleCardEntity.getAab301();
-                LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
-                SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-                requestYd0002(OrgConfig.STATE_OPEN);
+                parseResult(eleCardEntity);
                 break;
             // 解除绑定完成
             case "003":
@@ -295,6 +293,14 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             default:
                 break;
         }
+    }
+
+    private void parseResult(EleCardEntity eleCardEntity) {
+        String signNo = eleCardEntity.getSignNo();
+        String aab301 = eleCardEntity.getAab301();
+        LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
+        SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
+        requestYd0002(OrgConfig.STATE_OPEN);
     }
 
     /**
