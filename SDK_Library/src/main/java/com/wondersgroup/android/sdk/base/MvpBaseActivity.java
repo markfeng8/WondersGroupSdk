@@ -41,16 +41,18 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
      */
     protected abstract void bindView();
 
-    public void showLoadingView(boolean show) {
-        if (mBaseLoading == null) {
-            mBaseLoading = new LoadingView.Builder(this).build();
-        }
+    public void showLoadingView(final boolean show) {
+        runOnUiThread(() -> {
+            if (mBaseLoading == null) {
+                mBaseLoading = new LoadingView.Builder(MvpBaseActivity.this).build();
+            }
 
-        if (show) {
-            mBaseLoading.showLoadingDialog();
-        } else {
-            mBaseLoading.dismissLoadingDialog();
-        }
+            if (show) {
+                mBaseLoading.showLoadingDialog();
+            } else {
+                mBaseLoading.dismissLoadingDialog();
+            }
+        });
     }
 
     @Override
