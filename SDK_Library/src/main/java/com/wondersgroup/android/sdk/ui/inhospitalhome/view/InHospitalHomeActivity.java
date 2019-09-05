@@ -290,6 +290,10 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             case "003":
                 requestYd0002(OrgConfig.STATE_CLOSE);
                 break;
+            // 之前从未申领过社保卡，第一次申领电子社保卡的情况
+            case "005":
+                parseResult(eleCardEntity);
+                break;
             default:
                 break;
         }
