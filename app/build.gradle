@@ -9,11 +9,11 @@ bugly {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-def appVersionCode = 120 // code 每次 + 1 递增
-def appVersionName = '2.9.19' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
+def appVersionCode = 121 // code 每次 + 1 递增
+def appVersionName = '2.9.20' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
 
 static def getUpdateDescription() {
-    return '1.修复住院部分支付时会闪退的bug;\n2.005上报;'
+    return '1.Pgyer update 1.0.0;\n'
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,7 +95,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
-    implementation 'com.xsir:PgyerAndroidAppUpdate:0.9.8'
+    implementation 'com.xsir:PgyerAndroidAppUpdate:1.0.0'
     implementation 'cn.hutool:hutool-all:4.5.16'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
 
