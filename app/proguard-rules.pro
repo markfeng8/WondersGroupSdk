@@ -12,54 +12,16 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
-#############################################
-#
-# 对于一些基本指令的添加
-#
-#############################################
-
--dontobfuscate
-# 代码混淆压缩比，在0~7之间，默认为5，一般不做修改
 -optimizationpasses 5
-# 混合时不使用大小写混合，混合后的类名为小写
 -dontusemixedcaseclassnames
-# 指定不去忽略非公共库的类
 -dontskipnonpubliclibraryclasses
-# 这句话能够使我们的项目混淆后产生映射文件
-# 包含有类名->混淆后类名的映射关系
 -verbose
-# 指定不去忽略非公共库的类成员
 -dontskipnonpubliclibraryclassmembers
-# 不做预校验，preverify是proguard的四个步骤之一，Android不需要preverify，去掉这一步能够加快混淆速度。
 -dontpreverify
-# 保留Annotation不混淆
--keepattributes *Annotation*,InnerClasses
-# 避免混淆泛型
--keepattributes Signature
-# 抛出异常时保留代码行号
--keepattributes SourceFile,LineNumberTable
-# 指定混淆是采用的算法，后面的参数是一个过滤器
-# 这个过滤器是谷歌推荐的算法，一般不做更改
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
-#忽略警告
+-keepattributes *Annotation*,*JavascriptInterface*,InnerClasses,Signature,SourceFile,LineNumberTable
 -ignorewarning
 
-#############################################
-#
-# Android开发中一些需要保留的公共部分
-#
-#############################################
-
-# 保留我们使用的四大组件，自定义的Application等等这些类不被混淆
-# 因为这些子类都有可能被外部调用
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Appliction
 -keep public class * extends android.app.Service
@@ -70,35 +32,23 @@
 -keep public class * extends android.view.View
 -keep public class com.android.vending.licensing.ILicensingService
 
-# 保留support下的所有类及其内部类
 -keep class android.support.** {*;}
 
-# 保留继承的
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.support.v7.**
 -keep public class * extends android.support.annotation.**
 
-# 保留R下面的资源
 -keep class **.R$* {*;}
 
-# 保留本地native方法不被混淆
 -keepclasseswithmembernames class * {
     native <methods>;
 }
 
-# 保留在Activity中的方法参数是view的方法，
-# 这样以来我们在layout中写的onClick就不会被影响
-#-keepclassmembers class * extends android.app.Activity{
-#    public void *(android.view.View);
-#}
-
-# 保留枚举类不被混淆
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
 
-# 保留我们自定义控件（继承自View）不被混淆
 -keep public class * extends android.view.View{
     *** get*();
     void set*(***);
@@ -107,12 +57,10 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
-# 保留Parcelable序列化类不被混淆
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
 }
 
-# 保留Serializable序列化的类不被混淆
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
     private static final java.io.ObjectStreamField[] serialPersistentFields;
@@ -125,13 +73,11 @@
     java.lang.Object readResolve();
 }
 
-# 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
 -keepclassmembers class * {
     void *(**On*Event);
     void *(**On*Listener);
 }
 
-# webView处理，项目中没有使用到webView忽略即可
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
     public *;
 }
@@ -151,10 +97,10 @@
 -dontwarn com.shrb.wallet.**
 -dontwarn com.shrb.walletsdk.**
 
--keep class cn.keyou.**{ *;}
+-keep class cn.keyou.**{*;}
 -dontwarn cn.keyou.**
 
--keep class com.alibaba.fastjson.**{ *;}
+-keep class com.alibaba.fastjson.**{*;}
 -dontwarn com.alibaba.fastjson.**
 
 -keep class okhttp3.**{ *;}
@@ -174,6 +120,12 @@
 -keep class org.apache.http.**{ *;}
 -dontwarn org.apache.http.**
 
+-keep class cn.hutool.**{ *;}
+-dontwarn cn.hutool.**
+
+-keep class org.bouncycastle.**{ *;}
+-dontwarn org.bouncycastle.**
+
 #-dontwarn okio.**
 
 -keepclassmembers class * {
@@ -192,21 +144,17 @@ public <methods>;
 
 -keep class com.alipay.** {*;}
 
-# ########## ͳһ����̨   ###########
 -dontwarn cn.wd.checkout.**
 -keep class cn.wd.checkout.** {*;}
 
-# ########## gson ##########
 -keep class com.google.**{*;}
 
-# ########## 链支付 ##########
 -dontwarn cn.wanda.lianpay.**
 -keep class cn.wanda.lianpay.** {*;}
 -keep class cn.wanda.processor.** {*;}
 -keep class cn.wanda.support.** {*;}
 -dontwarn cn.wanda.processor.**
 
-# ########## 支付宝 ##########
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
@@ -214,7 +162,6 @@ public <methods>;
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 
-# ########## 银联 ##########
 -dontwarn org.simalliance.openmobileapi.**
 -dontwarn org.simalliance.openmobileapi.service.**
 
@@ -280,23 +227,30 @@ public <methods>;
 }
 
 -keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
+    public static final android.os.Parcelable$Creator *;
 }
-########## 统一支付 end ##################---------------------------------
 
 # ########### epsoft start ##############---------------------------------
 -keep class com.epsoft.**{*;}
 -keep class com.itsea.cplusplus.** { *; }
 
--keepclassmembers class * extends android.webkit.WebViewClient {
-    public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
-    public boolean *(android.webkit.WebView, java.lang.String);
-}
--keepclassmembers class * extends android.webkit.WebViewClient {
-    public void *(android.webkit.WebView, java.lang.String);
-}
+# 保留 JavascriptInterface 中的方法
+-keepclassmembers class * {@android.webkit.JavascriptInterface <methods>;}
 
-#okhttp
+-dontwarn cn.com.epsoft.zjessc.**
+-keep class cn.com.epsoft.zjessc.**{*;}
+-dontwarn hc.mhis.paic.com.essclibrary.**
+-keep class hc.mhis.paic.com.essclibrary.** { *;}
+-dontwarn com.pingan.ai.**
+-keep class com.pingan.ai.** { *;}
+-dontwarn pingan.ai.**
+-keep class pingan.ai.** { *;}
+-dontwarn com.google.zxing.**
+-keep class com.google.zxing.**{*;}
+-dontwarn com.esscpermission.**
+-keep class com.esscpermission.**{*;}
+
+#okhttp3
 -dontwarn okhttp3.**
 -keep class okhttp3.**{*;}
 
@@ -307,7 +261,6 @@ public <methods>;
 #okgo
 -dontwarn com.lzy.okgo.**
 -keep class com.lzy.okgo.**{*;}
-#-keep class com.google.gson.**{*;}
 -keep class com.orhanobut.logger.**{*;}
 
 -dontwarn com.tencent.bugly.**
@@ -371,7 +324,34 @@ public <methods>;
 # ########### epsoft end ##############
 
 # 保留所有实体类不被混淆
--keep class com.wondersgroup.android.jkcs_sdk.entity.**{*;}
+-keep class com.wondersgroup.android.jkcs_sdk.entity.** { *; }
+
+# 不混淆接口数据响应实体类的内部类
+-keep class com.wondersgroup.android.sdk.entity.HospitalEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.FeeRecordEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.Cy0001Entity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.Cy0005Entity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.FeeRecordEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.OrderDetailsEntity$* {
+    *;
+}
+-keep class com.wondersgroup.android.sdk.entity.SettleEntity$* {
+    *;
+}
+
+# 不混淆实现 Parcelable 接口的类
+-keep public class com.wondersgroup.android.sdk.entity.CityBean { *; }
+-keep public class com.wondersgroup.android.sdk.entity.HospitalBean { *; }
 
 # ButterKnife
 -keep class butterknife.** { *; }
@@ -384,13 +364,39 @@ public <methods>;
     @butterknife.* <methods>;
 }
 
-# Gson
--keep class com.google.gson.**{*;}
--keep interface com.google.gson.**{*;}
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
 
-# Retrofit
--dontwarn okio.**
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-dontwarn sun.misc.**
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod
+
+# Application classes that will be serialized/deserialized over Gson
+-keep class com.wondersgroup.android.jkcs_sdk.entity.** { <fields>; }
+
+# Prevent proguard from stripping interface information from TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+
+##---------------End: proguard configuration for Gson  ----------
+
+# Retrofit2
 -dontwarn javax.annotation.**
+-dontwarn javax.inject.**
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
 # Platform used when running on RoboVM on iOS. Will not be used at runtime.

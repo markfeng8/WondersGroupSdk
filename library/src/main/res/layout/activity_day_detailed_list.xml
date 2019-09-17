@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.daydetailedlist.view.DayDetailedListActivity">
+
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/wonders_day_detailed_list"
+        app:textColor="@color/wonders_rgb_color_ffffff"
+        app:textSize="@dimen/wonders_text_size_18sp"
+        app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/wonders_rgb_color_2b90ff"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvBeforeDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:drawablePadding="4dp"
+            android:text="前一天"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2018-05-09"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/wonders_margin_16dp"
+            android:drawablePadding="4dp"
+            android:text="今天"
+            android:textColor="@color/wonders_rgb_color_ffffff"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llTotalFee"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/wonders_rgb_color_ffffff"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_16dp"
+            android:text="当日总费用："
+            android:textColor="@color/wonders_rgb_color_969696"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvTotalFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥0.00"
+            android:textColor="@color/wonders_rgb_color_00a861"
+            android:textSize="@dimen/wonders_text_size_18sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wonders_rgb_color_ffffff"
+        android:gravity="center"
+        android:padding="@dimen/wonders_padding_8dp"
+        android:text="仅支持3个月内日清单记录查询"
+        android:textSize="@dimen/wonders_text_size_12sp" />
+
+</LinearLayout>

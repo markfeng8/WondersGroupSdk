@@ -1,7 +1,0 @@
-{
-  "return_code": "SUCCESS",
-  "return_msg": "响应成功",
-  "result_code": "FAIL",
-  "err_code": "用户已经签约过",
-  "err_code_des": "用户已经签约过"
-}

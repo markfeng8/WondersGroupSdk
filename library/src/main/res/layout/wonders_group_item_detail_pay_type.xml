@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/wonders_rgb_color_ffffff"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/wonders_rgb_color_f2f2f2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <LinearLayout
+        android:id="@+id/llYiBaoPayLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/wonders_padding_16dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否允许医保支付"
+                android:textColor="@color/wonders_rgb_color_333333"
+                android:textSize="@dimen/wonders_text_size_16sp" />
+
+            <TextView
+                android:id="@+id/tvSocialNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wonders_margin_8dp"
+                android:text="医保支付关闭后，全部金额将由个人支付"
+                android:textColor="@color/wonders_rgb_color_666666"
+                android:textSize="@dimen/wonders_text_size_12sp" />
+        </LinearLayout>
+
+        <ToggleButton
+            android:id="@+id/tbYiBaoEnable"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@drawable/wonders_group_toggle_switch_selector"
+            android:checked="true"
+            android:textOff=""
+            android:textOn="" />
+    </LinearLayout>
+
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
+        android:id="@+id/plTotalMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
+        android:id="@+id/plPersonalPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <com.wondersgroup.android.sdk.widget.PayItemLayout
+        android:id="@+id/plYiBaoPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+
+    <LinearLayout
+        android:id="@+id/llPayType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/wonders_margin_16dp"
+        android:paddingTop="@dimen/wonders_padding_8dp"
+        android:paddingEnd="@dimen/wonders_margin_16dp"
+        android:paddingBottom="@dimen/wonders_padding_8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/wonders_margin_8dp"
+            android:layout_weight="1"
+            android:text="现金部分支付方式"
+            android:textColor="@color/wonders_rgb_color_333333"
+            android:textSize="@dimen/wonders_text_size_16sp" />
+
+        <TextView
+            android:id="@+id/tvPayType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/wonders_group_right_arrow"
+            android:drawablePadding="2dp"
+            android:text="支付宝"
+            android:textColor="@color/wonders_rgb_color_666666"
+            android:textSize="@dimen/wonders_text_size_14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wonders_rgb_color_e0e0e0" />
+</LinearLayout>

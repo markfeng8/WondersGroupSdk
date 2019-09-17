@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.wondersgroup.android.sdk.widget.TitleBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/wonders_bill_qrcode"
+        app:textColor="@color/wonders_rgb_color_ffffff"
+        app:textSize="@dimen/wonders_text_size_18sp"
+        app:titleBgColor="@color/wonders_rgb_color_1e90ff" />
+
+    <TextView
+        android:id="@+id/tvHospitalName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginTop="@dimen/wonders_margin_32dp"
+        android:text="医院1"
+        android:textColor="@color/wonders_rgb_color_333333"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+    <TextView
+        android:id="@+id/tvTradeNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/wonders_margin_16dp"
+        android:layout_marginTop="@dimen/wonders_margin_8dp"
+        android:text="订单号：000000"
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_14sp"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ivQrCode"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/wonders_margin_32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wonders_margin_32dp"
+        android:text="通过医院自助发票打印机扫码，自助打印发票"
+        android:textColor="@color/wonders_rgb_color_666666"
+        android:textSize="@dimen/wonders_text_size_16sp" />
+
+</LinearLayout>
