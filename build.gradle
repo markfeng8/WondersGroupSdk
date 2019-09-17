@@ -31,7 +31,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        flatDir { dirs 'libs', '../SDK_Library/libs' }
+        flatDir { dirs 'libs', '../library/libs' }
         // 添加 bintray 私有仓库地址
         maven {
             url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk"

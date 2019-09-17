@@ -9,11 +9,11 @@ bugly {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-def appVersionCode = 121 // code 每次 + 1 递增
-def appVersionName = '2.9.20' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
+def appVersionCode = 122 // code 每次 + 1 递增
+def appVersionName = '2.9.21' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
 
 static def getUpdateDescription() {
-    return '1.Pgyer update 1.0.0;\n'
+    return '1.代码优化;\n'
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +102,7 @@ dependencies {
     implementation(name: 'PALiveDetect1.0.0', ext: 'aar')
     implementation(name: 'zj_essc_sdk-1.0.6', ext: 'aar')
     //implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.8'
-    implementation project(':SDK_Library')
+    implementation project(':library')
 }
 
 def getApkFullPath() {
@@ -133,16 +133,7 @@ def readProperties(key) {
 task("uploadApk") {
     doLast {
         def command = "curl -F \"file=@${getApkFullPath()}\" -F \"uKey=${readProperties('pgyer.userKey')}\" -F \"_api_key=${readProperties('pgyer.apiKey')}\" -F \"buildUpdateDescription=${getUpdateDescription()}\" https://www.pgyer.com/apiv2/app/upload"
-        println "command:" + command
-
-        try {
-            exec {
-                ExecSpec execSpec -> executable 'bash' args '-c', command
-            }
-            println "uploadApk success~"
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
+        exeCommand(command)
     }
 }
 
@@ -151,36 +142,31 @@ uploadApk.dependsOn("assembleRelease")
 task("installApk") {
     doLast {
         def command = "adb install -r ${getApkFullPath()}"
-        println "command:" + command
-
-        try {
-            exec {
-                ExecSpec execSpec -> executable 'bash' args '-c', command
-            }
-            println "installApk success~"
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
+        exeCommand(command)
     }
 }
 
 task("launchApp") {
     doLast {
         def command = "adb shell am start ${android.defaultConfig.applicationId}/.MainActivity"
-        println "command:" + command
-
-        try {
-            exec {
-                ExecSpec execSpec -> executable 'bash' args '-c', command
-            }
-            println "installApk success~"
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
+        exeCommand(command)
     }
 }
 
 //launchApp.dependsOn("installApk")
+
+def exeCommand(command) {
+    println "command:" + command
+
+    try {
+        exec {
+            ExecSpec execSpec -> executable 'bash' args '-c', command
+        }
+        println "command execute success~"
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+}
 
 /*
  * 打包命令：

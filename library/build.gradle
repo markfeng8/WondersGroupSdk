@@ -98,18 +98,18 @@ dependencies {
 task makeAar(type: Copy) {
     // 先删除两个旧的 aar 包的目录
     doFirst {
-        File file1 = new File('../SDK_Library/build/aar/')
+        File file1 = new File('../library/build/aar/')
         file1.deleteDir()
-        File file2 = new File('../SDK_Library/build/outputs/aar/')
+        File file2 = new File('../library/build/outputs/aar/')
         file2.deleteDir()
     }
 
     // 复制并重命名文件
-    from '../SDK_Library/build/outputs/aar/'
-    into '../SDK_Library/build/aar/'
+    from '../library/build/outputs/aar/'
+    into '../library/build/aar/'
     // 使用闭包映射文件名
     rename { String fileName ->
-        fileName.replace('SDK_Library', "hzsdk-${releaseTime()}")
+        fileName.replace('library', "hzsdk-${releaseTime()}")
     }
 }
 
@@ -215,7 +215,7 @@ task("uploadBintray") {
  *
  * 发布到 bintray
  * Mac 执行如下命令：
- * ./gradlew :SDK_Library:uploadBintray
+ * ./gradlew :library:uploadBintray
  * Windows 执行如下命令：
  * gradlew clean build bintrayUpload -PbintrayUser=wondersgroupandroid863 -PbintrayKey=e4ba8b931617cb82f6ec1459cd26163a1de695b3 -PdryRun=false
  */
