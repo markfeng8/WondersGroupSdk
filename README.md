@@ -1,31 +1,63 @@
 # 湖州医后付 SDK 项目
 
 #### 介绍
-HealthCity_SDK_Wonders
+
+湖州医后付项目是将「医后付」功能封装成一个 SDK 提供给健康湖州 APP 进行集成使用。
+
+作为 SDK 提供方，应该做到将所有功能封装到一个库中，方便集成方集成简单，最好是一两行代码就能方便集成和调用，因此将功能全部封
+装到一个 library 中，然后打成 aar 包提供给调用方使用，后来这种方式也比较麻烦，索性后面就将代码发布到 bintray 远程依赖仓
+库中，这样不仅提高了我们自己打包上传的效率也方便了集成方的更新和修改操作。
 
 #### 软件架构
-软件架构说明
 
+项目采用 MVP 架构，按照页面功能进行划分，每一个 Activity 页面（View）都对应着一个 Presenter 和 Model 层，为了方便接
+口管理，将三层的接口都放到一个契约类中（Contract）方便管理。
 
-#### 安装教程
+#### 发布到 bintray 步骤
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 修改版本号：
 
-#### 使用说明
+例如：
 
-1. xxxx
-2. xxxx
-3. xxxx
+```
+def releaseVersion = '0.1.11'
+```
 
-#### 参与贡献
+2. 打开 Terminal 执行上传命令：
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+```
+./gradlew :library:uploadBintray
+```
 
+温馨提示：如果是 Windows 系统执行下面的命令：
+
+```
+Windows 执行如下命令：
+gradlew clean build bintrayUpload -PbintrayUser=wondersgroupandroid863 -PbintrayKey=e4ba8b931617cb82f6ec1459cd26163a1de695b3 -PdryRun=false
+```
+
+3. 测试最新依赖
+
+把下面的 lastest_version 替换为最新的版本号，在 app module 下进行同步并测试。
+
+```
+implementation 'com.wondersgroup.android:WondersGroupSdk:<lastest_version>'
+```
+
+#### 将 example 发布到蒲公英
+
+1. 打开 app 的 build.gradle 文件，修改 appVersionCode、appVersionName、getUpdateDescription；
+2. 打开 Terminal 执行如下命令：
+
+```
+./gradlew :app:uploadApk
+```
+
+因为 uploadApk task 是依赖于 assembleRelease task 的，因此执行完打包命令后会执行上传命令的。
+
+#### 参与贡献者
+
+1. x-sir(辛鹏飞)
 
 #### 码云特技
 
