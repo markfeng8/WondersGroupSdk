@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>家庭医生</title>
+    <script src="familyDoctor.js"></script>
+</head>
+
+<body>
+
+<style type="text/css">
+        .parentDiv{
+            width: 100%;text-align: center;
+        }
+        .titleStyle{
+            width: 40%; float: left; text-align: right;
+        }
+        .textStyle{
+            width: 60%; float: right; height: 30px;
+        }
+        .contentStyle{
+            width: 90%; height: 100%;
+        }
+        .buttonStyle{
+            width: 100%; height: 40px;
+        }
+
+</style>
+
+<form id="messageForm">
+
+    <div class="parentDiv">
+
+        <div class="titleStyle">姓名:</div>
+        <div class="textStyle">
+            <input type="text" id="name" value="吴振强" class="contentStyle">
+        </div>
+        <br>
+        <br>
+        <div class="titleStyle">证件类型:</div>
+        <div class="textStyle">
+            <input type="text" id="idType" value="01" class="contentStyle">
+        </div>
+        <br>
+        <br>
+        <div class="titleStyle">证件号码:</div>
+        <div class="textStyle">
+            <input type="text" id="idNum" value="330501199008213715" class="contentStyle">
+        </div>
+        <br>
+        <br>
+        <div class="titleStyle">就诊卡类型:</div>
+        <div class="textStyle">
+            <input type="text" id="cardType" value="2" class="contentStyle">
+        </div>
+        <br>
+        <br>
+        <div class="titleStyle">就诊卡号:</div>
+        <div class="textStyle">
+            <input type="text" id="cardNum" value="A05111650" class="contentStyle">
+        </div>
+        <br>
+        <br>
+
+        <div class="titleStyle">组织机构名称:</div>
+        <div class="textStyle">
+            <input type="text" id="orgName" value="商品描述" class="contentStyle">
+        </div>
+        <br>
+        <br>
+        <div class="titleStyle">组织机构编号:</div>
+        <div class="textStyle">
+            <input type="text" id="orgCode" value="订单描述" class="contentStyle">
+        </div>
+        <br>
+
+    </div>
+</form>
+
+<br>
+<div style="width: 100%; text-align: center">
+    <!-- 点击按钮则调用 Android 的函数 -->
+    <button type="button" onclick="jsCallAndroidPayment()" class="buttonStyle">点击发起支付</button>
+</div>
+
+</body>
+</html>

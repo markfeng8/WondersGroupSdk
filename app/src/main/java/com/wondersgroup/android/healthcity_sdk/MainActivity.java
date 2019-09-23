@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,6 +27,8 @@ import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
+import com.wondersgroup.android.sdk.ui.familydoctor.FamilyDoctorActivity;
+import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnInHospitalHome;
     @BindView(R.id.btnHealthCard)
     Button btnHealthCard;
+    @BindView(R.id.btnFamilyDoctor)
+    Button btnFamilyDoctor;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
     @BindView(R.id.recyclerView)
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.btnHealthCard})
+    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.btnHealthCard, R.id.btnFamilyDoctor})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -140,6 +145,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnHealthCard:
                 Intent intent = new Intent(MainActivity.this, HealthCardActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btnFamilyDoctor:
+                String idNum = etIdNum.getText().toString().trim();
+                if (!TextUtils.isEmpty(idNum)) {
+                    FamilyDoctorActivity.actionStart(MainActivity.this, idNum);
+                } else {
+                    WToastUtil.show("身份证号码不能为空！");
+                }
                 break;
             default:
                 break;

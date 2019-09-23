@@ -244,6 +244,13 @@
             android:layout_marginTop="8dp"
             android:text="电子健康卡" />
 
+        <Button
+            android:id="@+id/btnFamilyDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="家庭医生" />
+
         <TextView
             android:id="@+id/tvVersion"
             android:layout_width="match_parent"

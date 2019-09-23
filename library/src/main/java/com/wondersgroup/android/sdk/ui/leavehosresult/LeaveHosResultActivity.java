@@ -90,7 +90,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
             mFeeCashTotal = intent.getStringExtra(IntentExtra.FEE_CASH_TOTAL);
             mFeeYbTotal = intent.getStringExtra(IntentExtra.FEE_YB_TOTAL);
             mFeePrepayTotal = intent.getStringExtra(IntentExtra.FEE_PREPAY_TOTAL);
-            mFeeNeedCashTotal = intent.getStringExtra(IntentExtra.FEE_NEEDCASH_TOTAL);
+            mFeeNeedCashTotal = intent.getStringExtra(IntentExtra.FEE_NEED_CASH_TOTAL);
         }
 
         if (!mIsSuccess) {
@@ -162,7 +162,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
         intent.putExtra(IntentExtra.FEE_CASH_TOTAL, feeCashTotal);
         intent.putExtra(IntentExtra.FEE_YB_TOTAL, feeYbTotal);
         intent.putExtra(IntentExtra.FEE_PREPAY_TOTAL, feePrepayTotal);
-        intent.putExtra(IntentExtra.FEE_NEEDCASH_TOTAL, feeNeedCashTotal);
+        intent.putExtra(IntentExtra.FEE_NEED_CASH_TOTAL, feeNeedCashTotal);
         context.startActivity(intent);
     }
 }

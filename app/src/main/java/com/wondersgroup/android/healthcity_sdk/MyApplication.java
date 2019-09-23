@@ -21,7 +21,7 @@ public class MyApplication extends MultiDexApplication {
         ConfigOption option = new ConfigOption()
                 .setDebug(true)
                 //.setDebug(BuildConfig.DEBUG) // 设置是否为调试模式(调试模式可以打印日志，上线后建议设为 false)
-                .setEnv(""); // 设置环境(test 或 TEST 为测试环境，不设置或者其他默认为正式环境)
+                .setEnv("test"); // 设置环境(test 或 TEST 为测试环境，不设置或者其他默认为正式环境)
         // Application context & option parameters.
         WondersSdk.getInstance().init(this, option);
 
