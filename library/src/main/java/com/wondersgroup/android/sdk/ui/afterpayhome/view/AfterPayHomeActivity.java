@@ -176,16 +176,22 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     private void getIntentAndFindAfterPayState() {
         Intent intent = getIntent();
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                SerializableHashMap sMap = (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP);
-                if (sMap != null) {
-                    mPassParamMap = sMap.getMap();
-                    requestXy0001();
-                }
-            }
+        if (intent == null) {
+            return;
         }
+
+        mCompositeDisposable.add(
+                Observable.just(intent)
+                        .map(Intent::getExtras)
+                        .filter(bundle -> bundle != null)
+                        .map(bundle -> (SerializableHashMap) bundle.get(IntentExtra.SERIALIZABLE_MAP))
+                        .filter(serializableHashMap -> serializableHashMap != null)
+                        .map(SerializableHashMap::getMap)
+                        .subscribe(stringStringHashMap -> {
+                            mPassParamMap = stringStringHashMap;
+                            requestXy0001();
+                        })
+        );
     }
 
     private void findViews() {
