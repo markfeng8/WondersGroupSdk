@@ -12,17 +12,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
 import com.wondersgroup.android.sdk.utils.QRCodeUtil;
+import com.wondersgroup.android.sdk.utils.StatusBarUtils;
 
 /**
  * Created by x-sir on 2018/11/19 :)
@@ -39,10 +38,7 @@ public class QrCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wonders_group_activity_qrcode);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        StatusBarUtils.tint(this);
         findViews();
         initData();
     }

@@ -19,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -32,11 +31,13 @@ import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
 import com.wondersgroup.android.sdk.entity.JsInvokeBean;
 import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.StatusBarUtils;
+import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.widget.TitleBarLayout;
 
 /**
  * Created by x-sir on 2018/11/30 :)
- * Function:电子发票页面
+ * Function:家庭医生
  */
 public class FamilyDoctorActivity extends AppCompatActivity {
 
@@ -50,10 +51,7 @@ public class FamilyDoctorActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family_doctor);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        StatusBarUtils.tint(this);
         findViews();
         initData();
         initListener();
@@ -99,20 +97,21 @@ public class FamilyDoctorActivity extends AppCompatActivity {
         });
 
         webView.addJavascriptInterface(new JavaScriptInterface(), "nativeMethod");
-        webView.loadUrl("file:///android_asset/familyDoctor.html");
+//        webView.loadUrl("file:///android_asset/familyDoctor.html");
 
-//        Intent intent = getIntent();
-//        if (intent != null) {
-//            String idCard = intent.getStringExtra(IntentExtra.ID_CARD);
-//            loadFamilyDoctorPage(idCard);
-//        }
+        Intent intent = getIntent();
+        if (intent != null) {
+            String idCard = intent.getStringExtra(IntentExtra.ID_CARD);
+            loadFamilyDoctorPage(idCard);
+        }
     }
 
     private void loadFamilyDoctorPage(String idCard) {
         if (!TextUtils.isEmpty(idCard)) {
-            String url = FAMILY_DOCTOR_URL + idCard;
-            LogUtil.i(TAG, "url===" + url);
-            webView.loadUrl(url);
+//            String url = FAMILY_DOCTOR_URL + idCard;
+//            LogUtil.i(TAG, "url===" + url);
+//            webView.loadUrl(url);
+            webView.loadUrl(idCard);
         } else {
             LogUtil.eLogging(TAG, "idCard is null!");
         }
@@ -163,6 +162,7 @@ public class FamilyDoctorActivity extends AppCompatActivity {
         public void toPayment(String json) {
             if (!TextUtils.isEmpty(json)) {
                 LogUtil.json(TAG, json);
+                WToastUtil.showLong(json);
                 JsInvokeBean jsInvokeBean = new Gson().fromJson(json, JsInvokeBean.class);
             }
         }

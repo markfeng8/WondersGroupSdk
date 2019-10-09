@@ -1,10 +1,9 @@
 package com.wondersgroup.android.sdk.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
 
+import com.wondersgroup.android.sdk.utils.StatusBarUtils;
 import com.wondersgroup.android.sdk.widget.LoadingView;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -26,9 +25,7 @@ public abstract class MvpBaseActivity<V, T extends MvpBasePresenter<V>> extends 
         mPresenter = createPresenter();
         mPresenter.attachView((V) this);
         bindView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        StatusBarUtils.tint(this);
     }
 
     /**

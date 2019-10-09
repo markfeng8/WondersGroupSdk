@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -28,6 +27,7 @@ import android.widget.ProgressBar;
 import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
 import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.StatusBarUtils;
 import com.wondersgroup.android.sdk.widget.TitleBarLayout;
 
 /**
@@ -46,10 +46,7 @@ public class EleInvoiceActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ele_invoice);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        StatusBarUtils.tint(this);
         findViews();
         initData();
         initListener();

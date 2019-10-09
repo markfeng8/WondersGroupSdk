@@ -8,6 +8,7 @@
 
 package com.wondersgroup.android.healthcity_sdk;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnFamilyDoctor:
                 String idNum = etIdNum.getText().toString().trim();
                 if (!TextUtils.isEmpty(idNum)) {
-                    FamilyDoctorActivity.actionStart(MainActivity.this, idNum);
+                    showAlertDialog(idNum);
                 } else {
                     WToastUtil.show("身份证号码不能为空！");
                 }
@@ -157,6 +158,21 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    private void showAlertDialog(final String idNum) {
+        final EditText editText = new EditText(this);
+        editText.setText("http://60.190.166.138:8080");
+        new AlertDialog.Builder(this)
+                .setTitle("温馨提示")
+                .setView(editText)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String host = editText.getText().toString();
+                    String url = host + "/?idCard=" + idNum;
+                    FamilyDoctorActivity.actionStart(MainActivity.this, url);
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void setPersonInfo(PersonBean personBean) {

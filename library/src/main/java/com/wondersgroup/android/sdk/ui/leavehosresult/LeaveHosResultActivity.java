@@ -11,13 +11,11 @@ package com.wondersgroup.android.sdk.ui.leavehosresult;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +25,7 @@ import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.ui.inhospitalhistory.view.InHospitalHistory;
 import com.wondersgroup.android.sdk.utils.QRCodeUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StatusBarUtils;
 
 /**
  * Created by x-sir on 2018/12/6 :)
@@ -66,10 +65,7 @@ public class LeaveHosResultActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leave_hos_result);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        StatusBarUtils.tint(this);
         findViews();
         initData();
         initListener();
