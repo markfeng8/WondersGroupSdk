@@ -42,7 +42,6 @@ import com.wondersgroup.android.sdk.widget.TitleBarLayout;
 public class FamilyDoctorActivity extends AppCompatActivity {
 
     private static final String TAG = "FamilyDoctorActivity";
-    private static final String FAMILY_DOCTOR_URL = "http://60.190.166.138:8080/?idCard=";
     private WebView webView;
     private ProgressBar progressBar;
     private TitleBarLayout titleLayout;
@@ -101,19 +100,8 @@ public class FamilyDoctorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            String idCard = intent.getStringExtra(IntentExtra.ID_CARD);
-            loadFamilyDoctorPage(idCard);
-        }
-    }
-
-    private void loadFamilyDoctorPage(String idCard) {
-        if (!TextUtils.isEmpty(idCard)) {
-//            String url = FAMILY_DOCTOR_URL + idCard;
-//            LogUtil.i(TAG, "url===" + url);
-//            webView.loadUrl(url);
-            webView.loadUrl(idCard);
-        } else {
-            LogUtil.eLogging(TAG, "idCard is null!");
+            String idCardUrl = intent.getStringExtra(IntentExtra.ID_CARD);
+            webView.loadUrl(idCardUrl);
         }
     }
 

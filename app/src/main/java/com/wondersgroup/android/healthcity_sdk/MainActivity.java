@@ -164,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText editText = new EditText(this);
         editText.setText("http://60.190.166.138:8080");
         new AlertDialog.Builder(this)
-                .setTitle("温馨提示")
+                .setTitle("设置服务器地址")
+                .setCancelable(false)
                 .setView(editText)
                 .setPositiveButton("确定", (dialog, which) -> {
                     String host = editText.getText().toString();
