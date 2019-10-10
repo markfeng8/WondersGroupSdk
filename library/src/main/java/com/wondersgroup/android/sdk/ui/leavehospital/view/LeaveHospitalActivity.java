@@ -21,18 +21,16 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
-import com.wondersgroup.android.sdk.WondersSdk;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
-import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.Cy0006Entity;
 import com.wondersgroup.android.sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.sdk.entity.EleCardEntity;
 import com.wondersgroup.android.sdk.entity.EleCardTokenEntity;
-import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
+import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
 import com.wondersgroup.android.sdk.epsoft.SignatureTool;
 import com.wondersgroup.android.sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
@@ -44,11 +42,9 @@ import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.utils.WdCommonPayUtils;
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import cn.com.epsoft.zjessc.ZjEsscSDK;
-import cn.com.epsoft.zjessc.callback.ResultType;
 import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
@@ -84,7 +80,6 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private RadioButton rbWeChatPay;
     private RadioButton rbUnionPay;
     private ConstraintLayout clBody;
-
     private String mOrgCode;
     private String mOrgName;
     private String mFeeNeedCashTotal;
@@ -238,16 +233,11 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     public void checkElectronicSocialSecurityCardPassword() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
 
-        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
-        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.AAC002, idNum);
-        map.put(MapKey.AAC003, name);
-        map.put(MapKey.AAB301, "湖州市");
-        map.put(MapKey.SIGN_NO, signNo);
-
-        SignatureTool.getSign(this, map, s -> startSdk(idNum, name, s));
+        SignatureTool.getSign(this,
+                ElectronicSocialSecurityCard.getVerifyElectronicSocialSecurityCardPasswordParams(),
+                s -> startSdk(idNum, name, s)
+        );
     }
 
     /**
@@ -259,7 +249,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
      */
     private void startSdk(final String idCard, final String name, String s) {
         LogUtil.i(TAG, "idCard===" + idCard + ",name===" + name + ",s===" + s);
-        String url = ZjBiap.getInstance().getValidPwd();
+        String url = ZjBiap.getInstance().getPwdValidate();
         LogUtil.i(TAG, "url===" + url);
 
         // 662701
@@ -270,10 +260,8 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
             }
 
             @Override
-            public void onResult(@ResultType int type, String data) {
-                if (type == ResultType.SCENE) {
-                    handleScene(data);
-                }
+            public void onResult(String data) {
+                handleScene(data);
             }
 
             @Override
@@ -289,13 +277,12 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private void handleScene(String data) {
         WToastUtil.show(data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
-        String sceneType = eleCardEntity.getSceneType();
+        String actionType = eleCardEntity.getActionType();
         // 密码验证
-        if ("004".equals(sceneType)) {
+        if ("009".equals(actionType)) {
             ZjEsscSDK.closeSDK();
             String busiSeq = eleCardEntity.getBusiSeq();
             SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);
-            // {"busiSeq":"fa6f1f67f5fa49f086a4db2aeaff880b","sceneType":"004"}
             requestTryToSettleToken(OrgConfig.SRJ);
         }
     }

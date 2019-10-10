@@ -383,7 +383,8 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 GradientDrawable gd = new GradientDrawable();
                 gd.setCornerRadius(DensityUtils.dp2px(mContext, 20));
-                gd.setGradientType(GradientDrawable.RECTANGLE);
+                //gd.setGradientType(GradientDrawable.RECTANGLE);
+                gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 gd.setColor(Color.parseColor("#6B45BFDB"));
 
                 tvMobilePayState.setBackground(gd);

@@ -105,7 +105,7 @@ public class MapKey {
     /**
      * 签发号
      */
-    public static final String SIGNATURE_NO= "signno";
+    public static final String SIGNATURE_NO = "signno";
     /**
      * 医保卡状态
      */
@@ -146,6 +146,11 @@ public class MapKey {
      * 发卡地区编号
      */
     public static final String AAB301 = "aab301";
+    /**
+     * 是否是独立服务（传1：为独立服务，独立服务下必传，不传：为申领流程）
+     * 独立服务有：密码认证、短信认证、人脸认证、身份二维码
+     */
+    public static final String IS_INDEP = "isIndep";
     /**
      * 签发日期
      */

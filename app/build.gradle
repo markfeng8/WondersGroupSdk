@@ -99,8 +99,8 @@ dependencies {
     implementation 'cn.hutool:hutool-all:4.5.16'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
 
-    implementation(name: 'PALiveDetect1.0.0', ext: 'aar')
-    implementation(name: 'zj_essc_sdk-1.0.6', ext: 'aar')
+    implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
+    implementation(name: 'zj_essc_sdk-2.0.2', ext: 'aar')
     //implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.8'
     implementation project(':library')
 }

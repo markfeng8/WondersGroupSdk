@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
-import com.wondersgroup.android.sdk.WondersSdk;
 import com.wondersgroup.android.sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
@@ -35,10 +34,10 @@ import com.wondersgroup.android.sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.sdk.entity.LockOrderEntity;
-import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
+import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
 import com.wondersgroup.android.sdk.epsoft.SignatureTool;
 import com.wondersgroup.android.sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
@@ -61,14 +60,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cn.com.epsoft.zjessc.ZjEsscSDK;
-import cn.com.epsoft.zjessc.callback.ResultType;
 import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
 import cn.wd.checkout.api.WDPay;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by x-sir on 2018/9/9 :)
@@ -335,7 +332,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void lockOrderResult(LockOrderEntity entity) {
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .just(entity)
                         .doOnNext(lockOrderEntity -> {
@@ -349,9 +346,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                             mHeadBean.setOrderNum(s);
                             refreshAdapter();
                             continueSettle();
-                        });
-
-        mCompositeDisposable.add(disposable);
+                        })
+        );
     }
 
     /**
@@ -573,15 +569,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     private void waitingAndOnceAgain() {
         showLoading(true);
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .timer(5, TimeUnit.SECONDS)
                         .subscribe(aLong -> {
                             mCurrentToState = TO_STATE2;
                             sendOfficialPay(false);
-                        });
-
-        mCompositeDisposable.add(disposable);
+                        })
+        );
     }
 
     /**
@@ -616,7 +611,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void showLoading(boolean show) {
-        Disposable disposable =
+        mCompositeDisposable.add(
                 Observable
                         .just(show)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -626,9 +621,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                             } else {
                                 mLoading.dismissLoadingDialog();
                             }
-                        });
-
-        mCompositeDisposable.add(disposable);
+                        })
+        );
     }
 
     /**
@@ -704,16 +698,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     public void checkElectronicSocialSecurityCardPassword() {
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
 
-        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(5);
-        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.AAC002, idNum);
-        map.put(MapKey.AAC003, name);
-        map.put(MapKey.AAB301, "330500");
-        map.put(MapKey.SIGN_NO, signNo);
-
-        SignatureTool.getSign(this, map, s -> startSdk(idNum, name, s));
+        SignatureTool.getSign(this,
+                ElectronicSocialSecurityCard.getVerifyElectronicSocialSecurityCardPasswordParams(),
+                s -> startSdk(idNum, name, s)
+        );
     }
 
     /**
@@ -725,7 +714,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      */
     private void startSdk(final String idCard, final String name, String s) {
         LogUtil.i(TAG, "idCard===" + idCard + ",name===" + name + ",s===" + s);
-        String url = ZjBiap.getInstance().getValidPwd();
+        String url = ZjBiap.getInstance().getPwdValidate();
         LogUtil.i(TAG, "url===" + url);
 
         // 662701
@@ -736,10 +725,8 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
             }
 
             @Override
-            public void onResult(@ResultType int type, String data) {
-                if (type == ResultType.SCENE) {
-                    handleScene(data);
-                }
+            public void onResult(String data) {
+                handleScene(data);
             }
 
             @Override
@@ -754,9 +741,9 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      */
     private void handleScene(String data) {
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
-        String sceneType = eleCardEntity.getSceneType();
+        String actionType = eleCardEntity.getActionType();
         // 密码验证
-        if ("004".equals(sceneType)) {
+        if ("009".equals(actionType)) {
             ZjEsscSDK.closeSDK();
             String busiSeq = eleCardEntity.getBusiSeq();
             SpUtil.getInstance().save(SpKey.BUSI_SEQ, busiSeq);

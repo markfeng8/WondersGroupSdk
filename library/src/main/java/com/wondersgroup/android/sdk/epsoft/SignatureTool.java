@@ -69,12 +69,12 @@ public class SignatureTool {
                         .compose(RxThreadUtils.observableToMain())
                         .doFinally(() -> activity.showLoadingView(false))
                         .subscribe(body -> {
-                            String returnCode = body.getReturn_code();
-                            String resultCode = body.getResult_code();
+                            String returnCode = body.getReturnCode();
+                            String resultCode = body.getResultCode();
                             if (SUCCESS.equals(returnCode) && SUCCESS.equals(resultCode)) {
                                 consumer.accept(body.getSign());
                             } else {
-                                WToastUtil.show(body.getErr_code_des());
+                                WToastUtil.show(body.getErrCodeDes());
                             }
                         });
     }

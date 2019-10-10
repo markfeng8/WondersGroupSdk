@@ -20,7 +20,6 @@ import com.wondersgroup.android.sdk.utils.WToastUtil;
 import java.util.HashMap;
 
 import cn.com.epsoft.zjessc.ZjEsscSDK;
-import cn.com.epsoft.zjessc.callback.ResultType;
 import cn.com.epsoft.zjessc.callback.SdkCallBack;
 import cn.com.epsoft.zjessc.tools.ZjBiap;
 import cn.com.epsoft.zjessc.tools.ZjEsscException;
@@ -53,16 +52,16 @@ public class ElectronicSocialSecurityCard {
     }
 
     /**
-     * 启动SDK
+     * 启动 SDK
      *
-     * @param activity
+     * @param activity Activity
      * @param idCard   身份证
      * @param name     姓名
      * @param s        签名
      */
     private void startSdk(MvpBaseActivity activity, final String idCard, final String name, String s) {
         LogUtil.i(TAG, "idCard===" + idCard + ",name===" + name + ",s===" + s);
-        String url = ZjBiap.getInstance().getIndexUrl();
+        String url = ZjBiap.getInstance().getMainUrl();
         LogUtil.i(TAG, "url===" + url);
 
         ZjEsscSDK.startSdk(activity, idCard, name, url, s, new SdkCallBack() {
@@ -74,9 +73,9 @@ public class ElectronicSocialSecurityCard {
             }
 
             @Override
-            public void onResult(@ResultType int type, String data) {
+            public void onResult(String data) {
                 if (cardStatusCallback != null) {
-                    cardStatusCallback.onResult(type, data);
+                    cardStatusCallback.onResult(data);
                 }
             }
 
@@ -88,13 +87,28 @@ public class ElectronicSocialSecurityCard {
         });
     }
 
+    /**
+     * 获取校验电子社保卡密码的参数
+     *
+     * @return HashMap
+     */
+    public static HashMap<String, String> getVerifyElectronicSocialSecurityCardPasswordParams() {
+        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
+
+        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(6);
+        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+        map.put(MapKey.AAC002, idNum);
+        map.put(MapKey.AAC003, name);
+        map.put(MapKey.AAB301, "330500");
+        map.put(MapKey.SIGN_NO, signNo);
+        map.put(MapKey.IS_INDEP, "1");
+
+        return map;
+    }
+
     public interface CardStatusCallback {
-        /**
-         * 结果的回调
-         *
-         * @param type
-         * @param data
-         */
-        void onResult(@ResultType int type, String data);
+        void onResult(String data);
     }
 }

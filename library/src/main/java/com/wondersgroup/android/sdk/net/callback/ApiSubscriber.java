@@ -47,14 +47,14 @@ public class ApiSubscriber<T, E> extends ResourceSubscriber<T> {
                 E body = (E) response.body();
                 if (body instanceof BaseEntity) {
                     BaseEntity baseEntity = (BaseEntity) body;
-                    String returnCode = baseEntity.getReturn_code();
-                    String resultCode = baseEntity.getResult_code();
+                    String returnCode = baseEntity.getReturnCode();
+                    String resultCode = baseEntity.getResultCode();
                     if (SUCCESS.equals(returnCode) && SUCCESS.equals(resultCode)) {
                         if (mCallback != null) {
                             mCallback.onSuccess(body);
                         }
                     } else {
-                        String errCodeDes = baseEntity.getErr_code_des();
+                        String errCodeDes = baseEntity.getErrCodeDes();
                         if (!TextUtils.isEmpty(errCodeDes)) {
                             if (mCallback != null) {
                                 mCallback.onFailed(errCodeDes);

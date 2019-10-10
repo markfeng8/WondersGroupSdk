@@ -1,5 +1,7 @@
 package com.wondersgroup.android.sdk.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -8,51 +10,56 @@ import java.io.Serializable;
  */
 public class BaseEntity<T> implements Serializable {
 
-    private String return_code = "";
-    private String return_msg = "";
-    private String result_code = "";
-    private String err_code = "";
-    private String err_code_des = "";
+    @SerializedName("return_code")
+    private String returnCode = "";
+    @SerializedName("return_msg")
+    private String returnMsg = "";
+    @SerializedName("result_code")
+    private String resultCode = "";
+    @SerializedName("err_code")
+    private String errCode = "";
+    @SerializedName("err_code_des")
+    private String errCodeDes = "";
     private T data;
 
-    public String getReturn_code() {
-        return return_code;
+    public String getReturnCode() {
+        return returnCode;
     }
 
-    public void setReturn_code(String return_code) {
-        this.return_code = return_code;
+    public void setReturnCode(String returnCode) {
+        this.returnCode = returnCode;
     }
 
-    public String getReturn_msg() {
-        return return_msg;
+    public String getReturnMsg() {
+        return returnMsg;
     }
 
-    public void setReturn_msg(String return_msg) {
-        this.return_msg = return_msg;
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg;
     }
 
-    public String getResult_code() {
-        return result_code;
+    public String getResultCode() {
+        return resultCode;
     }
 
-    public void setResult_code(String result_code) {
-        this.result_code = result_code;
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
     }
 
-    public String getErr_code() {
-        return err_code;
+    public String getErrCode() {
+        return errCode;
     }
 
-    public void setErr_code(String err_code) {
-        this.err_code = err_code;
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
     }
 
-    public String getErr_code_des() {
-        return err_code_des;
+    public String getErrCodeDes() {
+        return errCodeDes;
     }
 
-    public void setErr_code_des(String err_code_des) {
-        this.err_code_des = err_code_des;
+    public void setErrCodeDes(String errCodeDes) {
+        this.errCodeDes = errCodeDes;
     }
 
     public T getData() {
@@ -66,11 +73,11 @@ public class BaseEntity<T> implements Serializable {
     @Override
     public String toString() {
         return "BaseEntity{" +
-                "return_code='" + return_code + '\'' +
-                ", return_msg='" + return_msg + '\'' +
-                ", result_code='" + result_code + '\'' +
-                ", err_code='" + err_code + '\'' +
-                ", err_code_des='" + err_code_des + '\'' +
+                "returnCode='" + returnCode + '\'' +
+                ", returnMsg='" + returnMsg + '\'' +
+                ", resultCode='" + resultCode + '\'' +
+                ", errCode='" + errCode + '\'' +
+                ", errCodeDes='" + errCodeDes + '\'' +
                 ", data=" + data +
                 '}';
     }

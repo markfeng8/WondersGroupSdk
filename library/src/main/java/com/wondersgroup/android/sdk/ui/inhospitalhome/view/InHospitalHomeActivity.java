@@ -47,7 +47,6 @@ import com.wondersgroup.android.sdk.widget.selecthospital.OnCityItemClickListene
 
 import java.util.List;
 
-import cn.com.epsoft.zjessc.callback.ResultType;
 import io.reactivex.Observable;
 
 /**
@@ -264,17 +263,14 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
     }
 
     public void applyElectronicSocialSecurityCard() {
-        new ElectronicSocialSecurityCard().enter(this, (type, data) -> {
-            if (type == ResultType.ACTION) {
-                handleAction(data);
-            }
-        });
+        new ElectronicSocialSecurityCard().enter(this, this::handleAction);
     }
 
     /**
      * 签发回调处理
      */
     private void handleAction(String data) {
+        LogUtil.i(TAG, "data===" + data);
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
         switch (actionType) {
@@ -282,7 +278,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             case "001":
                 parseResult(eleCardEntity);
                 break;
-            // 其他申领成功的情况，和 001 一样需要上传 signNo
+            // 直接验密签发(指在其他渠道已领取，然后在当前渠道签发)，和 001 一样需要上传 signNo
             case "002":
                 parseResult(eleCardEntity);
                 break;
@@ -290,7 +286,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             case "003":
                 requestYd0002(OrgConfig.STATE_CLOSE);
                 break;
-            // 之前从未申领过社保卡，第一次申领电子社保卡的情况
+            // 开通缴费结算功能(二级签发)
             case "005":
                 parseResult(eleCardEntity);
                 break;
@@ -423,7 +419,8 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         } else {
             GradientDrawable gd = new GradientDrawable();
             gd.setCornerRadius(DensityUtils.dp2px(this, 20));
-            gd.setGradientType(GradientDrawable.RECTANGLE);
+            //gd.setGradientType(GradientDrawable.RECTANGLE);
+            gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             gd.setColor(Color.parseColor("#6B45BFDB"));
 
             tvMobPayState.setBackground(gd);

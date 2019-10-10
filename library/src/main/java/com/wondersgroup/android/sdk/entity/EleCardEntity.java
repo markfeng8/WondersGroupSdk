@@ -66,7 +66,8 @@ public class EleCardEntity implements Serializable {
     /**
      * 人员id
      */
-    private String userID;
+    @SerializedName("userID")
+    private String userId;
 
     public String getActionType() {
         return actionType;
@@ -156,11 +157,11 @@ public class EleCardEntity implements Serializable {
         this.userName = userName;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
