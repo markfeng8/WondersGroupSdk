@@ -29,8 +29,11 @@ import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
+import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.JsInvokeBean;
+import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.SpUtil;
 import com.wondersgroup.android.sdk.utils.StatusBarUtils;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.wondersgroup.android.sdk.widget.TitleBarLayout;
@@ -151,7 +154,24 @@ public class FamilyDoctorActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(json)) {
                 LogUtil.json(TAG, json);
                 WToastUtil.showLong(json);
+
                 JsInvokeBean jsInvokeBean = new Gson().fromJson(json, JsInvokeBean.class);
+                String name = jsInvokeBean.getName();
+                String cardType = jsInvokeBean.getCardType();
+                String cardNum = jsInvokeBean.getCardNum();
+                String orgCode = jsInvokeBean.getOrgCode();
+                String orgName = jsInvokeBean.getOrgName();
+                String idType = jsInvokeBean.getIdType();
+                String idNum = jsInvokeBean.getIdNum();
+
+                SpUtil.getInstance().save(SpKey.NAME, name);
+                SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);
+                SpUtil.getInstance().save(SpKey.CARD_NUM, cardNum);
+                SpUtil.getInstance().save(SpKey.ID_TYPE, idType);
+                SpUtil.getInstance().save(SpKey.ID_NUM, idNum);
+
+                PaymentDetailsActivity.actionStart(
+                        FamilyDoctorActivity.this, orgCode, orgName, false);
             }
         }
 

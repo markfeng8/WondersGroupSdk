@@ -23,6 +23,7 @@ import com.wondersgroup.android.sdk.R;
 import com.wondersgroup.android.sdk.entity.CityBean;
 import com.wondersgroup.android.sdk.entity.HospitalBean;
 import com.wondersgroup.android.sdk.utils.AssetUtils;
+import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.widget.timepicker.wheel.OnWheelChangedListener;
 import com.wondersgroup.android.sdk.widget.timepicker.wheel.WheelView;
 
@@ -85,6 +86,7 @@ public class HospitalPickerView extends LinearLayout implements OnWheelChangedLi
      * 初始化，默认解析城市数据，提升加载速度
      */
     public void init(String json) {
+        LogUtil.json(TAG, json);
         getParseHelper().initData(json);
     }
 
