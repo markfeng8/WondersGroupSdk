@@ -1,29 +1,33 @@
 package com.wondersgroup.android.sdk.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * Created by x-sir on 2018/9/9 :)
- * Function:
+ * Function:锁单成功的响应实体类
  */
 public class LockOrderEntity extends BaseEntity implements Serializable {
 
-    private String payplat_tradno;
-    private String lock_start_time;
+    @SerializedName("payplat_tradno")
+    private String payPlatTradNo;
+    @SerializedName("lock_start_time")
+    private String lockStartTime;
 
-    public String getPayplat_tradno() {
-        return payplat_tradno;
+    public String getPayPlatTradNo() {
+        return payPlatTradNo;
     }
 
-    public void setPayplat_tradno(String payplat_tradno) {
-        this.payplat_tradno = payplat_tradno;
+    public void setPayPlatTradNo(String payPlatTradNo) {
+        this.payPlatTradNo = payPlatTradNo;
     }
 
-    public String getLock_start_time() {
-        return lock_start_time;
+    public String getLockStartTime() {
+        return lockStartTime;
     }
 
-    public void setLock_start_time(String lock_start_time) {
-        this.lock_start_time = lock_start_time;
+    public void setLockStartTime(String lockStartTime) {
+        this.lockStartTime = lockStartTime;
     }
 }

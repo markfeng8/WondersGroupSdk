@@ -336,10 +336,10 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                 Observable
                         .just(entity)
                         .doOnNext(lockOrderEntity -> {
-                            SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockOrderEntity.getLock_start_time());
-                            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, lockOrderEntity.getPayplat_tradno());
+                            SpUtil.getInstance().save(SpKey.LOCK_START_TIME, lockOrderEntity.getLockStartTime());
+                            SpUtil.getInstance().save(SpKey.PAY_PLAT_TRADE_NO, lockOrderEntity.getPayPlatTradNo());
                         })
-                        .map(LockOrderEntity::getPayplat_tradno)
+                        .map(LockOrderEntity::getPayPlatTradNo)
                         .subscribe(s -> {
                             mPayPlatTradeNo = s;
                             // 锁单成功后刷新订单号
