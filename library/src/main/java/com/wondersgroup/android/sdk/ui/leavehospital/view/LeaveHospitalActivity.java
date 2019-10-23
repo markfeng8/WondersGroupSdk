@@ -322,21 +322,23 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     @Override
     public void onPayParamResult(PayParamEntity body) {
         showLoading(true);
+        PayParamEntity paramEntity = PayParamEntity.from(
+                body, mOrgName, mPayPlatTradeNo, mPaymentType, mFeeNeedCashTotal
+        );
+
         // 发起万达统一支付，支付现金部分
-        WdCommonPayUtils.toPay(this, body.getAppid(), body.getSubmerno(), body.getApikey(),
-                mOrgName, mPayPlatTradeNo, mPaymentType, mFeeNeedCashTotal, result ->
-                        Observable
-                                .just(result)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(s -> {
-                                    showLoading(false);
-                                    WToastUtil.show("SUCCESS".equals(s) ? "支付成功~" : s);
-                                    if ("SUCCESS".equals(s)) {
-                                        mCurrentToState = TO_STATE2;
-                                        // 支付成功后发起正式结算
-                                        requestCy0007();
-                                    }
-                                })
+        mCompositeDisposable.add(
+                WdCommonPayUtils.toPay(this, paramEntity)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(s -> {
+                            showLoading(false);
+                            WToastUtil.show("SUCCESS".equals(s) ? "支付成功~" : s);
+                            if ("SUCCESS".equals(s)) {
+                                mCurrentToState = TO_STATE2;
+                                // 支付成功后发起正式结算
+                                requestCy0007();
+                            }
+                        }, throwable -> WToastUtil.show(throwable.getMessage()))
         );
     }
 
