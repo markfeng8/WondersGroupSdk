@@ -402,50 +402,50 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     @Override
     public void onTryToSettleResult(SettleEntity body) {
-        if (body != null) {
-            tryToSettleIsSuccess = true;
-            mFeeTotal = body.getFee_total();
-            mFeeCashTotal = body.getFee_cash_total();
-            mFeeYbTotal = body.getFee_yb_total();
-            LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal==="
-                    + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
-
-            tvTextYuan.setVisibility(View.VISIBLE);
-            // 判断如果个人支付为 0 时，显示医保支付金额
-            if (Double.parseDouble(mFeeCashTotal) == 0) {
-                tvPayName.setText("需医保支付：");
-                tvMoneyNum.setText(mFeeYbTotal);
-            } else {
-                tvPayName.setText("需现金支付：");
-                // 显示现金需要支付的金额
-                tvMoneyNum.setText(mFeeCashTotal);
-            }
-
-            if (mDetailPayBean == null) {
-                mDetailPayBean = new DetailPayBean();
-            }
-            mDetailPayBean.setTotalPay(mFeeTotal);
-            mDetailPayBean.setPersonalPay(mFeeCashTotal);
-            mDetailPayBean.setYibaoPay(mFeeYbTotal);
-
-            // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
-            if (mItemList.size() > 0) {
-                mItemList.clear();
-            }
-            // 先添加头部数据
-            mItemList.add(mHeadBean);
-            // 再添加 List 数据
-            mItemList.addAll(mCombineList);
-            // 添加支付数据
-            mItemList.add(mDetailPayBean);
-            refreshAdapter();
-
-            // 判断是否是试结算失败时，然后再次去支付的。
-            if (isNeedToPay) {
-                getOfficialToSettleToken();
-            }
-        } else {
+        if (body == null) {
             tryToSettleIsSuccess = false;
+            return;
+        }
+
+        tryToSettleIsSuccess = true;
+        mFeeTotal = body.getFee_total();
+        mFeeCashTotal = body.getFee_cash_total();
+        mFeeYbTotal = body.getFee_yb_total();
+        LogUtil.i(TAG, "mFeeTotal===" + mFeeTotal + ",mFeeCashTotal===" + mFeeCashTotal + ",mFeeYbTotal===" + mFeeYbTotal);
+
+        tvTextYuan.setVisibility(View.VISIBLE);
+        // 判断如果个人支付为 0 时，显示医保支付金额
+        if (Double.parseDouble(mFeeCashTotal) == 0) {
+            tvPayName.setText("需医保支付：");
+            tvMoneyNum.setText(mFeeYbTotal);
+        } else {
+            tvPayName.setText("需现金支付：");
+            // 显示现金需要支付的金额
+            tvMoneyNum.setText(mFeeCashTotal);
+        }
+
+        if (mDetailPayBean == null) {
+            mDetailPayBean = new DetailPayBean();
+        }
+        mDetailPayBean.setTotalPay(mFeeTotal);
+        mDetailPayBean.setPersonalPay(mFeeCashTotal);
+        mDetailPayBean.setYibaoPay(mFeeYbTotal);
+
+        // 判断集合中是否有旧数据，先移除旧的，然后再添加新的
+        if (mItemList.size() > 0) {
+            mItemList.clear();
+        }
+        // 先添加头部数据
+        mItemList.add(mHeadBean);
+        // 再添加 List 数据
+        mItemList.addAll(mCombineList);
+        // 添加支付数据
+        mItemList.add(mDetailPayBean);
+        refreshAdapter();
+
+        // 判断是否是试结算失败时，然后再次去支付的。
+        if (isNeedToPay) {
+            getOfficialToSettleToken();
         }
     }
 
@@ -524,47 +524,49 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * 解析正式结算结果
      */
     private void parseOfficialSettleResult(SettleEntity body) {
-        // 正式结算成功~
-        if (body != null) {
-            String payState = body.getPayState();
-            if (!TextUtils.isEmpty(payState)) {
-                switch (payState) {
-                    // 1、后台正在异步结算（前台等待）
-                    case "1":
-                        // 重试 3 次，如果还是失败就返回首页
-                        if (mOfficeSettleTimes < 3) {
-                            mOfficeSettleTimes++;
-                            waitingAndOnceAgain();
-                        } else {
-                            showLoading(false);
-                            PaymentDetailsActivity.this.finish();
-                        }
-                        break;
-                    // 2、结算完成（返回成功页面）
-                    case "2":
-                        String feeTotal = body.getFee_total();
-                        String feeCashTotal = body.getFee_cash_total();
-                        String feeYbTotal = body.getFee_yb_total();
-                        LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
-                        // 如果全部金额不为 null，说明是发起正式结算的回调，否则是上传 token 的回调
-                        if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
-                            // 跳转过去，显示全部支付完成 true 代表全部支付完成
-                            jumpToPaymentResultPage(true);
-                        }
-                        break;
-                    // 3、结算失败（包括超时自动处理）
-                    case "3":
-                        jumpToPaymentResultPage(false);
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                LogUtil.e(TAG, "payState is null!");
-            }
-
-        } else { // 正式结算失败！
+        // 正式结算失败！
+        if (body == null) {
             jumpToPaymentResultPage(false);
+            return;
+        }
+
+        String payState = body.getPayState();
+        if (TextUtils.isEmpty(payState)) {
+            LogUtil.e(TAG, "payState is null!");
+            return;
+        }
+
+        // 正式结算成功~
+        switch (payState) {
+            // 1、后台正在异步结算（前台等待）
+            case "1":
+                // 重试 3 次，如果还是失败就返回首页
+                if (mOfficeSettleTimes < 3) {
+                    mOfficeSettleTimes++;
+                    waitingAndOnceAgain();
+                } else {
+                    showLoading(false);
+                    PaymentDetailsActivity.this.finish();
+                }
+                break;
+            // 2、结算完成（返回成功页面）
+            case "2":
+                String feeTotal = body.getFee_total();
+                String feeCashTotal = body.getFee_cash_total();
+                String feeYbTotal = body.getFee_yb_total();
+                LogUtil.i(TAG, "feeTotal===" + feeTotal + ",feeCashTotal===" + feeCashTotal + ",feeYbTotal===" + feeYbTotal);
+                // 如果全部金额不为 null，说明是发起正式结算的回调，否则是上传 token 的回调
+                if (!TextUtils.isEmpty(feeTotal) && !TextUtils.isEmpty(feeCashTotal) && !TextUtils.isEmpty(feeYbTotal)) {
+                    // 跳转过去，显示全部支付完成 true 代表全部支付完成
+                    jumpToPaymentResultPage(true);
+                }
+                break;
+            // 3、结算失败（包括超时自动处理）
+            case "3":
+                jumpToPaymentResultPage(false);
+                break;
+            default:
+                break;
         }
     }
 
