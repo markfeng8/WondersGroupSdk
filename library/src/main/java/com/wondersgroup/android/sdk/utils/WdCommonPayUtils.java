@@ -16,7 +16,6 @@ import com.wondersgroup.android.sdk.constants.RequestUrl;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 
 import java.lang.ref.WeakReference;
-import java.math.BigDecimal;
 
 import cn.wd.checkout.api.CheckOut;
 import cn.wd.checkout.api.WDCallBack;
@@ -76,7 +75,7 @@ public class WdCommonPayUtils {
             /*
              * 4.判断金额是否为格式化为（单位：分）
              */
-            if (!isNumeric(String.valueOf(getFormatCent(body.getFeeNeedCashTotal())))) {
+            if (!NumberUtil.isNumeric(String.valueOf(NumberUtil.getFormatCent(body.getFeeNeedCashTotal())))) {
                 errMsg = "请输入正确的交易金额（单位：分）!";
                 emitter.onNext(errMsg);
                 emitter.onComplete();
@@ -143,24 +142,7 @@ public class WdCommonPayUtils {
 
             // 传入订单标题、订单金额(分)、订单流水号、扩展参数(可以null) 等
             WDPay.reqPayAsync(context, body.getAppid(), body.getApikey(), PaymentUtil.getWdPayType(body.getPaymentType()), body.getSubmerno(),
-                    body.getOrgName(), describe, getFormatCent(body.getFeeNeedCashTotal()), body.getPayPlatTradeNo(), describe, null, wdCallBack);
+                    body.getOrgName(), describe, NumberUtil.getFormatCent(body.getFeeNeedCashTotal()), body.getPayPlatTradeNo(), describe, null, wdCallBack);
         });
-    }
-
-    private static long getFormatCent(String amount) {
-        long formatCents = 0L;
-        try {
-            BigDecimal original = new BigDecimal(amount);
-            BigDecimal hundred = new BigDecimal("100");
-            formatCents = original.multiply(hundred).longValueExact();
-        } catch (ArithmeticException e) {
-            e.printStackTrace();
-        }
-
-        return formatCents;
-    }
-
-    private static boolean isNumeric(String s) {
-        return s != null && !"".equals(s.trim()) && s.matches("^[0-9]+(.[0-9]{1,2})?$");
     }
 }

@@ -90,4 +90,21 @@ public class NumberUtil {
         return String.format("%.2f", d);
     }
 
+    public static long getFormatCent(String amount) {
+        long formatCents = 0L;
+        try {
+            BigDecimal original = new BigDecimal(amount);
+            BigDecimal hundred = new BigDecimal("100");
+            formatCents = original.multiply(hundred).longValueExact();
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+
+        return formatCents;
+    }
+
+    public static boolean isNumeric(String s) {
+        return s != null && !"".equals(s.trim()) && s.matches("^[0-9]+(.[0-9]{1,2})?$");
+    }
+
 }
