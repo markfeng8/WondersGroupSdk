@@ -6,7 +6,7 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.wondersgroup.android.healthcity_sdk.activity;
+package com.wondersgroup.android.sdk.ui.healthcard;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -22,25 +22,25 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.wondersgroup.android.healthcity_sdk.R;
+import com.wondersgroup.android.sdk.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
+/**
+ * Created by x-sir on 2019/10/18 :)
+ * Function:
+ */
 public class WebViewActivity extends AppCompatActivity {
 
     private static final String TAG = "WebViewActivity";
     private static final String URL = "url";
-    @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.webView)
     WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        ButterKnife.bind(this);
+        progressBar = findViewById(R.id.progressBar);
+        webView = findViewById(R.id.webView);
         initData();
     }
 

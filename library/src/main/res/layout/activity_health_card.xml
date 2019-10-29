@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".activity.HealthCardActivity">
+    tools:context="com.wondersgroup.android.sdk.ui.healthcard.HealthCardActivity">
 
     <LinearLayout
         android:id="@+id/llName"
