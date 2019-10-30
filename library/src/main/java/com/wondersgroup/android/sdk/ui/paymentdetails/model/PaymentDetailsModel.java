@@ -233,9 +233,11 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                                     }
                                 } else {
                                     String errCodeDes = body.getErrCode();
-                                    if (!TextUtils.isEmpty(errCodeDes)) {
+                                    String msg = body.getMsg();
+                                    String errorInfo = errCodeDes + ":" + msg;
+                                    if (!TextUtils.isEmpty(errorInfo)) {
                                         if (callback != null) {
-                                            callback.onFailed(errCodeDes);
+                                            callback.onFailed(errorInfo);
                                         }
                                     }
                                 }
