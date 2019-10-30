@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
 import com.wondersgroup.android.sdk.ui.healthcard.HealthCardActivity;
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnHealthCard;
     @BindView(R.id.btnFamilyDoctor)
     Button btnFamilyDoctor;
+    @BindView(R.id.btnElectronicCard)
+    Button btnElectronicCard;
     @BindView(R.id.tvVersion)
     TextView tvVersion;
     @BindView(R.id.recyclerView)
@@ -131,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.btnHealthCard, R.id.btnFamilyDoctor})
+    @OnClick({R.id.btnAfterPayHome, R.id.btnSelfPayHome, R.id.btnInHospitalHome, R.id.btnHealthCard,
+            R.id.btnFamilyDoctor, R.id.btnElectronicCard})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnAfterPayHome:
@@ -154,6 +158,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     WToastUtil.show("身份证号码不能为空！");
                 }
+                break;
+            case R.id.btnElectronicCard:
+                String name = etName.getText().toString().trim();
+                String idNumber = etIdNum.getText().toString().trim();
+                new ElectronicSocialSecurityCard().enter(this, name, idNumber);
                 break;
             default:
                 break;

@@ -9,6 +9,7 @@
 package com.wondersgroup.android.sdk.epsoft;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.WondersSdk;
@@ -57,16 +58,19 @@ public class ElectronicSocialSecurityCard {
         if (activity == null) {
             return;
         }
+        enter(activity, null, null);
+    }
 
-        String name = SpUtil.getInstance().getString(SpKey.NAME, "");
-        String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+    public void enter(Activity activity, String name, String idNum) {
+        final String nameStr = !TextUtils.isEmpty(name) ? name : SpUtil.getInstance().getString(SpKey.NAME, "");
+        final String idNumStr = !TextUtils.isEmpty(idNum) ? idNum : SpUtil.getInstance().getString(SpKey.ID_NUM, "");
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
         map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.AAC002, idNum);
-        map.put(MapKey.AAC003, name);
+        map.put(MapKey.AAC002, idNumStr);
+        map.put(MapKey.AAC003, nameStr);
 
-        getSign(map, s -> startSdk(activity, idNum, name, s));
+        getSign(map, s -> startSdk(activity, idNumStr, nameStr, s));
     }
 
     /**
