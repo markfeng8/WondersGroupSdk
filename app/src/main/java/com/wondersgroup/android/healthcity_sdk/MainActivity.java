@@ -22,14 +22,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
-import com.wondersgroup.android.sdk.ui.healthcard.HealthCardActivity;
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.ui.familydoctor.FamilyDoctorActivity;
+import com.wondersgroup.android.sdk.ui.healthcard.HealthCardActivity;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
@@ -160,9 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btnElectronicCard:
-                String name = etName.getText().toString().trim();
-                String idNumber = etIdNum.getText().toString().trim();
-                new ElectronicSocialSecurityCard().enter(this, name, idNumber);
+                startBusiness(3);
                 break;
             default:
                 break;

@@ -21,6 +21,8 @@ public class BusinessFactory {
             return new SelfPayBusiness();
         } else if (flag == 2) {
             return new InHospitalBusiness();
+        } else if (flag == 3) {
+            return new ElectronicCardBusiness();
         } else {
             throw new IllegalArgumentException("请传入正确的业务类型flag的值!");
         }

@@ -55,22 +55,15 @@ public class ElectronicSocialSecurityCard {
      * @param activity Activity 对象
      */
     public void enter(Activity activity) {
-        if (activity == null) {
-            return;
-        }
-        enter(activity, null, null);
-    }
-
-    public void enter(Activity activity, String name, String idNum) {
-        final String nameStr = !TextUtils.isEmpty(name) ? name : SpUtil.getInstance().getString(SpKey.NAME, "");
-        final String idNumStr = !TextUtils.isEmpty(idNum) ? idNum : SpUtil.getInstance().getString(SpKey.ID_NUM, "");
+        final String name = SpUtil.getInstance().getString(SpKey.NAME, "");
+        final String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
         map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.AAC002, idNumStr);
-        map.put(MapKey.AAC003, nameStr);
+        map.put(MapKey.AAC002, idNum);
+        map.put(MapKey.AAC003, name);
 
-        getSign(map, s -> startSdk(activity, idNumStr, nameStr, s));
+        getSign(map, s -> startSdk(activity, idNum, name, s));
     }
 
     /**
@@ -188,9 +181,14 @@ public class ElectronicSocialSecurityCard {
         // 01 已开通 00：未开通
         param.put(MapKey.ELE_CARD_STATUS, state);
         // 签发号
-        param.put(MapKey.SIGNATURE_NO, signNo);
+        if (!TextUtils.isEmpty(signNo)) {
+            param.put(MapKey.SIGNATURE_NO, signNo);
+        }
         param.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
         param.put(MapKey.SIGN, SignUtil.getSign(param));
+
+        String json = new Gson().toJson(param);
+        LogUtil.json(TAG, json);
 
         RetrofitHelper
                 .getInstance()
