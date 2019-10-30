@@ -24,14 +24,22 @@ import android.widget.ProgressBar;
 
 import com.wondersgroup.android.sdk.R;
 
+import cn.hutool.crypto.SmUtil;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
+
 /**
  * Created by x-sir on 2019/10/18 :)
  * Function:
  */
-public class WebViewActivity extends AppCompatActivity {
+public class HealthCardWebViewActivity extends AppCompatActivity {
 
-    private static final String TAG = "WebViewActivity";
+    private static final String TAG = "HealthCardActivity";
     private static final String URL = "url";
+    private static final String URL_H5 = "http://115.238.228.2:8000/hcbmp/management/h5/index?appId=050b1e9c8dd34d478518a9eafffa99ba&cipherText=";
+    /**
+     * 公钥截取前面16位作为报文加密密钥 dd80ec7b658a4ea660ae9bc7315fb227
+     */
+    private static final String PUBLIC_KEY = "dd80ec7b658a4ea6";
     ProgressBar progressBar;
     WebView webView;
 
@@ -82,9 +90,30 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
-    public static void actionStart(Context context, String url) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra(URL, url);
+    public static void actionStart(Context context, String name, String idNum, String phone) {
+        String requestUrl = getRequestUrl(name, idNum, phone);
+        Log.i(TAG, "requestUrl===" + requestUrl);
+        Intent intent = new Intent(context, HealthCardWebViewActivity.class);
+        intent.putExtra(URL, requestUrl);
         context.startActivity(intent);
+    }
+
+    private static String getRequestUrl(String name, String idNum, String phone) {
+        return URL_H5 + getEncryptionResult(name, idNum, phone);
+    }
+
+    private static String getEncryptionResult(String name, String idNum, String phone) {
+        String content = getParameters(name, idNum, phone);
+        Log.i(TAG, "content===" + content);
+        SymmetricCrypto sm4 = SmUtil.sm4(PUBLIC_KEY.getBytes());
+        return sm4.encryptHex(content);
+    }
+
+    private static String getParameters(String name, String idNum, String phone) {
+        return "openId=" + idNum + "&xm=" + name + "&sfzh=" + idNum + "&sjhm=" + phone + "&timestamp=" + getTimestamp();
+    }
+
+    private static long getTimestamp() {
+        return System.currentTimeMillis();
     }
 }

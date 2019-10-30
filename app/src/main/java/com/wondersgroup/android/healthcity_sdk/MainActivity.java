@@ -9,7 +9,6 @@
 package com.wondersgroup.android.healthcity_sdk;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +27,6 @@ import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.ui.familydoctor.FamilyDoctorActivity;
-import com.wondersgroup.android.sdk.ui.healthcard.HealthCardActivity;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
@@ -147,8 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 startBusiness(2);
                 break;
             case R.id.btnHealthCard:
-                Intent intent = new Intent(MainActivity.this, HealthCardActivity.class);
-                startActivity(intent);
+                startBusiness(4);
                 break;
             case R.id.btnFamilyDoctor:
                 String idNum = etIdNum.getText().toString().trim();

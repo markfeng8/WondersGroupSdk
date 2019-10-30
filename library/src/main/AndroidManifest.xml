@@ -87,10 +87,7 @@
             android:name="com.wondersgroup.android.sdk.ui.inhospitalhistory.view.InHospitalHistory"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wondersgroup.android.sdk.ui.healthcard.WebViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.wondersgroup.android.sdk.ui.healthcard.HealthCardActivity"
+            android:name="com.wondersgroup.android.sdk.ui.healthcard.HealthCardWebViewActivity"
             android:screenOrientation="portrait" />
 
         <!-- WXPay sdk begin -->

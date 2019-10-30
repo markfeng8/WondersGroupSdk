@@ -23,6 +23,8 @@ public class BusinessFactory {
             return new InHospitalBusiness();
         } else if (flag == 3) {
             return new ElectronicCardBusiness();
+        } else if (flag == 4) {
+            return new HealthCardBusiness();
         } else {
             throw new IllegalArgumentException("请传入正确的业务类型flag的值!");
         }
