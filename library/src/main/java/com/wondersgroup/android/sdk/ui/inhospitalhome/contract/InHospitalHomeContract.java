@@ -38,7 +38,5 @@ public interface InHospitalHomeContract {
         void requestCy0001(String orgCode, String inState);
 
         void requestYd0001();
-
-        void requestYd0002(String state);
     }
 }

@@ -87,38 +87,6 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
     }
 
     @Override
-    public void requestYd0002(String state) {
-        String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
-        String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
-        String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
-
-        HashMap<String, String> param = Maps.newHashMapWithExpectedSize();
-        param.put(MapKey.SID, RandomUtils.getSid());
-        param.put(MapKey.TRAN_CODE, TranCode.TRAN_YD0002);
-        param.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
-        param.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        param.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
-        param.put(MapKey.NAME, mName);
-        param.put(MapKey.ID_NO, mIdNum);
-        param.put(MapKey.CARD_NO, cardNum);
-        param.put(MapKey.ID_TYPE, mIdType);
-        param.put(MapKey.CARD_TYPE, cardType);
-        param.put(MapKey.MOBILE_PAY_TIME, DateUtils.getCurrentDate());
-        // 01 代表开通
-        param.put(MapKey.MOBILE_PAY_STATUS, state);
-        // 01 已开通 00：未开通
-        param.put(MapKey.ELE_CARD_STATUS, state);
-        // 签发号
-        param.put(MapKey.SIGNATURE_NO, signNo);
-        param.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
-        param.put(MapKey.SIGN, SignUtil.getSign(param));
-
-        mService.findMobilePayState(RequestUrl.YD0002, param)
-                .compose(RxThreadUtils.flowableToMain())
-                .subscribe(new ApiSubscriber<>());
-    }
-
-    @Override
     public void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback) {
         String cardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");

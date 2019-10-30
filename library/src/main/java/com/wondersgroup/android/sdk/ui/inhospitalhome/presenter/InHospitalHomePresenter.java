@@ -100,11 +100,6 @@ public class InHospitalHomePresenter<T extends InHospitalHomeContract.IView>
         });
     }
 
-    @Override
-    public void requestYd0002(String state) {
-        mModel.requestYd0002(state);
-    }
-
     private void showLoading(boolean show) {
         if (isNonNull()) {
             mViewRef.get().showLoading(show);

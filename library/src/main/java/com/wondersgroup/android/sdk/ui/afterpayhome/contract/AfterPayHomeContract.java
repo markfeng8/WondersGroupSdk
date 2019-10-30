@@ -29,8 +29,6 @@ public interface AfterPayHomeContract {
         void requestYd0003(String orgCode, HttpRequestCallback<FeeBillEntity> callback);
 
         void getHospitalList(String version, String type, HttpRequestCallback<HospitalEntity> callback);
-
-        void requestYd0002(String state);
     }
 
     interface IView {
@@ -60,7 +58,5 @@ public interface AfterPayHomeContract {
         void requestYd0003(String orgCode);
 
         void getHospitalList(String version, String type);
-
-        void requestYd0002(String state);
     }
 }

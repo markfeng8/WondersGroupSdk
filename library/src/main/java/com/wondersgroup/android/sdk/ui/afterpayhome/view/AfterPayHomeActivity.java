@@ -22,7 +22,6 @@ import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.AfterHeaderBean;
 import com.wondersgroup.android.sdk.entity.AfterPayStateEntity;
 import com.wondersgroup.android.sdk.entity.CityBean;
-import com.wondersgroup.android.sdk.entity.EleCardEntity;
 import com.wondersgroup.android.sdk.entity.FeeBillDetailsBean;
 import com.wondersgroup.android.sdk.entity.FeeBillEntity;
 import com.wondersgroup.android.sdk.entity.HospitalBean;
@@ -253,44 +252,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
     }
 
     public void applyElectronicSocialSecurityCard() {
-        new ElectronicSocialSecurityCard().enter(this, this::handleAction);
-    }
-
-    /**
-     * 签发回调处理
-     */
-    private void handleAction(String data) {
-        LogUtil.i(TAG, "data===" + data);
-        EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
-        String actionType = eleCardEntity.getActionType();
-        switch (actionType) {
-            // 电子社保卡申领完成（一级签发）
-            case "001":
-                parseResult(eleCardEntity);
-                break;
-            // 直接验密签发(指在其他渠道已领取，然后在当前渠道签发)，和 001 一样需要上传 signNo
-            case "002":
-                parseResult(eleCardEntity);
-                break;
-            // 解除绑定完成
-            case "003":
-                requestYd0002(OrgConfig.STATE_CLOSE);
-                break;
-            // 开通缴费结算功能(二级签发)
-            case "005":
-                parseResult(eleCardEntity);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void parseResult(EleCardEntity eleCardEntity) {
-        String signNo = eleCardEntity.getSignNo();
-        String aab301 = eleCardEntity.getAab301();
-        LogUtil.i(TAG, "signNo===" + signNo + ",aab301===" + aab301);
-        SpUtil.getInstance().save(SpKey.SIGN_NO, signNo);
-        requestYd0002(OrgConfig.STATE_OPEN);
+        new ElectronicSocialSecurityCard().enter(this);
     }
 
     @Override
@@ -381,13 +343,6 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private void requestYd0001() {
         mPresenter.requestYd0001();
-    }
-
-    /**
-     * Upload electronic society card open state to server.
-     */
-    private void requestYd0002(String state) {
-        mPresenter.requestYd0002(state);
     }
 
     /**

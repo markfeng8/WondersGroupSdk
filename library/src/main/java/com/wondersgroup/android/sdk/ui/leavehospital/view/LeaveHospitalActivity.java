@@ -31,7 +31,6 @@ import com.wondersgroup.android.sdk.entity.EleCardEntity;
 import com.wondersgroup.android.sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
-import com.wondersgroup.android.sdk.epsoft.SignatureTool;
 import com.wondersgroup.android.sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.sdk.ui.leavehosresult.LeaveHosResultActivity;
@@ -234,7 +233,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
 
-        SignatureTool.getSign(this,
+        ElectronicSocialSecurityCard.getSign(
                 ElectronicSocialSecurityCard.getVerifyElectronicSocialSecurityCardPasswordParams(),
                 s -> startSdk(idNum, name, s)
         );

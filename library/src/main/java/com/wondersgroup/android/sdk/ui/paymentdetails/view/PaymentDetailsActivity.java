@@ -38,7 +38,6 @@ import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
 import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
-import com.wondersgroup.android.sdk.epsoft.SignatureTool;
 import com.wondersgroup.android.sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.sdk.ui.paymentresult.view.PaymentResultActivity;
@@ -702,7 +701,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
 
-        SignatureTool.getSign(this,
+        ElectronicSocialSecurityCard.getSign(
                 ElectronicSocialSecurityCard.getVerifyElectronicSocialSecurityCardPasswordParams(),
                 s -> startSdk(idNum, name, s)
         );
