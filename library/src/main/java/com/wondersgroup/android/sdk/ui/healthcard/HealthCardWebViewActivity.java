@@ -29,7 +29,7 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 
 /**
  * Created by x-sir on 2019/10/18 :)
- * Function:
+ * Function:电子健康卡页面
  */
 public class HealthCardWebViewActivity extends AppCompatActivity {
 
