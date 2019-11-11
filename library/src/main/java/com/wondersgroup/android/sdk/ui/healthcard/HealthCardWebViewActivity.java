@@ -23,6 +23,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.wondersgroup.android.sdk.R;
+import com.wondersgroup.android.sdk.utils.StatusBarUtils;
+import com.wondersgroup.android.sdk.widget.TitleBarLayout;
 
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
@@ -40,16 +42,30 @@ public class HealthCardWebViewActivity extends AppCompatActivity {
      * 公钥截取前面16位作为报文加密密钥 dd80ec7b658a4ea660ae9bc7315fb227
      */
     private static final String PUBLIC_KEY = "dd80ec7b658a4ea6";
-    ProgressBar progressBar;
-    WebView webView;
+    private ProgressBar progressBar;
+    private WebView webView;
+    private TitleBarLayout titleLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
+        setContentView(R.layout.activity_health_card);
+        StatusBarUtils.tint(this);
+        titleLayout = findViewById(R.id.titleLayout);
         progressBar = findViewById(R.id.progressBar);
         webView = findViewById(R.id.webView);
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        titleLayout.setOnBackListener(() -> {
+            if (webView.canGoBack()) {
+                webView.goBack();
+            } else {
+                finish();
+            }
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")

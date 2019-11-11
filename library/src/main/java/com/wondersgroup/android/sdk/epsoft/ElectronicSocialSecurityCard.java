@@ -112,7 +112,8 @@ public class ElectronicSocialSecurityCard {
         map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
         map.put(MapKey.AAC002, idNum);
         map.put(MapKey.AAC003, name);
-        map.put(MapKey.AAB301, "330500");
+        //map.put(MapKey.AAB301, "330500");
+        map.put(MapKey.AAB301, "330599");
         map.put(MapKey.SIGN_NO, signNo);
         map.put(MapKey.IS_INDEP, "1");
 
