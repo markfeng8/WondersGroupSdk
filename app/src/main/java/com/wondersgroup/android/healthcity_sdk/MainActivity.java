@@ -164,15 +164,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAlertDialog(final String idNum) {
+        // 家庭医生新的请求地址
+        // http://115.238.228.2:8000/jtys/?idCard=330511196307211620
         final EditText editText = new EditText(this);
-        editText.setText("http://60.190.166.138:8080");
+        editText.setText("http://115.238.228.2:8000");
         new AlertDialog.Builder(this)
                 .setTitle("设置服务器地址")
                 .setCancelable(false)
                 .setView(editText)
                 .setPositiveButton("确定", (dialog, which) -> {
                     String host = editText.getText().toString();
-                    String url = host + "/?idCard=" + idNum;
+                    String url = host + "/jtys/?idCard=" + idNum;
                     FamilyDoctorActivity.actionStart(MainActivity.this, url);
                 })
                 .setNegativeButton("取消", null)
