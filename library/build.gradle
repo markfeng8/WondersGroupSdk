@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 35
-        versionName "1.8.15"
+        versionCode 36
+        versionName "1.8.16"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -81,9 +81,9 @@ dependencies {
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
 
     // 微信 jar 不打进 aar 包
-    compileOnly files('libs/libammsdk.jar')
+    //compileOnly files('libs/libammsdk.jar')
     // jar 包会自动打进 aar 包中
-    //implementation files('libs/libammsdk.jar')
+    implementation files('libs/libammsdk.jar')
     implementation files('libs/WDPay-3.6.0.jar')
     implementation files('libs/UPPayAssistEx.jar')
     implementation files('libs/UPPayPluginExPro.jar')
@@ -155,7 +155,7 @@ artifacts {
 }
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.15'
+def releaseVersion = '0.1.16'
 
 publish {
     // bintray 仓库名

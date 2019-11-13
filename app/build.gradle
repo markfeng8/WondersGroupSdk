@@ -99,7 +99,7 @@ dependencies {
 
     implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
     implementation(name: 'zj_essc_sdk-2.0.2', ext: 'aar')
-    //implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.8'
+    //implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.16'
     implementation project(':library')
 }
 
