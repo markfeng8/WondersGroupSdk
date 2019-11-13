@@ -288,7 +288,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if ("01".equals(mobPayStatus)) {
                 PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
             } else {
-                WToastUtil.show("您未开通电子社保卡，请先开通！");
+                WToastUtil.show(mContext.getString(R.string.wonders_group_electronic_card_closed));
             }
         }
 

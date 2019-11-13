@@ -246,7 +246,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         if ("0".equals(cardType)) {
             String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             if (!"01".equals(mobPayStatus)) {
-                WToastUtil.show("您未开通医保移动支付，请先开通！");
+                WToastUtil.show(getString(R.string.wonders_group_electronic_card_closed));
                 return;
             }
         }
@@ -344,6 +344,9 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
             // 01 已签约
         } else if ("01".equals(eleCardStatus)) {
             setEleCardState(false);
+            // 02 无数据的情况
+        } else if ("02".equals(eleCardStatus)) {
+            setEleCardState(true);
         }
     }
 

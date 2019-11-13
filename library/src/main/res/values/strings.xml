@@ -125,4 +125,5 @@
     <string name="wonders_settle_failed2">医保结算失败，您可返回订单重新支付。</string>
     <string name="wonders_self_failed2">结算失败，您可返回订单重新支付。</string>
     <string name="wonders_group_settle_failed_repay">结算失败，您可返回首页重新支付。</string>
+    <string name="wonders_group_electronic_card_closed">您未开通电子社保卡，请先开通！</string>
 </resources>
