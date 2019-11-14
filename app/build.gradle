@@ -9,11 +9,11 @@ bugly {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-def appVersionCode = 130 // code 每次 + 1 递增
-def appVersionName = '2.11.12' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
+def appVersionCode = 131 // code 每次 + 1 递增
+def appVersionName = '2.11.14' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
 
 static def getUpdateDescription() {
-    return '1.修改title;\n2.代码优化;'
+    return '1.上传新版本;\n2.代码优化;'
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,7 +130,8 @@ def readProperties(key) {
 
 task("uploadApk") {
     doLast {
-        def command = "curl -F \"file=@${getApkFullPath()}\" -F \"uKey=${readProperties('pgyer.userKey')}\" -F \"_api_key=${readProperties('pgyer.apiKey')}\" -F \"buildUpdateDescription=${getUpdateDescription()}\" https://www.pgyer.com/apiv2/app/upload"
+        //def command = "curl -F \"file=@${getApkFullPath()}\" -F \"uKey=${readProperties('pgyer.userKey')}\" -F \"_api_key=${readProperties('pgyer.apiKey')}\" -F \"buildUpdateDescription=${getUpdateDescription()}\" https://www.pgyer.com/apiv2/app/upload"
+        def command = "curl -F \"file=@${getApkFullPath()}\" -F \"_api_key=${readProperties('pgyer.apiKey')}\" -F \"buildInstallType=4\" -F \"buildInstallQuestoin=1+1=?\" -F \"buildInstallAnswer=2\" -F \"buildUpdateDescription=${getUpdateDescription()}\" https://www.pgyer.com/apiv2/app/upload"
         exeCommand(command)
     }
 }
