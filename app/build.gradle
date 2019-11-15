@@ -9,8 +9,8 @@ bugly {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-def appVersionCode = 131 // code 每次 + 1 递增
-def appVersionName = '2.11.14' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
+def appVersionCode = 133 // code 每次 + 1 递增
+def appVersionName = '2.11.16' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
 
 static def getUpdateDescription() {
     return '1.上传新版本;\n2.代码优化;'
