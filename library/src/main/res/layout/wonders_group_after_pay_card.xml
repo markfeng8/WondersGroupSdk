@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/tvAfterPayState"
-                android:layout_width="128dp"
+                android:layout_width="144dp"
                 android:layout_height="32dp"
                 android:background="@drawable/wonders_group_open_state_selector"
                 android:drawableStart="@drawable/wonders_group_already_open"
@@ -65,7 +65,7 @@
 
             <TextView
                 android:id="@+id/tvMobilePayState"
-                android:layout_width="128dp"
+                android:layout_width="144dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="@dimen/wonders_margin_8dp"
                 android:background="@drawable/wonders_group_open_state_selector"
