@@ -119,6 +119,10 @@
             android:name="org.simalliance.openmobileapi"
             android:required="false" />
 
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name="cn.wd.checkout.api.WDUnionPaymentActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

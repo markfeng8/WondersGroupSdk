@@ -135,7 +135,6 @@ public class WdCommonPayUtils {
                 emitter.onComplete();
             };
 
-            CheckOut.setIsPrint(true);
             // 设置统一支付回调地址
             CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDK_TO_BILL);
             String describe = "药品费";
