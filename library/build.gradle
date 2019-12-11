@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 37
-        versionName "1.8.17"
+        versionCode 38
+        versionName "1.8.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -148,7 +148,7 @@ artifacts {
 }
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.17'
+def releaseVersion = '0.1.18'
 
 publish {
     // bintray 仓库名

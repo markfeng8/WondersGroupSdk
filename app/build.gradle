@@ -9,8 +9,8 @@ bugly {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-def appVersionCode = 133 // code 每次 + 1 递增
-def appVersionName = '2.11.16' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
+def appVersionCode = 134 // code 每次 + 1 递增
+def appVersionName = '2.12.11' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
 
 static def getUpdateDescription() {
     return '1.上传新版本;\n2.代码优化;'
@@ -100,7 +100,7 @@ dependencies {
     implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
     implementation(name: 'zj_essc_sdk-2.0.2', ext: 'aar')
     implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
-    //implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.17'
+    //implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.18'
     implementation project(':library')
 }
 
