@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
@@ -27,7 +28,6 @@ import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.ui.familydoctor.FamilyDoctorActivity;
-import com.wondersgroup.android.sdk.utils.WToastUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(idNum)) {
                     showAlertDialog(idNum);
                 } else {
-                    WToastUtil.show("身份证号码不能为空！");
+                    Toast.makeText(MainActivity.this, "身份证号码不能为空！", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btnElectronicCard:
