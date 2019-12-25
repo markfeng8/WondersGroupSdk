@@ -17,11 +17,10 @@ import com.wondersgroup.android.sdk.entity.JsInvokeBean;
 import com.wondersgroup.android.sdk.ui.paymentdetails.view.PaymentDetailsActivity;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
-import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 /**
  * Created by x-sir on 2019-12-12 :)
- * Function:
+ * Function:统一支付工具类
  */
 public class PaymentUtils {
 
@@ -36,7 +35,6 @@ public class PaymentUtils {
     public static void toPay(Context context, String json) {
         if (!TextUtils.isEmpty(json)) {
             LogUtil.json(TAG, json);
-            WToastUtil.showLong(json);
 
             JsInvokeBean jsInvokeBean = new Gson().fromJson(json, JsInvokeBean.class);
             String name = jsInvokeBean.getName();
