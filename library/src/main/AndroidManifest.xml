@@ -113,7 +113,6 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- alipay sdk end -->
 
-
         <!-- 银联支付 -->
         <uses-library
             android:name="org.simalliance.openmobileapi"

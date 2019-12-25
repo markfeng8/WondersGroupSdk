@@ -115,7 +115,7 @@
 五、本协议在您同意后生效，并为您启用“医后付”服务。
 </string>
     <string name="wonders_after_pay_home_notice">温馨提示：\n
-        1.开通医后付，可在湖州五家市级医院及南浔四家区级医院享受“先看病后付费”服务。\n
+        1.开通医后付，可在湖州市二级以上公立医院享受“先看病后付费”服务。\n
         2.申领电子社保卡，通过刷脸认证并设置支付密码后，享受在线医保支付服务。</string>
     <string name="wonders_group_select_pay_type">选择支付方式</string>
     <string name="wonders_group_personal_pay_back_notice">确定要放弃医保部分支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，现金部分将原路返回。</string>
