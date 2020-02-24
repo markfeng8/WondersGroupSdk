@@ -31,29 +31,6 @@ public class SignUtil {
     private static final String TAG = SignUtil.class.getSimpleName();
     private static final String SIGN = "sign";
 
-    private static final String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCm/lee01uUd5kChouKJC9eg4wQ\n" +
-            "xshspcD5GKUYuhkEK68zztqtGYYbFWeAxPpVbOf29+FgxUv5DIzRTU7AQFVF775z\n" +
-            "laGqVXBp1CZ6exV4yk/5v3CpHc4jNetH8YM+7tVXNkSoYajXQ2gdd6FG2rm7IF2z\n" +
-            "fLOEmxq17n5yG8m8pwIDAQAB";
-
-    /**
-     * 测试环境公钥
-     */
-//    private static final String PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKb+V57TW5R3mQKG\n" +
-//            "i4okL16DjBDGyGylwPkYpRi6GQQrrzPO2q0ZhhsVZ4DE+lVs5/b34WDFS/kMjNFN\n" +
-//            "TsBAVUXvvnOVoapVcGnUJnp7FXjKT/m/cKkdziM160fxgz7u1Vc2RKhhqNdDaB13\n" +
-//            "oUbaubsgXbN8s4SbGrXufnIbybynAgMBAAECgYAQKj7BGSScUpd1LyEC1k3fkExW\n" +
-//            "s2djXQg5FLGmmx0g0jm7giKY7weUR5YlWOwCqPArcANZIsAf858OA7XD1nZqjqqU\n" +
-//            "HSauvtIC6+skhTSLd55xHd3vUb8VNkxPvJh7Geg3FFBsSdBh/GMB29yIGHe7TY2O\n" +
-//            "p8Dyu4WPjVIL5/8wQQJBANCYNdLdpgMxbguDQ8+yZKlcc5WNWKmQL8wf5Kx9ngFG\n" +
-//            "53lP7Ui0Dfqm9OsYmZFKx4jZTa8PBZWWlukrefef6QsCQQDM8dTairg8Q27K+bZ+\n" +
-//            "eK5FWnm48ASaZliQJi5KLavOwRSEzfeywU3FzxxTyB0a9CBAUd4AqjTqEG0HMlCD\n" +
-//            "RZRVAkEAx3qYFlRS20Dc/POF2My/yNqZyk4GmPlDTFC/rVjfzlbRK8kMoPdXWvlo\n" +
-//            "xJ6c1T4O/UbaLGwQKhJ9tPQXyn/JKwJAce29tf+Hi3ixDoTivku4FTXGlNhYtrxO\n" +
-//            "X1PaR8I70CPllC4rlGOBKIWJ6clE5MbxZtAb6aK056lZ8rY1q8PyQQJBAMfYLfrr\n" +
-//            "8j6Fs+srS2+U7pFU53RHCjh9/m66toReaD8J1bRwAtnHBxjOTZGyfYsBjEvGu5kV\n" +
-//            "H2+8MYkh52Mv1TI=";
-
     /**
      * 正式环境公钥
      */

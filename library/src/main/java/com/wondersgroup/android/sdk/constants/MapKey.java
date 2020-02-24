@@ -18,6 +18,10 @@ public class MapKey {
      * 证件号码
      */
     public static final String ID_NO = "id_no";
+    /**
+     * 加密的证件号码
+     */
+    public static final String SIGN_ID_NO = "signIdNo";
     public static final String CARD_NO = "card_no";
     public static final String CARD_TYPE = "card_type";
     public static final String TRAN_CHL = "tran_chl";

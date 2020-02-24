@@ -18,10 +18,12 @@ import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.afterpayhome.contract.AfterPayHomeContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
+import com.wondersgroup.android.sdk.utils.RSAUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
 import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -50,6 +52,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TRAN_CODE, TranCode.TRAN_XY0001);
         map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
         map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         // 此处时为了判断是否已经请求过一次，是否将 sign 加入 map 中，第二次请求时需要剔除 sign，因为 sign 不参与签名！
         if (map.containsKey(MapKey.SIGN)) {
@@ -75,7 +78,8 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
-        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(mIdNum));
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.CARD_TYPE, cardType);
         map.put(MapKey.CARD_NO, cardNum);
         map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
@@ -105,7 +109,8 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
-        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(mIdNum));
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.CARD_TYPE, cardType);
         map.put(MapKey.CARD_NO, cardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);

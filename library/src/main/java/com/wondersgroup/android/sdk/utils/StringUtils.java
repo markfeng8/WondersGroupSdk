@@ -12,21 +12,21 @@ import android.text.TextUtils;
 
 /**
  * Created by x-sir on 2019-08-22 :)
- * Function:
+ * Function:字符串处理工具类
  */
 public class StringUtils {
 
     /**
-     * 获取打马赛克的身份证号码
+     * 获取打马赛克的身份证号码(格式:452************026)
      *
      * @param idNum 身份证号码
      * @return result
      */
     public static String getMosaicIdNum(String idNum) {
         if (!TextUtils.isEmpty(idNum) && idNum.length() == 18) {
-            String start = idNum.substring(0, 6);
-            String end = idNum.substring(idNum.length() - 4);
-            return start + "****" + end;
+            String start = idNum.substring(0, 3);
+            String end = idNum.substring(idNum.length() - 3);
+            return start + "************" + end;
         } else {
             return "";
         }

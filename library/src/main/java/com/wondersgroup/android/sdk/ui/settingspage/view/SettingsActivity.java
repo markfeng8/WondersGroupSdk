@@ -24,6 +24,7 @@ import com.wondersgroup.android.sdk.ui.settingspage.presenter.SettingsPresenter;
 import com.wondersgroup.android.sdk.utils.BrightnessManager;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -118,7 +119,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
         mSignDate = SpUtil.getInstance().getString(SpKey.SIGN_DATE, "");
 
         tvName.setText(mName);
-        tvIcNum.setText(mIdNo);
+        tvIcNum.setText(StringUtils.getMosaicIdNum(mIdNo));
         tvPhone.setText(mPhone);
         tvSignDate.setText(mSignDate);
 
@@ -245,7 +246,7 @@ public class SettingsActivity extends MvpBaseActivity<SettingsContract.IView,
                 if (!TextUtils.isEmpty(verifyCode)) {
                     HashMap<String, String> param = new HashMap<>();
                     param.put(MapKey.IDEN_CODE, verifyCode);
-                    param.put(MapKey.ID_NO, mIdNo);
+                    param.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(mIdNo));
                     param.put(MapKey.CARD_NO, mCardNo);
                     // 修改手机号
                     if (mPopupWindowFlag == 1) {

@@ -16,6 +16,7 @@ import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.ui.afterpayhome.view.AfterPayHomeActivity;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 import com.wondersgroup.android.sdk.utils.WToastUtil;
 
 import java.util.HashMap;
@@ -101,7 +102,7 @@ public class AfterPayBusiness extends AbstractBusiness {
         map.put(MapKey.NAME, builder.getName());
         map.put(MapKey.PHONE, builder.getPhone());
         map.put(MapKey.ID_TYPE, builder.getIdType());
-        map.put(MapKey.ID_NO, builder.getIdNum());
+        map.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(builder.getIdNum().toUpperCase(Locale.US)));
         map.put(MapKey.CARD_TYPE, builder.getCardType());
         map.put(MapKey.CARD_NO, builder.getCardNum());
         map.put(MapKey.HOME_ADDRESS, builder.getAddress());

@@ -14,6 +14,7 @@ import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.settingspage.contract.SettingsContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
+import com.wondersgroup.android.sdk.utils.RSAUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
 import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
@@ -27,12 +28,14 @@ import java.util.HashMap;
  */
 public class SettingsModel implements SettingsContract.IModel {
 
+    private String mIdNum;
     private String mCardType;
     private BusinessService mService;
 
     public SettingsModel() {
         mCardType = SpUtil.getInstance().getString(SpKey.CARD_TYPE, "");
         mService = RetrofitHelper.getInstance().createService(BusinessService.class);
+        mIdNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
     }
 
     @Override
@@ -44,6 +47,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.CARD_TYPE, mCardType);
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         mService.updatePhone(RequestUrl.XY0003, map)
@@ -78,6 +82,7 @@ public class SettingsModel implements SettingsContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.REG_ORG_CODE, OrgConfig.ORG_CODE);
         map.put(MapKey.CARD_TYPE, mCardType);
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         mService.updatePhone(RequestUrl.XY0004, map)

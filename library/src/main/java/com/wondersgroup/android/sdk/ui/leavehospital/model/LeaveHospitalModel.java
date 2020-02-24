@@ -23,10 +23,12 @@ import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
+import com.wondersgroup.android.sdk.utils.RSAUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
 import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -61,7 +63,8 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
         param.put(MapKey.CARD_TYPE, cardType);
-        param.put(MapKey.ID_NO, idNum);
+        param.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(idNum));
+        param.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(idNum));
         param.put(MapKey.TOKEN, token);
         param.put(MapKey.ADVICE_DATE_TIME, DateUtils.getCurrentDateTime());
         param.put(MapKey.SIGN, SignUtil.getSign(param));
@@ -92,7 +95,8 @@ public class LeaveHospitalModel implements LeaveHospitalContract.IModel {
         param.put(MapKey.JZLSH, jzlsh);
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
-        param.put(MapKey.ID_NO, idNum);
+        param.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(idNum));
+        param.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(idNum));
         param.put(MapKey.TOKEN, token);
         param.put(MapKey.ADVICE_DATE_TIME, DateUtils.getCurrentDateTime());
         param.put(MapKey.XXJJE, xxjje);

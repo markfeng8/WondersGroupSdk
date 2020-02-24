@@ -21,10 +21,12 @@ import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.daydetailedlist.contract.DayDetailedListContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
+import com.wondersgroup.android.sdk.utils.RSAUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
 import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -56,7 +58,8 @@ public class DayDetailedListModel implements DayDetailedListContract.IModel {
         param.put(MapKey.JZLSH, jzlsh);
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
-        param.put(MapKey.ID_NO, idNum);
+        param.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(idNum));
+        param.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(idNum));
         param.put(MapKey.START_DATE, startDate);
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 

@@ -1,7 +1,5 @@
 package com.wondersgroup.android.healthcity_sdk;
 
-import android.content.Context;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.tencent.bugly.crashreport.CrashReport;
@@ -27,11 +25,5 @@ public class MyApplication extends MultiDexApplication {
 
         // 测试阶段建议设置成 true，发布时设置为 false
         CrashReport.initCrashReport(getApplicationContext(), "0010f85d4e", BuildConfig.DEBUG);
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 }

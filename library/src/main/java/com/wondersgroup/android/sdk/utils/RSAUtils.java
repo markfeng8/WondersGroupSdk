@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -60,6 +61,14 @@ public final class RSAUtils {
      * 当加密的数据超过DEFAULT_BUFFER_SIZE，则使用分段加密
      */
     private static final byte[] DEFAULT_SPLIT = "#PART#".getBytes();
+
+    /**
+     * 身份证号加密公钥
+     */
+    private static final String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC2I1saGXWFrGpGXQHkQaIFSqq\n" +
+            "uewNrWVzXH4bfsQDSPVBf8CO1ZQ2jwvy6wdr8k1QlFuKSv/p9DMBrt5rN2vH2ema\n" +
+            "KpUDh7zXAQf+wl9M1calFKVT2oPZTN70G1KOcMmzhGE4xPbpxdlD2ZvwtSTrXoQS\n" +
+            "o8GGFs6N8CI/Q/dtqQIDAQAB";
 
     /**
      * 随机生成 RSA 密钥对(默认密钥长度为1024)
@@ -122,9 +131,31 @@ public final class RSAUtils {
     }
 
     /**
+     * 加密方法 source： 源数据
+     */
+    public static String encrypt(String source) {
+        Key key = null;
+        byte[] b1 = new byte[1024];
+        try {
+            key = getPublicKey();
+            /** 得到Cipher对象来实现对源数据的RSA加密 */
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] b = source.getBytes();
+            /** 执行加密操作 */
+            b1 = cipher.doFinal(b);
+
+        } catch (Exception e) {
+            LogUtil.e("RSAUtils", "encrypt(RSAUtils.java:90)" + "加密异常");
+            e.printStackTrace();
+        }
+        return Base64Utils.encode(b1);
+    }
+
+    /**
      * 公钥加密
      *
-     * @param data data
+     * @param data       data
      * @param privateKey privateKey
      * @return result
      */
@@ -297,7 +328,7 @@ public final class RSAUtils {
      * @param keyBytes keyBytes
      * @return result
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
-     * @throws InvalidKeySpecException InvalidKeySpecException
+     * @throws InvalidKeySpecException  InvalidKeySpecException
      */
     public static PublicKey getPublicKey(byte[] keyBytes) throws NoSuchAlgorithmException,
             InvalidKeySpecException {
@@ -308,12 +339,25 @@ public final class RSAUtils {
     }
 
     /**
+     * 得到公钥
+     *
+     * @throws Exception
+     */
+    public static PublicKey getPublicKey() throws Exception {
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(
+                Base64Utils.decode(PUBLIC_KEY));
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PublicKey publicKey = keyFactory.generatePublic(keySpec);
+        return publicKey;
+    }
+
+    /**
      * 通过私钥byte[]将公钥还原，适用于RSA算法
      *
      * @param keyBytes byte[]
      * @return result
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
-     * @throws InvalidKeySpecException InvalidKeySpecException
+     * @throws InvalidKeySpecException  InvalidKeySpecException
      */
     public static PrivateKey getPrivateKey(byte[] keyBytes) throws NoSuchAlgorithmException,
             InvalidKeySpecException {
@@ -326,11 +370,11 @@ public final class RSAUtils {
     /**
      * 使用N、e值还原公钥
      *
-     * @param modulus modulus
+     * @param modulus        modulus
      * @param publicExponent publicExponent
      * @return result
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
-     * @throws InvalidKeySpecException InvalidKeySpecException
+     * @throws InvalidKeySpecException  InvalidKeySpecException
      */
     public static PublicKey getPublicKey(String modulus, String publicExponent)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -345,11 +389,11 @@ public final class RSAUtils {
     /**
      * 使用N、d值还原私钥
      *
-     * @param modulus modulus
+     * @param modulus         modulus
      * @param privateExponent privateExponent
      * @return result
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
-     * @throws InvalidKeySpecException InvalidKeySpecException
+     * @throws InvalidKeySpecException  InvalidKeySpecException
      */
     public static PrivateKey getPrivateKey(String modulus, String privateExponent)
             throws NoSuchAlgorithmException, InvalidKeySpecException {

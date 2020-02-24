@@ -25,10 +25,12 @@ import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
 import com.wondersgroup.android.sdk.utils.LogUtil;
+import com.wondersgroup.android.sdk.utils.RSAUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
 import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -72,7 +74,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
-        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(mIdNum));
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
@@ -94,7 +97,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
         map.put(MapKey.NAME, mName);
         map.put(MapKey.ID_TYPE, mIdType);
-        map.put(MapKey.ID_NO, mIdNum);
+        map.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(mIdNum));
+        map.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(mIdNum));
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.TOTAL_COUNT, String.valueOf(totalCount));

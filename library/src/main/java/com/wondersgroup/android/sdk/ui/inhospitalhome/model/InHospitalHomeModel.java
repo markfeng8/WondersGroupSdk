@@ -21,10 +21,12 @@ import com.wondersgroup.android.sdk.net.callback.HttpRequestCallback;
 import com.wondersgroup.android.sdk.net.service.BusinessService;
 import com.wondersgroup.android.sdk.ui.inhospitalhome.contract.InHospitalHomeContract;
 import com.wondersgroup.android.sdk.utils.DateUtils;
+import com.wondersgroup.android.sdk.utils.RSAUtils;
 import com.wondersgroup.android.sdk.utils.RandomUtils;
 import com.wondersgroup.android.sdk.utils.RxThreadUtils;
 import com.wondersgroup.android.sdk.utils.SignUtil;
 import com.wondersgroup.android.sdk.utils.SpUtil;
+import com.wondersgroup.android.sdk.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -56,7 +58,8 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         param.put(MapKey.ORG_CODE, orgCode);
         param.put(MapKey.NAME, name);
         param.put(MapKey.ID_TYPE, idType);
-        param.put(MapKey.ID_NO, idNum);
+        param.put(MapKey.ID_NO, StringUtils.getMosaicIdNum(idNum));
+        param.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(idNum));
         param.put(MapKey.PHONE, phone);
         param.put(MapKey.IN_STATE, inState);
         param.put(MapKey.START_DATE, "2018-01-01");
