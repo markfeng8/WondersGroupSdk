@@ -25,7 +25,7 @@ import cn.com.epsoft.zjessc.ZjEsscSDK;
 public class WondersSdk {
 
     private static final String TAG = "WondersSdk";
-    private static final String CHANNEL_NO = "3305000003";
+    private static final String CHANNEL_NO = "3309000201";
     private static final String TEST = "test";
 
     private WondersSdk() {
@@ -44,7 +44,7 @@ public class WondersSdk {
         // 处理过渡到加密数据
         SpUtil.getInstance().handleTransition();
         //initEpSoft(context, getIsDebug(option));
-        initEpSoft(context, false);
+        initEpSoft(context, true);
         initLogger(getIsDebug(option));
         LogUtil.i(TAG, "WondersSdk initialize success~");
     }

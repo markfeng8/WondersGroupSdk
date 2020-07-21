@@ -1,5 +1,6 @@
 package com.wondersgroup.android.sdk.ui.paymentdetails.model;
 
+import android.nfc.tech.NfcA;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -203,6 +204,14 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.SYS_ID, OrgConfig.YIBAO_SYS_ID);
         map.put(MapKey.CERT_NO, mIdNum);
         map.put(MapKey.NAME, mName);
+
+        //舟山新增
+        map.put(MapKey.MSCODE,"8502");
+        map.put(MapKey.HICODE,"");
+        map.put(MapKey.QDCODE,"01");
+        map.put(MapKey._AAC002,mIdNum);
+        map.put(MapKey._AAC003,mName);
+        map.put(MapKey.AAZ501,"01");
 
         if (OrgConfig.SRY.equals(businessType)) {
             map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_SMS);

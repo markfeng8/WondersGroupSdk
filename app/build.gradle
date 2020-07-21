@@ -109,7 +109,7 @@ def getApkFullPath() {
 }
 
 def getApkName() {
-    return "HZ-SDK-example-V${android.defaultConfig.versionName}-${releaseTime()}.apk"
+    return "ZS-SDK-example-V${android.defaultConfig.versionName}-${releaseTime()}.apk"
 }
 
 static def releaseTime() {
