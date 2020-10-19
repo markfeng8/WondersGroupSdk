@@ -163,15 +163,17 @@ public class FamilyDoctorActivity extends AppCompatActivity {
                 String orgName = jsInvokeBean.getOrgName();
                 String idType = jsInvokeBean.getIdType();
                 String idNum = jsInvokeBean.getIdNum();
+                String hiCode = jsInvokeBean.getHiCode();
 
                 SpUtil.getInstance().save(SpKey.NAME, name);
                 SpUtil.getInstance().save(SpKey.CARD_TYPE, cardType);
                 SpUtil.getInstance().save(SpKey.CARD_NUM, cardNum);
                 SpUtil.getInstance().save(SpKey.ID_TYPE, idType);
                 SpUtil.getInstance().save(SpKey.ID_NUM, idNum);
+                SpUtil.getInstance().save(SpKey.HI_CODE,hiCode);
 
                 PaymentDetailsActivity.actionStart(
-                        FamilyDoctorActivity.this, orgCode, orgName, false);
+                        FamilyDoctorActivity.this, orgCode, orgName, hiCode,false);
             }
         }
 

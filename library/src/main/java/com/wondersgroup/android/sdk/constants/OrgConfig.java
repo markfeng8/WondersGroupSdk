@@ -78,15 +78,15 @@ public class OrgConfig {
     /**
      * 结算
      */
-    public static final String SRJ = "SRJ";
+    public static final String SRJ = "02";
     /**
      * 预结算
      */
-    public static final String SRY = "SRY";
+    public static final String SRY = "01";
     /**
      * 退费
      */
-    public static final String SRT = "SRT";
+    public static final String SRT = "03";
     /**
      * 业务系统编号(1001 代表医保系统)
      */

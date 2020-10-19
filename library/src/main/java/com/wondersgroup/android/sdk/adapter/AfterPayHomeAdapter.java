@@ -162,6 +162,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private LinearLayout llToPayFee;
         private String orgCode;
         private String orgName;
+        private String hiCode;
 
         HeaderViewHolder(View itemView) {
             super(itemView);
@@ -286,7 +287,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private void requestYd0003() {
             String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             if ("01".equals(mobPayStatus)) {
-                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, false);
+                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, hiCode,false);
             } else {
                 WToastUtil.show(mContext.getString(R.string.wonders_group_electronic_card_closed));
             }
@@ -302,6 +303,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String hospitalName = afterHeaderBean.getHospitalName();
                 orgCode = afterHeaderBean.getOrgCode();
                 orgName = afterHeaderBean.getOrgName();
+                hiCode = afterHeaderBean.getHiCode();
 
                 tvTreatName.setText(name);
                 if (!TextUtils.isEmpty(hospitalName)) {

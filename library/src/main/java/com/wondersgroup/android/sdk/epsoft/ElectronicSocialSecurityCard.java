@@ -115,7 +115,7 @@ public class ElectronicSocialSecurityCard {
         map.put(MapKey.AAC002, idNum);
         map.put(MapKey.AAC003, name);
         //map.put(MapKey.AAB301, "330500");
-        map.put(MapKey.AAB301, "330900");
+        map.put(MapKey.AAB301, "330999");
         map.put(MapKey.SIGN_NO, signNo);
         map.put(MapKey.IS_INDEP, "1");
 

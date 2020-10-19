@@ -94,4 +94,8 @@ public class SpKey {
      * 电子社保卡操作串
      */
     public static final String BUSI_SEQ = "busiSeq";
+    /**
+     * 医院前置机分配的医院编码
+     */
+    public static final String HI_CODE = "hi_code";
 }

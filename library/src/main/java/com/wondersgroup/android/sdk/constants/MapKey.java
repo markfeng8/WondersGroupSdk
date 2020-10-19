@@ -182,7 +182,7 @@ public class MapKey {
     /**
      * 业务类型
      */
-    public static final String SER_TYPE = "serType";
+    public static final String SER_TYPE = "SERTYPE";
     /**
      * 业务系统编号
      */

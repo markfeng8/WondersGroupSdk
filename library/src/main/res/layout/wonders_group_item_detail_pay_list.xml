@@ -78,7 +78,7 @@
         <ImageView
             android:id="@+id/ivArrow"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="19dp"
             android:layout_marginStart="@dimen/wonders_margin_4dp"
             android:src="@drawable/wonders_group_down_arrow" />
     </LinearLayout>

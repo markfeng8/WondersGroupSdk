@@ -21,12 +21,13 @@ public class JsInvokeBean {
     private String cardNum;
     private String idType;
     private String idNum;
+    private String hiCode;
 
     public JsInvokeBean() {
     }
 
     public JsInvokeBean(String name, String orgCode, String orgName, String cardType, String cardNum,
-                        String idType, String idNum) {
+                        String idType, String idNum, String hiCode) {
         this.name = name;
         this.orgCode = orgCode;
         this.orgName = orgName;
@@ -34,6 +35,7 @@ public class JsInvokeBean {
         this.cardNum = cardNum;
         this.idType = idType;
         this.idNum = idNum;
+        this.hiCode = hiCode;
     }
 
     public String getName() {
@@ -90,5 +92,13 @@ public class JsInvokeBean {
 
     public void setIdNum(String idNum) {
         this.idNum = idNum;
+    }
+
+    public String getHiCode() {
+        return hiCode;
+    }
+
+    public void setHiCode(String hiCode) {
+        this.hiCode = hiCode;
     }
 }

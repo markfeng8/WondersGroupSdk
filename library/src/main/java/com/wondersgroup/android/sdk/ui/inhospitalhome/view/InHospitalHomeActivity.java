@@ -78,6 +78,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
      */
     private String mOrgName = "湖州市中心医院";
     private String mOrgCode;
+    private String mHiCode; //医院前置机分配的医院编码
     /**
      * 选择器默认的地区
      */
@@ -201,6 +202,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
                 mAreaName = cityBean.getArea_name();
                 mOrgCode = hospitalBean.getOrg_code();
                 mOrgName = hospitalBean.getOrg_name();
+                mHiCode = hospitalBean.getHi_code();
                 tvHospitalName.setText(mOrgName);
                 requestCY0001();
             }
@@ -254,7 +256,7 @@ public class InHospitalHomeActivity extends MvpBaseActivity<InHospitalHomeContra
         LogUtil.i(TAG, "mInState===" + mInState);
         if ("01".equals(mInState) && viewGroup.getVisibility() == View.VISIBLE) {
             LeaveHospitalActivity.actionStart(InHospitalHomeActivity.this,
-                    mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea
+                    mOrgCode, mOrgName, mInHosId, mInHosDate, mInHosArea,mHiCode
             );
         } else {
             WToastUtil.show("您当前不是预出院状态！");

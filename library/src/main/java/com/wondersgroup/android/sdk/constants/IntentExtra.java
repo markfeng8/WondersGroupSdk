@@ -9,6 +9,7 @@ public class IntentExtra {
     public static final String SERIALIZABLE_DETAILS_BEAN = "SerializableDetailsBean";
     public static final String ORG_CODE = "orgCode";
     public static final String ORG_NAME = "orgName";
+    public static final String HI_CODE = "hicode";
     public static final String IN_HOS_AREA = "inHosArea";
     public static final String IN_HOS_DATE = "inHosDate";
     public static final String IN_HOS_ID = "inHosId";

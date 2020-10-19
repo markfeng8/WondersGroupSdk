@@ -31,7 +31,7 @@ public class EleCardTokenEntity implements Serializable {
      * sex : 1
      */
 
-    private String code;
+    private String result_code;
     private String errCode;
     private String msg;
     private String serType;
@@ -63,11 +63,11 @@ public class EleCardTokenEntity implements Serializable {
     }
 
     public String getCode() {
-        return code;
+        return result_code;
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.result_code = code;
     }
 
     public String getErrCode() {
@@ -156,5 +156,25 @@ public class EleCardTokenEntity implements Serializable {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "EleCardTokenEntity{" +
+                "code='" + result_code + '\'' +
+                ", errCode='" + errCode + '\'' +
+                ", msg='" + msg + '\'' +
+                ", serType='" + serType + '\'' +
+                ", sysId='" + sysId + '\'' +
+                ", cardNo='" + cardNo + '\'' +
+                ", channelNo='" + channelNo + '\'' +
+                ", signLevel='" + signLevel + '\'' +
+                ", areaCode='" + areaCode + '\'' +
+                ", certNo='" + certNo + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", token='" + token + '\'' +
+                ", expiresIn='" + expiresIn + '\'' +
+                '}';
     }
 }
