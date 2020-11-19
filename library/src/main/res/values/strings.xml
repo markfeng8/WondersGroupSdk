@@ -69,7 +69,7 @@
     <string name="wonders_already_open">已开通</string>
     <string name="wonders_rule_instruction">我已认真阅读并同意《“医后付”服务协议书》了解“先诊疗后付费”的违约对个人信用有影响。</string>
     <string name="wonders_open_afterpay_success">恭喜您已成功开通“医后付”服务</string>
-    <string name="wonder_open_afterpay_success_copyrighter">您可在湖州市中心医院、湖州市第一人民医院、湖州市第三人民医院、湖州市妇幼保健院、湖州市中医院及南浔区人民医院、南浔区双林人民医院、南浔区练市人民院、南浔区中医院这9家医院享受‘医后付’服务，无需再签约。</string>
+    <string name="wonder_open_afterpay_success_copyrighter">您可在舟山市妇幼保健院、舟山市中医院这2家医院享受‘医后付’服务，无需再签约。</string>
     <string name="wonders_wenxin_toast">尊敬的用户，当天看完病后记得一次性把所有费用付清。</string>
     <string name="wonders_back_to_afterpay_home">返回医后付首页</string>
     <string name="wonders_back_to_home_page">返回首页</string>
@@ -116,7 +116,7 @@
 五.本协议在您同意后生效，并为您启用“医后付”服务。\n
 </string>
     <string name="wonders_after_pay_home_notice">温馨提示：\n
-        1.开通医后付，可在湖州市二级以上公立医院享受“先看病后付费”服务。\n
+        1.开通医后付，可在舟山市妇幼保健院、舟山市中医院二级以上公立医院享受“先看病后付费”服务。\n
         2.申领电子社保卡，通过刷脸认证并设置支付密码后，享受在线医保支付服务。</string>
     <string name="wonders_group_select_pay_type">选择支付方式</string>
     <string name="wonders_group_personal_pay_back_notice">确定要放弃医保部分支付吗？放弃支付不会取消订单，如果要继续支付请至未完成订单中进行。30分钟内未完成，现金部分将原路返回。</string>

@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 42
-        versionName "1.8.22"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -148,23 +148,23 @@ artifacts {
 }
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.22'
+def releaseVersion = '1.0.0'
 
 publish {
     // bintray 仓库名
-    repoName = 'WondersGroupSdk'
+    repoName = 'WondersGroupZhouShanSdk'
     // bintray 注册的用户名
     userOrg = 'wondersgroupandroid863'
     // implementation 引用时的第 1 部分 groupId
     groupId = 'com.wondersgroup.android'
     // implementation 引用时的第 2 部分项目名
-    artifactId = 'WondersGroupSdk'
+    artifactId = 'WondersGroupZhouShanSdk'
     // implementation 引用时的第 3 部分版本号
     publishVersion = releaseVersion
     // 描述信息
-    desc = 'WondersGroupSdk project'
+    desc = 'WondersGroupSdk zhoushan project'
     // 此处一般为项目的地址，因为它不能识别码云的项目地址，所以此处随便填一个 github 项目地址即可
-    website = 'https://github.com/google/gson'
+    website = 'https://gitee.com/wdhealthmobileandroid/HealthCity_SDK_Wonders.git'
 }
 
 def readProperties(key) {

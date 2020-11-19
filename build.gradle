@@ -34,7 +34,7 @@ allprojects {
         flatDir { dirs 'libs', '../library/libs' }
         // 添加 bintray 私有仓库地址
         maven {
-            url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk"
+            url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupZhouShanSdk"
         }
     }
     // 项目中如果有中文文档注释需要添加如下 task
