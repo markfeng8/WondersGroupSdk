@@ -116,9 +116,9 @@ public class LeaveHospitalPresenter<T extends LeaveHospitalContract.IView>
     }
 
     @Override
-    public void applyElectronicSocialSecurityCardToken(String businessType) {
+    public void applyElectronicSocialSecurityCardToken(String businessType,String hiCode) {
         showLoading(true);
-        mPayModel.applyElectronicSocialSecurityCardToken(businessType, new HttpRequestCallback<EleCardTokenEntity>() {
+        mPayModel.applyElectronicSocialSecurityCardToken(businessType,hiCode, new HttpRequestCallback<EleCardTokenEntity>() {
             @Override
             public void onSuccess(EleCardTokenEntity eleCardTokenEntity) {
                 LogUtil.i(TAG, "applyElectronicSocialSecurityCardToken() -> onSuccess()");

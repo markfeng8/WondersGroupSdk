@@ -31,4 +31,5 @@ public class TranCode {
     public static final String TRAN_CY0006 = "cy0006";
     public static final String TRAN_CY0007 = "cy0007";
     public static final String TRAN_SIGN = "sign";
+    public static final String TRAN_GETTOKEN = "getToken";
 }

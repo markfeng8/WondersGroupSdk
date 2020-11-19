@@ -61,6 +61,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
      */
     private String mOrgName = "湖州市中心医院";
     private String mOrgCode;
+    private String mHiCode; //医院前置机分配的医院机构编码
     /**
      * 选择器默认的地区
      */
@@ -102,7 +103,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
 
     private void initListener() {
         tvPayMoney.setOnClickListener(v -> PaymentDetailsActivity.actionStart(
-                SelfPayFeeActivity.this, mOrgCode, mOrgName, false));
+                SelfPayFeeActivity.this, mOrgCode, mOrgName, mHiCode,false));
     }
 
     @Override
@@ -160,6 +161,7 @@ public class SelfPayFeeActivity extends MvpBaseActivity<SelfPayFeeContract.IView
                 mAreaName = cityBean.getArea_name();
                 mOrgCode = hospitalBean.getOrg_code();
                 mOrgName = hospitalBean.getOrg_name();
+                mHiCode = hospitalBean.getHi_code();
 
                 mSelfPayHeaderBean.setHospitalName(mOrgName);
 

@@ -100,8 +100,8 @@ dependencies {
     implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
     implementation(name: 'zj_essc_sdk-2.0.6', ext: 'aar')
     implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
-    implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.22'
-//    implementation project(':library')
+//    implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.22'
+    implementation project(':library')
 }
 
 def getApkFullPath() {
@@ -109,7 +109,7 @@ def getApkFullPath() {
 }
 
 def getApkName() {
-    return "HZ-SDK-example-V${android.defaultConfig.versionName}-${releaseTime()}.apk"
+    return "ZS-SDK-example-V${android.defaultConfig.versionName}-${releaseTime()}.apk"
 }
 
 static def releaseTime() {

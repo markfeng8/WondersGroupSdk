@@ -1,5 +1,6 @@
 package com.wondersgroup.android.sdk.ui.paymentdetails.model;
 
+import android.nfc.tech.NfcA;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -191,31 +192,53 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
     }
 
     @Override
-    public void applyElectronicSocialSecurityCardToken(String businessType, HttpRequestCallback<EleCardTokenEntity> callback) {
+    public void applyElectronicSocialSecurityCardToken(String businessType, String hiCode, HttpRequestCallback<EleCardTokenEntity> callback) {
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
-        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.FUNCTION, OrgConfig.CREATE_TOKEN);
-        map.put(MapKey.VERSION, "1.0.0");
-        map.put(MapKey.SIGN_TYPE, "RSA");
-        map.put(MapKey.RANDOM_STR, RandomUtils.getRandomStr(30));
+        //新请求参数
+        map.put(MapKey.HICODE,hiCode);
+        map.put(MapKey._AAC003,mName);
+        map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
+        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_GETTOKEN);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey._AAC002,mIdNum);
+        map.put(MapKey.MSCODE,"8502");
         map.put(MapKey.SER_TYPE, businessType);
-        map.put(MapKey.SYS_ID, OrgConfig.YIBAO_SYS_ID);
-        map.put(MapKey.CERT_NO, mIdNum);
-        map.put(MapKey.NAME, mName);
-
-        if (OrgConfig.SRY.equals(businessType)) {
-            map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_SMS);
-        } else if (OrgConfig.SRJ.equals(businessType)) {
-            map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_PWD);
-        }
-
         map.put(MapKey.SIGN_NO, signNo);
-        if (OrgConfig.SRJ.equals(businessType)) {
-            String busiSeq = SpUtil.getInstance().getString(SpKey.BUSI_SEQ, "");
-            map.put(MapKey.BUSI_SEQ, busiSeq);
-        }
-        map.put(MapKey.SIGN, SignUtil.createSignWithRsa(map));
+        map.put(MapKey.CHANNEL_NO, "01");
+        map.put(MapKey.SID, RandomUtils.getSid());
+        map.put(MapKey.QDCODE,"01");
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
+        //旧请求参数
+//        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+//        map.put(MapKey.FUNCTION, OrgConfig.CREATE_TOKEN);
+//        map.put(MapKey.VERSION, "1.0.0");
+//        map.put(MapKey.SIGN_TYPE, "RSA");
+//        map.put(MapKey.RANDOM_STR, RandomUtils.getRandomStr(30));
+//        map.put(MapKey.SER_TYPE, businessType);
+//        map.put(MapKey.SYS_ID, OrgConfig.YIBAO_SYS_ID);
+//        map.put(MapKey.CERT_NO, mIdNum);
+//        map.put(MapKey.NAME, mName);
+//        //舟山新增
+//        map.put(MapKey.MSCODE,"8502");
+//        map.put(MapKey.HICODE,"");
+//        map.put(MapKey.QDCODE,"01");
+//        map.put(MapKey._AAC002,mIdNum);
+//        map.put(MapKey._AAC003,mName);
+//        map.put(MapKey.AAZ501,"01");
+//        if (OrgConfig.SRY.equals(businessType)) {
+//            map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_SMS);
+//        } else if (OrgConfig.SRJ.equals(businessType)) {
+//            map.put(MapKey.SCENE_TYPE, OrgConfig.SCENE_TYPE_PWD);
+//        }
+//        map.put(MapKey.SIGN_NO, signNo);
+//        if (OrgConfig.SRJ.equals(businessType)) {
+//            String busiSeq = SpUtil.getInstance().getString(SpKey.BUSI_SEQ, "");
+//            map.put(MapKey.BUSI_SEQ, busiSeq);
+//        }
+//        map.put(MapKey.SIGN, SignUtil.createSignWithRsa(map));
 
         String json = new Gson().toJson(map);
         LogUtil.i(TAG, "json===" + json);
@@ -227,11 +250,12 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
                     public void onNext(Response<EleCardTokenEntity> response) {
                         int code = response.code();
                         boolean successful = response.isSuccessful();
+                        LogUtil.i(TAG, "Response<EleCardTokenEntity>===" + response.body().toString());
                         if (code == 200 && successful) {
                             EleCardTokenEntity body = response.body();
                             if (body != null) {
                                 String returnCode = body.getCode();
-                                if ("0".equals(returnCode)) {
+                                if ("SUCCESS".equals(returnCode)) {
                                     if (callback != null) {
                                         callback.onSuccess(body);
                                     }
@@ -255,6 +279,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 
                     @Override
                     public void onError(Throwable t) {
+                        LogUtil.i(TAG, "Throwable===" + t.getMessage());
                         String error = t.getMessage();
                         if (!TextUtils.isEmpty(error)) {
                             LogUtil.e(TAG, error);

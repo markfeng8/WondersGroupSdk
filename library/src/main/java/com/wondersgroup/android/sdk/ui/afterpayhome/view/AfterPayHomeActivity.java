@@ -64,6 +64,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
      */
     private String mOrgName = "湖州市中心医院";
     private String mOrgCode;
+    private String mHiCode; //医院前置机分配的医院编码
     /**
      * 选择器默认的地区
      */
@@ -133,7 +134,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 RxView.clicks(tvPayMoney)
                         .throttleFirst(1, TimeUnit.SECONDS)
                         .subscribe(s -> PaymentDetailsActivity.actionStart(
-                                AfterPayHomeActivity.this, mOrgCode, mOrgName, false))
+                                AfterPayHomeActivity.this, mOrgCode, mOrgName, mHiCode, false))
         );
     }
 
@@ -201,6 +202,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onXy0001Result(AfterPayStateEntity entity) {
+        LogUtil.e(TAG,"onXy0001Result 》》》》" + entity.toString());
         String signingStatus = entity.getSigning_status();
         String paymentStatus = entity.getOne_payment_status();
         String phone = entity.getPhone();
@@ -208,6 +210,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         String feeTotal = entity.getFee_total();
         mOrgCode = entity.getOrg_code();
         mOrgName = entity.getOrg_name();
+        mHiCode = entity.getHi_code();
 
         if (!TextUtils.isEmpty(feeTotal)) {
             tvMoneyNum.setText(feeTotal);
@@ -224,6 +227,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         mHeaderBean.setSigningStatus(signingStatus);
         mHeaderBean.setPaymentStatus(paymentStatus);
         mHeaderBean.setFeeTotal(feeTotal);
+        mHeaderBean.setHiCode(mHiCode);
         refreshAdapter();
 
         requestYd0001();
@@ -318,6 +322,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
                 mAreaName = cityBean.getArea_name();
                 mOrgCode = hospitalBean.getOrg_code();
                 mOrgName = hospitalBean.getOrg_name();
+                mHiCode = hospitalBean.getHi_code();
                 mHeaderBean.setHospitalName(mOrgName);
                 requestYd0003();
             }

@@ -182,7 +182,7 @@ public class MapKey {
     /**
      * 业务类型
      */
-    public static final String SER_TYPE = "serType";
+    public static final String SER_TYPE = "SERTYPE";
     /**
      * 业务系统编号
      */
@@ -207,4 +207,28 @@ public class MapKey {
      * 接口代码
      */
     public static final String RANDOM_STR = "randomStr";
+    /**
+     * 请求类型  固定8502
+     */
+    public static final String MSCODE = "MSCODE";
+    /**
+     * 医院前置机分配的医院编码
+     */
+    public static final String HICODE = "HICODE";
+    /**
+     * 01 健康舟山app
+     */
+    public static final String QDCODE = "QDCODE";
+    /**
+     * 社会保障号
+     */
+    public static final String _AAC002 = "AAC002";
+    /**
+     * 姓名
+     */
+    public static final String _AAC003 = "AAC003";
+    /**
+     * 卡识别码
+     */
+    public static final String AAZ501 = "AAZ501";
 }

@@ -84,6 +84,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
     private TitleBarLayout titleBar;
     private String mOrgCode;
     private String mOrgName;
+    private String mHiCode;//医院前置机分配的医院编码
     private DetailHeadBean mHeadBean;
     private PaymentDetailsAdapter mAdapter;
     private List<Object> mItemList = new ArrayList<>();
@@ -162,6 +163,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         if (intent != null) {
             mOrgCode = intent.getStringExtra(IntentExtra.ORG_CODE);
             mOrgName = intent.getStringExtra(IntentExtra.ORG_NAME);
+            mHiCode = intent.getStringExtra(IntentExtra.HI_CODE);
         }
 
         String name = SpUtil.getInstance().getString(SpKey.NAME, "");
@@ -666,13 +668,14 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
      * @param orgName  机构名称
      * @param isFinish 是否需要销毁跳转前的页面
      */
-    public static void actionStart(Context context, String orgCode, String orgName, boolean isFinish) {
+    public static void actionStart(Context context, String orgCode, String orgName, String hiCode, boolean isFinish) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, PaymentDetailsActivity.class);
         intent.putExtra(IntentExtra.ORG_CODE, orgCode);
         intent.putExtra(IntentExtra.ORG_NAME, orgName);
+        intent.putExtra(IntentExtra.HI_CODE, hiCode);
         context.startActivity(intent);
         if (isFinish) {
             ((Activity) context).finish();
@@ -694,7 +697,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 
     public void requestTryToSettleToken(String businessType) {
         mBusinessType = businessType;
-        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType);
+        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType,mHiCode);
     }
 
     public void checkElectronicSocialSecurityCardPassword() {

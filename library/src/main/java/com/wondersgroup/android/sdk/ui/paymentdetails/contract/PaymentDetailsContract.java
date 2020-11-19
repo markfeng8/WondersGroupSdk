@@ -29,7 +29,7 @@ public interface PaymentDetailsContract {
 
         void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map, HttpRequestCallback<SettleEntity> callback);
 
-        void applyElectronicSocialSecurityCardToken(String businessType, HttpRequestCallback<EleCardTokenEntity> callback);
+        void applyElectronicSocialSecurityCardToken(String businessType, String hiCode, HttpRequestCallback<EleCardTokenEntity> callback);
     }
 
     interface IView {
@@ -63,6 +63,6 @@ public interface PaymentDetailsContract {
 
         void sendOfficialPay(boolean isPureYiBao, String toState, String token, String orgCode, HashMap<String, Object> map);
 
-        void applyElectronicSocialSecurityCardToken(String businessType);
+        void applyElectronicSocialSecurityCardToken(String businessType, String hiCode);
     }
 }

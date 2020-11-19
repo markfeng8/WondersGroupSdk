@@ -104,6 +104,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
     private static final String TO_STATE2 = "2";
     private String mCurrentToState;
     private String mBusinessType;
+    private String mHiCode; //医院前置机分配的医院编码
 
     @Override
     protected LeaveHospitalPresenter<LeaveHospitalContract.IView> createPresenter() {
@@ -163,6 +164,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
             String inHosId = intent.getStringExtra(IntentExtra.IN_HOS_ID);
             String inHosDate = intent.getStringExtra(IntentExtra.IN_HOS_DATE);
             String inHosArea = intent.getStringExtra(IntentExtra.IN_HOS_AREA);
+            mHiCode = intent.getStringExtra(IntentExtra.HI_CODE);
 
             tvHosName.setText(mOrgName);
             tvInHosId.setText(inHosId);
@@ -195,7 +197,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     public void requestTryToSettleToken(String businessType) {
         mBusinessType = businessType;
-        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType);
+        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType,mHiCode);
     }
 
     @Override
@@ -425,7 +427,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         finish();
     }
 
-    public static void actionStart(Context context, String orgCode, String orgName, String inHosId, String inHosDate, String inHosArea) {
+    public static void actionStart(Context context, String orgCode, String orgName, String inHosId, String inHosDate, String inHosArea, String hiCode) {
         if (context == null) {
             return;
         }
@@ -435,6 +437,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
         intent.putExtra(IntentExtra.IN_HOS_DATE, inHosDate);
         intent.putExtra(IntentExtra.IN_HOS_AREA, inHosArea);
+        intent.putExtra(IntentExtra.HI_CODE,hiCode);
         context.startActivity(intent);
     }
 

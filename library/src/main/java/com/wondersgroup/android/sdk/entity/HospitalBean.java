@@ -24,6 +24,7 @@ public class HospitalBean implements Parcelable {
 
     private String org_code;
     private String org_name;
+    private String hi_code;
 
     public HospitalBean() {
     }
@@ -31,6 +32,7 @@ public class HospitalBean implements Parcelable {
     protected HospitalBean(Parcel in) {
         this.org_code = in.readString();
         this.org_name = in.readString();
+        this.hi_code = in.readString();
     }
 
     public String getOrg_code() {
@@ -49,6 +51,14 @@ public class HospitalBean implements Parcelable {
         this.org_name = org_name;
     }
 
+    public String getHi_code() {
+        return hi_code;
+    }
+
+    public void setHi_code(String hi_code) {
+        this.hi_code = hi_code;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -58,6 +68,7 @@ public class HospitalBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.org_code);
         dest.writeString(this.org_name);
+        dest.writeString(this.hi_code);
     }
 
     /**

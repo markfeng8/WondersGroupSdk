@@ -48,6 +48,6 @@ public interface LeaveHospitalContract {
 
         void getPayParam(String orgCode);
 
-        void applyElectronicSocialSecurityCardToken(String businessType);
+        void applyElectronicSocialSecurityCardToken(String businessType,String hiCode);
     }
 }

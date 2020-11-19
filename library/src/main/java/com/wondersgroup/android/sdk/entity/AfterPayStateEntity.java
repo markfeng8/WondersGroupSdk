@@ -17,6 +17,7 @@ public class AfterPayStateEntity extends BaseEntity implements Serializable {
      * phone : 15957271207
      * org_code :
      * fee_date :
+     * hi_code :医院前置机分配的医院机构代码
      */
 
     private String signing_status;
@@ -27,6 +28,15 @@ public class AfterPayStateEntity extends BaseEntity implements Serializable {
     private String phone;
     private String org_code;
     private String fee_date;
+    private String hi_code;
+
+    public String getHi_code() {
+        return hi_code;
+    }
+
+    public void setHi_code(String hi_code) {
+        this.hi_code = hi_code;
+    }
 
     public String getSigning_status() {
         return signing_status;

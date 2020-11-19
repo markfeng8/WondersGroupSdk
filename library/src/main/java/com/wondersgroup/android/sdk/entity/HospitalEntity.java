@@ -58,10 +58,12 @@ public class HospitalEntity extends BaseEntity {
             /**
              * org_code : 47117170333050211A1001
              * org_name : 湖州市中心医院
+             * hi_code : 医院前置机分配的医院编码
              */
 
             private String org_code;
             private String org_name;
+            private String hi_code;
 
             public String getOrg_code() {
                 return org_code;
@@ -77,6 +79,14 @@ public class HospitalEntity extends BaseEntity {
 
             public void setOrg_name(String org_name) {
                 this.org_name = org_name;
+            }
+
+            public String getHi_code() {
+                return hi_code;
+            }
+
+            public void setHi_code(String hi_code) {
+                this.hi_code = hi_code;
             }
         }
     }

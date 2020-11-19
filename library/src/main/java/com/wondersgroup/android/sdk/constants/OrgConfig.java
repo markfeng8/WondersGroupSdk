@@ -9,11 +9,11 @@ public class OrgConfig {
     /**
      * 生成签名时的 key
      */
-    public static final String KEY = "71F62B4CA43810A3E055000000000001";
+    public static final String KEY = "123456789";
     /**
      * 机构编码
      */
-    public static final String ORG_CODE = "jkhzsdk";
+    public static final String ORG_CODE = "zsyhfsdk";
     /**
      * 交易渠道
      */
@@ -55,7 +55,7 @@ public class OrgConfig {
      */
     public static final String FEE_STATE02 = "02";
     public static final String ORDER_START_DATE = "2018-01-01";
-    public static final String SIGN_ORG_NAME = "签约机构名称";
+    public static final String SIGN_ORG_NAME = "舟山医后付SDK";
     public static final String HOME_ADDRESS = "ShangHai";
     public static final String HEALTH_CARE_STATUS = "1";
     /**
@@ -78,15 +78,15 @@ public class OrgConfig {
     /**
      * 结算
      */
-    public static final String SRJ = "SRJ";
+    public static final String SRJ = "02";
     /**
      * 预结算
      */
-    public static final String SRY = "SRY";
+    public static final String SRY = "01";
     /**
      * 退费
      */
-    public static final String SRT = "SRT";
+    public static final String SRT = "03";
     /**
      * 业务系统编号(1001 代表医保系统)
      */

@@ -13,7 +13,7 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    public static final String HOST = "http://115.238.228.2:7001";
+    public static final String HOST = "http://61.153.209.242:8083";
 
     /**
      * 门诊部分接口
@@ -66,14 +66,16 @@ public class RequestUrl {
      * 市平台获取试结算、正式结算 Token 的接口
      */
     //public static final String CHECK_SIGN_API = (isTestEnv() ? "http://61.153.183.132:9025" : "http://61.153.183.130:8026") + "/access/api/gateway";
-    public static final String CHECK_SIGN_API = "http://61.153.183.130:8026/access/api/gateway";
+    public static final String CHECK_SIGN_API = HOST + "/huzh_credit/ct/getToken";
+//    public static final String CHECK_SIGN_API = "http://172.16.161.81:9090/access/api/gateway";
 
     private static boolean isTestEnv() {
         boolean isTestEnv = false;
-        String env = SpUtil.getInstance().getString(SpKey.SDK_ENV, "");
-        if (!TextUtils.isEmpty(env) && "test".equals(env)) {
-            isTestEnv = true;
-        }
+
+//        String env = SpUtil.getInstance().getString(SpKey.SDK_ENV, "");
+//        if (!TextUtils.isEmpty(env) && "test".equals(env)) {
+//            isTestEnv = true;
+//        }
         LogUtil.i(TAG, "WondersGroup sdk 当前的环境是===" + (isTestEnv ? "[测试环境]" : "[正式环境]"));
         return isTestEnv;
     }

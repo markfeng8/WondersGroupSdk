@@ -21,6 +21,7 @@ public class AfterHeaderBean {
     private String feeTotal;
     private String orgCode;
     private String orgName;
+    private String hiCode;
 
     public AfterHeaderBean() {
     }
@@ -38,6 +39,14 @@ public class AfterHeaderBean {
         this.feeTotal = feeTotal;
         this.orgCode = orgCode;
         this.orgName = orgName;
+    }
+
+    public String getHiCode() {
+        return hiCode;
+    }
+
+    public void setHiCode(String hiCode) {
+        this.hiCode = hiCode;
     }
 
     public String getOrgCode() {
