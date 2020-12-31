@@ -221,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
      * @param flag 业务标志 0 医后付 1 自费卡 2 住院
      *             注：flag 为 0 和 2 时 cardType 一定传 0(社保卡)，
      *             flag 为 1 时 cardType 传 2(自费卡)
+     *
+     *             cardType = 0（社保卡），就诊卡号如果没有，默认传000000000
+     *             cardType = 2（自费卡），就诊卡号可不传
      */
     private void startBusiness(int flag) {
         String name = etName.getText().toString().trim();

@@ -130,6 +130,8 @@ public class ElectronicSocialSecurityCard {
         EleCardEntity eleCardEntity = new Gson().fromJson(data, EleCardEntity.class);
         String actionType = eleCardEntity.getActionType();
         switch (actionType) {
+            case "006":/*到卡面，通过其他途径申领过社保卡导致后台状态不同步还是未开通状态，
+            此时SDK返回006说明已经开通，此时状态同001，需要APP端通知后台更新状态*/
             // 电子社保卡申领完成（一级签发）
             case "001":
                 parseResult(eleCardEntity);
