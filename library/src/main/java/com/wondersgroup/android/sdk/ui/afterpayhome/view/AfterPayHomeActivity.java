@@ -202,7 +202,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onXy0001Result(AfterPayStateEntity entity) {
-        LogUtil.e(TAG,"onXy0001Result 》》》》" + entity.toString());
+        LogUtil.e(TAG, "onXy0001Result 》》》》" + entity.toString());
         String signingStatus = entity.getSigning_status();
         String paymentStatus = entity.getOne_payment_status();
         String phone = entity.getPhone();
@@ -261,6 +261,7 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
 
     @Override
     public void onYd0003Result(FeeBillEntity entity) {
+
         // 先移除旧的门诊账单数据
         mItemList.removeAll(mFeeBillList);
         if (entity != null) {

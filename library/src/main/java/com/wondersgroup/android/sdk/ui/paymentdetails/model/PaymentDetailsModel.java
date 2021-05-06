@@ -1,10 +1,9 @@
 package com.wondersgroup.android.sdk.ui.paymentdetails.model;
 
-import android.nfc.tech.NfcA;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wondersgroup.android.sdk.WondersSdk;
+import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -196,21 +195,23 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize();
         //新请求参数
-        map.put(MapKey.HICODE,hiCode);
-        map.put(MapKey._AAC003,mName);
-        map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
-        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
-        map.put(MapKey.TRAN_CODE, TranCode.TRAN_GETTOKEN);
-        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
-        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
-        map.put(MapKey._AAC002,mIdNum);
-        map.put(MapKey.MSCODE,"8502");
-        map.put(MapKey.SER_TYPE, businessType);
-        map.put(MapKey.SIGN_NO, signNo);
-        map.put(MapKey.CHANNEL_NO, "01");
-        map.put(MapKey.SID, RandomUtils.getSid());
-        map.put(MapKey.QDCODE,"01");
-        map.put(MapKey.SIGN, SignUtil.getSign(map));
+//        map.put(MapKey.HICODE, hiCode);
+//        map.put(MapKey._AAC003, mName);
+//        map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
+//        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
+//        map.put(MapKey.TRAN_CODE, TranCode.TRAN_GETTOKEN);
+//        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+//        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+//        map.put(MapKey._AAC002, mIdNum);
+//        map.put(MapKey.MSCODE, "8502");
+//        map.put(MapKey.SER_TYPE, businessType);
+//        map.put(MapKey.SIGN_NO, signNo);
+////        map.put(MapKey.CHANNEL_NO, "01");
+//        map.put(MapKey.CHANNEL_NO, WondersImp.getESSCardParams().getChannelNo());
+//        map.put(MapKey.SID, RandomUtils.getSid());
+////        map.put(MapKey.QDCODE, "01");
+//        map.put(MapKey.QDCODE, WondersImp.getESSCardParams().getQDCODE());
+//        map.put(MapKey.SIGN, SignUtil.getSign(map));
         //旧请求参数
 //        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
 //        map.put(MapKey.FUNCTION, OrgConfig.CREATE_TOKEN);
@@ -239,6 +240,32 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 //            map.put(MapKey.BUSI_SEQ, busiSeq);
 //        }
 //        map.put(MapKey.SIGN, SignUtil.createSignWithRsa(map));
+
+        //智慧民生 请求参数
+        map.put(MapKey.SER_TYPE, businessType);
+        map.put(MapKey.MSCODE, "8502");
+        map.put(MapKey.HICODE, hiCode);
+        // TODO: 2021/5/6  外部修改参数获取记录
+        //map.put(MapKey.QDCODE, "01");
+        map.put(MapKey.QDCODE, WondersImp.getExternParams().getQDCODE());
+        map.put(MapKey._AAC002, mIdNum);
+        map.put(MapKey._AAC003, mName);
+
+        //结算时需要的参数
+        String busiSeq = SpUtil.getInstance().getString(SpKey.BUSI_SEQ, "");
+        map.put(MapKey.BUSI_SEQ, busiSeq);
+        // TODO: 2021/5/6  外部修改参数获取记录
+        //map.put(MapKey.CHANNEL_NO, "01");
+        map.put(MapKey.CHANNEL_NO, WondersImp.getExternParams().getChannelNo());
+        map.put(MapKey.SIGN_NO, signNo);
+
+        map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
+        map.put(MapKey.TIMESTAMP, DateUtils.getTheNearestSecondTime());
+        map.put(MapKey.TRAN_CODE, TranCode.TRAN_GETTOKEN);
+        map.put(MapKey.TRAN_ORG, OrgConfig.ORG_CODE);
+        map.put(MapKey.TRAN_CHL, OrgConfig.TRAN_CHL01);
+        map.put(MapKey.SID, RandomUtils.getSid());
+        map.put(MapKey.SIGN, SignUtil.getSign(map));
 
         String json = new Gson().toJson(map);
         LogUtil.i(TAG, "json===" + json);

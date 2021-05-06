@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wondersgroup.android.sdk.WondersSdk;
+import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -59,13 +59,16 @@ public class ElectronicSocialSecurityCard {
     public void enter(Activity activity) {
         final String name = SpUtil.getInstance().getString(SpKey.NAME, "");
         final String idNum = SpUtil.getInstance().getString(SpKey.ID_NUM, "");
-
-        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
-        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.AAC002, idNum);
-        map.put(MapKey.AAC003, name);
-
-        getSign(map, s -> startSdk(activity, idNum, name, s));
+//
+//        HashMap<String, String> map = Maps.newHashMapWithExpectedSize(3);
+////        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+//        map.put(MapKey.CHANNEL_NO, WondersImp.getExternParams().getChannelNo());
+//        map.put(MapKey.AAC002, idNum);
+//        map.put(MapKey.AAC003, name);
+//
+//        getSign(map, s -> startSdk(activity, idNum, name, s));
+        // TODO: 2021/5/6  外部修改参数获取记录
+        startSdk(activity, idNum, name, WondersImp.getExternParams().getSign());
     }
 
     /**
@@ -111,7 +114,8 @@ public class ElectronicSocialSecurityCard {
         String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(6);
-        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+//        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
+        map.put(MapKey.CHANNEL_NO, WondersImp.getExternParams().getChannelNo());
         map.put(MapKey.AAC002, idNum);
         map.put(MapKey.AAC003, name);
         //map.put(MapKey.AAB301, "330500");
@@ -132,7 +136,7 @@ public class ElectronicSocialSecurityCard {
         switch (actionType) {
             case "006":/*到卡面，通过其他途径申领过社保卡导致后台状态不同步还是未开通状态，
             此时SDK返回006说明已经开通，此时状态同001，需要APP端通知后台更新状态*/
-            // 电子社保卡申领完成（一级签发）
+                // 电子社保卡申领完成（一级签发）
             case "001":
                 parseResult(eleCardEntity);
                 break;
@@ -220,7 +224,7 @@ public class ElectronicSocialSecurityCard {
         param.put(MapKey.JSON_STR, new Gson().toJson(map));
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 
-        LogUtil.i(TAG, "json===" + new Gson().toJson(param));
+        LogUtil.d(TAG, "json===" + new Gson().toJson(param));
 
         Disposable disposable =
                 RetrofitHelper

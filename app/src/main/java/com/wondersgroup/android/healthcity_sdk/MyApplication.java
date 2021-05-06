@@ -3,8 +3,10 @@ package com.wondersgroup.android.healthcity_sdk;
 import android.support.multidex.MultiDexApplication;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.WondersSdk;
 import com.wondersgroup.android.sdk.entity.ConfigOption;
+import com.wondersgroup.android.sdk.entity.WondersExternParams;
 
 /**
  * Created by x-sir on 2018/8/1 :)
@@ -25,5 +27,34 @@ public class MyApplication extends MultiDexApplication {
 
         // 测试阶段建议设置成 true，发布时设置为 false
         CrashReport.initCrashReport(getApplicationContext(), "0010f85d4e", BuildConfig.DEBUG);
+
+        /**
+         * 通过构造函数传入
+         * 渠道编号
+         * 渠道信息
+         */
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
+            @Override
+            public WondersExternParams getExternParams() {
+                WondersExternParams params = new WondersExternParams(
+                        "",
+                        "");
+                return params;
+            }
+        });
+
+
+        /**
+         * 通过构造函数传入
+         * sign
+         */
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
+            @Override
+            public WondersExternParams getExternParams() {
+                WondersExternParams params = new WondersExternParams(
+                        "");
+                return params;
+            }
+        });
     }
 }
