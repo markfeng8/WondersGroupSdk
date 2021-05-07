@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wondersgroup.android.sdk.utils.WondersImp;
+import com.wondersgroup.android.sdk.utils.WondersExternImp;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -68,7 +68,7 @@ public class ElectronicSocialSecurityCard {
 //
 //        getSign(map, s -> startSdk(activity, idNum, name, s));
         // TODO: 2021/5/6  外部修改参数获取记录
-        startSdk(activity, idNum, name, WondersImp.getExternParams().getSign());
+        startSdk(activity, idNum, name, WondersExternImp.getExternParams().getSign());
     }
 
     /**
@@ -115,7 +115,7 @@ public class ElectronicSocialSecurityCard {
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(6);
 //        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.CHANNEL_NO, WondersImp.getExternParams().getChannelNo());
+        map.put(MapKey.CHANNEL_NO, WondersExternImp.getExternParams().getChannelNo());
         map.put(MapKey.AAC002, idNum);
         map.put(MapKey.AAC003, name);
         //map.put(MapKey.AAB301, "330500");

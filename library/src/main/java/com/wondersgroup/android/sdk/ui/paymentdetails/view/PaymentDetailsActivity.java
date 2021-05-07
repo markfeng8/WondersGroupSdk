@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
-import com.wondersgroup.android.sdk.utils.WondersImp;
+import com.wondersgroup.android.sdk.utils.WondersExternImp;
 import com.wondersgroup.android.sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
@@ -709,7 +709,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 //                s -> startSdk(idNum, name, s)
 //        );
         // TODO: 2021/5/6 外部修改参数获取记录
-        startSdk(idNum, name, WondersImp.getExternParams().getSign());
+        startSdk(idNum, name, WondersExternImp.getExternParams().getSign());
     }
 
     /**
