@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.wondersgroup.android.sdk.entity.WondersExternParams;
 
-public class WondersImp {
+public class WondersExternImp {
 
     private static final String TAG = "WondersImp";
 
