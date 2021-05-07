@@ -358,8 +358,11 @@
 
 # 保持对外的 SDK 入参类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
 -keep class com.wondersgroup.android.sdk.WondersImp {
-    public *;
     public static com.wondersgroup.android.sdk.WondersImp setWondersExternParamsImp(com.wondersgroup.android.sdk.WondersImp.WondersParamsImp);
+}
+
+-keep interface com.wondersgroup.android.sdk.WondersImp$WondersParamsImp {
+    public *;
 }
 
 # 保持对外的调用类 WondersGroup 的类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
