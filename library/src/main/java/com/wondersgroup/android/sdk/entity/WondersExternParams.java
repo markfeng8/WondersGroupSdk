@@ -28,12 +28,6 @@ public class WondersExternParams {
         this.QDCODE = QDCODE;
     }
 
-    public WondersExternParams(String channelNo, String QDCODE, String sign) {
-        this.channelNo = channelNo;
-        this.QDCODE = QDCODE;
-        this.sign = sign;
-    }
-
     public String getChannelNo() {
         return channelNo;
     }

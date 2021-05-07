@@ -14,29 +14,21 @@
 * 发布初版；医后付功能
 
 ## 二、集成步骤
+
 ### 1
-在工程的 build.gradle 文件的 repositories 闭包下添加如下三个远程仓库源：
-```
-        maven { url "https://jitpack.io" }
-        flatDir { dirs 'libs' }
-        // 添加 bintray 私有仓库地址
-        maven {
-            url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupZhouShanSdk"
-        }
-```
+将提供的 PALiveDetect4.4.3.aar、alipaySdk-15.6.5-20190718211148.aar、WondersGroupZHMSSdk.aar  
+和 zj_essc_sdk-2.0.6.aar 4个 aar 包放入 app 的libs文件夹内。
 
 ### 2
-将提供的 PALiveDetect4.4.3.aar 和 zj_essc_sdk-2.0.6.aar 两个 aar 包放入 app 的
-
-### 3
 在 app 的 build.gradle 文件 的 dependencies 闭包中添加如下依赖：
 ```
     implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
     implementation(name: 'zj_essc_sdk-2.0.6', ext: 'aar')
-    implementation 'com.wondersgroup.android:WondersGroupZhouShanSdk:1.0.0'
+    implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
+    implementation(name: 'WondersGroupZHMSSdk', ext: 'aar')
 ```
 
-### 4
+### 3
 
 将 so 文件复制到你们的 libs 目录或者 jniLibs 目录下，然后设置 so 文件的架构，默认 sdk 内置了 'armeabi-v7a' 和 'arm64-v8a' 两种 so 文件，可根据实际情况按需使用一套或多套即可，全部添加会增加 apk 包的大小，使用如下代码可以进行过滤：
 
@@ -48,7 +40,7 @@ ndk {
 }
 ```
 
-### 5
+### 4
 
 配置 Java 8 编译环境，SDK 中使用了 Java 8 的相关特性，因此在编译时需要配置 Java 8 编译环境，在 app 的 build.gradle 文件的 **android** 闭包中添加如下代码：
 
@@ -59,7 +51,7 @@ compileOptions {
     }
 ```
 
-### 6
+### 5
 
 以上所有配置完成后，同步一下工程即可。
 
@@ -118,33 +110,33 @@ WondersSdk.getInstance().init(this, option);
 SDK内部需要外部载体的参数通过接口实现的方法传入参数。
 ```
  /**
- * 通过构造函数传入
- * 渠道编号 channelNo
- * 渠道信息 QDCODE
- */
-WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
-    @Override
-    public WondersExternParams getExternParams() {
-        WondersExternParams params = new WondersExternParams(
-                "",
-                "");
-        return params;
-    }
-});
+         *
+         * 渠道编号
+         * 渠道信息
+         */
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
+            @Override
+            public WondersExternParams getExternParams() {
+                WondersExternParams params = new WondersExternParams();
+                params.setChannelNo("");
+                params.setQDCODE("");
+                return params;
+            }
+        });
 
 
-/**
- * 通过构造函数传入
- * sign
- */
-WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
-    @Override
-    public WondersExternParams getExternParams() {
-        WondersExternParams params = new WondersExternParams(
-                "");
-        return params;
-    }
-});
+        /**
+         *
+         * sign
+         */
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
+            @Override
+            public WondersExternParams getExternParams() {
+                WondersExternParams params = new WondersExternParams();
+                params.setSign("");
+                return params;
+            }
+        });
 ```
 
 ## 四、代码混淆
