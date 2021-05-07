@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wondersgroup.android.sdk.utils.WondersExternImp;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -20,6 +19,7 @@ import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.constants.TranCode;
 import com.wondersgroup.android.sdk.entity.EleCardEntity;
 import com.wondersgroup.android.sdk.entity.Maps;
+import com.wondersgroup.android.sdk.externparams.WondersExtern;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.callback.ApiSubscriber;
 import com.wondersgroup.android.sdk.net.service.BusinessService;
@@ -68,7 +68,7 @@ public class ElectronicSocialSecurityCard {
 //
 //        getSign(map, s -> startSdk(activity, idNum, name, s));
         // TODO: 2021/5/6  外部修改参数获取记录
-        startSdk(activity, idNum, name, WondersExternImp.getExternParams().getSign());
+        startSdk(activity, idNum, name, WondersExtern.getExternParams().getSign());
     }
 
     /**
@@ -115,7 +115,7 @@ public class ElectronicSocialSecurityCard {
 
         HashMap<String, String> map = Maps.newHashMapWithExpectedSize(6);
 //        map.put(MapKey.CHANNEL_NO, WondersSdk.getChannelNo());
-        map.put(MapKey.CHANNEL_NO, WondersExternImp.getExternParams().getChannelNo());
+        map.put(MapKey.CHANNEL_NO, WondersExtern.getExternParams().getChannelNo());
         map.put(MapKey.AAC002, idNum);
         map.put(MapKey.AAC003, name);
         //map.put(MapKey.AAB301, "330500");

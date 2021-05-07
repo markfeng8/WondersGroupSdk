@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
-import com.wondersgroup.android.sdk.utils.WondersExternImp;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
@@ -31,6 +30,7 @@ import com.wondersgroup.android.sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.sdk.entity.EleCardEntity;
 import com.wondersgroup.android.sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
+import com.wondersgroup.android.sdk.externparams.WondersExtern;
 import com.wondersgroup.android.sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.sdk.ui.leavehosresult.LeaveHosResultActivity;
@@ -241,7 +241,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 //                s -> startSdk(idNum, name, s)
 //        );
         // TODO: 2021/5/6  外部修改参数获取记录
-        startSdk(idNum, name, WondersExternImp.getExternParams().getSign());
+        startSdk(idNum, name, WondersExtern.getExternParams().getSign());
     }
 
     /**

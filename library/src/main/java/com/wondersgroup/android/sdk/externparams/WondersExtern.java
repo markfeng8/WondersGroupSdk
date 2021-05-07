@@ -1,10 +1,10 @@
-package com.wondersgroup.android.sdk.utils;
+package com.wondersgroup.android.sdk.externparams;
 
 import android.text.TextUtils;
 
 import com.wondersgroup.android.sdk.entity.WondersExternParams;
 
-public class WondersExternImp {
+public class WondersExtern {
 
     private static final String TAG = "WondersImp";
 
@@ -14,9 +14,6 @@ public class WondersExternImp {
 
     private static WondersExternParams wondersExternParams = new WondersExternParams();
 
-    public interface WondersParamsImp {
-        WondersExternParams getExternParams();
-    }
 
     public static void setWondersExternParamsImp(WondersParamsImp wondersParamsImp) {
         mWondersParamsImp = wondersParamsImp;
@@ -47,5 +44,4 @@ public class WondersExternImp {
         }
         return wondersExternParams;
     }
-
 }

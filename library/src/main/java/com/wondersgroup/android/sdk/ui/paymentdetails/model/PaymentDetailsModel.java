@@ -3,7 +3,6 @@ package com.wondersgroup.android.sdk.ui.paymentdetails.model;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wondersgroup.android.sdk.utils.WondersExternImp;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
@@ -16,6 +15,7 @@ import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
+import com.wondersgroup.android.sdk.externparams.WondersExtern;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.api.Converter;
 import com.wondersgroup.android.sdk.net.callback.AbstractSubscriber;
@@ -247,7 +247,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.HICODE, hiCode);
         // TODO: 2021/5/6  外部修改参数获取记录
         //map.put(MapKey.QDCODE, "01");
-        map.put(MapKey.QDCODE, WondersExternImp.getExternParams().getQDCODE());
+        map.put(MapKey.QDCODE, WondersExtern.getExternParams().getQDCODE());
         map.put(MapKey._AAC002, mIdNum);
         map.put(MapKey._AAC003, mName);
 
@@ -256,7 +256,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.BUSI_SEQ, busiSeq);
         // TODO: 2021/5/6  外部修改参数获取记录
         //map.put(MapKey.CHANNEL_NO, "01");
-        map.put(MapKey.CHANNEL_NO, WondersExternImp.getExternParams().getChannelNo());
+        map.put(MapKey.CHANNEL_NO, WondersExtern.getExternParams().getChannelNo());
         map.put(MapKey.SIGN_NO, signNo);
 
         map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);
