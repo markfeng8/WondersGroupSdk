@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
+import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
@@ -30,7 +31,6 @@ import com.wondersgroup.android.sdk.entity.Cy0007Entity;
 import com.wondersgroup.android.sdk.entity.EleCardEntity;
 import com.wondersgroup.android.sdk.entity.EleCardTokenEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
-import com.wondersgroup.android.sdk.externparams.WondersExtern;
 import com.wondersgroup.android.sdk.ui.leavehospital.contract.LeaveHospitalContract;
 import com.wondersgroup.android.sdk.ui.leavehospital.presenter.LeaveHospitalPresenter;
 import com.wondersgroup.android.sdk.ui.leavehosresult.LeaveHosResultActivity;
@@ -197,7 +197,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 
     public void requestTryToSettleToken(String businessType) {
         mBusinessType = businessType;
-        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType,mHiCode);
+        mPresenter.applyElectronicSocialSecurityCardToken(mBusinessType, mHiCode);
     }
 
     @Override
@@ -241,7 +241,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
 //                s -> startSdk(idNum, name, s)
 //        );
         // TODO: 2021/5/6  外部修改参数获取记录
-        startSdk(idNum, name, WondersExtern.getExternParams().getSign());
+        startSdk(idNum, name, WondersImp.getExternParams().getSign());
     }
 
     /**
@@ -440,7 +440,7 @@ public class LeaveHospitalActivity extends MvpBaseActivity<LeaveHospitalContract
         intent.putExtra(IntentExtra.IN_HOS_ID, inHosId);
         intent.putExtra(IntentExtra.IN_HOS_DATE, inHosDate);
         intent.putExtra(IntentExtra.IN_HOS_AREA, inHosArea);
-        intent.putExtra(IntentExtra.HI_CODE,hiCode);
+        intent.putExtra(IntentExtra.HI_CODE, hiCode);
         context.startActivity(intent);
     }
 

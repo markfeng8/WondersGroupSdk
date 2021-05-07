@@ -25,11 +25,10 @@ import android.widget.Toast;
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
+import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.entity.WondersExternParams;
-import com.wondersgroup.android.sdk.externparams.WondersExtern;
-import com.wondersgroup.android.sdk.externparams.WondersParamsImp;
 import com.wondersgroup.android.sdk.ui.familydoctor.FamilyDoctorActivity;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
@@ -263,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
          * 渠道编号
          * 渠道信息
          */
-        WondersExtern.setWondersExternParamsImp(new WondersParamsImp() {
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
             @Override
             public WondersExternParams getExternParams() {
                 WondersExternParams params = new WondersExternParams();
@@ -278,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
          *
          * sign
          */
-        WondersExtern.setWondersExternParamsImp(new WondersParamsImp() {
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
             @Override
             public WondersExternParams getExternParams() {
                 WondersExternParams params = new WondersExternParams();
