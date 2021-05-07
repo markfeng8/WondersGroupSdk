@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.wondersgroup.android.healthcity_sdk.adapter.PersonAdapter;
 import com.wondersgroup.android.healthcity_sdk.bean.PersonBean;
 import com.wondersgroup.android.healthcity_sdk.utils.AppInfoUtil;
-import com.wondersgroup.android.sdk.WondersImp;
+import com.wondersgroup.android.sdk.utils.WondersImp;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.entity.WondersExternParams;

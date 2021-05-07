@@ -3,7 +3,7 @@ package com.wondersgroup.android.sdk.ui.paymentdetails.model;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wondersgroup.android.sdk.WondersImp;
+import com.wondersgroup.android.sdk.utils.WondersImp;
 import com.wondersgroup.android.sdk.constants.MapKey;
 import com.wondersgroup.android.sdk.constants.OrgConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;

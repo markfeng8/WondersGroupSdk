@@ -1,4 +1,4 @@
-package com.wondersgroup.android.sdk;
+package com.wondersgroup.android.sdk.utils;
 
 import android.text.TextUtils;
 

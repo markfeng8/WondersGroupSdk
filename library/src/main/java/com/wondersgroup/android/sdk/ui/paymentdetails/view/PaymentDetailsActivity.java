@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wondersgroup.android.sdk.R;
-import com.wondersgroup.android.sdk.WondersImp;
+import com.wondersgroup.android.sdk.utils.WondersImp;
 import com.wondersgroup.android.sdk.adapter.PaymentDetailsAdapter;
 import com.wondersgroup.android.sdk.base.MvpBaseActivity;
 import com.wondersgroup.android.sdk.constants.IntentExtra;
@@ -38,7 +38,6 @@ import com.wondersgroup.android.sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
-import com.wondersgroup.android.sdk.epsoft.ElectronicSocialSecurityCard;
 import com.wondersgroup.android.sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.sdk.ui.paymentresult.view.PaymentResultActivity;

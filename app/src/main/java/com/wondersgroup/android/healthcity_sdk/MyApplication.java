@@ -3,10 +3,8 @@ package com.wondersgroup.android.healthcity_sdk;
 import android.support.multidex.MultiDexApplication;
 
 import com.tencent.bugly.crashreport.CrashReport;
-import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.WondersSdk;
 import com.wondersgroup.android.sdk.entity.ConfigOption;
-import com.wondersgroup.android.sdk.entity.WondersExternParams;
 
 /**
  * Created by x-sir on 2018/8/1 :)
