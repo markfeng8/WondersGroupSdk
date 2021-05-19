@@ -16,19 +16,36 @@
 ## 二、集成步骤
 
 ### 1
-将提供的 PALiveDetect4.4.3.aar、alipaySdk-15.6.5-20190718211148.aar、WondersGroupZHMSSdk.aar  
-和 zj_essc_sdk-2.0.6.aar 4个 aar 包放入 app 的libs文件夹内。
 
+在project目录下的bulid.gradle文件 的 allprojects闭包里添加 jitpack 远程依赖
+```
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+在app目录下的bulid.gradle文件 的 dependencies 闭包中添加sdk依赖
+```
+dependencies {
+implementation 'com.gitee.wdmobileteam_android:health-city_-sdk_-wonders_-zhms:1.1.2'
+}
+```
 ### 2
+将提供的 PALiveDetect4.4.3.aar、alipaySdk-15.6.5-20190718211148.aar和 zj_essc_sdk-2.0.6.aar 3个 aar 包放入 app 的libs文件夹内。
+
+### 3
 在 app 的 build.gradle 文件 的 dependencies 闭包中添加如下依赖：
 ```
     implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
     implementation(name: 'zj_essc_sdk-2.0.6', ext: 'aar')
     implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
-    implementation(name: 'WondersGroupZHMSSdk', ext: 'aar')
 ```
 
-### 3
+### 4
 
 将 so 文件复制到你们的 libs 目录或者 jniLibs 目录下，然后设置 so 文件的架构，默认 sdk 内置了 'armeabi-v7a' 和 'arm64-v8a' 两种 so 文件，可根据实际情况按需使用一套或多套即可，全部添加会增加 apk 包的大小，使用如下代码可以进行过滤：
 
@@ -40,7 +57,7 @@ ndk {
 }
 ```
 
-### 4
+### 5
 
 配置 Java 8 编译环境，SDK 中使用了 Java 8 的相关特性，因此在编译时需要配置 Java 8 编译环境，在 app 的 build.gradle 文件的 **android** 闭包中添加如下代码：
 
@@ -51,7 +68,7 @@ compileOptions {
     }
 ```
 
-### 5
+### 6
 
 以上所有配置完成后，同步一下工程即可。
 

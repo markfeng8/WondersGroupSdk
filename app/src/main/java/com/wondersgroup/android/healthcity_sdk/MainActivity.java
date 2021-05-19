@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         String cardNum = etCardNum.getText().toString().trim();
         String homeAddress = etHomeAddress.getText().toString().trim();
 
+
         // 设置需要传递的参数，所有参数都为必须！！！
         UserBuilder userBuilder = new UserBuilder()
                 // 姓名

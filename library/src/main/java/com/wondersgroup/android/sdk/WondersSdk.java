@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.unionpay.uppay.PayActivity;
 import com.wondersgroup.android.sdk.constants.SpKey;
 import com.wondersgroup.android.sdk.entity.ConfigOption;
 import com.wondersgroup.android.sdk.utils.LogCatStrategy;
@@ -43,8 +45,8 @@ public class WondersSdk {
         WondersApplication.sContext = context.getApplicationContext();
         // 处理过渡到加密数据
         SpUtil.getInstance().handleTransition();
-        //initEpSoft(context, getIsDebug(option));
-//        initEpSoft(context, true);
+        initEpSoft(context, getIsDebug(option));
+        initEpSoft(context, true);
         initLogger(getIsDebug(option));
         LogUtil.i(TAG, "WondersSdk initialize success~");
     }

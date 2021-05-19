@@ -9,8 +9,8 @@ public class WondersImp {
     private static final String TAG = "WondersImp";
 
     private static WondersParamsImp mWondersParamsImp;
-    private static final String CHANNEL_NO = "03";
-    private static final String QDCODE = "03";
+    private static final String CHANNEL_NO = "3309000201";
+    private static final String QDCODE = "01";
 
     private static WondersExternParams wondersExternParams = new WondersExternParams();
 

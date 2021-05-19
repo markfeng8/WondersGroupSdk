@@ -1,9 +1,6 @@
 package com.wondersgroup.android.sdk.constants;
 
-import android.text.TextUtils;
-
 import com.wondersgroup.android.sdk.utils.LogUtil;
-import com.wondersgroup.android.sdk.utils.SpUtil;
 
 /**
  * Created by x-sir on 2018/8/1 :)
@@ -13,7 +10,10 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    public static final String HOST = "http://61.153.209.242:8083";
+    //测试环境
+//    public static final String HOST = "http://61.153.209.242:8083";
+    //正式环境
+    public static final String HOST = "http://61.153.209.242:8085";
 
     /**
      * 门诊部分接口

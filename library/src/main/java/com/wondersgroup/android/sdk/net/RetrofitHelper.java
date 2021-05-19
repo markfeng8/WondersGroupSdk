@@ -2,9 +2,11 @@ package com.wondersgroup.android.sdk.net;
 
 import com.wondersgroup.android.sdk.BuildConfig;
 import com.wondersgroup.android.sdk.constants.RequestUrl;
-import com.wondersgroup.android.sdk.net.interceptor.LoggerInterceptor;
 import com.wondersgroup.android.sdk.net.service.ApiService;
+import com.wondersgroup.android.sdk.utils.LogUtil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -48,7 +50,18 @@ public class RetrofitHelper {
         // HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(MyApplication.getIntstance(), new int[0], R.raw.ivms8700, STORE_PASS);
         // 包含header、body数据
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new LoggerInterceptor());
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                try {
+                    String text = URLDecoder.decode(message, "utf-8");
+                    LogUtil.i("http_", text);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    LogUtil.i("http_", message);
+                }
+            }
+        });
         if (BuildConfig.DEBUG) {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
@@ -61,7 +74,6 @@ public class RetrofitHelper {
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 //.hostnameVerifier(HttpsUtils.getHostnameVerifier())
-                //.addInterceptor(new HeaderInterceptor())
                 .addNetworkInterceptor(loggingInterceptor)
                 .build();
     }
