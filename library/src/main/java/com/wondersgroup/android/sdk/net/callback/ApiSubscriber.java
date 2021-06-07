@@ -10,7 +10,6 @@ package com.wondersgroup.android.sdk.net.callback;
 
 import android.text.TextUtils;
 
-import com.wondersgroup.android.sdk.constants.RequestUrl;
 import com.wondersgroup.android.sdk.entity.BaseEntity;
 import com.wondersgroup.android.sdk.utils.LogUtil;
 
@@ -43,9 +42,10 @@ public class ApiSubscriber<T, E> extends ResourceSubscriber<T> {
             int code = response.code();
             String message = response.message();
             boolean successful = response.isSuccessful();
-            LogUtil.i("My", response.toString() );
-            LogUtil.i("My", "body====" + response.body().toString() );
-            LogUtil.i("My", "errorBody====" + response.errorBody() );
+            LogUtil.i("My", response.toString());
+            if (response.body() == null) return;
+            LogUtil.i("My", "body====" + response.body().toString());
+            LogUtil.i("My", "errorBody====" + response.errorBody());
             if (code == CODE_200 && successful) {
                 @SuppressWarnings("unchecked")
                 E body = (E) response.body();

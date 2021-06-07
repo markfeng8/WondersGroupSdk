@@ -62,11 +62,12 @@ public class RetrofitHelper {
                 }
             }
         });
-        if (BuildConfig.DEBUG) {
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        } else {
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-        }
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        if (BuildConfig.DEBUG) {
+//            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        } else {
+//            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+//        }
 
         return new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)

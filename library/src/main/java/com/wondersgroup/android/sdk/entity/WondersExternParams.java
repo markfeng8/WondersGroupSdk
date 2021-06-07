@@ -51,4 +51,13 @@ public class WondersExternParams {
     public void setSign(String sign) {
         this.sign = sign;
     }
+
+    @Override
+    public String toString() {
+        return "WondersExternParams{" +
+                "channelNo='" + channelNo + '\'' +
+                ", QDCODE='" + QDCODE + '\'' +
+                ", sign='" + sign + '\'' +
+                '}';
+    }
 }

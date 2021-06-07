@@ -252,6 +252,8 @@ public class AfterPayHomeActivity extends MvpBaseActivity<AfterPayHomeContract.I
         // 如果已开通，保存签发号
         if ("01".equals(eleCardStatus)) {
             SpUtil.getInstance().save(SpKey.SIGN_NO, entity.getSignNo());
+        } else {
+            SpUtil.getInstance().save(SpKey.SIGN_NO, "");
         }
     }
 

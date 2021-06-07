@@ -38,6 +38,8 @@ import com.wondersgroup.android.sdk.entity.LockOrderEntity;
 import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
+import com.wondersgroup.android.sdk.entity.WondersExternParams;
+import com.wondersgroup.android.sdk.entity.WondersOutParams;
 import com.wondersgroup.android.sdk.ui.paymentdetails.contract.PaymentDetailsContract;
 import com.wondersgroup.android.sdk.ui.paymentdetails.presenter.PaymentDetailsPresenter;
 import com.wondersgroup.android.sdk.ui.paymentresult.view.PaymentResultActivity;
@@ -456,6 +458,7 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
         PayParamEntity paramEntity = PayParamEntity.from(
                 body, mOrgName, mPayPlatTradeNo, mPaymentType, mFeeCashTotal
         );
+
         // 发起万达统一支付，支付现金部分
         mCompositeDisposable.add(
                 WdCommonPayUtils.toPay(this, paramEntity)
@@ -469,6 +472,11 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
                             }
                         }, throwable -> WToastUtil.show(throwable.getMessage()))
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void onCashPaySuccess() {
@@ -709,7 +717,20 @@ public class PaymentDetailsActivity extends MvpBaseActivity<PaymentDetailsContra
 //                s -> startSdk(idNum, name, s)
 //        );
         // TODO: 2021/5/6 外部修改参数获取记录
-        startSdk(idNum, name, WondersImp.getExternParams().getSign());
+        final String cardNum = SpUtil.getInstance().getString(SpKey.CARD_NUM, "");
+        final String signNo = SpUtil.getInstance().getString(SpKey.SIGN_NO, "");
+        WondersOutParams outParams = new WondersOutParams();
+        outParams.setType("2");
+        outParams.setName(name);
+        outParams.setSocialSecurityNum(cardNum);
+        outParams.setSignNo(signNo);
+        WondersImp.getExternParams(outParams, new WondersImp.WondersSignImp() {
+            @Override
+            public void getSignParams(WondersExternParams wondersExternParams) {
+                startSdk(idNum, name, wondersExternParams.getSign());
+            }
+        });
+
     }
 
     /**

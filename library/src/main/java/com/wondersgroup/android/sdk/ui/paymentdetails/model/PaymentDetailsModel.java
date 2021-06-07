@@ -16,6 +16,7 @@ import com.wondersgroup.android.sdk.entity.Maps;
 import com.wondersgroup.android.sdk.entity.OrderDetailsEntity;
 import com.wondersgroup.android.sdk.entity.PayParamEntity;
 import com.wondersgroup.android.sdk.entity.SettleEntity;
+import com.wondersgroup.android.sdk.entity.WondersOutParams;
 import com.wondersgroup.android.sdk.net.RetrofitHelper;
 import com.wondersgroup.android.sdk.net.api.Converter;
 import com.wondersgroup.android.sdk.net.callback.AbstractSubscriber;
@@ -247,7 +248,9 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.HICODE, hiCode);
         // TODO: 2021/5/6  外部修改参数获取记录
         //map.put(MapKey.QDCODE, "01");
-        map.put(MapKey.QDCODE, WondersImp.getExternParams().getQDCODE());
+        WondersOutParams outParams = new WondersOutParams();
+        outParams.setType("0");
+        map.put(MapKey.QDCODE, WondersImp.getExternParams(outParams,null).getQDCODE());
         map.put(MapKey._AAC002, mIdNum);
         map.put(MapKey._AAC003, mName);
 
@@ -256,7 +259,8 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.BUSI_SEQ, busiSeq);
         // TODO: 2021/5/6  外部修改参数获取记录
         //map.put(MapKey.CHANNEL_NO, "01");
-        map.put(MapKey.CHANNEL_NO, WondersImp.getExternParams().getChannelNo());
+
+        map.put(MapKey.CHANNEL_NO, WondersImp.getExternParams(outParams,null).getChannelNo());
         map.put(MapKey.SIGN_NO, signNo);
 
         map.put(MapKey.VERSION, OrgConfig.GLOBAL_API_VERSION);

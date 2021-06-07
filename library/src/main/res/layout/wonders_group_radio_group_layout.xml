@@ -39,12 +39,14 @@
         android:lineSpacingExtra="4dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/wonders_text_wechat_pay" />
+        android:text="@string/wonders_text_wechat_pay"
+        android:visibility="invisible" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/wonders_rgb_color_e0e0e0" />
+        android:background="@color/wonders_rgb_color_e0e0e0"
+        android:visibility="invisible" />
 
     <!-- 暂时隐藏银联支付方式 -->
     <RadioButton

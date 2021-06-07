@@ -3,7 +3,13 @@ package com.wondersgroup.android.sdk;
 import android.text.TextUtils;
 
 import com.wondersgroup.android.sdk.entity.WondersExternParams;
+import com.wondersgroup.android.sdk.entity.WondersOutParams;
 
+/**
+ * 提供对载体输出参数，和载体对sdk输入参数的回调
+ * WondersExternParams 外部入参实体类
+ * WondersOutParams    SDK对外出参实体类
+ */
 public class WondersImp {
 
     private static final String TAG = "WondersImp";
@@ -15,7 +21,11 @@ public class WondersImp {
     private static WondersExternParams wondersExternParams = new WondersExternParams();
 
     public interface WondersParamsImp {
-        WondersExternParams getExternParams();
+        WondersExternParams getExternParams(WondersOutParams outParams, WondersSignImp signImp);
+    }
+
+    public interface WondersSignImp {
+        void getSignParams(WondersExternParams wondersExternParams);
     }
 
     public static void setWondersExternParamsImp(WondersParamsImp wondersParamsImp) {
@@ -27,9 +37,9 @@ public class WondersImp {
      *
      * @return
      */
-    public static WondersExternParams getExternParams() {
+    public static WondersExternParams getExternParams(WondersOutParams outParams, WondersSignImp signImp) {
         if (mWondersParamsImp != null) {
-            WondersExternParams params = mWondersParamsImp.getExternParams();
+            WondersExternParams params = mWondersParamsImp.getExternParams(outParams, signImp);
             if (params != null) {
                 if (!TextUtils.isEmpty(params.getChannelNo())) {
                     wondersExternParams.setChannelNo(params.getChannelNo());

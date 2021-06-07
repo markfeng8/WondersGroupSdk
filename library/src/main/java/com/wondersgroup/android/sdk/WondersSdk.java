@@ -45,8 +45,8 @@ public class WondersSdk {
         WondersApplication.sContext = context.getApplicationContext();
         // 处理过渡到加密数据
         SpUtil.getInstance().handleTransition();
-        initEpSoft(context, getIsDebug(option));
-        initEpSoft(context, true);
+//        initEpSoft(context, getIsDebug(option));
+//        initEpSoft(context, true);
         initLogger(getIsDebug(option));
         LogUtil.i(TAG, "WondersSdk initialize success~");
     }

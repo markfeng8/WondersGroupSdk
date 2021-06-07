@@ -29,7 +29,9 @@ import com.wondersgroup.android.sdk.WondersImp;
 import com.wondersgroup.android.sdk.api.WondersGroup;
 import com.wondersgroup.android.sdk.entity.UserBuilder;
 import com.wondersgroup.android.sdk.entity.WondersExternParams;
+import com.wondersgroup.android.sdk.entity.WondersOutParams;
 import com.wondersgroup.android.sdk.ui.familydoctor.FamilyDoctorActivity;
+import com.wondersgroup.android.sdk.utils.LogUtil;
 import com.xsir.pgyerappupdate.library.PgyerApi;
 
 import java.util.ArrayList;
@@ -124,6 +126,33 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initData();
         setAdapter();
+
+        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
+            @Override
+            public WondersExternParams getExternParams(WondersOutParams outParams,
+                                                       WondersImp.WondersSignImp signImp) {
+                LogUtil.i("WondersOutParams", outParams.toString());
+                WondersExternParams params = new WondersExternParams();
+                if ("0".equals(outParams.getType())) {//获取渠道信息、渠道号
+                    params.setChannelNo("渠道号");
+                    params.setQDCODE("渠道信息");
+                } else if ("1".equals(outParams.getType())) {//申领社保卡sign
+                    params.setSign("申领社保卡sign");
+                    signImp.getSignParams(params);
+                } else if ("2".equals(outParams.getType())) {//支付验证sign
+                    params.setSign("支付验证sign");
+                    signImp.getSignParams(params);
+                } else if ("3".equals(outParams.getType())) {//万达SDK申领社保卡后，将省卡管返回的数据输出（包含签发号 ）
+                    //省卡管sdk回调返回的json字符串
+                    String result = outParams.getZjEsscSDKResult();
+                    //如果有涉及到签发号的逻辑，解析json字符串后，最好判断一下签发号是否为空
+
+                }
+                return params;
+            }
+        });
+
+
     }
 
     private void initData() {
@@ -257,35 +286,6 @@ public class MainActivity extends AppCompatActivity {
         WondersGroup.startBusiness(MainActivity.this, userBuilder, flag);
     }
 
-    void setParams() {
-        /**
-         *
-         * 渠道编号
-         * 渠道信息
-         */
-        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
-            @Override
-            public WondersExternParams getExternParams() {
-                WondersExternParams params = new WondersExternParams();
-                params.setChannelNo("");
-                params.setQDCODE("");
-                return params;
-            }
-        });
 
-
-        /**
-         *
-         * sign
-         */
-        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
-            @Override
-            public WondersExternParams getExternParams() {
-                WondersExternParams params = new WondersExternParams();
-                params.setSign("");
-                return params;
-            }
-        });
-    }
 }
 

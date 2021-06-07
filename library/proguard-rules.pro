@@ -365,6 +365,10 @@
     public *;
 }
 
+-keep interface com.wondersgroup.android.sdk.WondersImp$WondersSignImp {
+    public *;
+}
+
 # 保持对外的调用类 WondersGroup 的类及相关方法不被混淆(注意方法的参数及返回值类型要使用全类名)
 -keep class com.wondersgroup.android.sdk.api.WondersGroup {
     public static void startBusiness(android.content.Context, com.wondersgroup.android.jkcs_sdk.entity.UserBuilder, int);

@@ -3,7 +3,7 @@
 >**名称：** 智慧民生医后付SDK集成文档V1.0.0  
  **版本：** V1.0.0  
  **作者：** 冯传田
- **更新日期：** 2021.5.6
+ **更新日期：** 2021.5.19
 
 ## 一、版本记录
 
@@ -31,7 +31,7 @@ allprojects {
 在app目录下的bulid.gradle文件 的 dependencies 闭包中添加sdk依赖
 ```
 dependencies {
-implementation 'com.gitee.wdmobileteam_android:health-city_-sdk_-wonders_-zhms:1.1.2'
+implementation 'com.github.markfeng8:zhmsSdk:1.1.0'
 }
 ```
 ### 2
@@ -126,34 +126,30 @@ WondersSdk.getInstance().init(this, option);
 
 SDK内部需要外部载体的参数通过接口实现的方法传入参数。
 ```
- /**
-         *
-         * 渠道编号
-         * 渠道信息
-         */
-        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
-            @Override
-            public WondersExternParams getExternParams() {
-                WondersExternParams params = new WondersExternParams();
-                params.setChannelNo("");
-                params.setQDCODE("");
-                return params;
-            }
-        });
+  WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
+             @Override
+             public WondersExternParams getExternParams(WondersOutParams outParams,
+                                                        WondersImp.WondersSignImp signImp) {
+                 LogUtil.i("WondersOutParams", outParams.toString());
+                 WondersExternParams params = new WondersExternParams();
+                 if ("0".equals(outParams.getType())) {//获取渠道信息、渠道号
+                     params.setChannelNo("渠道号");
+                     params.setQDCODE("渠道信息");
+                 } else if ("1".equals(outParams.getType())) {//申领社保卡sign
+                     params.setSign("申领社保卡sign");
+                     signImp.getSignParams(params);
+                 } else if ("2".equals(outParams.getType())) {//支付验证sign
+                     params.setSign("支付验证sign");
+                     signImp.getSignParams(params);
+                 } else if ("3".equals(outParams.getType())) {//万达SDK申领社保卡后，将省卡管返回的数据输出（包含签发号 ）
+                     //省卡管sdk回调返回的json字符串
+                     String result = outParams.getZjEsscSDKResult();
+                     //如果有涉及到签发号的逻辑，解析json字符串后，最好判断一下签发号是否为空
 
-
-        /**
-         *
-         * sign
-         */
-        WondersImp.setWondersExternParamsImp(new WondersImp.WondersParamsImp() {
-            @Override
-            public WondersExternParams getExternParams() {
-                WondersExternParams params = new WondersExternParams();
-                params.setSign("");
-                return params;
-            }
-        });
+                 }
+                 return params;
+             }
+         });
 ```
 
 ## 四、代码混淆
