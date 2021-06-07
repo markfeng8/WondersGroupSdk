@@ -11,6 +11,11 @@ buildscript {
     }
 
     repositories {
+        // 阿里云云效仓库：https://maven.aliyun.com/mvn/guide
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        // 华为开源镜像：https://mirrors.huaweicloud.com
+        maven { url 'https://repo.huaweicloud.com/repository/maven' }
         google()
         jcenter()
     }
@@ -27,15 +32,20 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://repo.huaweicloud.com/repository/maven' }
         google()
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
         flatDir { dirs 'libs', '../library/libs' }
         // 添加 bintray 私有仓库地址
-        maven {
-            url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk"
-        }
+//        maven {
+//            //https://repos.spark-packages.org
+//            //https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk
+//            url "https://repos.spark-packages.org"
+//        }
     }
     // 项目中如果有中文文档注释需要添加如下 task
     tasks.withType(Javadoc) {
