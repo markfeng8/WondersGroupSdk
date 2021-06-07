@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release' // bintray plugin
+//apply plugin: 'com.novoda.bintray-release' // bintray plugin
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -90,110 +91,110 @@ dependencies {
 /**
  * 自定义生成 aar 包的 task
  */
-task makeAar(type: Copy) {
-    // 先删除两个旧的 aar 包的目录
-    doFirst {
-        File file1 = new File('../library/build/aar/')
-        file1.deleteDir()
-        File file2 = new File('../library/build/outputs/aar/')
-        file2.deleteDir()
-    }
-
-    // 复制并重命名文件
-    from '../library/build/outputs/aar/'
-    into '../library/build/aar/'
-    // 使用闭包映射文件名
-    rename { String fileName ->
-        fileName.replace('library', "hzsdk-${releaseTime()}")
-    }
-}
+//task makeAar(type: Copy) {
+//    // 先删除两个旧的 aar 包的目录
+//    doFirst {
+//        File file1 = new File('../library/build/aar/')
+//        file1.deleteDir()
+//        File file2 = new File('../library/build/outputs/aar/')
+//        file2.deleteDir()
+//    }
+//
+//    // 复制并重命名文件
+//    from '../library/build/outputs/aar/'
+//    into '../library/build/aar/'
+//    // 使用闭包映射文件名
+//    rename { String fileName ->
+//        fileName.replace('library', "hzsdk-${releaseTime()}")
+//    }
+//}
 
 /**
  * makeAar task 依赖 assemble
  */
-makeAar.dependsOn(assemble)
+//makeAar.dependsOn(assemble)
 
 /**
  * 获取当前的 UTC 时间
  */
-static def releaseTime() {
-    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
-}
-
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    failOnError false
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
+//static def releaseTime() {
+//    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+//}
+//
+//tasks.withType(Javadoc) {
+//    options.addStringOption('Xdoclint:none', '-quiet')
+//    options.addStringOption('encoding', 'UTF-8')
+//    options.addStringOption('charSet', 'UTF-8')
+//}
+//
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//
+//task javadoc(type: Javadoc) {
+//    failOnError false
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
 
 // 发布到 bintray 的版本号
-def releaseVersion = '0.1.22'
+//def releaseVersion = '0.1.22'
 
-publish {
-    // bintray 仓库名
-    repoName = 'WondersGroupSdk'
-    // bintray 注册的用户名
-    userOrg = 'wondersgroupandroid863'
-    // implementation 引用时的第 1 部分 groupId
-    groupId = 'com.wondersgroup.android'
-    // implementation 引用时的第 2 部分项目名
-    artifactId = 'WondersGroupSdk'
-    // implementation 引用时的第 3 部分版本号
-    publishVersion = releaseVersion
-    // 描述信息
-    desc = 'WondersGroupSdk project'
-    // 此处一般为项目的地址，因为它不能识别码云的项目地址，所以此处随便填一个 github 项目地址即可
-    website = 'https://github.com/google/gson'
-}
+//publish {
+//    // bintray 仓库名
+//    repoName = 'WondersGroupSdk'
+//    // bintray 注册的用户名
+//    userOrg = 'wondersgroupandroid863'
+//    // implementation 引用时的第 1 部分 groupId
+//    groupId = 'com.wondersgroup.android'
+//    // implementation 引用时的第 2 部分项目名
+//    artifactId = 'WondersGroupSdk'
+//    // implementation 引用时的第 3 部分版本号
+//    publishVersion = releaseVersion
+//    // 描述信息
+//    desc = 'WondersGroupSdk project'
+//    // 此处一般为项目的地址，因为它不能识别码云的项目地址，所以此处随便填一个 github 项目地址即可
+//    website = 'https://github.com/google/gson'
+//}
 
-def readProperties(key) {
-    File file = rootProject.file('local.properties')
-    if (file.exists()) {
-        InputStream inputStream = rootProject.file('local.properties').newDataInputStream()
-        Properties properties = new Properties()
-        properties.load(inputStream)
-
-        if (properties.containsKey(key)) {
-            return properties.getProperty(key)
-        }
-    }
-}
-
-task("uploadBintray") {
-    doLast {
-        def command = "../gradlew clean build bintrayUpload -PbintrayUser=wondersgroupandroid863 -PbintrayKey=${readProperties('BINTRAY_KEY')} -PdryRun=false"
-        println "command:" + command
-        try {
-            exec {
-                ExecSpec execSpec -> executable 'bash' args '-c', command
-            }
-            println "uploadBintray success~"
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-    }
-}
+//def readProperties(key) {
+//    File file = rootProject.file('local.properties')
+//    if (file.exists()) {
+//        InputStream inputStream = rootProject.file('local.properties').newDataInputStream()
+//        Properties properties = new Properties()
+//        properties.load(inputStream)
+//
+//        if (properties.containsKey(key)) {
+//            return properties.getProperty(key)
+//        }
+//    }
+//}
+//
+//task("uploadBintray") {
+//    doLast {
+//        def command = "../gradlew clean build bintrayUpload -PbintrayUser=wondersgroupandroid863 -PbintrayKey=${readProperties('BINTRAY_KEY')} -PdryRun=false"
+//        println "command:" + command
+//        try {
+//            exec {
+//                ExecSpec execSpec -> executable 'bash' args '-c', command
+//            }
+//            println "uploadBintray success~"
+//        } catch (Exception e) {
+//            e.printStackTrace()
+//        }
+//    }
+//}
 
 /*
  * 打开Terminal输入命令:

@@ -37,7 +37,7 @@ public class HealthCardWebViewActivity extends AppCompatActivity {
 
     private static final String TAG = "HealthCardActivity";
     private static final String URL = "url";
-    private static final String URL_H5 = "http://115.238.228.2:8000/hcbmp/management/h5/index?appId=050b1e9c8dd34d478518a9eafffa99ba&cipherText=";
+    private static final String URL_H5 = "http://220.191.216.80:8000/hcbmp/management/h5/index?appId=050b1e9c8dd34d478518a9eafffa99ba&cipherText=";
     /**
      * 公钥截取前面16位作为报文加密密钥 dd80ec7b658a4ea660ae9bc7315fb227
      */
