@@ -13,7 +13,8 @@ public class RequestUrl {
 
     private static final String TAG = "RequestUrl";
 
-    public static final String HOST = "http://115.238.228.2:7001";
+//    public static final String HOST = "http://115.238.228.2:7001";
+    public static final String HOST = "http://220.191.216.80:7002";
 
     /**
      * 门诊部分接口
