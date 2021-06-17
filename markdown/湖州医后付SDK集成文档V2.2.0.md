@@ -1,9 +1,9 @@
-# 湖州医后付SDK集成文档V2.2.0
+# 湖州医后付SDK集成文档V2.2.1
 
 >**名称：** 湖州医后付 Android SDK 集成文档  
- **版本：** V2.2.0  
- **作者：** 辛鹏飞  
- **更新日期：** 2019-08-27
+ **版本：** V2.2.1
+ **作者：** 冯传田
+ **更新日期：** 2021-06-07
 
 ## 一、历史修订记录
 
@@ -108,6 +108,13 @@
 - 身份证号码脱敏处理；
 - bugs fixed;
 
+### V2.2.1
+
+> 2021-06-07
+
+- 替换接口地址；
+- bugs fixed;
+
 ## 二、集成步骤
 
 ### 1.
@@ -117,7 +124,6 @@
 ```
 maven { url "https://jitpack.io" }
 flatDir { dirs 'libs' }
-maven { url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk" }
 ```
 
 ### 2.
@@ -129,9 +135,10 @@ maven { url "https://dl.bintray.com/wondersgroupandroid863/WondersGroupSdk" }
 在 app 的 build.gradle 文件 的 dependencies 闭包中添加如下依赖：
 
 ```
-implementation(name: 'PALiveDetect1.0.0', ext: 'aar')
-implementation(name: 'zj_essc_sdk-1.0.6', ext: 'aar')
-implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.6'
+implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
+implementation(name: 'zj_essc_sdk-2.0.5', ext: 'aar')
+implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
+implementation 'com.github.markfeng8:WondersGroupSdk:1.0.1'
 ```
 
 注：SDK 使用 28 api 构建，依赖了 support/appcompat 28.0.0 库，因此集成方需要统一处理相同的依赖版本，防止崩溃！！！
