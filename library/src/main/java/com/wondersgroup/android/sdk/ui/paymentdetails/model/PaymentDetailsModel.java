@@ -310,12 +310,15 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        LogUtil.i(TAG, "Throwable===" + t.getMessage());
-                        String error = t.getMessage();
+                        String error = t.toString();
                         if (!TextUtils.isEmpty(error)) {
-                            LogUtil.e(TAG, error);
+                            LogUtil.eLogging(TAG, error);
                             if (callback != null) {
                                 callback.onFailed(error);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailed("未知错误");
                             }
                         }
                     }
