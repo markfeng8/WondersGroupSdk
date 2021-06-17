@@ -23,7 +23,7 @@ public class RetrofitHelper {
 
     private static final String TAG = "RetrofitHelper";
     private static final String BASE_URL = RequestUrl.HOST;
-    private static final long DEFAULT_TIMEOUT = 60000L;
+    private static final long DEFAULT_TIMEOUT = 60L;
     private Retrofit mRetrofit;
 
     public static RetrofitHelper getInstance() {
