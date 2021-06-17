@@ -16,7 +16,7 @@ buildscript {
     }
     dependencies {
         // gradle 与 bintray 有兼容性问题，因此此处必须使用 gradle 3.1.3 版本
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:4.1.2'
 //        classpath 'com.novoda:bintray-release:0.8.1'
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
         //1.自动化maven打包插件
