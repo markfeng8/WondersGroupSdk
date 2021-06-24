@@ -57,7 +57,7 @@ public class RetrofitHelper {
         } else {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        if (BuildConfig.DEBUG) {
 //            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        } else {
