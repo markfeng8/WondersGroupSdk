@@ -32,7 +32,7 @@
                 android:layout_weight="3"
                 android:background="@drawable/edittext_shape"
                 android:padding="6dp"
-                android:text="费英英"
+                android:text="吴振强"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -112,7 +112,7 @@
                 android:digits="0123456789xX"
                 android:inputType="number"
                 android:padding="6dp"
-                android:text="330501198201068228"
+                android:text="330501199008213715"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -162,7 +162,7 @@
                 android:layout_weight="3"
                 android:background="@drawable/edittext_shape"
                 android:padding="6dp"
-                android:text="A04431265"
+                android:text="A05111650"
                 android:textSize="16sp" />
         </LinearLayout>
 

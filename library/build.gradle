@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 42
-        versionName "1.8.22"
+        versionCode 43
+        versionName "1.8.23"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -83,8 +83,8 @@ dependencies {
     implementation files('libs/UPPayPluginExPro.jar')
 
     // 此种方式不会将 libs 中的 aar 包打进 aar 包中
-    compileOnly(name: 'PALiveDetect4.4.3', ext: 'aar')
-    compileOnly(name: 'zj_essc_sdk-2.0.5', ext: 'aar')
+    compileOnly(name: 'PALiveDetect4.9.2', ext: 'aar')
+    compileOnly(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
     compileOnly(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
 }
 

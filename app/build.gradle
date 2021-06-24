@@ -9,7 +9,7 @@ bugly {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-def appVersionCode = 135 // code 每次 + 1 递增
+def appVersionCode = 136 // code 每次 + 1 递增
 def appVersionName = '2.12.12' // 第一部分为年份，第二部分为月份，第三部分为当月小版本更新
 
 static def getUpdateDescription() {
@@ -97,8 +97,8 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
     implementation 'com.xsir:PgyerAndroidAppUpdate:1.0.1'
 
-    implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
-    implementation(name: 'zj_essc_sdk-2.0.2', ext: 'aar')
+    implementation(name: 'PALiveDetect4.9.2', ext: 'aar')
+    implementation(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
     implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
 
 //    implementation 'com.wondersgroup.android:WondersGroupSdk:0.1.22'

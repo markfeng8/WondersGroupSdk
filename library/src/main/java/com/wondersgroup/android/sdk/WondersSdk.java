@@ -53,6 +53,7 @@ public class WondersSdk {
      * 集成省电子社保卡
      */
     private void initEpSoft(Context context, boolean isDebug) {
+        System.loadLibrary("nllvm1624117532");
         // isDebug 为 true 时是测试环境，false 时为正式环境
         ZjEsscSDK.init(isDebug, (Application) context, CHANNEL_NO);
         // 设置主题颜色
