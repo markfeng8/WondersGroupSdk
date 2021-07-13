@@ -3,7 +3,7 @@
 >**名称：** 湖州医后付 Android SDK 集成文档  
  **版本：** V2.2.1
  **作者：** 冯传田
- **更新日期：** 2021-06-07
+ **更新日期：** 2021-06-25
 
 ## 一、历史修订记录
 
@@ -115,6 +115,13 @@
 - 替换接口地址；
 - bugs fixed;
 
+### V2.2.2
+
+> 2021-06-24
+
+- 升级省电子社保卡SDK至2.0.9;
+- bugs fixed;
+
 ## 二、集成步骤
 
 ### 1.
@@ -128,17 +135,17 @@ flatDir { dirs 'libs' }
 
 ### 2.
 
-将提供的 PALiveDetect1.0.0.aar 和 zj_essc_sdk-1.0.6.aar 两个 aar 包放入 app 的 libs 目录下。
+将提供的 PALiveDetect4.9.2.aar 和 zj_essc_sdk-2.0.9.aar 两个 aar 包放入 app 的 libs 目录下。
 
 ### 3.
 
 在 app 的 build.gradle 文件 的 dependencies 闭包中添加如下依赖：
 
 ```
-implementation(name: 'PALiveDetect4.4.3', ext: 'aar')
-implementation(name: 'zj_essc_sdk-2.0.5', ext: 'aar')
+implementation(name: 'PALiveDetect4.9.2', ext: 'aar')
+implementation(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
 implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
-implementation 'com.github.markfeng8:WondersGroupSdk:1.0.1'
+implementation 'com.github.markfeng8:WondersGroupSdk:1.0.3'
 ```
 
 注：SDK 使用 28 api 构建，依赖了 support/appcompat 28.0.0 库，因此集成方需要统一处理相同的依赖版本，防止崩溃！！！
