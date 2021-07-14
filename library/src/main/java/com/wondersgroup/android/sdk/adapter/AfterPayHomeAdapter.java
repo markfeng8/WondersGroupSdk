@@ -287,7 +287,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private void requestYd0003() {
             String mobPayStatus = SpUtil.getInstance().getString(SpKey.ELE_CARD_STATUS, "");
             if ("01".equals(mobPayStatus)) {
-                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, hiCode,false);
+                PaymentDetailsActivity.actionStart(mContext, orgCode, orgName, hiCode, false);
             } else {
                 WToastUtil.show(mContext.getString(R.string.wonders_group_electronic_card_closed));
             }
@@ -296,6 +296,7 @@ public class AfterPayHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @SuppressLint("SetTextI18n")
         public void setData(AfterHeaderBean afterHeaderBean) {
             if (afterHeaderBean != null) {
+                LogUtil.i(TAG, afterHeaderBean.toString());
                 String name = afterHeaderBean.getName();
                 String idNum = afterHeaderBean.getIdNum();
                 String signingStatus = afterHeaderBean.getSigningStatus();
