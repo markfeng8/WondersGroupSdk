@@ -324,7 +324,9 @@ public <methods>;
 # ########### epsoft end ##############
 
 # 保留所有实体类不被混淆
--keep class com.wondersgroup.android.jkcs_sdk.entity.** { *; }
+-keep class com.wondersgroup.android.sdk.entity.**{*;}
+# 保留所有自定义view不被混淆
+-keep class com.wondersgroup.android.sdk.widget.**{*;}
 
 # 不混淆接口数据响应实体类的内部类
 -keep class com.wondersgroup.android.sdk.entity.HospitalEntity$* {
@@ -410,4 +412,10 @@ public <methods>;
 -keep public class * extends com.chad.library.adapter.base.BaseViewHolder
 -keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
      <init>(...);
+}
+
+
+-keep public class * implements java.io.Serializable {*;}
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
 }
