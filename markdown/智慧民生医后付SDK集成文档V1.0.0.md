@@ -19,6 +19,12 @@
 
 * 修改接口超时请求异常提示
 
+### v1.1.4
+
+> 2021.7.23
+
+* 医后付温馨提示内容修改
+
 ## 二、集成步骤
 
 ### 1
@@ -37,7 +43,7 @@ allprojects {
 在app目录下的bulid.gradle文件 的 dependencies 闭包中添加sdk依赖
 ```
 dependencies {
-implementation ' implementation 'com.github.markfeng8:zhmsSdk:1.1.2''
+implementation ' implementation 'com.github.markfeng8:zhmsSdk:1.1.4''
 }
 ```
 ### 2
