@@ -25,6 +25,12 @@
 
 * 医后付温馨提示内容修改
 
+### v1.1.6
+
+> 2021.8.19
+
+* 医后付温馨提示内容二次修改
+
 ## 二、集成步骤
 
 ### 1
@@ -43,7 +49,7 @@ allprojects {
 在app目录下的bulid.gradle文件 的 dependencies 闭包中添加sdk依赖
 ```
 dependencies {
-implementation ' implementation 'com.github.markfeng8:zhmsSdk:1.1.4''
+implementation ' implementation 'com.github.markfeng8:zhmsSdk:1.1.6''
 }
 ```
 ### 2
