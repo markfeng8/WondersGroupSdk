@@ -114,7 +114,7 @@ public class AfterPayHomeModel implements AfterPayHomeContract.IModel {
         map.put(MapKey.CARD_TYPE, cardType);
         map.put(MapKey.CARD_NO, cardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
-        map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
+        map.put(MapKey.START_DATE, DateUtils.getCurMonthBeforeM(3));
         map.put(MapKey.END_DATE, DateUtils.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 

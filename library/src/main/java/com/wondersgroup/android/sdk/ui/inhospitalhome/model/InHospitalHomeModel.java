@@ -62,7 +62,7 @@ public class InHospitalHomeModel implements InHospitalHomeContract.IModel {
         param.put(MapKey.SIGN_ID_NO, RSAUtils.encrypt(idNum));
         param.put(MapKey.PHONE, phone);
         param.put(MapKey.IN_STATE, inState);
-        param.put(MapKey.START_DATE, "2018-01-01");
+        param.put(MapKey.START_DATE, DateUtils.getCurMonthBeforeM(3));
         param.put(MapKey.END_DATE, DateUtils.getCurrentDate());
         param.put(MapKey.SIGN, SignUtil.getSign(param));
 

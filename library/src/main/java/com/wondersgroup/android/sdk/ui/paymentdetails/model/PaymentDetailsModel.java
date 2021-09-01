@@ -79,7 +79,7 @@ public class PaymentDetailsModel implements PaymentDetailsContract.IModel {
         map.put(MapKey.CARD_TYPE, mCardType);
         map.put(MapKey.CARD_NO, mCardNum);
         map.put(MapKey.FEE_STATE, OrgConfig.FEE_STATE00);
-        map.put(MapKey.START_DATE, OrgConfig.ORDER_START_DATE);
+        map.put(MapKey.START_DATE, DateUtils.getCurMonthBeforeM(3));
         map.put(MapKey.END_DATE, DateUtils.getCurrentDate());
         map.put(MapKey.SIGN, SignUtil.getSign(map));
 

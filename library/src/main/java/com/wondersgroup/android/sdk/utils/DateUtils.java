@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -306,5 +307,22 @@ public class DateUtils {
 
     public static DateFormat getDateFormat3() {
         return getDateFormat(THREAD_LOCAL_DATE_FORMAT3);
+    }
+
+    /**
+     * 获取当前时间的前几个月
+     * 2021-09-01
+     * @param dis
+     * @return
+     */
+    public static String getCurMonthBeforeM(int dis){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        //过去三个月
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -dis);
+        Date m = c.getTime();
+        String mon = format.format(m);
+        return mon;
     }
 }
