@@ -43,9 +43,9 @@ public class ApiSubscriber<T, E> extends ResourceSubscriber<T> {
             String message = response.message();
             boolean successful = response.isSuccessful();
             LogUtil.i("My", response.toString());
-            LogUtil.i("My", "body====" + response.body().toString());
             LogUtil.i("My", "errorBody====" + response.errorBody());
             if (code == CODE_200 && successful) {
+                LogUtil.i("My", "body====" + response.body().toString());
                 @SuppressWarnings("unchecked")
                 E body = (E) response.body();
                 if (body instanceof BaseEntity) {
