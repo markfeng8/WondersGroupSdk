@@ -20,7 +20,7 @@
 -dontpreverify
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
 -keepattributes *Annotation*,*JavascriptInterface*,InnerClasses,Signature,SourceFile,LineNumberTable
--ignorewarning
+-ignorewarnings
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Appliction
