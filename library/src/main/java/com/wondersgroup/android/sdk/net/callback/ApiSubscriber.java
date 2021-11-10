@@ -61,6 +61,7 @@ public class ApiSubscriber<T, E> extends ResourceSubscriber<T> {
                         if (!TextUtils.isEmpty(errCodeDes)) {
                             errCodeDes = " ";
                         }
+
                         if (mCallback != null) {
                             mCallback.onFailed(errCodeDes);
                         }
