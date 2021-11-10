@@ -135,6 +135,12 @@ public class WdCommonPayUtils {
                 emitter.onComplete();
             };
 
+            //重点说明：如果对 SDK
+            //版本进行更新还需要保持原有请求
+            //地址（B 服务器），需要设置请求环
+            //境为“SCB”。
+            CheckOut.setNetworkWay("SCB");
+
             // 设置统一支付回调地址
             CheckOut.setCustomURL(RequestUrl.HOST, RequestUrl.SDK_TO_BILL);
             String describe = "药品费";

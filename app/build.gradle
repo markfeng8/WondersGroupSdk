@@ -99,7 +99,7 @@ dependencies {
 
     implementation(name: 'PALiveDetect4.9.2', ext: 'aar')
     implementation(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
-    implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
+    implementation(name: 'alipaysdk-15.8.03.210428205839', ext: 'aar')
 
 //    implementation 'com.github.markfeng8:WondersGroupSdk:1.0.4'
     implementation project(':library')
