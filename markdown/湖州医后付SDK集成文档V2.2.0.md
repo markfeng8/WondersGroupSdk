@@ -1,9 +1,9 @@
 # 湖州医后付SDK集成文档V2.2.1
 
 >**名称：** 湖州医后付 Android SDK 集成文档  
- **版本：** V2.2.1
+ **版本：** V2.2.2
  **作者：** 冯传田
- **更新日期：** 2021-06-25
+ **更新日期：** 2021-11-10
 
 ## 一、历史修订记录
 
@@ -130,6 +130,11 @@
 - yd0003 查询账单信息 startdate 传值修改为当前时间 向前推移3个月
 - bugs fixed;
 
+> 2021-11-10
+
+- 万达支付平台sdk升级
+- bugs fixed;
+
 ## 二、集成步骤
 
 ### 1.
@@ -152,8 +157,8 @@ flatDir { dirs 'libs' }
 ```
 implementation(name: 'PALiveDetect4.9.2', ext: 'aar')
 implementation(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
-implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
-implementation 'com.github.markfeng8:WondersGroupSdk:1.0.4'
+implementation(name: 'alipaysdk-15.8.03.210428205839', ext: 'aar')
+implementation 'com.github.markfeng8:WondersGroupSdk:1.0.5.01'
 ```
 
 注：SDK 使用 28 api 构建，依赖了 support/appcompat 28.0.0 库，因此集成方需要统一处理相同的依赖版本，防止崩溃！！！
