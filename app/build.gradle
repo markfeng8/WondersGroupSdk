@@ -101,7 +101,7 @@ dependencies {
     implementation(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
     implementation(name: 'alipaysdk-15.8.03.210428205839', ext: 'aar')
 
-//    implementation 'com.github.markfeng8:WondersGroupSdk:1.0.4'
+//    implementation 'com.github.markfeng8:WondersGroupSdk:1.0.5'
     implementation project(':library')
 }
 
