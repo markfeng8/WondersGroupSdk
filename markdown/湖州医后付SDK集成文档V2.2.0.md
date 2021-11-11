@@ -158,7 +158,7 @@ flatDir { dirs 'libs' }
 implementation(name: 'PALiveDetect4.9.2', ext: 'aar')
 implementation(name: 'zj_essc_sdk-2.0.9', ext: 'aar')
 implementation(name: 'alipaysdk-15.8.03.210428205839', ext: 'aar')
-implementation 'com.github.markfeng8:WondersGroupSdk:1.0.5.01'
+implementation 'com.github.markfeng8:WondersGroupSdk:1.0.5.02'
 ```
 
 注：SDK 使用 28 api 构建，依赖了 support/appcompat 28.0.0 库，因此集成方需要统一处理相同的依赖版本，防止崩溃！！！
